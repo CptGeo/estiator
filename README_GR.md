@@ -1,6 +1,13 @@
-[estiator.io](https://estiator.io)
+[Read the document in English](./README.md)  
 
-Ένα πρότζεκτ ανοικτού κώδικα, για τη διαχείριση εστιατορίων και σχετικών επιχειρήσεων
+<p align="center">
+   <a href="" target="_blank">
+      <img src="https://github.com/user-attachments/assets/acf1e356-fa42-4743-a637-76100558da7d" width="300" />
+   </a>
+</p>
+<p align="center">
+      Ένα πρότζεκτ ανοικτού κώδικα, για τη διαχείριση εστιατορίων και σχετικών επιχειρήσεων
+</p>
 
 # Προδιαγραφές
 
