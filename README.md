@@ -1,6 +1,13 @@
-[estiator.io](https://estiator.io)
+[Διαβάστε το έγγραφο στα Ελληνικά](./README_GR.md)  
 
-An open-source project for managing restaurants and related businesses
+<p align="center">
+   <a href="" target="_blank">
+      <img src="https://github.com/user-attachments/assets/acf1e356-fa42-4743-a637-76100558da7d" width="300" />
+   </a>
+</p>
+<p align="center">
+      An open-source project for managing restaurants and related businesses
+</p>
 
 # Specifications
 
