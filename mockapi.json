@@ -1,0 +1,161 @@
+{
+  "uuid": "834fb3b0-d185-4e3f-80d3-bf296c2513fb",
+  "lastMigration": 32,
+  "name": "Estiator API v0.1",
+  "endpointPrefix": "",
+  "latency": 100,
+  "port": 7777,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "db1a7c90-47ef-4589-8d8d-a9c7a6afc2b3",
+      "type": "http",
+      "documentation": "",
+      "method": "get",
+      "endpoint": "",
+      "responses": [
+        {
+          "uuid": "15c7ee1d-7f0c-4659-a444-a889d0612b3c",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "bc86919a-9485-44b6-a5a6-a590b96f3143",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "tables",
+      "responses": [
+        {
+          "uuid": "ce2fb42e-fd84-4cd9-897d-9d8548e6a644",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "qz0g",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "48d8b61f-b6f3-46f6-a942-f97c61a92401",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "reservation",
+      "responses": [
+        {
+          "uuid": "56d0e323-c6fe-43c7-b970-686225284fe9",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "db1a7c90-47ef-4589-8d8d-a9c7a6afc2b3"
+    },
+    {
+      "type": "route",
+      "uuid": "bc86919a-9485-44b6-a5a6-a590b96f3143"
+    },
+    {
+      "type": "route",
+      "uuid": "48d8b61f-b6f3-46f6-a942-f97c61a92401"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [
+    {
+      "uuid": "a99bf01b-18dd-4ad2-a0a7-15af25c6b096",
+      "id": "qz0g",
+      "name": "Tables",
+      "documentation": "",
+      "value": "[\r\n    {\r\n        \"id\": \"TABLE_ID\",\r\n        \"name\": \"TABLE_NAME\",\r\n        \"capacity\": 0\r\n    }\r\n]"
+    },
+    {
+      "uuid": "9571d77f-7c46-4c89-8fbb-c801f6b60b78",
+      "id": "usje",
+      "name": "Reservation",
+      "documentation": "",
+      "value": "[\r\n    {\r\n        \"id\": \"RESERVATION_ID\",\r\n        \"date\": \"\",\r\n        \"time\": \"13:30:00\",\r\n        \"name\": \"RESERVATION_NAME\",\r\n        \"email\": \"RESERVATION_EMAIL\"\r\n    }\r\n]"
+    }
+  ],
+  "callbacks": []
+}
