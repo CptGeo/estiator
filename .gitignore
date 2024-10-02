@@ -1,1 +1,3 @@
 node_modules
+client/tsconfig.node.tsbuildinfo
+client/tsconfig.app.tsbuildinfo
