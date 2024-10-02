@@ -33,7 +33,7 @@ export default function ReservationTime(): ReactElement {
     >
       {times.map( (time) => {
         const t = new Time(time.hour, time.minute);
-        return <SelectItem key={time.key}>{t.toString()}</SelectItem>
+        return <SelectItem key={time.key}>{t.hour}:{t.minute}</SelectItem>
       })}
     </Select>
   );
