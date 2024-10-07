@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react";
+import { Button, SelectItem } from "@nextui-org/react";
 import { ReactElement } from "react";
 import ReservationTimeField from "../../components/Fields/ReservationTime";
 import InputField from "../../components/Fields/Input";
@@ -8,6 +8,7 @@ import EmailField from "../../components/Fields/Email";
 import CalendarField from "../../components/Fields/Calendar";
 import CheckboxField from "../../components/Fields/Checkbox";
 import NumberField from "../../components/Fields/Number";
+import SelectField from "../../components/Fields/Select";
 
 
 export default function PlaygroundPage(): ReactElement {
@@ -36,12 +37,16 @@ export default function PlaygroundPage(): ReactElement {
               <FormProvider {...methods}>
                 <form className="mx-auto" onSubmit={methods.handleSubmit(handleSubmit)} noValidate>
                   <div className="flex w-full flex-wrap gap-4">
-                    <CalendarField name="reservation-date" />
-                    <ReservationTimeField name="reservation-time" />
-                    <InputField type="text" name="reservation-name" label="Input Field" isRequired />
-                    <EmailField name="email" label="Email" isRequired />
-                    <NumberField name="number" label="Number Field" isRequired />
-                    <CheckboxField name="checkbox" label="Checkbox field" />
+                    <CalendarField name="date-field" />
+                    <ReservationTimeField name="time-field" label="Reservation Time" placeholder="Select reservation time"/>
+                    <SelectField name="select" label="Default select field">
+                      <SelectItem key="selection-1">Selection 1</SelectItem>
+                      <SelectItem key="selection-2">Selection 2</SelectItem>
+                    </SelectField>
+                    <InputField type="text" name="text-field" label="Input Field" isRequired />
+                    <EmailField name="email-field" label="Email" isRequired />
+                    <NumberField name="number-field" label="Number Field" isRequired />
+                    <CheckboxField name="checkbox-field" label="Checkbox field" />
                     <Button color="primary" type="submit" variant="flat" >Submit</Button>
                   </div>
                 </form>
