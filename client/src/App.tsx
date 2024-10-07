@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     element: <ApplicationLayout />,
     children: [
       {
-        path: "reserve",
+        path: "playground",
         element: <PlaygroundPage />,
       },
     ],
