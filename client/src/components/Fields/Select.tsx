@@ -1,32 +1,21 @@
 import { Select } from "@nextui-org/react";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement } from "react";
 import { Controller } from "react-hook-form";
+import { ControlledSelectProps } from "./types";
 
-
-type Props = {
-  name: string;
-  label: string;
-  className: string;
-  placeholder: string;
-  startContent: ReactNode;
-  children: JSX.Element[];
-};
-
-export default function SelectField(props: Props): ReactElement {
-  const { name, label, className, placeholder, startContent, children } = props;
+export default function SelectField(props: ControlledSelectProps): ReactElement {
+  const { children, name, ...rest } = props;
 
   return (
     <Controller name={name} render={({ field: { onChange, onBlur, value, ref }}) => {
       return <Select
+        {...rest}
         name={name}
-        className={className}
-        label={label}
-        placeholder={placeholder}
         onChange={onChange}
         onBlur={onBlur}
         ref={ref}
         value={value}
-        startContent={startContent}>{children}</Select>
+        >{children}</Select>
     } } />
   );
 }
