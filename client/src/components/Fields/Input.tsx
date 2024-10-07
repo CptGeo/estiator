@@ -2,16 +2,10 @@ import { ReactElement } from "react";
 import { Input } from "@nextui-org/react";
 import { RegisterOptions, useFormContext } from "react-hook-form";
 import { getError, hasError } from "../../core/utils";
+import { ControlledInputProps } from "./types";
 
-type Props = {
-    label: string;
-    type: string;
-    name: string;
-    isRequired?: boolean;
-    rules?: RegisterOptions;
-}
 
-export default function InputField(props: Props): ReactElement {
+export default function InputField(props: ControlledInputProps): ReactElement {
     const { name, isRequired, rules, ...otherProps } = props;
     const { register, formState } = useFormContext();
 

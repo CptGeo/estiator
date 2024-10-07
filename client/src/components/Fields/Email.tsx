@@ -1,14 +1,9 @@
 import { ReactElement } from "react";
 import InputField from "./Input";
 import { RegisterOptions } from "react-hook-form";
+import { ControlledInputProps } from "./types";
 
-type Props = {
-    label: string;
-    name: string;
-    isRequired?: boolean;
-}
-
-export default function EmailField(props: Props): ReactElement {
+export default function EmailField(props: Omit<ControlledInputProps, "type">): ReactElement {
 
     const defaultRules: RegisterOptions = {
         pattern: {

@@ -1,16 +1,9 @@
 import { ReactElement } from "react";
 import InputField from "./Input";
 import { RegisterOptions } from "react-hook-form";
+import { ControlledInputProps } from "./types";
 
-type Props = {
-    isRequired?: boolean;
-    label: string;
-    max?: number;
-    min?: number;
-    name: string;
-}
-
-export default function NumberField(props: Props): ReactElement { 
+export default function NumberField(props: Omit<ControlledInputProps, "type">): ReactElement { 
 
     const defaultRules: RegisterOptions = {
         valueAsNumber: true,
@@ -19,5 +12,5 @@ export default function NumberField(props: Props): ReactElement {
         }
     }
 
-    return <InputField {...props} type="email" rules={defaultRules} />;
+    return <InputField {...props} type="text" rules={defaultRules} />;
 }
