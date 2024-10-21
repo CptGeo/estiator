@@ -10,7 +10,6 @@ import CheckboxField from "../../components/Fields/Checkbox";
 import NumberField from "../../components/Fields/Number";
 import SelectField from "../../components/Fields/Select";
 
-
 export default function PlaygroundPage(): ReactElement {
 
   const methods = useForm({
@@ -23,7 +22,7 @@ export default function PlaygroundPage(): ReactElement {
   }
 
   return (
-    <div className="reservation">
+  <div className="reservation">
       <div className="container max-w-[1400px] mx-auto mt-3 px-3">
         <div className="py-4">
           <h3 className="mb-0 text-xl">Playground</h3>

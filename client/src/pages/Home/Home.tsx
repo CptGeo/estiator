@@ -1,4 +1,3 @@
-
 import { ReactElement } from "react";
 import Hero from "../../components/Hero/Hero";
 
