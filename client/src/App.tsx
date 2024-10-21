@@ -6,7 +6,6 @@ import "@fontsource/roboto/700.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/Home/Home";
 import MainLayout from "./layouts/Main";
-import ApplicationLayout from "./layouts/Application";
 import PlaygroundPage from "./pages/Playground/Playground";
 import LoginPage from "./pages/Login/Login";
 
@@ -21,18 +20,13 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />
-      }
-    ],
-  },
-  {
-    element: <ApplicationLayout />,
-    children: [
+      },
       {
         path: "playground",
         element: <PlaygroundPage />,
-      },
-    ],
-  },
+      }
+    ]
+  }
 ]);
 
 export default function App(): ReactElement {
