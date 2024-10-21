@@ -8,16 +8,20 @@ import HomePage from "./pages/Home/Home";
 import MainLayout from "./layouts/Main";
 import ApplicationLayout from "./layouts/Application";
 import PlaygroundPage from "./pages/Playground/Playground";
+import LoginPage from "./pages/Login/Login";
 
 const router = createBrowserRouter([
   {
     element: <MainLayout />,
     children: [
-      {
-        
+      { 
         path: "/",
         element: <HomePage />,
       },
+      {
+        path: "/login",
+        element: <LoginPage />
+      }
     ],
   },
   {
