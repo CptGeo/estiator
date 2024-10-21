@@ -1,19 +1,17 @@
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button } from "@nextui-org/react";
 
 export default function Navigation() {
   return (
-    <Navbar>
+    <Navbar className="bg-transparent">
       <NavbarBrand>
         <p className="font-bold text-inherit">estiator.io</p>
       </NavbarBrand>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
+          <Button onClick={() => alert("Login")} variant="light" color="primary">Login</Button>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
-          </Button>
+          <Button onClick={() => alert("Register")} variant="solid" color="primary">Register</Button>
         </NavbarItem>
       </NavbarContent>
     </Navbar>
