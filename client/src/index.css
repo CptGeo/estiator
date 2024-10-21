@@ -21,3 +21,13 @@ body {
 .mycustomclass {
   color: blue;
 }
+
+@layer components {
+  .navigation-link {
+    @apply text-slate-700 cursor-pointer hover:opacity-70 transition-opacity border-b-2 border-transparent;
+  }
+
+  .navigation-link.active {
+    @apply border-inherit;
+  }
+}
