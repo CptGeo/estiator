@@ -1,7 +1,9 @@
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Link, Image } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Image } from "@nextui-org/react";
 import logo from "../../assets/images/logo.png";
-
+import { NavLink, useNavigate } from "react-router-dom";
 export default function Navigation() {
+  const navigate = useNavigate();
+
   return (
     <Navbar maxWidth="2xl" position="sticky" isBordered className="bg-transparent">
       <NavbarBrand>
@@ -9,15 +11,15 @@ export default function Navigation() {
       </NavbarBrand>
       <NavbarContent justify="center">
         <NavbarItem className="lg:flex">
-          <Link href="/" className="text-slate-700 cursor-pointer">Home</Link>
+          <NavLink to="/" className={({isActive}) => `navigation-link ${isActive ? "active" : ""}`}>Home</NavLink>
         </NavbarItem>
         <NavbarItem className="lg:flex">
-          <Link href="/playground" className="text-slate-700 cursor-pointer">Playground</Link>
+          <NavLink to="/playground" className="navigation-link">Playground</NavLink>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="lg:flex">
-          <Button onClick={() => alert("Login")} variant="light" color="primary">Login</Button>
+          <Button onClick={() => navigate("/login")} variant="light" color="primary">Login</Button>
         </NavbarItem>
         <NavbarItem>
           <Button onClick={() => alert("Register")} variant="solid" color="primary">Register</Button>
