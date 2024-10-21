@@ -35,7 +35,7 @@ export default function LoginPage(): ReactElement {
           isRequired
           variant="bordered"
         />
-        <div className="flex py-2 px-1 justify-between gap-2">
+        <div className="flex pb-2 px-1 justify-between gap-2">
           Don&apos;t have an account?
           <Link color="primary" href="#" size="md">
             Register here.
