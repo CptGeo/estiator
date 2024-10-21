@@ -18,7 +18,7 @@ export default function Footer(): ReactElement {
             <ul className="list-none bg-primary" />
         </div>
       </div>
-      <Divider className="bg-slate-500"/>
+      <Divider/>
       <div className="p-2 container mx-auto">
         <div className="drop-shadow-lg text-center text-slate-400 tracking-wider">Copyright © 2024 Estiator.io. All rights reserved.</div>
       </div>
