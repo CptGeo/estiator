@@ -5,7 +5,6 @@ import { ReactElement } from "react";
 import SelectField from "./Select";
 import { OperationalTime } from "../../core/types";
 
-
 type Props = {
   name: string;
   label: string;

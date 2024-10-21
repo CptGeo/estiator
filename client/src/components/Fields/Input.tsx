@@ -4,7 +4,6 @@ import { RegisterOptions, useFormContext } from "react-hook-form";
 import { getError, hasError } from "../../core/utils";
 import { ControlledInputProps } from "./types";
 
-
 export default function InputField(props: ControlledInputProps): ReactElement {
     const { name, isRequired, rules, ...otherProps } = props;
     const { register, formState } = useFormContext();
