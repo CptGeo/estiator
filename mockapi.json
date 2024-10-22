@@ -133,14 +133,14 @@
       "responses": [
         {
           "uuid": "5bccd6c7-da64-4091-a58c-1c882e2fd8a3",
-          "body": "OK",
+          "body": "",
           "latency": 0,
           "statusCode": 200,
           "label": "",
           "headers": [],
-          "bodyType": "INLINE",
+          "bodyType": "DATABUCKET",
           "filePath": "",
-          "databucketID": "",
+          "databucketID": "wmtx",
           "sendFileAsBody": false,
           "rules": [
             {
@@ -158,44 +158,34 @@
               "operator": "equals"
             }
           ],
-          "rulesOperator": "OR",
+          "rulesOperator": "AND",
           "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": true,
+          "fallbackTo404": true,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         },
         {
           "uuid": "0703e7fb-bf7b-486e-9ef0-9a4477bc3015",
-          "body": "{\n  code: 401,\n  message: \"Authentication has failed.\"\n}",
+          "body": "",
           "latency": 0,
           "statusCode": 401,
           "label": "Failed to authenticate",
-          "headers": [],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [
+          "headers": [
             {
-              "target": "body",
-              "modifier": "username",
-              "value": "cptgeo",
-              "invert": true,
-              "operator": "equals"
-            },
-            {
-              "target": "body",
-              "modifier": "password",
-              "value": "1234",
-              "invert": true,
-              "operator": "equals"
+              "key": "",
+              "value": ""
             }
           ],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "vccb",
+          "sendFileAsBody": false,
+          "rules": [],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": false,
+          "default": true,
           "crudKey": "id",
           "callbacks": []
         }
@@ -277,6 +267,20 @@
       "name": "Availability",
       "documentation": "",
       "value": "[\n  {\n      id: 1,\n      from: \"12-10-2024\",\n      to: \"30-10-2024\",\n      availability: true\n  },\n  {\n      id: 2,\n      from: \"15-11-2024\",\n      to: \"23-12-2024\",\n      availability: true\n  },\n  {\n      id: 3,\n      from: \"27-12-2024\",\n      to: \"30-12-2024\",\n      availability: true\n  }\n]"
+    },
+    {
+      "uuid": "972e3c08-305f-4c6b-b84d-0bb8c940da49",
+      "id": "vccb",
+      "name": "Authentication - Fail",
+      "documentation": "",
+      "value": "{\n  \"code\": 401,\n  \"message\": \"Authentication has failed. Try again with different credentials\"\n}"
+    },
+    {
+      "uuid": "3fec769c-13db-48bc-83ef-28da00f32163",
+      "id": "wmtx",
+      "name": "Authentication - Success",
+      "documentation": "",
+      "value": "{\n  \"success\": true,\n  \"data\": {\n    \"token\": \"THISISAFAKE.JWTTOKEN.USEDFORMOCKAUTH\"\n    \"userId\": \"THISISAFAKEUSERID\",\n    \"user\": {\n      \"username\": \"cptgeo\",\n      \"name\": \"George\",\n      \"surname\": \"Kalyvianakis\"\n      \"email\": \"george@example.com\"\n    }\n  }\n}"
     }
   ],
   "callbacks": []
