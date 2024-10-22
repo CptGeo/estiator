@@ -12,8 +12,8 @@ export function hasError<T extends FieldValues>(formState: FormState<T>, fieldNa
 
 /**
  * Gets the error message if it exists
- * @param formState 
- * @param fieldName 
+ * @param formState
+ * @param fieldName
  * @returns the error message or `undefined`
  */
 export function getError<T extends FieldValues>(formState: FormState<T>, fieldName: string): string | undefined {

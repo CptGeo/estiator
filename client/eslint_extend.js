@@ -1,6 +1,6 @@
 export default {
   rules: {
-    "no-console": "warn",
+    "no-console": "off",
     "no-unused-vars": "warn",
     "react/react-in-jsx-scope": "off",
     "no-multiple-empty-lines": [
@@ -19,5 +19,7 @@ export default {
         mode: "strict",
       },
     ],
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-trailing-spaces": "warn"
   },
 };

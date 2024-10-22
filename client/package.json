@@ -8,6 +8,7 @@
     "styles:build": "tailwindcss -i ./src/input.css -o ./build/output.css",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -28,11 +28,11 @@ export default function PasswordField(props: Omit<ControlledInputProps, "type">)
 
     return (
         <Input
-            {...otherProps} 
+            {...otherProps}
             {...register(name, defaultRules)}
             isRequired={isRequired}
             isInvalid={hasError(formState, name)}
-            errorMessage={getError(formState, name)} 
+            errorMessage={getError(formState, name)}
             type={isVisible ? "text" : "password"}
             endContent={
                 <button className="focus:outline-none cursor-pointer" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
@@ -43,7 +43,7 @@ export default function PasswordField(props: Omit<ControlledInputProps, "type">)
                   )}
                 </button>
               }
-        
+
         />
     );
 }

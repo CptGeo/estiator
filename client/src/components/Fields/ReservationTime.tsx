@@ -17,7 +17,7 @@ export default function ReservationTimeField(props: Props): ReactElement {
 
   /**
    * Times mock date
-   * 
+   *
    * @todo Business operational times should be set by the administrator and showed
    */
   const times: OperationalTime[] = [
@@ -38,13 +38,13 @@ export default function ReservationTimeField(props: Props): ReactElement {
     },
   ];
 
-  const parsedTime = times.map(time => { 
+  const parsedTime = times.map(time => {
     const t = new Time(time.hour, time.minute);
     return { key: time.key, label: `${t.hour}:${t.minute}` };
   });
 
   return (
-    <SelectField 
+    <SelectField
       {...rest}
       startContent={<AccessTime fontSize="small"/>}
       name={name}>
