@@ -82,7 +82,7 @@
           "headers": [],
           "bodyType": "DATABUCKET",
           "filePath": "",
-          "databucketID": "",
+          "databucketID": "usje",
           "sendFileAsBody": false,
           "rules": [],
           "rulesOperator": "OR",
@@ -111,13 +111,91 @@
           "headers": [],
           "bodyType": "DATABUCKET",
           "filePath": "",
-          "databucketID": "",
+          "databucketID": "tuk9",
           "sendFileAsBody": false,
           "rules": [],
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "2499676e-2f3e-4767-bb3b-ecbe4a9486d8",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth",
+      "responses": [
+        {
+          "uuid": "5bccd6c7-da64-4091-a58c-1c882e2fd8a3",
+          "body": "OK",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "username",
+              "value": "cptgeo",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "1234",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "0703e7fb-bf7b-486e-9ef0-9a4477bc3015",
+          "body": "{\n  code: 401,\n  message: \"Authentication has failed.\"\n}",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Failed to authenticate",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "username",
+              "value": "cptgeo",
+              "invert": true,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "1234",
+              "invert": true,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
           "crudKey": "id",
           "callbacks": []
         }
@@ -141,6 +219,10 @@
     {
       "type": "route",
       "uuid": "6966a5d2-d792-411a-bf47-b346efdc9418"
+    },
+    {
+      "type": "route",
+      "uuid": "2499676e-2f3e-4767-bb3b-ecbe4a9486d8"
     }
   ],
   "proxyMode": false,
