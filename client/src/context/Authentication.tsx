@@ -5,11 +5,11 @@ import { sleep } from "../core/utils";
 import { AxiosError } from "axios";
 
 export type AuthValue = {
-  token?: string | null,
-  user?: UserData | null,
+  token?: string | null;
+  user?: UserData | null;
   loading?: boolean;
-  loginAction: (credentials: Credentials) => Promise<void>,
-  logoutAction: (user: string) => Promise<void>
+  loginAction: (credentials: Credentials) => Promise<void>;
+  logoutAction: (userId: string) => Promise<void>;
 };
 
 export type Credentials = {
@@ -61,7 +61,6 @@ export function AuthProvider( props: PropsWithChildren ) {
 
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error.response?.data.message);
         navigate("/login", { replace: true, state: error.response?.data.message });
       }
       /** @todo Notify for failed login */
@@ -82,10 +81,11 @@ export function AuthProvider( props: PropsWithChildren ) {
       // remove all locally saved data
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      
+
       // go to login page
       navigate("/login", { replace: true });
     } catch (error) {
+      console.error(error);
       /** @todo Notify for failed logout */
     }
   }
