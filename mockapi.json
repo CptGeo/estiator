@@ -318,7 +318,7 @@
       "id": "vccb",
       "name": "Authentication - Fail",
       "documentation": "",
-      "value": "{\n  \"code\": 401,\n  \"message\": \"Authentication has failed. Try again with different credentials\"\n}"
+      "value": "{\n  \"code\": 401,\n  \"message\": \"Authentication failed: Invalid username or password\"\n}"
     },
     {
       "uuid": "3fec769c-13db-48bc-83ef-28da00f32163",
