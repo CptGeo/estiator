@@ -29,7 +29,7 @@ export default function Navigation() {
       </NavbarBrand>
       <NavbarContent justify="center">
         <NavbarItem className="lg:flex">
-          <NavLink to="/" className={({isActive}) => `navigation-link ${isActive ? "active" : ""}`}>Home</NavLink>
+          <NavLink to="/" className={({ isActive }) => `navigation-link ${isActive ? "active" : ""}`}>Home</NavLink>
         </NavbarItem>
         <NavbarItem className="lg:flex">
           <NavLink to="/playground" className="navigation-link">Playground</NavLink>

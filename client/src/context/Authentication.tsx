@@ -68,7 +68,7 @@ export function AuthProvider( props: PropsWithChildren ) {
     }
   }
 
-  return <AuthContext.Provider value={{user, token, loading, loginAction, logoutAction}}>{props.children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ user, token, loading, loginAction, logoutAction }}>{props.children}</AuthContext.Provider>
 }
 
 export default AuthProvider;

@@ -20,6 +20,7 @@ export default {
     ],
     "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" } ],
     "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" } ],
-    "no-trailing-spaces": "warn"
+    "no-trailing-spaces": "warn",
+    "object-curly-spacing": ["warn", "always"]
   },
 };
