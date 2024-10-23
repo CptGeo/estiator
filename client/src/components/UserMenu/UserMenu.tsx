@@ -18,9 +18,7 @@ export default function UserMenu(props: Props): ReactElement {
   return (
     <div className="flex items-center gap-4">
       <Dropdown placement="bottom-start">
-        <DropdownTrigger>
         <UserAvatar user={props.user} />
-        </DropdownTrigger>
         <DropdownMenu aria-label="User Actions" variant="flat">
           <DropdownItem key="profile" className="h-14 gap-2">
             <p className="font-bold">Signed in as</p>
