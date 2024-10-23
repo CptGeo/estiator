@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, StrictMode } from "react";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -42,5 +42,7 @@ const router = createBrowserRouter([
 ]);
 
 export default function App(): ReactElement {
-  return <RouterProvider router={router} />;
+  return <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>
 }
