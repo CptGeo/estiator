@@ -1,8 +1,26 @@
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Image } from "@nextui-org/react";
 import logo from "../../assets/images/logo.png";
 import { NavLink, useNavigate } from "react-router-dom";
+import { ReactElement } from "react";
+import UserAvatar from "../UserAvatar/UserAvatar";
+import { useAuth } from "../../context/Authentication";
+
 export default function Navigation() {
   const navigate = useNavigate();
+  const auth = useAuth();
+
+  function AuthButtons(): ReactElement {
+    return (
+      <>
+        <NavbarItem className="lg:flex">
+          <Button onClick={() => navigate("/login")} variant="light" color="primary">Login</Button>
+        </NavbarItem>
+        <NavbarItem>
+          <Button onClick={() => alert("Register")} variant="solid" color="primary">Register</Button>
+        </NavbarItem>
+      </>
+    )
+  }
 
   return (
     <Navbar maxWidth="2xl" position="sticky" isBordered className="bg-transparent">
@@ -18,12 +36,7 @@ export default function Navigation() {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="lg:flex">
-          <Button onClick={() => navigate("/login")} variant="light" color="primary">Login</Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button onClick={() => alert("Register")} variant="solid" color="primary">Register</Button>
-        </NavbarItem>
+        {auth?.user && auth.token ? <UserAvatar user={auth.user} /> : <AuthButtons />}
       </NavbarContent>
     </Navbar>
   );
