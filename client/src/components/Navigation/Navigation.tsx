@@ -2,8 +2,8 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Image } from "@
 import logo from "../../assets/images/logo.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ReactElement } from "react";
-import UserAvatar from "../UserAvatar/UserAvatar";
 import { useAuth } from "../../context/Authentication";
+import UserMenu from "../UserMenu/UserMenu";
 
 export default function Navigation() {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export default function Navigation() {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        {auth?.user && auth.token ? <UserAvatar user={auth.user} /> : <AuthButtons />}
+        {auth?.user && auth.token ? <UserMenu user={auth.user} /> : <AuthButtons />}
       </NavbarContent>
     </Navbar>
   );
