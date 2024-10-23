@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import HomeIcon from "../Icons/HomeIcon";
 import PlaygroundIcon from "../Icons/PlaygroundIcon";
 import SettingsIcon from "../Icons/SettingsIcon";
+import CompanyAvatar from "../Avatar/Company";
 
 export default function DrawerMenu(): ReactElement {
   const navigate = useNavigate();
@@ -19,17 +20,7 @@ export default function DrawerMenu(): ReactElement {
   return (
     <div className={`transition-transform flex flex-col h-full absolute left-0 top-0 max-w-[300px] w-full z-50 bg-slate-800 drop-shadow-lg px-5 pt-5 pb-2 ${!open ? "translate-x-[-100%]" : ""}`}>
     <div className="mb-5">
-    <User
-        name="Estiator.io"
-        as="button"
-        avatarProps={{
-          radius: "none",
-          size: "sm",
-          name: "ES",
-        }}
-        description="Business description"
-        className="transition-transform text-slate-300"
-      />
+      <CompanyAvatar company={ { name: "Estiator.io", description: "Company description" }} />
     </div>
     <div className="flex flex-col justify-between h-full">
       <div className="flex flex-col gap-2">
