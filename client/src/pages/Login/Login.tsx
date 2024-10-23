@@ -5,20 +5,21 @@ import PasswordField from "../../components/Fields/Password";
 import { DevTool } from "@hookform/devtools";
 import EmailField from "../../components/Fields/Email";
 import { useAuth } from "../../context/Authentication";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 /**
  * @todo Convert to modal instead of page
  */
 export default function LoginPage(): ReactElement {
   const auth = useAuth();
+  const location = useLocation();
 
   const methods = useForm({
     mode: "onSubmit",
   });
 
   if (auth?.user && auth.token) {
-    return <Navigate to="/" />
+    return <Navigate to="/" replace />
   }
 
   async function onSubmit(values: FieldValues) {
@@ -60,7 +61,8 @@ export default function LoginPage(): ReactElement {
               Register here.
             </Link>
           </div>
-          <Button type="submit" color="primary">Sign in</Button>
+          <Button type="submit" color="primary" isLoading={auth?.loading}>Sign in</Button>
+          {location.state && !auth?.loading && <p className="text-xs text-danger">{location.state}</p>}
           <DevTool control={methods.control} />
         </form>
       </FormProvider>
