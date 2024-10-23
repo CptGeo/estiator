@@ -1,10 +1,13 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react"
 import { client } from "../core/request";
 import { useNavigate } from "react-router-dom";
+import { sleep } from "../core/utils";
+import { AxiosError } from "axios";
 
 export type AuthValue = {
   token?: string | null,
   user?: UserData | null,
+  loading?: boolean;
   loginAction: (credentials: Credentials) => Promise<void>,
   logoutAction: (user: string) => Promise<void>
 };
@@ -26,6 +29,7 @@ const AuthContext = createContext<AuthValue | null>(null);
 export function AuthProvider( props: PropsWithChildren ) {
   const [user, setUser] = useState<UserData | null>();
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +46,8 @@ export function AuthProvider( props: PropsWithChildren ) {
 
   async function loginAction(credentials: Credentials): Promise<void> {
     try {
+      setLoading(true);
+      await sleep(1500);
       // perform request
       const response = await client.post("/auth/login", credentials);
 
@@ -54,8 +60,13 @@ export function AuthProvider( props: PropsWithChildren ) {
       localStorage.setItem("token", response.data.data.token);
 
     } catch (error) {
-      navigate("/login", { replace: true });
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data.message);
+        navigate("/login", { replace: true, state: error.response?.data.message });
+      }
       /** @todo Notify for failed login */
+    } finally {
+      setLoading(false);
     }
   };
   
@@ -79,7 +90,7 @@ export function AuthProvider( props: PropsWithChildren ) {
     }
   }
 
-  return <AuthContext.Provider value={{user, token, loginAction, logoutAction}}>{props.children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{user, token, loading, loginAction, logoutAction}}>{props.children}</AuthContext.Provider>
 }
 
 export default AuthProvider;
