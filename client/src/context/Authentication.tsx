@@ -3,26 +3,7 @@ import { client } from "../core/request";
 import { useNavigate } from "react-router-dom";
 import { sleep } from "../core/utils";
 import { AxiosError } from "axios";
-
-export type AuthValue = {
-  token?: string | null;
-  user?: UserData | null;
-  loading?: boolean;
-  loginAction: (credentials: Credentials) => Promise<void>;
-  logoutAction: (userId: string) => Promise<void>;
-};
-
-export type Credentials = {
-  username: string,
-  password: string
-}
-
-export type UserData = {
-  username: string,
-  name: string,
-  surname: string
-  email: string
-};
+import { AuthValue, Credentials, UserData } from "../core/types";
 
 const AuthContext = createContext<AuthValue | null>(null);
 
@@ -68,12 +49,9 @@ export function AuthProvider( props: PropsWithChildren ) {
       setLoading(false);
     }
   };
-  
-  async function logoutAction(userId: string): Promise<void> {
-    try {
-      // inform server about logout - perhaps redundant
-      await client.post("/auth/logout", userId);
 
+  async function logoutAction(): Promise<void> {
+    try {
       // empty state
       setUser(null);
       setToken(null);
