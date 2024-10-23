@@ -21,3 +21,7 @@ export function getError<T extends FieldValues>(formState: FormState<T>, fieldNa
         return formState.errors[fieldName]?.message as string;
     }
 }
+
+export function sleep(ms: number): Promise<number> {
+    return new Promise((r) => setTimeout(r, ms));
+}
