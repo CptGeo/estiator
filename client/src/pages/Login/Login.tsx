@@ -1,17 +1,33 @@
 import { ReactElement } from "react";
 import { Button, Link } from "@nextui-org/react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import PasswordField from "../../components/Fields/Password";
 import { DevTool } from "@hookform/devtools";
 import EmailField from "../../components/Fields/Email";
+import { useAuth } from "../../context/Authentication";
+import { Navigate } from "react-router-dom";
 
 /**
  * @todo Convert to modal instead of page
  */
 export default function LoginPage(): ReactElement {
+  const auth = useAuth();
+
   const methods = useForm({
     mode: "onSubmit",
   });
+
+  if (auth?.user && auth.token) {
+    return <Navigate to="/" />
+  }
+
+  async function onSubmit(values: FieldValues) {
+    const { password, email } = values;
+
+    if (auth?.loginAction) {
+      await auth.loginAction({ password, username: email });
+    }
+  }
 
   return (
     <div className="container py-20 max-w-[500px] mx-auto justify-center flex-col flex items-start gap-2">
@@ -20,29 +36,33 @@ export default function LoginPage(): ReactElement {
         <p className="text-xs mb-2 text-slate-400">You can enter your credentials to access the application, or register a new user.</p>
       </div>
       <FormProvider {...methods}>
-        <EmailField
-          name="email"
-          autoFocus
-          isRequired
-          label="Email"
-          placeholder="Enter your email"
-          variant="bordered"
-        />
-        <PasswordField
-          name="password"
-          label="Password"
-          placeholder="Enter your password"
-          isRequired
-          variant="bordered"
-        />
-        <div className="flex pb-2 px-1 justify-between gap-2">
-          Don&apos;t have an account?
-          <Link color="primary" href="#" size="md">
-            Register here.
-          </Link>
-        </div>
-        <Button color="primary">Sign in</Button>
-        <DevTool control={methods.control} />
+        <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full gap-2 flex flex-col">
+          <EmailField
+            name="email"
+            autoFocus
+            isRequired
+            label="Email"
+            defaultValue="george@gmail.com"
+            placeholder="Enter your email"
+            variant="bordered"
+            />
+          <PasswordField
+            name="password"
+            label="Password"
+            defaultValue="1234"
+            placeholder="Enter your password"
+            isRequired
+            variant="bordered"
+            />
+          <div className="flex pb-2 px-1 gap-2">
+            Don&apos;t have an account?
+            <Link color="primary" href="#" size="md">
+              Register here.
+            </Link>
+          </div>
+          <Button type="submit" color="primary">Sign in</Button>
+          <DevTool control={methods.control} />
+        </form>
       </FormProvider>
     </div>
   );
