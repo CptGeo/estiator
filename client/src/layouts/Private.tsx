@@ -7,7 +7,7 @@ import { useAuth } from "../context/Authentication";
 export default function PrivateLayout(): ReactElement {
   const auth = useAuth();
 
-  if (!auth?.token || !auth.user) { 
+  if (!auth?.token || !auth.user) {
     return <Navigate to="/login" state="User not authenticated" />
   }
 
