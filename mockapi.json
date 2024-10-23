@@ -129,7 +129,7 @@
       "type": "http",
       "documentation": "",
       "method": "post",
-      "endpoint": "auth",
+      "endpoint": "auth/login",
       "responses": [
         {
           "uuid": "5bccd6c7-da64-4091-a58c-1c882e2fd8a3",
@@ -137,7 +137,12 @@
           "latency": 0,
           "statusCode": 200,
           "label": "",
-          "headers": [],
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
           "bodyType": "DATABUCKET",
           "filePath": "",
           "databucketID": "wmtx",
@@ -146,7 +151,7 @@
             {
               "target": "body",
               "modifier": "username",
-              "value": "cptgeo",
+              "value": "george@gmail.com",
               "invert": false,
               "operator": "equals"
             },
@@ -171,15 +176,39 @@
           "latency": 0,
           "statusCode": 401,
           "label": "Failed to authenticate",
-          "headers": [
-            {
-              "key": "",
-              "value": ""
-            }
-          ],
+          "headers": [],
           "bodyType": "DATABUCKET",
           "filePath": "",
           "databucketID": "vccb",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "eac7bbef-ff84-4a1a-931b-25efc81bd0e4",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/logout",
+      "responses": [
+        {
+          "uuid": "c762806d-6bed-4f52-ad6f-0dd77ce296b5",
+          "body": "OK",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
           "sendFileAsBody": false,
           "rules": [],
           "rulesOperator": "OR",
@@ -213,6 +242,10 @@
     {
       "type": "route",
       "uuid": "2499676e-2f3e-4767-bb3b-ecbe4a9486d8"
+    },
+    {
+      "type": "route",
+      "uuid": "eac7bbef-ff84-4a1a-931b-25efc81bd0e4"
     }
   ],
   "proxyMode": false,
@@ -232,6 +265,18 @@
     {
       "key": "Content-Type",
       "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
     }
   ],
   "proxyReqHeaders": [
@@ -280,7 +325,7 @@
       "id": "wmtx",
       "name": "Authentication - Success",
       "documentation": "",
-      "value": "{\n  \"success\": true,\n  \"data\": {\n    \"token\": \"THISISAFAKE.JWTTOKEN.USEDFORMOCKAUTH\"\n    \"userId\": \"THISISAFAKEUSERID\",\n    \"user\": {\n      \"username\": \"cptgeo\",\n      \"name\": \"George\",\n      \"surname\": \"Kalyvianakis\"\n      \"email\": \"george@example.com\"\n    }\n  }\n}"
+      "value": "{\n  \"success\": true,\n  \"data\": {\n    \"token\": \"THISISAFAKE.JWTTOKEN.USEDFORMOCKAUTH\",\n    \"userId\": \"THISISAFAKEUSERID\",\n    \"user\": {\n      \"username\": \"cptgeo\",\n      \"name\": \"George\",\n      \"surname\": \"Kalyvianakis\",\n      \"email\": \"george@example.com\"\n    }\n  }\n}"
     }
   ],
   "callbacks": []
