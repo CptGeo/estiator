@@ -1,6 +1,7 @@
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } from "@nextui-org/react";
 import { ReactElement } from "react";
-import { useAuth, UserData } from "../../context/Authentication";
+import { useAuth } from "../../context/Authentication";
+import { UserData } from "../../core/types";
 
 type Props = {
   user: UserData
@@ -11,11 +12,9 @@ export default function UserAvatar(props: Props): ReactElement {
   const auth = useAuth();
 
   async function handleLogout() {
-    if (auth?.logoutAction && auth.user?.username) {
-      await auth.logoutAction(auth.user?.username);
-    }
+      await auth?.logoutAction();
   }
-  
+
   return (
     <div className="flex items-center gap-4">
       <Dropdown placement="bottom-start">
