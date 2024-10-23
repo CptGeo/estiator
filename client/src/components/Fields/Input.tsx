@@ -17,12 +17,12 @@ export default function InputField(props: ControlledInputProps): ReactElement {
     }
 
     return (
-        <Input 
-            {...otherProps} 
+        <Input
+            {...otherProps}
             {...register(name, defaultRules)}
             isRequired={isRequired}
             isInvalid={hasError(formState, name)}
-            errorMessage={getError(formState, name)} 
+            errorMessage={getError(formState, name)}
         />
     );
 }

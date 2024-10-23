@@ -11,14 +11,14 @@ export default function CalendarField(props: Props) {
     const tomorrow = today(getLocalTimeZone()).add({ days: 1 });
 
     /**
-     * Example structure to create availabily dates 
+     * Example structure to create availabily dates
      * @todo One idea, is to implement filtering properties that can be changed from the business easily to show availability/unavailability
-     * 
+     *
      * @example
      * boolean availableOnlyInPerson
      * boolean fullyReserved
      * etc...
-     * 
+     *
      * With the above, we can have special messages for each condition, on the calendar (e.g. "The restaurant is fully booked for this date")
      * */
     const fetchedData = [
@@ -53,7 +53,7 @@ export default function CalendarField(props: Props) {
     }
 
     return (
-        <Controller 
+        <Controller
             name={name}
             render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Calendar

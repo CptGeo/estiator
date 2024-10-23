@@ -3,7 +3,7 @@ import InputField from "./Input";
 import { RegisterOptions } from "react-hook-form";
 import { ControlledInputProps } from "./types";
 
-export default function NumberField(props: Omit<ControlledInputProps, "type">): ReactElement { 
+export default function NumberField(props: Omit<ControlledInputProps, "type">): ReactElement {
 
     const defaultRules: RegisterOptions = {
         valueAsNumber: true,

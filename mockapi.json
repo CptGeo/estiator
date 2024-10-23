@@ -82,7 +82,7 @@
           "headers": [],
           "bodyType": "DATABUCKET",
           "filePath": "",
-          "databucketID": "",
+          "databucketID": "usje",
           "sendFileAsBody": false,
           "rules": [],
           "rulesOperator": "OR",
@@ -110,6 +110,103 @@
           "label": "",
           "headers": [],
           "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "tuk9",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "2499676e-2f3e-4767-bb3b-ecbe4a9486d8",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/login",
+      "responses": [
+        {
+          "uuid": "5bccd6c7-da64-4091-a58c-1c882e2fd8a3",
+          "body": "",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "wmtx",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "username",
+              "value": "george@gmail.com",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "1234",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": true,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "0703e7fb-bf7b-486e-9ef0-9a4477bc3015",
+          "body": "",
+          "latency": 0,
+          "statusCode": 401,
+          "label": "Failed to authenticate",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "vccb",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "eac7bbef-ff84-4a1a-931b-25efc81bd0e4",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "auth/logout",
+      "responses": [
+        {
+          "uuid": "c762806d-6bed-4f52-ad6f-0dd77ce296b5",
+          "body": "OK",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
           "filePath": "",
           "databucketID": "",
           "sendFileAsBody": false,
@@ -141,6 +238,14 @@
     {
       "type": "route",
       "uuid": "6966a5d2-d792-411a-bf47-b346efdc9418"
+    },
+    {
+      "type": "route",
+      "uuid": "2499676e-2f3e-4767-bb3b-ecbe4a9486d8"
+    },
+    {
+      "type": "route",
+      "uuid": "eac7bbef-ff84-4a1a-931b-25efc81bd0e4"
     }
   ],
   "proxyMode": false,
@@ -160,6 +265,18 @@
     {
       "key": "Content-Type",
       "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
     }
   ],
   "proxyReqHeaders": [
@@ -195,6 +312,20 @@
       "name": "Availability",
       "documentation": "",
       "value": "[\n  {\n      id: 1,\n      from: \"12-10-2024\",\n      to: \"30-10-2024\",\n      availability: true\n  },\n  {\n      id: 2,\n      from: \"15-11-2024\",\n      to: \"23-12-2024\",\n      availability: true\n  },\n  {\n      id: 3,\n      from: \"27-12-2024\",\n      to: \"30-12-2024\",\n      availability: true\n  }\n]"
+    },
+    {
+      "uuid": "972e3c08-305f-4c6b-b84d-0bb8c940da49",
+      "id": "vccb",
+      "name": "Authentication - Fail",
+      "documentation": "",
+      "value": "{\n  \"code\": 401,\n  \"message\": \"Authentication failed: Invalid username or password\"\n}"
+    },
+    {
+      "uuid": "3fec769c-13db-48bc-83ef-28da00f32163",
+      "id": "wmtx",
+      "name": "Authentication - Success",
+      "documentation": "",
+      "value": "{\n  \"success\": true,\n  \"data\": {\n    \"token\": \"THISISAFAKE.JWTTOKEN.USEDFORMOCKAUTH\",\n    \"userId\": \"THISISAFAKEUSERID\",\n    \"user\": {\n      \"username\": \"cptgeo\",\n      \"name\": \"George\",\n      \"surname\": \"Kalyvianakis\",\n      \"email\": \"george@example.com\"\n    }\n  }\n}"
     }
   ],
   "callbacks": []

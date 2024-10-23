@@ -1,3 +1,9 @@
 {
-    "eslint.validate": ["typescript", "javascript"]
-}
+    "eslint.run": "onType", // or "onType" for real-time linting
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact"
+    ]
+  }

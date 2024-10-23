@@ -7,7 +7,7 @@ export default function SelectField(props: ControlledSelectProps): ReactElement 
   const { children, name, ...rest } = props;
 
   return (
-    <Controller name={name} render={({ field: { onChange, onBlur, value, ref }}) => {
+    <Controller name={name} render={({ field: { onChange, onBlur, value, ref } }) => {
       return <Select
         {...rest}
         name={name}

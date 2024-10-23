@@ -1,34 +1,48 @@
-import { ReactElement } from "react";
+import { ReactElement, StrictMode } from "react";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/Home/Home";
-import MainLayout from "./layouts/Main";
+import PrivateLayout from "./layouts/Private";
 import PlaygroundPage from "./pages/Playground/Playground";
 import LoginPage from "./pages/Login/Login";
+import MainLayout from "./layouts/Main";
+import AuthLayout from "./layouts/Auth";
 
 const router = createBrowserRouter([
   {
-    element: <MainLayout />,
+    element: <AuthLayout />,
     children: [
-      { 
-        path: "/",
-        element: <HomePage />,
+      {
+        element: <PrivateLayout />,
+        children: [
+          {
+            path: "/",
+            element: <HomePage />,
+          },
+        ],
       },
       {
-        path: "/login",
-        element: <LoginPage />
-      },
-      {
-        path: "playground",
-        element: <PlaygroundPage />,
+        element: <MainLayout />,
+        children: [
+          {
+            path: "/login",
+            element: <LoginPage />,
+          },
+          {
+            path: "playground",
+            element: <PlaygroundPage />,
+          },
+        ]
       }
     ]
   }
 ]);
 
 export default function App(): ReactElement {
-  return <RouterProvider router={router} />;
+  return <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>
 }
