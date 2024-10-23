@@ -20,7 +20,7 @@ export type AuthValue = {
   loading?: boolean;
 
   /** @property method for logging in user with given Credentials */
-  loginAction: (credentials: Credentials) => Promise<void>;
+  loginAction: (_credentials: Credentials) => Promise<void>;
 
   /** @property method for logging out current user */
   logoutAction: () => Promise<void>;
@@ -39,3 +39,4 @@ export type UserData = {
   surname: string
   email: string
 };
+
