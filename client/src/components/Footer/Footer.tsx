@@ -1,6 +1,7 @@
-import { Divider, Image, Link } from "@nextui-org/react";
+import { Divider, Image } from "@nextui-org/react";
 import { ReactElement } from "react";
 import logo from "../../assets/images/logo.png";
+import { Link } from "react-router-dom";
 
 export default function Footer(): ReactElement {
   return (
@@ -11,9 +12,9 @@ export default function Footer(): ReactElement {
               <Image src={logo} className="pl-3 pr-5 bg-none max-w-[200px]" />
             </div>
             <ul className="list-none">
-              <li><Link className="tracking-wider text-slate-200 mb-1" href="/">Home</Link></li>
-              <li><Link className="tracking-wider text-slate-200 mb-1" href="/playground">Playground</Link></li>
-              <li><Link className="tracking-wider text-slate-200" href="/login">Login</Link></li>
+              <li><Link className="tracking-wider text-slate-200 mb-1" to="/">Home</Link></li>
+              <li><Link className="tracking-wider text-slate-200 mb-1" to="/playground">Playground</Link></li>
+              <li><Link className="tracking-wider text-slate-200" to="/login">Login</Link></li>
             </ul>
             <ul className="list-none bg-primary" />
             <ul className="list-none bg-primary" />
