@@ -5,7 +5,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/Home/Home";
-import PrivateLayout from "./layouts/Private";
+import PrivateLayout from "./layouts/Private/Private";
 import PlaygroundPage from "./pages/Playground/Playground";
 import LoginPage from "./pages/Login/Login";
 import MainLayout from "./layouts/Main";
@@ -22,6 +22,10 @@ const router = createBrowserRouter([
             path: "/",
             element: <HomePage />,
           },
+          {
+            path: "playground",
+            element: <PlaygroundPage />,
+          }
         ],
       },
       {
@@ -30,11 +34,7 @@ const router = createBrowserRouter([
           {
             path: "/login",
             element: <LoginPage />,
-          },
-          {
-            path: "playground",
-            element: <PlaygroundPage />,
-          },
+          }
         ]
       }
     ]

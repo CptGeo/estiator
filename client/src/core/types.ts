@@ -28,15 +28,19 @@ export type AuthValue = {
 
 /** Represents the username and password credentials for logging in a user */
 export type Credentials = {
-  username: string,
-  password: string
+  username: string;
+  password: string;
 }
 
 /** Represent the returned user data after a user has logged in */
 export type UserData = {
-  username: string,
-  name: string,
-  surname: string
-  email: string
+  username: string;
+  name: string;
+  surname: string;
+  email: string;
 };
 
+export type CompanyData = {
+  name: string;
+  description: string;
+};

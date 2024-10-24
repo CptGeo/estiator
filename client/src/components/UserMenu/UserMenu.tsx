@@ -2,13 +2,13 @@ import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } from "@ne
 import { ReactElement } from "react";
 import { useAuth } from "../../context/Authentication";
 import { UserData } from "../../core/types";
+import UserAvatar from "../Avatar/User";
 
 type Props = {
   user: UserData
 }
 
-export default function UserAvatar(props: Props): ReactElement {
-  const { name, surname, username } = props.user;
+export default function UserMenu(props: Props): ReactElement {
   const auth = useAuth();
 
   async function handleLogout() {
@@ -18,22 +18,11 @@ export default function UserAvatar(props: Props): ReactElement {
   return (
     <div className="flex items-center gap-4">
       <Dropdown placement="bottom-start">
-        <DropdownTrigger>
-          <User
-            as="button"
-            avatarProps={{
-              isBordered: true,
-              name: `${name.charAt(0).toUpperCase()} ${surname.charAt(0).toUpperCase()}`
-            }}
-            className="transition-transform"
-            description={`@${username}`}
-            name={`${name} ${surname}`}
-          />
-        </DropdownTrigger>
+        <UserAvatar user={props.user} />
         <DropdownMenu aria-label="User Actions" variant="flat">
           <DropdownItem key="profile" className="h-14 gap-2">
             <p className="font-bold">Signed in as</p>
-            <p className="font-bold">@{username}</p>
+            <p className="font-bold">Administrator</p>
           </DropdownItem>
           <DropdownItem onClick={handleLogout} key="logout" color="danger">
             Log Out

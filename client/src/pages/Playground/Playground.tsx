@@ -22,39 +22,37 @@ export default function PlaygroundPage(): ReactElement {
   }
 
   return (
-  <div className="reservation">
-      <div className="container max-w-[1400px] mx-auto mt-3 px-3">
-        <div className="py-4">
-          <h3 className="mb-0 text-xl">Playground</h3>
-          <p className="mt-0 text-xs text-slate-400">
-            Look how kids are having fun. Go join them...
-          </p>
-        </div>
-        <div className="flex gap-3 xs:flex-wrap">
+    <>
+      <div className="mb-4">
+        <h3 className="mb-0 text-xl">Playground</h3>
+        <p className="mt-0 text-xs text-slate-400">
+          Look how kids are having fun. Go join them...
+        </p>
+      </div>
+      <div className="flex gap-3 xs:flex-wrap">
+        <div>
           <div>
-            <div>
-              <FormProvider {...methods}>
-                <form className="mx-auto" onSubmit={methods.handleSubmit(handleSubmit)} noValidate>
-                  <div className="flex w-full flex-wrap gap-4">
-                    <CalendarField name="date-field" />
-                    <ReservationTimeField name="time-field" label="Reservation Time" placeholder="Select reservation time"/>
-                    <SelectField name="select" label="Default select field">
-                      <SelectItem key="selection-1">Selection 1</SelectItem>
-                      <SelectItem key="selection-2">Selection 2</SelectItem>
-                    </SelectField>
-                    <InputField type="text" name="text-field" label="Input Field" isRequired />
-                    <EmailField name="email-field" label="Email" isRequired />
-                    <NumberField name="number-field" label="Number Field" isRequired />
-                    <CheckboxField name="checkbox-field" label="Checkbox field" />
-                    <Button color="primary" type="submit" variant="flat" >Submit</Button>
-                  </div>
-                </form>
-                <DevTool control={methods.control} />
-              </FormProvider>
-            </div>
+            <FormProvider {...methods}>
+              <form className="mx-auto" onSubmit={methods.handleSubmit(handleSubmit)} noValidate>
+                <div className="flex w-full flex-wrap gap-4">
+                  <CalendarField name="date-field" />
+                  <ReservationTimeField name="time-field" label="Reservation Time" placeholder="Select reservation time"/>
+                  <SelectField name="select" label="Default select field">
+                    <SelectItem key="selection-1">Selection 1</SelectItem>
+                    <SelectItem key="selection-2">Selection 2</SelectItem>
+                  </SelectField>
+                  <InputField type="text" name="text-field" label="Input Field" isRequired />
+                  <EmailField name="email-field" label="Email" isRequired />
+                  <NumberField name="number-field" label="Number Field" isRequired />
+                  <CheckboxField name="checkbox-field" label="Checkbox field" />
+                  <Button color="primary" type="submit" variant="flat" >Submit</Button>
+                </div>
+              </form>
+              <DevTool control={methods.control} />
+            </FormProvider>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
