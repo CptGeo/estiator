@@ -25,7 +25,7 @@ export default function Navigation() {
   return (
     <Navbar maxWidth="2xl" position="sticky" isBordered className="bg-transparent">
       <NavbarBrand>
-        <Image src={logo} className="max-w-[150px] px-4" />
+        <Image src={logo} className="max-w-[150px] px-4 max-h-[32px]" />
       </NavbarBrand>
       <NavbarContent justify="center">
         <NavbarItem className="lg:flex">
