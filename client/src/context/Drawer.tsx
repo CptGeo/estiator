@@ -1,16 +1,21 @@
-import { createContext, Dispatch, PropsWithChildren, SetStateAction, useContext, useState } from "react"
+import { createContext, PropsWithChildren, useContext, useState } from "react"
+import settings from "../settings.json";
 
 type DrawerValue = {
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>
+  toggleDrawer: () => void;
 }
 
-const DrawerContext = createContext<DrawerValue>({ open: false, setOpen: () => {} });
+const DrawerContext = createContext<DrawerValue>({ open: false, toggleDrawer: () => {} });
 
 export function DrawerProvider( props: PropsWithChildren ) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(settings.drawerOpen);
 
-  return <DrawerContext.Provider value={ { open, setOpen } }>{props.children}</DrawerContext.Provider>
+  function toggleDrawer() {
+    setOpen(!open);
+  }
+
+  return <DrawerContext.Provider value={ { open, toggleDrawer } }>{props.children}</DrawerContext.Provider>
 }
 
 export default DrawerProvider;

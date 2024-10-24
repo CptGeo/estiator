@@ -12,7 +12,7 @@ import { useDrawer } from "../../context/Drawer";
 export default function DrawerMenu(): ReactElement {
   const navigate = useNavigate();
 
-  const { open, setOpen } = useDrawer();
+  const { open, toggleDrawer } = useDrawer();
 
   function DrawerItem(props:  { to: string, icon: ReactElement, text: string } ): ReactElement {
     const { to, icon, text } = props;
@@ -34,7 +34,7 @@ export default function DrawerMenu(): ReactElement {
           <DrawerItem to="/settings" text="Settings" icon={<SettingsIcon />} />
         </div>
       </div>
-      <Button onClick={() => setOpen(!open)} className="cursor-pointer absolute top-[18px] right-0 translate-x-full rounded-l-none p-0 bg-slate-700 text-slate-200 text-sm" isIconOnly size="sm" variant="solid">
+      <Button onClick={toggleDrawer} className="cursor-pointer absolute top-[18px] right-0 translate-x-full rounded-l-none p-0 bg-slate-700 text-slate-200 text-sm" isIconOnly size="sm" variant="solid">
         {open ? <MenuCloseIcon /> : <MenuOpenIcon />}
       </Button>
     </div>
