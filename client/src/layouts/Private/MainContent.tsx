@@ -11,7 +11,9 @@ export default function MainContent() {
     <div className={`main transition-all ${open ? "pl-[300px]" : ""}`}>
       <Navigation />
       <DrawerMenu />
-      <Outlet />
+      <div className="container max-w-[1400px] mx-auto px-3 pt-3">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   )
