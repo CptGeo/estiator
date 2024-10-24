@@ -34,7 +34,7 @@ export default function DrawerMenu(): ReactElement {
           <DrawerItem to="/settings" text="Settings" icon={<SettingsIcon />} />
         </div>
       </div>
-      <Button onClick={toggleDrawer} className="cursor-pointer absolute top-[18px] right-0 translate-x-full rounded-l-none p-0 bg-slate-700 text-slate-200 text-sm" isIconOnly size="sm" variant="solid">
+      <Button onClick={toggleDrawer} className="shadow-md cursor-pointer absolute top-[18px] right-0 translate-x-full rounded-l-none p-0 text-sm" isIconOnly size="sm" variant="solid" color="warning">
         {open ? <MenuCloseIcon /> : <MenuOpenIcon />}
       </Button>
     </div>
