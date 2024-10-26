@@ -3,6 +3,8 @@ const columns = [
   { name: "DATE", uid: "date" },
   { name: "TIME", uid: "time" },
   { name: "TABLE", uid: "table" },
+  { name: "PERSONS", uid: "persons" },
+  { name: "STATUS", uid: "status" },
   { name: "ACTIONS", uid: "actions" },
 ];
 
@@ -16,6 +18,7 @@ const reservations = [
         email: "george@gmail.com",
         phone: "+306912345678"
       },
+      status: "active",
       persons: 4,
       table: 1
     },
@@ -28,6 +31,7 @@ const reservations = [
         email: "jack@blackpearl.com",
         phone: "+306912345678"
       },
+      status: "fullfilled",
       persons: 2,
       table: 5
     },
@@ -40,6 +44,19 @@ const reservations = [
         email: "john@snow.com",
         phone: "+306912345678"
       },
+      status: "cancelled",
+      persons: 2,
+      table: 3
+    },    {
+      id: 3,
+      date: "12-10-2024",
+      time: "18:30:00",
+      user: {
+        name: "John Snow",
+        email: "peter@jackson.com",
+        phone: "+306912345678"
+      },
+      status: "pending",
       persons: 2,
       table: 3
     }
@@ -99,6 +116,5 @@ const users = [
 ];
 
 export type UsersType = typeof users[0];
-export type ReservationsType = typeof reservations[0];
 
 export { columns, users, reservations };
