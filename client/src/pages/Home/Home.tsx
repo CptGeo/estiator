@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
+import DataTable from "../../components/DataTable/DataTable";
 
 export default function HomePage(): ReactElement {
-  return <h1>Home</h1>;
+  return <DataTable />
 };
