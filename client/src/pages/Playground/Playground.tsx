@@ -9,6 +9,7 @@ import CalendarField from "../../components/Fields/Calendar";
 import CheckboxField from "../../components/Fields/Checkbox";
 import NumberField from "../../components/Fields/Number";
 import SelectField from "../../components/Fields/Select";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 export default function PlaygroundPage(): ReactElement {
 
@@ -23,12 +24,10 @@ export default function PlaygroundPage(): ReactElement {
 
   return (
     <>
-      <div className="mb-4">
-        <h3 className="mb-0 text-xl">Playground</h3>
-        <p className="mt-0 text-xs text-slate-400">
-          Look how kids are having fun. Go join them...
-        </p>
-      </div>
+      <PageHeader
+        heading="Playground"
+        subheading="Look how kids are having fun. Go join them..."
+      />
       <div className="flex gap-3 xs:flex-wrap">
         <div>
           <div>

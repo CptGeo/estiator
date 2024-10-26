@@ -6,6 +6,7 @@ import { DevTool } from "@hookform/devtools";
 import EmailField from "../../components/Fields/Email";
 import { useAuth } from "../../context/Authentication";
 import { Navigate, useLocation } from "react-router-dom";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 /**
  * @todo Convert to modal instead of page
@@ -31,11 +32,8 @@ export default function LoginPage(): ReactElement {
   }
 
   return (
-    <div className="py-20 max-w-[500px] mx-auto justify-center flex-col flex items-start gap-2">
-      <div>
-        <h1 className="text-3xl tracking-wider drop-shadow-md font-extralight">Login</h1>
-        <p className="text-xs mb-2 text-slate-400">You can enter your credentials to access the application, or register a new user.</p>
-      </div>
+    <div className="py-20 max-w-[500px] mx-auto">
+      <PageHeader heading="Login" subheading="You can enter your credentials to access the application, or register a new user." />
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full gap-2 flex flex-col">
           <EmailField

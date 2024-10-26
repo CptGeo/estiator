@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
-import DataTable from "../../components/DataTable/DataTable";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 export default function HomePage(): ReactElement {
-  return <DataTable />
+  return <PageHeader heading="Home page" subheading="Nothing here yet..." />
 };
