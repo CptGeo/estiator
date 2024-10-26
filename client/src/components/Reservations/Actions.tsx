@@ -14,7 +14,7 @@ export default function ReservationsActions() {
         variant="solid"
         onAction={(key) => alert(key)}>
         <DropdownSection title="Manage" showDivider>
-          <DropdownItem key="edit" color="success">Confirm reservation</DropdownItem>
+          <DropdownItem key="confirm" color="success">Confirm reservation</DropdownItem>
           <DropdownItem key="edit">Edit reservation</DropdownItem>
         </DropdownSection>
         <DropdownSection title="Danger zone">
