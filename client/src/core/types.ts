@@ -34,10 +34,11 @@ export type Credentials = {
 
 /** Represent the returned user data after a user has logged in */
 export type UserData = {
-  username: string;
+  username?: string;
   name: string;
   surname: string;
-  email: string;
+  email?: string;
+  phone?: string;
 };
 
 /** Represents company related information */
@@ -51,7 +52,8 @@ export type Status = "cancelled" | "completed" | "pending" | "confirmed";
 
 /** Represents reservation data */
 export type ReservationData = {
-  date: string,
+  id: string | number,
+  date: string, // "YYYY-MM-DD"
   time: string,
   user: UserData,
   status: Status,
