@@ -2,9 +2,10 @@ import { useCallback, useState } from "react";
 import { Table, TableHeader, TableColumn, TableBody, Selection, TableRow, TableCell, User, DatePicker, Input } from "@nextui-org/react";
 import { columns, reservations } from "../../_temp_data";
 import Status from "../Status/Status";
-import DataActions from "./Actions";
 import { parseDate, parseTime } from "@internationalized/date";
 import { ReservationData } from "../../core/types";
+import ReservationsActions from "./Actions";
+import { getFullName } from "../../core/utils";
 
 export default function ReservationsTable() {
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());
@@ -22,7 +23,7 @@ export default function ReservationsTable() {
                 description: "text-default-500",
             }}
             description={reservation.user.email || reservation.user.phone}
-            name={`${reservation.user.name} ${reservation.user.surname}`}
+            name={getFullName(reservation.user)}
         />
         </TableCell>
         <TableCell>
@@ -36,7 +37,7 @@ export default function ReservationsTable() {
         <TableCell><Input value={reservation.table.toString()} isReadOnly /></TableCell>
         <TableCell><Input value={reservation.persons.toString()} isReadOnly /></TableCell>
         <TableCell><Status status={reservation.status} /></TableCell>
-        <TableCell><div><DataActions /></div></TableCell>
+        <TableCell><div><ReservationsActions reservation={reservation} /></div></TableCell>
     </TableRow>
     )
   }, []);
