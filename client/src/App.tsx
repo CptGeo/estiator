@@ -10,6 +10,7 @@ import PlaygroundPage from "./pages/Playground/Playground";
 import LoginPage from "./pages/Login/Login";
 import MainLayout from "./layouts/Main";
 import AuthLayout from "./layouts/Auth";
+import ReservationsManagementPage from "./pages/ReservationsManagement/ReservationsManagement";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
           {
             path: "playground",
             element: <PlaygroundPage />,
+          },
+          {
+            path: "reservations-management",
+            element: <ReservationsManagementPage />
           }
         ],
       },
