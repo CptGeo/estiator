@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import PageHeader from "../../components/PageHeader/PageHeader";
-import DataTable from "../../components/DataTable/DataTable";
+import DataTable from "../../components/Reservations/Table";
 
 export default function ReservationsManagementPage(): ReactElement {
   return (

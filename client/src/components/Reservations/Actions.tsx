@@ -1,7 +1,7 @@
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, DropdownSection } from "@nextui-org/react";
 import MenuDotsIcon from "../Icons/MenuDotsIcon";
 
-export default function DataActions() {
+export default function ReservationsActions() {
   return (
     <Dropdown>
       <DropdownTrigger>

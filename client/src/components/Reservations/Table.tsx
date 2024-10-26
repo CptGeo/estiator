@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Table, TableHeader, TableColumn, TableBody, Selection, TableRow, TableCell, User, DatePicker, Input } from "@nextui-org/react";
 import { columns, reservations } from "../../_temp_data";
 import Status from "../Status/Status";
-import DataActions from "./DataActions";
+import DataActions from "./Actions";
 import { parseDate } from "@internationalized/date";
 
-export default function DataTable() {
+export default function ReservationsTable() {
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());
 
   return (
