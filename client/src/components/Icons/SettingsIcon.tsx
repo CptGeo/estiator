@@ -3,8 +3,8 @@ function SettingsIcon(props: React.SVGProps<SVGSVGElement>) {
     <svg
       viewBox="0 0 512 512"
       fill="currentColor"
-      height="1.5em"
-      width="1.5em"
+      height="1em"
+      width="1em"
       {...props}
     >
       <path

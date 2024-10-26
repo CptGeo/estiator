@@ -1,6 +1,6 @@
 function HomeIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg fill="none" viewBox="0 0 24 24" height="1.5em" width="1.5em" {...props}>
+    <svg fill="none" viewBox="0 0 24 24" height="1em" width="1em" {...props}>
       <path
         fill="currentColor"
         fillRule="evenodd"
