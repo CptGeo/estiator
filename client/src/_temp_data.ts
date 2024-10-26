@@ -14,7 +14,7 @@ const reservations: Iterable<ReservationData> = [
     {
       id: 1,
       date: "2024-12-10",
-      time: "13:30:00",
+      time: "13:30",
       user: {
         name: "George",
         surname: "Kalyvianakis",
@@ -28,7 +28,7 @@ const reservations: Iterable<ReservationData> = [
     {
       id: 2,
       date: "2024-11-10",
-      time: "15:30:00",
+      time: "15:30",
       user: {
         name: "Jack",
         surname: "Sparrow",
@@ -42,7 +42,7 @@ const reservations: Iterable<ReservationData> = [
     {
       id: 3,
       date: "2024-11-12",
-      time: "18:30:00",
+      time: "18:30",
       user: {
         name: "John",
         surname: "Snow",
@@ -56,7 +56,7 @@ const reservations: Iterable<ReservationData> = [
     {
       id: 4,
       date: "2024-11-13",
-      time: "18:30:00",
+      time: "18:30",
       user: {
         name: "Peter",
         surname: "Jackson",
