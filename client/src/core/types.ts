@@ -40,7 +40,21 @@ export type UserData = {
   email: string;
 };
 
+/** Represents company related information */
 export type CompanyData = {
   name: string;
   description: string;
+};
+
+/** Represents statuses of reservations */
+export type Status = "cancelled" | "completed" | "pending" | "confirmed";
+
+/** Represents reservation data */
+export type ReservationData = {
+  date: string,
+  time: string,
+  user: UserData,
+  status: Status,
+  persons: number,
+  table: number
 };
