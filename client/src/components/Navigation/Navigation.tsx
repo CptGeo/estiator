@@ -34,6 +34,9 @@ export default function Navigation() {
         <NavbarItem className="lg:flex">
           <NavLink to="/playground" className="navigation-link">Playground</NavLink>
         </NavbarItem>
+        <NavbarItem className="lg:flex">
+          <NavLink to="/reservations-management" className="navigation-link">Reservations Management</NavLink>
+        </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         {auth?.user && auth.token ? <UserMenu user={auth.user} /> : <AuthButtons />}
