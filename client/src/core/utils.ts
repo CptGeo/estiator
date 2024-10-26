@@ -1,4 +1,5 @@
 import { FieldValues, FormState } from "react-hook-form";
+import { UserData } from "./types";
 
 /**
  * Checks if field has any errors
@@ -24,4 +25,8 @@ export function getError<T extends FieldValues>(formState: FormState<T>, fieldNa
 
 export function sleep(ms: number): Promise<number> {
     return new Promise((r) => setTimeout(r, ms));
+}
+
+export function getFullName(user: UserData): string {
+    return `${user.name} ${user.surname}`;
 }
