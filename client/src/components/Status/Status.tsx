@@ -1,9 +1,9 @@
 import { Chip } from "@nextui-org/react";
 import { ReactElement } from "react";
-import { Status as StatusType } from "../../core/types";
+import { ReservationStatus } from "../../core/types";
 
 type Props = {
-    status: StatusType | undefined
+    status: ReservationStatus | undefined
 }
 
 export default function Status(props: Props): ReactElement {

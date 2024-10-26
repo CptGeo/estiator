@@ -48,7 +48,7 @@ export type CompanyData = {
 };
 
 /** Represents statuses of reservations */
-export type Status = "cancelled" | "completed" | "pending" | "confirmed";
+export type ReservationStatus = "cancelled" | "completed" | "pending" | "confirmed";
 
 /** Represents reservation data */
 export type ReservationData = {
@@ -56,7 +56,7 @@ export type ReservationData = {
   date: string, // "YYYY-MM-DD"
   time: string,
   user: UserData,
-  status: Status,
+  status: ReservationStatus,
   persons: number,
   table: number
 };
