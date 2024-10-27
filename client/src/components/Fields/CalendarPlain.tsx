@@ -6,11 +6,12 @@ type Props = {
 } & Omit<CalendarProps, "value" | "onChange" | "onBlur" >;
 
 export default function CalendarPlainField(props: Props) {
-    const { name, ...calendarProps } = props;
+    const { name, defaultValue, ...calendarProps } = props;
 
     return (
         <Controller
             name={name}
+            defaultValue={defaultValue}
             render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Calendar
                     {...calendarProps}
@@ -18,7 +19,7 @@ export default function CalendarPlainField(props: Props) {
                     onChange={onChange}
                     ref={ref}
                     onBlur={onBlur}
-                    />
+                />
             )}
         />
     );
