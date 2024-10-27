@@ -4,6 +4,7 @@ import { ReservationData } from "../../core/types";
 import { Key, ReactElement } from "react";
 import ConfirmationModal from "../Modal/Confirmation";
 import { getFullName } from "../../core/utils";
+import EditReservationModal from "../Modal/EditReservation";
 
 type Props = {
   reservation: ReservationData;
@@ -19,16 +20,12 @@ const enum Action {
 export default function ReservationsActions(props: Props) {
   const reservation = props.reservation;
   const cancelModalProps = useDisclosure();
-  // const editModalProps = useDisclosure();
+  const editModalProps = useDisclosure();
   const confirmModalProps = useDisclosure();
   const removeModalProps = useDisclosure();
 
   function handleConfirm() {
     console.log(`Confirmed ${reservation.id}`);
-  }
-
-  function handleEdit() {
-    console.log(`Edit ${reservation.id}`);
   }
 
   function handleCancel() {
@@ -48,7 +45,7 @@ export default function ReservationsActions(props: Props) {
         confirmModalProps.onOpen();
         break;
       case Action.EDIT:
-        handleEdit();
+        editModalProps.onOpen();
         break;
       case Action.REMOVE:
         removeModalProps.onOpen();
@@ -72,7 +69,7 @@ export default function ReservationsActions(props: Props) {
             {(reservation.status === "pending" && (<DropdownItem key={Action.CONFIRM} color="success">Confirm reservation</DropdownItem>)) as ReactElement}
             <DropdownItem key={Action.EDIT}>Edit reservation</DropdownItem>
           </DropdownSection>
-          {(["cancelled", "removed"].includes(reservation.status) && (
+          {(!["cancelled", "removed"].includes(reservation.status) && (
           <DropdownSection title="Danger zone">
           <DropdownItem key={Action.CANCEL} className="text-danger" color="danger" >
               Cancel reservation
@@ -105,9 +102,10 @@ export default function ReservationsActions(props: Props) {
         cancelText="Abort"
         confirmText="Remove"
         confirmButtonProps={{ color: "danger" }}
-        body={<p>The reservation of customer <strong>{getFullName(reservation.user)}</strong> will be <strong>removed</strong>. <br />Are you sure you want to continue?</p>}
+        body={<p>The reservation of customer <strong>{getFullName(reservation.user)}</strong> will be <strong>removed</strong><br />Are you sure you want to continue?</p>}
         onClose={handleRemove}
       />
+      <EditReservationModal reservation={reservation} {...editModalProps} />
     </>
   );
 }
