@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, Selection, TableRow, TableCell, User, DatePicker, Input } from "@nextui-org/react";
+import { useCallback } from "react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input } from "@nextui-org/react";
 import { columns, reservations } from "../../_temp_data";
 import Status from "../Status/Status";
 import { parseDate, parseTime } from "@internationalized/date";
@@ -8,8 +8,6 @@ import ReservationsActions from "./Actions";
 import { getFullName } from "../../core/utils";
 
 export default function ReservationsTable() {
-  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set());
-
   const renderRow = useCallback((reservation: ReservationData) => {
     const date = parseDate(reservation.date);
     const time = parseTime(reservation.time);
@@ -43,12 +41,7 @@ export default function ReservationsTable() {
   }, []);
 
   return (
-    <Table
-      aria-label="Example table with custom cells"
-      selectionMode="multiple"
-      selectedKeys={selectedKeys}
-      onSelectionChange={setSelectedKeys}
-    >
+    <Table aria-label="Example table with custom cells">
       <TableHeader columns={columns}>
         {(column) => (
           <TableColumn
