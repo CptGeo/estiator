@@ -14,7 +14,7 @@ export default function ConfirmationModal(props: Props) {
   const { isOpen, onOpenChange, onClose, title, body, cancelText = "Cancel", confirmText = "Confirm", cancelButtonProps, confirmButtonProps } = props;
 
   return (
-      <Modal placement="top" size="2xl" isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} onClose={onClose}>
+      <Modal backdrop="opaque" placement="top" size="2xl" isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} onClose={onClose}>
         <ModalContent>
           {(onClose) => (
             <>
