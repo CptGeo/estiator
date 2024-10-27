@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Spinner } from "@nextui-org/react";
-// import { reservations } from "../../_temp_data";
 import Status from "../Status/Status";
 import { parseDate, parseTime } from "@internationalized/date";
 import { ReservationData } from "../../core/types";
