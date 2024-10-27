@@ -64,7 +64,7 @@ export default function CalendarField(props: Props) {
                     onBlur={onBlur}
                     minValue={tomorrow}
                     isDateUnavailable={isDateUnavailable}
-                />
+                    />
             )}
         />
     );
