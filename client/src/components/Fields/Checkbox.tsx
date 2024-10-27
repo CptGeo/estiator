@@ -7,8 +7,8 @@ type Props = {
 } & CheckboxProps;
 
 export default function CheckboxField(props: Props) {
-  const { name, label } = props;
+  const { name, label, ...otherProps } = props;
   const { register } = useFormContext();
 
-  return <Checkbox {...register(name)}>{label}</Checkbox>
+  return <Checkbox {...otherProps} {...register(name)}>{label}</Checkbox>
 }
