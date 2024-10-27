@@ -1,10 +1,11 @@
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, DropdownSection, useDisclosure } from "@nextui-org/react";
 import MenuDotsIcon from "../Icons/MenuDotsIcon";
-import { ReservationData } from "../../core/types";
+import { ReservationData, ReservationStatus } from "../../core/types";
 import { Key, ReactElement } from "react";
-import ConfirmationModal from "../Modal/Confirmation";
-import { getFullName } from "../../core/utils";
 import EditReservationModal from "../Modal/EditReservation";
+import RemoveReservationModal from "../Modal/RemoveReservation";
+import CancelReservationModal from "../Modal/CancelReservation";
+import ConfirmReservationModal from "../Modal/ConfirmReservation";
 
 type Props = {
   reservation: ReservationData;
@@ -19,36 +20,25 @@ const enum Action {
 
 export default function ReservationsActions(props: Props) {
   const reservation = props.reservation;
-  const cancelModalProps = useDisclosure();
-  const editModalProps = useDisclosure();
-  const confirmModalProps = useDisclosure();
-  const removeModalProps = useDisclosure();
 
-  function handleConfirm() {
-    console.log(`Confirmed ${reservation.id}`);
-  }
-
-  function handleCancel() {
-    console.log(`Cancel ${reservation.id}`);
-  }
-
-  function handleRemove() {
-    console.log(`Remove ${reservation.id}`);
-  }
+  const cancel = useDisclosure();
+  const edit = useDisclosure();
+  const confirm = useDisclosure();
+  const remove = useDisclosure();
 
   function handleAction(key: Key) {
     switch(key) {
       case Action.CANCEL:
-        cancelModalProps.onOpen();
+        cancel.onOpen();
         break;
       case Action.CONFIRM:
-        confirmModalProps.onOpen();
+        confirm.onOpen();
         break;
       case Action.EDIT:
-        editModalProps.onOpen();
+        edit.onOpen();
         break;
       case Action.REMOVE:
-        removeModalProps.onOpen();
+        remove.onOpen();
         break;
     }
   }
@@ -69,7 +59,7 @@ export default function ReservationsActions(props: Props) {
             {(reservation.status === "pending" && (<DropdownItem key={Action.CONFIRM} color="success">Confirm reservation</DropdownItem>)) as ReactElement}
             <DropdownItem key={Action.EDIT}>Edit reservation</DropdownItem>
           </DropdownSection>
-          {(!["cancelled", "removed"].includes(reservation.status) && (
+          {(![ReservationStatus.CANCELLED, ReservationStatus.COMPLETED, ].includes(reservation.status) && (
           <DropdownSection title="Danger zone">
           <DropdownItem key={Action.CANCEL} className="text-danger" color="danger" >
               Cancel reservation
@@ -80,32 +70,10 @@ export default function ReservationsActions(props: Props) {
             </DropdownItem>
         </DropdownMenu>
       </Dropdown>
-      <ConfirmationModal
-        {...cancelModalProps}
-        title="Cancel reservation"
-        cancelText="Abort"
-        confirmText="Cancel reservation"
-        confirmButtonProps={{ color: "danger" }}
-        body={<p>The reservation of customer <strong>{getFullName(reservation.user)}</strong> will be cancelled. <br />Are you sure you want to continue?</p>}
-        onClose={handleCancel}
-      />
-      <ConfirmationModal
-        {...confirmModalProps}
-        title="Confirm reservation"
-        confirmText="Confirm reservation"
-        body={<p>The reservation of customer <strong>{getFullName(reservation.user)}</strong> will be confirmed for the date <strong>{reservation.date}</strong> and time <strong>{reservation.time}</strong>.<br />Are you sure you want to continue?</p>}
-        onClose={handleConfirm}
-      />
-      <ConfirmationModal
-        {...removeModalProps}
-        title="Remove reservation"
-        cancelText="Abort"
-        confirmText="Remove"
-        confirmButtonProps={{ color: "danger" }}
-        body={<p>The reservation of customer <strong>{getFullName(reservation.user)}</strong> will be <strong>removed</strong><br />Are you sure you want to continue?</p>}
-        onClose={handleRemove}
-      />
-      <EditReservationModal reservation={reservation} {...editModalProps} />
+      <ConfirmReservationModal reservation={reservation} {...confirm} />
+      <CancelReservationModal reservation={reservation} {...cancel} />
+      <RemoveReservationModal reservation={reservation} {...remove} />
+      <EditReservationModal reservation={reservation} {...edit} />
     </>
   );
 }
