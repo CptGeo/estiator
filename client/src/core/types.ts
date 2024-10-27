@@ -48,7 +48,12 @@ export type CompanyData = {
 };
 
 /** Represents statuses of reservations */
-export type ReservationStatus = "cancelled" | "completed" | "pending" | "confirmed";
+export enum ReservationStatus {
+  CANCELLED = "cancelled",
+  COMPLETED = "completed",
+  PENDING = "pending",
+  CONFIRMED = "confirmed"
+}
 
 /** Represents reservation data */
 export type ReservationData = {

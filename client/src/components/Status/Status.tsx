@@ -10,13 +10,13 @@ export default function Status(props: Props): ReactElement {
     const { status } = props;
 
     switch(status) {
-        case "cancelled":
+        case ReservationStatus.CANCELLED:
             return <Chip color="default" variant="flat">Cancelled</Chip>;
-        case "completed":
+        case ReservationStatus.COMPLETED:
             return <Chip color="primary" variant="flat">Completed</Chip>;
-        case "pending":
+        case ReservationStatus.PENDING:
             return <Chip color="warning" variant="flat">Pending</Chip>;
-        case "confirmed":
+        case ReservationStatus.CONFIRMED:
             return <Chip color="success" variant="flat">Confirmed</Chip>
         default:
             return <Chip color="danger" variant="flat">Unknown</Chip>
