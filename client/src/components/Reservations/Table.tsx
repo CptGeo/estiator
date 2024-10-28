@@ -35,7 +35,7 @@ export default function ReservationsTable() {
 
     return (
       <TableRow>
-        <TableCell>
+        <TableCell className="w-[25%]" textValue="Date">
             <User
               avatarProps={{ radius: "full", size: "sm" }}
               classNames={{
@@ -45,7 +45,7 @@ export default function ReservationsTable() {
               name={getFullName(reservation.user)}
         />
         </TableCell>
-        <TableCell textValue="Date">
+        <TableCell className="w-[20%]" textValue="Date">
             <DatePicker
               isReadOnly
               aria-label="Date"
@@ -53,11 +53,11 @@ export default function ReservationsTable() {
               granularity="day"
               value={date} />
         </TableCell>
-        <TableCell textValue="Time"><Input className="min-w-20" value={time.toString().slice(0, -3)} aria-label="Time" isReadOnly /></TableCell>
-        <TableCell textValue="Table"><Input className="min-w-16" value={reservation.table.toString()} aria-label="Table" isReadOnly /></TableCell>
-        <TableCell textValue="Persons"><Input className="min-w-10" value={reservation.persons.toString()} aria-label="Persons" isReadOnly /></TableCell>
-        <TableCell textValue="Status"><Status status={reservation.status} /></TableCell>
-        <TableCell textValue="Actions"><div><ReservationsActions reservation={reservation} /></div></TableCell>
+        <TableCell className="w-1/12" textValue="Time"><Input className="min-w-20"  value={time.toString().slice(0, -3)} aria-label="Time" isReadOnly /></TableCell>
+        <TableCell className="w-1/12" textValue="Table"><Input className="min-w-16"   value={reservation.table.toString()} aria-label="Table" isReadOnly /></TableCell>
+        <TableCell className="w-[5%]" textValue="Persons"><Input className="min-w-10" value={reservation.persons.toString()} aria-label="Persons" isReadOnly /></TableCell>
+        <TableCell className="w-1/12" textValue="Status"><Status status={reservation.status} /></TableCell>
+        <TableCell className="w-1/12" textValue="Actions"><div><ReservationsActions reservation={reservation} /></div></TableCell>
     </TableRow>
     )
   }, [reservations]);
@@ -68,10 +68,10 @@ export default function ReservationsTable() {
       bottomContent={
         reservations && <div className="flex w-full justify-center">
           <Pagination
-            isCompact
             showControls
             showShadow
-            color="danger"
+            color="primary"
+            variant="flat"
             page={page}
             total={pages}
             onChange={(page) => setPage(page)}
