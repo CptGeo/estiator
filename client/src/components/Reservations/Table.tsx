@@ -1,11 +1,12 @@
 import { useCallback, useMemo, useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Spinner, Pagination } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Spinner, Pagination, Button } from "@nextui-org/react";
 import Status from "../Status/Status";
 import { parseDate, parseTime } from "@internationalized/date";
 import { ReservationData } from "../../core/types";
 import ReservationsActions from "./Actions";
 import { getFullName } from "../../core/utils";
 import useGetReservations from "../../hooks/useGetReservations";
+import AddIcon from "../Icons/AddIcon";
 
 const columns = [
   { name: "NAME", uid: "name" },
@@ -28,6 +29,36 @@ export default function ReservationsTable() {
     const end = start + rowsPerPage;
     return reservations?.slice(start, end);
   }, [page, reservations]);
+
+  const topContent = useMemo(() => {
+    const count = reservations?.length;
+    return (
+      <div className="flex flex-row justify-between items-end">
+        <p className="text-xs text-default-600">{count! > 0 && `Total ${reservations?.length} reservation${count! > 1 ? "s" : ""}`}</p>
+        <Button color="primary"><AddIcon className="text-md" />Add reservation</Button>
+      </div>
+    )
+  }, [reservations?.length]);
+
+  const bottomContent = useMemo(() => {
+    if (reservations?.length == 0) {
+      return;
+    }
+
+    return (
+      <div className="flex justify-center">
+          <Pagination
+            showControls
+            showShadow
+            color="primary"
+            variant="flat"
+            page={page}
+            total={pages}
+            onChange={(page) => setPage(page)}
+          />
+      </div>
+    )
+  }, [items, reservations]);
 
   const renderRow = useCallback((reservation: ReservationData) => {
     const date = parseDate(reservation.date);
@@ -64,20 +95,11 @@ export default function ReservationsTable() {
 
   return (
     <Table
+      topContentPlacement="outside"
+      topContent={topContent}
       aria-label="Example table with custom cells"
-      bottomContent={
-        reservations && <div className="flex w-full justify-center">
-          <Pagination
-            showControls
-            showShadow
-            color="primary"
-            variant="flat"
-            page={page}
-            total={pages}
-            onChange={(page) => setPage(page)}
-          />
-        </div>
-      }
+      bottomContent={bottomContent}
+      bottomContentPlacement="outside"
     >
       <TableHeader columns={columns}>
         {(column) => (
