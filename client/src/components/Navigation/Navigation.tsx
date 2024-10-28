@@ -27,17 +27,6 @@ export default function Navigation() {
       <NavbarBrand>
         <Image src={logo} className="max-w-[150px] px-4 max-h-[32px]" />
       </NavbarBrand>
-      <NavbarContent justify="center">
-        <NavbarItem className="lg:flex">
-          <NavLink to="/" className={({ isActive }) => `navigation-link ${isActive ? "active" : ""}`}>Home</NavLink>
-        </NavbarItem>
-        <NavbarItem className="lg:flex">
-          <NavLink to="/playground" className="navigation-link">Playground</NavLink>
-        </NavbarItem>
-        <NavbarItem className="lg:flex">
-          <NavLink to="/reservations-management" className="navigation-link">Reservations Management</NavLink>
-        </NavbarItem>
-      </NavbarContent>
       <NavbarContent justify="end">
         {auth?.user && auth.token ? <UserMenu user={auth.user} /> : <AuthButtons />}
       </NavbarContent>
