@@ -8,7 +8,6 @@ import CalendarPlainField from "../Fields/CalendarPlain";
 import { parseDate } from "@internationalized/date";
 import CheckboxField from "../Fields/Checkbox";
 import EmailField from "../Fields/Email";
-import { DevTool } from "@hookform/devtools";
 import { useState } from "react";
 import { client } from "../../core/request";
 import TimeField from "../Fields/Time";
@@ -40,8 +39,16 @@ export default function EditReservationModal(props: Props) {
       const data = {
         date: values.date.toString(),
         persons: values.persons,
+        ...(!reservation.user.registered && {
+          user: {
+            name: values.name,
+            surname: values.surname,
+            email: values.email,
+            phone: values.phone
+          },
+        }),
         table: values.table,
-        time: values.time
+        time: values.time,
       };
       await client.patch(`/reservations/${reservation.id}`, { ...data });
     } catch (error) {
@@ -68,12 +75,12 @@ export default function EditReservationModal(props: Props) {
                 Editing reservation of <em>{getFullName(reservation.user)}</em><br />
               </ModalHeader>
               <ModalBody>
-              <div className="flex flex-row gap-4">
-                <div className="flex-shrink">
+              <div className="gap-4 md:flex">
+                <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2">
                   <CalendarPlainField name="date" showMonthAndYearPickers defaultValue={parseDate(reservation.date)} />
                   <TimeField label="Time" name="time" placeholder="Time" defaultSelectedKeys={[reservation.time]} />
                 </div>
-                <div className="flex-grow w-3/4 flex flex-col gap-2">
+                <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                   <NumberField isRequired label="Persons" name="persons" defaultValue={reservation.persons.toString()} />
                   <InputField isRequired label="Table" name="table" defaultValue={reservation.table} />
                   <InputField isRequired label="Name" name="name" isDisabled={isRegistered} defaultValue={reservation.user.name} />
