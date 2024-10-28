@@ -1,4 +1,4 @@
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } from "@nextui-org/react";
+import { Dropdown, DropdownItem, DropdownMenu } from "@nextui-org/react";
 import { ReactElement } from "react";
 import { useAuth } from "../../context/Authentication";
 import { UserData } from "../../core/types";

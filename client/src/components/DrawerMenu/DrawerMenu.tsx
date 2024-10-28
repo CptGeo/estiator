@@ -1,5 +1,5 @@
-import { Button, User } from "@nextui-org/react";
-import { ReactElement, useState } from "react";
+import { Button } from "@nextui-org/react";
+import { ReactElement } from "react";
 import MenuCloseIcon from "../Icons/MenuCloseIcon";
 import MenuOpenIcon from "../Icons/MenuOpenIcon";
 import { useLocation, useNavigate } from "react-router-dom";
