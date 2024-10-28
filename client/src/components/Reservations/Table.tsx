@@ -1,5 +1,5 @@
-import { useCallback } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Spinner } from "@nextui-org/react";
+import { useCallback, useMemo, useState } from "react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Spinner, Pagination } from "@nextui-org/react";
 import Status from "../Status/Status";
 import { parseDate, parseTime } from "@internationalized/date";
 import { ReservationData } from "../../core/types";
@@ -19,6 +19,15 @@ const columns = [
 
 export default function ReservationsTable() {
   const { data: reservations } = useGetReservations();
+  const [page, setPage] = useState(1);
+  const rowsPerPage = 10;
+  const pages = reservations ? Math.ceil(reservations.length / rowsPerPage) : 0;
+
+  const items = useMemo(() => {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    return reservations?.slice(start, end);
+  }, [page, reservations]);
 
   const renderRow = useCallback((reservation: ReservationData) => {
     const date = parseDate(reservation.date);
@@ -54,7 +63,22 @@ export default function ReservationsTable() {
   }, [reservations]);
 
   return (
-    <Table aria-label="Example table with custom cells">
+    <Table
+      aria-label="Example table with custom cells"
+      bottomContent={
+        reservations && <div className="flex w-full justify-center">
+          <Pagination
+            isCompact
+            showControls
+            showShadow
+            color="danger"
+            page={page}
+            total={pages}
+            onChange={(page) => setPage(page)}
+          />
+        </div>
+      }
+    >
       <TableHeader columns={columns}>
         {(column) => (
           <TableColumn
@@ -68,7 +92,7 @@ export default function ReservationsTable() {
       <TableBody
           emptyContent={<p>Currently, there are no reservations</p>}
           isLoading={!Array.isArray(reservations)}
-          items={reservations || []}
+          items={items || []}
           loadingContent={<Spinner label="Loading..." />}
       >
         {(reservation) => renderRow(reservation)}
