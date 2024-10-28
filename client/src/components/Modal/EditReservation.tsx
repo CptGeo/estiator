@@ -20,6 +20,7 @@ type Props = {
 export default function EditReservationModal(props: Props) {
   const { reservation, isOpen, onOpenChange, onClose } = props;
   const [loading, setLoading] = useState(false);
+  const isRegistered = reservation.user.registered;
 
   const methods = useForm({
     mode: "onChange",
@@ -75,10 +76,10 @@ export default function EditReservationModal(props: Props) {
                 <div className="flex-grow w-3/4 flex flex-col gap-2">
                   <NumberField isRequired label="Persons" name="persons" defaultValue={reservation.persons.toString()} />
                   <NumberField isRequired label="Table" name="table" defaultValue={reservation.table.toString()} />
-                  <InputField isRequired label="Name" name="name" readOnly isDisabled defaultValue={reservation.user.name} />
-                  <InputField isRequired label="Surname" readOnly isDisabled name="surname" defaultValue={reservation.user.surname} />
-                  <EmailField isRequired label="Email" readOnly isDisabled name="email" defaultValue={reservation.user.email} />
-                  <InputField label="Phone" readOnly isDisabled name="phone" defaultValue={reservation.user.phone} />
+                  <InputField isRequired label="Name" name="name" isDisabled={isRegistered} defaultValue={reservation.user.name} />
+                  <InputField isRequired label="Surname" isDisabled={isRegistered} name="surname" defaultValue={reservation.user.surname} />
+                  <EmailField isRequired label="Email" isDisabled={isRegistered} name="email" defaultValue={reservation.user.email} />
+                  <InputField label="Phone" isDisabled={isRegistered} name="phone" defaultValue={reservation.user.phone} />
                 </div>
               </div>
 
