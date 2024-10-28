@@ -39,6 +39,7 @@ export type UserData = {
   surname: string;
   email?: string;
   phone?: string;
+  registered: boolean;
 };
 
 /** Represents company related information */
