@@ -14,7 +14,7 @@ export default function useGetReservations(): Return<ReservationData[] | null> {
 
   const getReservations = useCallback(async () => {
     try {
-      const response = await client.get("reservation");
+      const response = await client.get("reservations");
       if (response.status == HttpStatusCode.Ok) {
         setData(response.data);
       }

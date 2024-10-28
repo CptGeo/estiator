@@ -43,7 +43,7 @@ export default function EditReservationModal(props: Props) {
         table: values.table,
         time: values.time
       };
-      await client.patch(`/reservation/${reservation.id}`, { ...data });
+      await client.patch(`/reservations/${reservation.id}`, { ...data });
     } catch (error) {
       console.error(error);
     } finally {

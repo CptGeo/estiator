@@ -16,7 +16,7 @@ export default function RemoveReservationModal(props: Props) {
   async function handleAction() {
     try {
       setLoading(true);
-      await client.delete(`/reservation/${reservation.id}`);
+      await client.delete(`/reservations/${reservation.id}`);
     } catch (error) {
       console.error(error);
     } finally {

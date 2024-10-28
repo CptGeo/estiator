@@ -20,7 +20,7 @@ export default function CancelReservationModal(props: Props) {
     };
     try {
       setLoading(true);
-      await client.put(`/reservation/${reservation.id}`, { ...data });
+      await client.put(`/reservations/${reservation.id}`, { ...data });
     } catch (error) {
       console.error(error);
     } finally {
