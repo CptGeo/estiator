@@ -45,7 +45,7 @@ export default function ReservationsTable() {
               name={getFullName(reservation.user)}
         />
         </TableCell>
-        <TableCell>
+        <TableCell textValue="Date">
             <DatePicker
               isReadOnly
               aria-label="Date"
@@ -53,11 +53,11 @@ export default function ReservationsTable() {
               granularity="day"
               value={date} />
         </TableCell>
-        <TableCell><Input value={time.toString().slice(0, -3)} aria-label="Time" isReadOnly /></TableCell>
-        <TableCell><Input value={reservation.table.toString()} aria-label="Table" isReadOnly /></TableCell>
-        <TableCell><Input value={reservation.persons.toString()} aria-label="Persons" isReadOnly /></TableCell>
-        <TableCell><Status status={reservation.status} /></TableCell>
-        <TableCell><div><ReservationsActions reservation={reservation} /></div></TableCell>
+        <TableCell textValue="Time"><Input className="min-w-20" value={time.toString().slice(0, -3)} aria-label="Time" isReadOnly /></TableCell>
+        <TableCell textValue="Table"><Input className="min-w-16" value={reservation.table.toString()} aria-label="Table" isReadOnly /></TableCell>
+        <TableCell textValue="Persons"><Input className="min-w-10" value={reservation.persons.toString()} aria-label="Persons" isReadOnly /></TableCell>
+        <TableCell textValue="Status"><Status status={reservation.status} /></TableCell>
+        <TableCell textValue="Actions"><div><ReservationsActions reservation={reservation} /></div></TableCell>
     </TableRow>
     )
   }, [reservations]);
@@ -90,7 +90,7 @@ export default function ReservationsTable() {
         )}
       </TableHeader>
       <TableBody
-          emptyContent={<p>Currently, there are no reservations</p>}
+          emptyContent={<p>No reservations to display</p>}
           isLoading={!Array.isArray(reservations)}
           items={items || []}
           loadingContent={<Spinner label="Loading..." />}
