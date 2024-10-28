@@ -11,7 +11,7 @@ type Props = {
   reservation: ReservationData;
 }
 
-const enum Action {
+enum Action {
   CANCEL = "cancel",
   CONFIRM = "confirm",
   EDIT = "edit",
