@@ -30,7 +30,7 @@ export default function EditReservationModal(props: Props) {
       surname: reservation.user.surname,
       email: reservation.user.email,
       persons: reservation.persons.toString(),
-      table: reservation.table.toString()
+      table: reservation.table
     }
   });
 
@@ -75,7 +75,7 @@ export default function EditReservationModal(props: Props) {
                 </div>
                 <div className="flex-grow w-3/4 flex flex-col gap-2">
                   <NumberField isRequired label="Persons" name="persons" defaultValue={reservation.persons.toString()} />
-                  <NumberField isRequired label="Table" name="table" defaultValue={reservation.table.toString()} />
+                  <InputField isRequired label="Table" name="table" defaultValue={reservation.table} />
                   <InputField isRequired label="Name" name="name" isDisabled={isRegistered} defaultValue={reservation.user.name} />
                   <InputField isRequired label="Surname" isDisabled={isRegistered} name="surname" defaultValue={reservation.user.surname} />
                   <EmailField isRequired label="Email" isDisabled={isRegistered} name="email" defaultValue={reservation.user.email} />
@@ -97,7 +97,7 @@ export default function EditReservationModal(props: Props) {
                 </Button>
               </ModalFooter>
               </form>
-              <DevTool control={methods.control} />
+              {/* <DevTool control={methods.control} /> */}
             </FormProvider>
           )}
         </ModalContent>

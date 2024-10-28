@@ -64,5 +64,5 @@ export type ReservationData = {
   user: UserData,
   status: ReservationStatus,
   persons: number,
-  table: number
+  table: string
 };
