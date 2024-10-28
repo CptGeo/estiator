@@ -41,7 +41,7 @@ export default function ReservationsTable() {
   }, [reservations?.length]);
 
   const bottomContent = useMemo(() => {
-    if (reservations?.length == 0) {
+    if (!reservations || reservations.length == 0) {
       return;
     }
 
