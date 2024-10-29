@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --grid-size: 20px;
+}
+
 html {
   margin: 0;
   padding: 0;
@@ -30,4 +34,26 @@ body {
   .navigation-link.active {
     @apply border-inherit;
   }
+}
+
+
+.grid-bg {
+  background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent calc(var(--grid-size) - 1px),
+      #ddd calc(var(--grid-size) - 1px),
+      #ddd var(--grid-size)
+    ),
+    repeating-linear-gradient(
+      -90deg,
+      transparent,
+      transparent calc(var(--grid-size) - 1px),
+      #ddd calc(var(--grid-size) - 1px),
+      #ddd var(--grid-size)
+    );
+    /* background-size: var(--grid-size) var(--grid-size); */
+    /* background-image:
+      linear-gradient(to right, grey 1px, transparent 1px),
+      linear-gradient(to bottom, grey 1px, transparent 1px); */
 }
