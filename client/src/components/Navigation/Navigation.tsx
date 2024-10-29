@@ -1,6 +1,6 @@
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Image } from "@nextui-org/react";
 import logo from "../../assets/images/logo.png";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ReactElement } from "react";
 import { useAuth } from "../../context/Authentication";
 import UserMenu from "../UserMenu/UserMenu";
