@@ -3,9 +3,9 @@
   "lastMigration": 32,
   "name": "Estiator API v0.1",
   "endpointPrefix": "",
-  "latency": 100,
+  "latency": 0,
   "port": 7777,
-  "hostname": "",
+  "hostname": "0.0.0.0",
   "folders": [],
   "routes": [
     {
@@ -71,7 +71,7 @@
       "type": "crud",
       "documentation": "Contains reservations",
       "method": "",
-      "endpoint": "reservation",
+      "endpoint": "reservations",
       "responses": [
         {
           "uuid": "56d0e323-c6fe-43c7-b970-686225284fe9",
@@ -304,7 +304,7 @@
       "id": "usje",
       "name": "Reservation",
       "documentation": "",
-      "value": "[\r\n  {\r\n    \"id\": 1,\r\n    \"date\": \"12-10-2024\",\r\n    \"time\": \"13:30:00\",\r\n    \"name\": \"George Kalyvianakis\",\r\n    \"email\": \"george@george.com\"\r\n  },\r\n  {\r\n    \"id\": 2,\r\n    \"date\": \"12-10-2024\",\r\n    \"time\": \"13:30:00\",\r\n    \"name\": \"George Kalyvianakis\",\r\n    \"email\": \"george@george.com\"\r\n  },\r\n  {\r\n    \"id\": 3,\r\n    \"date\": \"12-10-2024\",\r\n    \"time\": \"13:30:00\",\r\n    \"name\": \"George Kalyvianakis\",\r\n    \"email\": \"george@george.com\"\r\n  },\r\n]"
+      "value": "[\n  {{#repeat (queryParam 'total' '6')}}\n  {\n    \"id\": {{@index}},\n    \"date\": \"2024-12-10\",\n    \"time\": \"{{faker 'number.int' min=10 max=23}}:{{oneOf (array '00' '30')}}\",\n    \"user\": {\n      \"registered\": {{boolean}},\n      \"name\": \"{{firstName}}\",\n      \"surname\": \"{{faker 'person.lastName'}}\",\n      \"email\": \"{{email}}\",\n      \"phone\": \"{{faker 'phone.number' national}}\"\n    },\n    \"status\": \"{{oneOf (array 'completed' 'pending' 'cancelled' 'confirmed')}}\",\n    \"persons\": {{faker 'number.int' min=1 max=6}},\n    \"table\": \"{{oneOf (array 'A1' 'A2' 'A3' 'B1' 'B2' 'B3' 'C1' 'C2' 'C3' 'D1' 'D2' 'E1' 'E2' 'F1')}}\"\n  }\n  {{/repeat}}\n]\n"
     },
     {
       "uuid": "c47b455e-2842-448d-b760-b0e6f1c33ee7",

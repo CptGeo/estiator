@@ -4,12 +4,12 @@ import { RegisterOptions } from "react-hook-form";
 
 export type ControlledInputProps = {
   name: string;
-  label: string;
+  label?: string;
   rules?: RegisterOptions;
 } & InputProps;
 
 export type ControlledSelectProps = {
   name: string;
-  label: string;
+  label?: string;
   rules?: RegisterOptions;
 } & SelectProps;

@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../../context/Authentication";
 import DrawerProvider from "../../context/Drawer";
 import MainContent from "./MainContent";
+
 export default function PrivateLayout(): ReactElement {
   const auth = useAuth();
 

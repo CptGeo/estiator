@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:expose": "vite --host",
     "styles:build": "tailwindcss -i ./src/input.css -o ./build/output.css",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

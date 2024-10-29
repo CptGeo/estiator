@@ -5,9 +5,11 @@ import Footer from "../components/Footer/Footer";
 
 export default function MainLayout(): ReactElement {
   return (
-    <div className="main">
+    <div className="main flex flex-col min-h-screen">
       <Navigation />
-      <Outlet />
+      <div className="flex-grow px-5 container mx-auto">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );

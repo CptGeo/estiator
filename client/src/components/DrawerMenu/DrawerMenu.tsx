@@ -1,22 +1,33 @@
-import { Button, User } from "@nextui-org/react";
-import { ReactElement, useState } from "react";
+import { Button } from "@nextui-org/react";
+import { ReactElement } from "react";
 import MenuCloseIcon from "../Icons/MenuCloseIcon";
 import MenuOpenIcon from "../Icons/MenuOpenIcon";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import HomeIcon from "../Icons/HomeIcon";
 import PlaygroundIcon from "../Icons/PlaygroundIcon";
 import SettingsIcon from "../Icons/SettingsIcon";
 import CompanyAvatar from "../Avatar/Company";
 import { useDrawer } from "../../context/Drawer";
+import TableClockIcon from "../Icons/TableClockIcon";
 
 export default function DrawerMenu(): ReactElement {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { open, toggleDrawer } = useDrawer();
 
   function DrawerItem(props:  { to: string, icon: ReactElement, text: string } ): ReactElement {
     const { to, icon, text } = props;
-    return <Button onClick={() => navigate(to)} variant="light" className="justify-start text-slate-300" startContent={icon}>{text}</Button>
+    const current = location.pathname == to;
+    return (
+      <Button
+        onClick={() => navigate(to)}
+        variant="light"
+        className={`justify-start text-slate-300 ${current ? "bg-slate-600" : ""}`}
+        startContent={icon}>
+        {text}
+      </Button>
+    );
   }
 
   return (
@@ -28,6 +39,7 @@ export default function DrawerMenu(): ReactElement {
         <div className="flex flex-col gap-2">
           <DrawerItem to="/" text="Home" icon={<HomeIcon />} />
           <DrawerItem to="/playground" text="Playground" icon={<PlaygroundIcon />} />
+          <DrawerItem to="/reservations-management" text="Reservations Management" icon={<TableClockIcon />} />
         </div>
 
         <div className="flex flex-col gap-2">

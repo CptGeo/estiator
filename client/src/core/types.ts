@@ -34,13 +34,35 @@ export type Credentials = {
 
 /** Represent the returned user data after a user has logged in */
 export type UserData = {
-  username: string;
+  username?: string;
   name: string;
   surname: string;
-  email: string;
+  email?: string;
+  phone?: string;
+  registered: boolean;
 };
 
+/** Represents company related information */
 export type CompanyData = {
   name: string;
   description: string;
+};
+
+/** Represents statuses of reservations */
+export enum ReservationStatus {
+  CANCELLED = "cancelled",
+  COMPLETED = "completed",
+  PENDING = "pending",
+  CONFIRMED = "confirmed"
+}
+
+/** Represents reservation data */
+export type ReservationData = {
+  id: string | number,
+  date: string, // "YYYY-MM-DD"
+  time: string,
+  user: UserData,
+  status: ReservationStatus,
+  persons: number,
+  table: string
 };

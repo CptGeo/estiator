@@ -8,10 +8,10 @@ export default function MainContent() {
   const { open } = useDrawer();
 
   return (
-    <div className={`main transition-all ${open ? "pl-[300px]" : ""}`}>
+    <div className={`main min-h-screen flex flex-col transition-all ${open ? "pl-[300px]" : ""}`}>
       <Navigation />
       <DrawerMenu />
-      <div className="container max-w-[1400px] mx-auto px-3 pt-3">
+      <div className="container max-w-[1400px] mx-auto px-5 mt-7 flex-grow">
         <Outlet />
       </div>
       <Footer />
