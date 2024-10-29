@@ -13,7 +13,7 @@ import { today } from "@internationalized/date";
 
 type Props = ReturnType<typeof useDisclosure>;
 
-export default function AddReservationModal(props: Props) {
+export default function CreateReservationModal(props: Props) {
   const { isOpen, onOpenChange, onClose } = props;
   const [loading, setLoading] = useState(false);
 
@@ -65,7 +65,7 @@ export default function AddReservationModal(props: Props) {
             <FormProvider {...methods}>
               <form onSubmit={methods.handleSubmit(onSubmit)}>
               <ModalHeader className="gap-1">
-                Add reservation<br />
+                Create reservation<br />
               </ModalHeader>
               <ModalBody>
               <div className="gap-4 md:flex">

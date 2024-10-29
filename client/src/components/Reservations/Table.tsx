@@ -7,7 +7,7 @@ import ReservationsActions from "./Actions";
 import { getFullName } from "../../core/utils";
 import useGetReservations from "../../hooks/useGetReservations";
 import AddIcon from "../Icons/AddIcon";
-import AddReservationModal from "../Modal/AddReservation";
+import CreateReservationModal from "../Modal/CreateReservation";
 
 const columns = [
   { name: "NAME", uid: "name" },
@@ -24,7 +24,7 @@ export default function ReservationsTable() {
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
   const pages = reservations ? Math.ceil(reservations.length / rowsPerPage) : 0;
-  const addDisclosure = useDisclosure();
+  const createDisclosure = useDisclosure();
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -37,7 +37,7 @@ export default function ReservationsTable() {
     return (
       <div className="flex flex-row justify-between items-end">
         <p className="text-xs text-default-600">{count! > 0 && `Total ${reservations?.length} reservation${count! > 1 ? "s" : ""}`}</p>
-        <Button color="primary" onClick={addDisclosure.onOpen}><AddIcon className="text-md" />Add reservation</Button>
+        <Button color="primary" onClick={createDisclosure.onOpen}><AddIcon className="text-md" />Create reservation</Button>
       </div>
     )
   }, [reservations?.length]);
@@ -123,7 +123,7 @@ export default function ReservationsTable() {
           {(reservation) => renderRow(reservation)}
         </TableBody>
       </Table>
-      <AddReservationModal {...addDisclosure} />
+      <CreateReservationModal {...createDisclosure} />
     </>
   );
 }
