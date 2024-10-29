@@ -34,9 +34,7 @@ export default function RemoveReservationModal(props: Props) {
       confirmButtonProps={{ color: "danger", isLoading: loading }}
       body={
         <p>
-          The reservation of customer{" "}
-          <strong>{getFullName(reservation.user)}</strong> will be{" "}
-          <strong>removed</strong>
+          The reservation of customer <strong>{getFullName(reservation.user)}</strong> will be <strong>removed.</strong>
           <br />
           Are you sure you want to continue?
         </p>
