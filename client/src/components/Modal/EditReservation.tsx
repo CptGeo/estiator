@@ -29,6 +29,7 @@ export default function EditReservationModal(props: Props) {
       name: reservation.user.name,
       surname: reservation.user.surname,
       email: reservation.user.email,
+      phone: reservation.user.phone,
       persons: reservation.persons.toString(),
       table: reservation.table
     }
@@ -101,7 +102,7 @@ export default function EditReservationModal(props: Props) {
                   Cancel
                 </Button>
                 <Button color="primary" type="submit" isLoading={loading}>
-                  Update
+                  Update reservation
                 </Button>
               </ModalFooter>
               </form>
