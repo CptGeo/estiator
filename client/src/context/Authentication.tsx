@@ -1,8 +1,8 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react"
 import { client } from "../core/request";
 import { useNavigate } from "react-router-dom";
-import { sleep } from "../core/utils";
-import { AxiosError } from "axios";
+import { ensureErr, sleep } from "../core/utils";
+import { AxiosError, HttpStatusCode } from "axios";
 import { AuthValue, Credentials, UserData } from "../core/types";
 
 const AuthContext = createContext<AuthValue | null>(null);
@@ -40,11 +40,17 @@ export function AuthProvider( props: PropsWithChildren ) {
       localStorage.setItem("user", JSON.stringify(response.data.data.user));
       localStorage.setItem("token", response.data.data.token);
 
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        navigate("/login", { replace: true, state: error.response?.data.message });
-      }
+    } catch (err) {
       /** @todo Notify for failed login */
+      let message = "";
+      if (err instanceof AxiosError) {
+        message = err.response ? err.response.data.message : err.message;
+      } else {
+        const error = ensureErr(err);
+        message = error.message;
+      }
+      console.error(err);
+      navigate("/login", { replace: true, state: message });
     } finally {
       setLoading(false);
     }
