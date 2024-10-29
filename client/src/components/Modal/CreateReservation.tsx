@@ -65,7 +65,7 @@ export default function CreateReservationModal(props: Props) {
             <FormProvider {...methods}>
               <form onSubmit={methods.handleSubmit(onSubmit)}>
               <ModalHeader className="gap-1">
-                Create reservation<br />
+                New reservation<br />
               </ModalHeader>
               <ModalBody>
               <div className="gap-4 md:flex">
