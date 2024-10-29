@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Spinner, Pagination, Button } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Spinner, Pagination, Button, useDisclosure } from "@nextui-org/react";
 import Status from "../Status/Status";
 import { parseDate, parseTime } from "@internationalized/date";
 import { ReservationData } from "../../core/types";
@@ -7,6 +7,7 @@ import ReservationsActions from "./Actions";
 import { getFullName } from "../../core/utils";
 import useGetReservations from "../../hooks/useGetReservations";
 import AddIcon from "../Icons/AddIcon";
+import AddReservationModal from "../Modal/AddReservation";
 
 const columns = [
   { name: "NAME", uid: "name" },
@@ -23,6 +24,7 @@ export default function ReservationsTable() {
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
   const pages = reservations ? Math.ceil(reservations.length / rowsPerPage) : 0;
+  const addDisclosure = useDisclosure();
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -35,7 +37,7 @@ export default function ReservationsTable() {
     return (
       <div className="flex flex-row justify-between items-end">
         <p className="text-xs text-default-600">{count! > 0 && `Total ${reservations?.length} reservation${count! > 1 ? "s" : ""}`}</p>
-        <Button color="primary"><AddIcon className="text-md" />Add reservation</Button>
+        <Button color="primary" onClick={addDisclosure.onOpen}><AddIcon className="text-md" />Add reservation</Button>
       </div>
     )
   }, [reservations?.length]);
@@ -94,31 +96,34 @@ export default function ReservationsTable() {
   }, [reservations]);
 
   return (
-    <Table
-      topContentPlacement="outside"
-      topContent={topContent}
-      aria-label="Example table with custom cells"
-      bottomContent={bottomContent}
-      bottomContentPlacement="outside"
-    >
-      <TableHeader columns={columns}>
-        {(column) => (
-          <TableColumn
-            key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
-          >
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody
-          emptyContent={<p>No reservations to display</p>}
-          isLoading={!Array.isArray(reservations)}
-          items={items || []}
-          loadingContent={<Spinner label="Loading..." />}
+    <>
+      <Table
+        topContentPlacement="outside"
+        topContent={topContent}
+        aria-label="Example table with custom cells"
+        bottomContent={bottomContent}
+        bottomContentPlacement="outside"
       >
-        {(reservation) => renderRow(reservation)}
-      </TableBody>
-    </Table>
+        <TableHeader columns={columns}>
+          {(column) => (
+            <TableColumn
+              key={column.uid}
+              align={column.uid === "actions" ? "center" : "start"}
+            >
+              {column.name}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody
+            emptyContent={<p>No reservations to display</p>}
+            isLoading={!Array.isArray(reservations)}
+            items={items || []}
+            loadingContent={<Spinner label="Loading..." />}
+        >
+          {(reservation) => renderRow(reservation)}
+        </TableBody>
+      </Table>
+      <AddReservationModal {...addDisclosure} />
+    </>
   );
 }
