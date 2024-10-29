@@ -25,6 +25,7 @@ export default function EditReservationModal(props: Props) {
     mode: "onChange",
     defaultValues: {
       date: parseDate(reservation.date),
+      time: reservation.time,
       name: reservation.user.name,
       surname: reservation.user.surname,
       email: reservation.user.email,
@@ -77,16 +78,16 @@ export default function EditReservationModal(props: Props) {
               <ModalBody>
               <div className="gap-4 md:flex">
                 <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2">
-                  <CalendarPlainField name="date" showMonthAndYearPickers defaultValue={parseDate(reservation.date)} />
-                  <TimeField label="Time" name="time" placeholder="Time" defaultSelectedKeys={[reservation.time]} />
+                  <CalendarPlainField name="date" showMonthAndYearPickers />
+                  <TimeField label="Time" name="time" placeholder="Time" />
                 </div>
                 <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
-                  <NumberField isRequired label="Persons" name="persons" defaultValue={reservation.persons.toString()} />
-                  <InputField isRequired label="Table" name="table" defaultValue={reservation.table} />
-                  <InputField isRequired label="Name" name="name" isDisabled={isRegistered} defaultValue={reservation.user.name} />
-                  <InputField isRequired label="Surname" isDisabled={isRegistered} name="surname" defaultValue={reservation.user.surname} />
-                  <EmailField isRequired label="Email" isDisabled={isRegistered} name="email" defaultValue={reservation.user.email} />
-                  <InputField label="Phone" isDisabled={isRegistered} name="phone" defaultValue={reservation.user.phone} />
+                  <NumberField isRequired label="Persons" name="persons" />
+                  <InputField isRequired label="Table" name="table" />
+                  <InputField isRequired label="Name" name="name" isDisabled={isRegistered} />
+                  <InputField isRequired label="Surname" isDisabled={isRegistered} name="surname" />
+                  <EmailField isRequired label="Email" isDisabled={isRegistered} name="email" />
+                  <InputField label="Phone" isDisabled={isRegistered} name="phone" />
                 </div>
               </div>
 
