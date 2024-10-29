@@ -14,6 +14,7 @@ export default function UserAvatar(props: { user: UserData }) {
             .charAt(0)
             .toUpperCase()}`,
           }}
+          classNames={{ name: "max-md:hidden", description: "max-md:hidden" }}
           className="transition-transform"
           description={`@${username}`}
           name={`${name} ${surname}`}
