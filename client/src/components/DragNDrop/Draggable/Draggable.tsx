@@ -58,7 +58,7 @@ export const Draggable = forwardRef<HTMLButtonElement, Props>(
           } as React.CSSProperties }
       >
         <button
-          className={`z-[999999] group !bg-warning relative w-[100px] h-[100px] text-lg ${buttonClassName}`} {...(handle ? {} : listeners)}
+          className={`z-[999999] group relative w-[100px] h-[100px] text-lg ${buttonClassName}`} {...(handle ? {} : listeners)}
           ref={ref}
           style={buttonStyle}
           aria-label="Table A1"
