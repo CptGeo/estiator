@@ -16,7 +16,7 @@ export default function GridWrapper(props: Props): ReactElement {
 
   return (
     <div className={combinedClassName} {...otherProps}> {/* !important rules because grid background needs a wrapper for the pattern to remain fixed to position */}
-        <div style={style} className="relative h-[1500px] w-[1500px] overflow-hidden grid-bg z-0 justify-between bg-content2 shadow-small">
+        <div style={style} className="relative h-[1500px] w-[1500px] overflow-hidden grid-bg z-0 justify-between bg-content2 shadow-inner">
           {children}
         </div>
     </div>
