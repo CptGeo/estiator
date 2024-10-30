@@ -56,7 +56,7 @@ export function DraggableStory({
           const gridSize = 20;
           const roundedX = (Math.floor((x + delta.x) / gridSize)) * gridSize;
           const roundedY = (Math.floor((y + delta.y) / gridSize)) * gridSize;
-          console.log(roundedX, roundedY);
+
           return { x: roundedX, y: roundedY };
         });
       }}
