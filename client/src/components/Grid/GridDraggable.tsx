@@ -37,15 +37,6 @@ export function GridDraggable({
   defaultCoordinates
 }: Props) {
 
-  // const coords = useMemo(() => {
-  //   console.log(defaultCoordinates);
-  //   return !defaultCoordinates ? {
-  //     "A1": { x: 0, y: 0 },
-  //     "A2": { x: 120, y: 80 },
-  //     "A3": { x: 240, y: 360 },
-  //   } : defaultCoordinates;
-  // }, [defaultCoordinates]);
-
   if (!defaultCoordinates) {
     defaultCoordinates = {
       "A1": { x: 0, y: 0 },
