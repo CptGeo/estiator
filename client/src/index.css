@@ -4,6 +4,7 @@
 
 :root {
   --grid-size: 20px;
+  --grid-size2: 20px;
 }
 
 html {
@@ -37,6 +38,13 @@ body {
 }
 
 
+.grid-outer-bg {
+  background: white;
+  background-image: radial-gradient(rgba(25, 25, 25, .3) 1px, transparent 0);
+  background-size: var(--grid-size2) var(--grid-size2);
+  background-position: -19px -19px;
+}
+
 .grid-bg {
   background-image: repeating-linear-gradient(
       0deg,
@@ -52,8 +60,4 @@ body {
       #ddd calc(var(--grid-size) - 1px),
       #ddd var(--grid-size)
     );
-    /* background-size: var(--grid-size) var(--grid-size); */
-    /* background-image:
-      linear-gradient(to right, grey 1px, transparent 1px),
-      linear-gradient(to bottom, grey 1px, transparent 1px); */
 }
