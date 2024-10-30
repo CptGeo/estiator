@@ -12,14 +12,14 @@ export default function TablesManagementPage(): ReactElement {
         heading="Tables management"
         subheading="Here you can manage your restaurant tables and layout"
       />
-      <GridWrapper>
-        <Example />
+      <GridWrapper size={20}>
+        <TablesGrid />
       </GridWrapper>
     </>
   );
 }
 
-const Example = () => {
+const TablesGrid = () => {
   const [gridSize] = useState(20);
   const gap = 1;
 
@@ -30,8 +30,8 @@ const Example = () => {
   const buttonStyle = {
     marginLeft: gridSize - 20 + gap,
     marginTop: gridSize - 20 + gap,
-    width: gridSize * 5 - gap,
-    height: gridSize * 4 - gap,
+    width: 20 * 5 - gap,
+    height: 20 * 4 - gap
   };
 
   const snapToGrid = useMemo(() => createSnapModifier(gridSize), [gridSize]);
@@ -67,11 +67,9 @@ const Example = () => {
         activationConstraint={activationConstraint}
         modifiers={[snapToGrid, restrictToFirstScrollableAncestor]}
         buttonStyle={buttonStyle}
-        buttonClassName={"!bg-success text-white"}
-        label={"A1"}
         style={style}
-        key={"table-A1"}
         defaultCoordinates={defaultCoordinates}
+        gridSize={gridSize}
       />
   );
 }

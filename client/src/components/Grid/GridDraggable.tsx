@@ -23,6 +23,7 @@ interface Props {
   style?: React.CSSProperties;
   defaultCoordinates?: DefaultCoordinates;
   label?: string;
+  gridSize: number;
 }
 
 export type DefaultCoordinates = Record<string, Coordinates>;
@@ -34,7 +35,8 @@ export function GridDraggable({
   style,
   buttonStyle,
   buttonClassName,
-  defaultCoordinates
+  defaultCoordinates,
+  gridSize
 }: Props) {
 
   if (!defaultCoordinates) {
@@ -71,7 +73,6 @@ export function GridDraggable({
           const x = prev[e.active.id].x;
           const y = prev[e.active.id].y;
           // normalize the final placement to be valid on the grid
-          const gridSize = 20;
           const roundedX = (Math.floor((x + delta.x) / gridSize)) * gridSize;
           const roundedY = (Math.floor((y + delta.y) / gridSize)) * gridSize;
 
