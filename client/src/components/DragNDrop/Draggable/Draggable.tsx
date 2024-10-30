@@ -7,14 +7,7 @@ import styles from './Draggable.module.css';
 import { EditIcon } from '../../Icons/EditIcon';
 import { Link } from 'react-router-dom';
 
-export enum Axis {
-  All,
-  Vertical,
-  Horizontal,
-}
-
 interface Props {
-  axis?: Axis;
   dragOverlay?: boolean;
   dragging?: boolean;
   handle?: boolean;
@@ -50,6 +43,7 @@ export const Draggable = forwardRef<HTMLButtonElement, Props>(
           dragOverlay && styles.dragOverlay,
           dragging && styles.dragging,
           handle && styles.handle,
+          "hover:z-50"
         )}
         style={{
             ...style,
@@ -58,7 +52,7 @@ export const Draggable = forwardRef<HTMLButtonElement, Props>(
           } as React.CSSProperties }
       >
         <button
-          className={`z-[999999] group relative w-[100px] h-[100px] text-lg ${buttonClassName}`} {...(handle ? {} : listeners)}
+          className={`z-auto group absolute w-[100px] h-[100px] text-lg ${buttonClassName}`} {...(handle ? {} : listeners)}
           ref={ref}
           style={buttonStyle}
           aria-label="Table A1"
