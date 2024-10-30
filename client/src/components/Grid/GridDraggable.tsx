@@ -60,7 +60,7 @@ export function GridDraggable({
   });
   const keyboardSensor = useSensor(KeyboardSensor, {});
   const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
-  console.log(coordinates);
+
   return (
     <DndContext
       sensors={sensors}
