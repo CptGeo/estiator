@@ -11,7 +11,7 @@ export default function TablesManagementPage(): ReactElement {
         heading="Tables management"
         subheading="Here you can manage your restaurant tables and layout"
       />
-      <div className="w-full overflow-auto max-h-[400px] md:max-h-[650px]"> {/* !important rules because grid background needs a wrapper for the pattern to remain fixed to position */}
+      <div className="grid-outer-bg w-full overflow-auto max-h-[400px] md:max-h-[650px]"> {/* !important rules because grid background needs a wrapper for the pattern to remain fixed to position */}
         <div className="relative h-[1500px] w-[1500px] overflow-hidden grid-bg z-0 justify-between bg-content2 rounded-large shadow-small">
           <Example />
         </div>
