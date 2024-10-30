@@ -63,7 +63,6 @@ const Example = () => {
   }
 
   return (
-    <>
       <GridDraggable
         activationConstraint={activationConstraint}
         modifiers={[snapToGrid, restrictToFirstScrollableAncestor]}
@@ -74,6 +73,5 @@ const Example = () => {
         key={"table-A1"}
         defaultCoordinates={defaultCoordinates}
       />
-    </>
   );
 }
