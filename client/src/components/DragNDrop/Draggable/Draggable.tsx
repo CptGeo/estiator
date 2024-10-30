@@ -29,9 +29,7 @@ export const Draggable = forwardRef<HTMLButtonElement, Props>(
       transform,
       style,
       buttonStyle,
-      buttonClassName,
-      label,
-      ...props
+      label
     },
     ref
   ) {
@@ -72,28 +70,29 @@ type ItemProps = {
   buttonStyle?: React.CSSProperties;
 }
 
-function GridTableItem(props: ItemProps & { ref: ForwardedRef<HTMLButtonElement> }): ReactElement {
-  const { ref, label, className, buttonStyle, handle, listeners } = props;
+const GridTableItem = forwardRef<HTMLButtonElement, ItemProps>(
+  function GridTableItem(props: ItemProps, ref): ReactElement {
+    const { label, className, buttonStyle, handle, listeners } = props;
 
-  const combinedClassName = classNames(
-    "z-auto group absolute w-[100px] h-[100px] text-lg",
-    className
-  );
+    const combinedClassName = classNames(
+      "z-auto group absolute w-[100px] h-[100px] text-lg",
+      className
+      );
 
-  console.log(combinedClassName);
+      return (
+        <button
+          className={combinedClassName} {...(handle ? {} : listeners)}
+          ref={ref}
+          style={buttonStyle}
+          aria-label={label}
+        >
+          <p className="text-xs absolute top-1">Τραπέζι</p>
+          <p className="text-xl absolute top-[50%] translate-y-[-50%] font-bold">{label}</p>
+          <Link to={`/${label}#`} color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
+            <EditIcon className="text-sm" />
+          </Link>
+      </button>
+      )
+    }
+)
 
-  return (
-    <button
-      className={combinedClassName} {...(handle ? {} : listeners)}
-      ref={ref}
-      style={buttonStyle}
-      aria-label={label}
-    >
-      <p className="text-xs absolute top-1">Τραπέζι</p>
-      <p className="text-xl absolute top-[50%] translate-y-[-50%] font-bold">{label}</p>
-      <Link to={`/${label}#`} color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
-        <EditIcon className="text-sm" />
-      </Link>
-  </button>
-  )
-}
