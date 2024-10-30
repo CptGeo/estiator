@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef, ReactElement } from 'react';
+import React, { forwardRef, ReactElement } from 'react';
 import classNames from 'classnames';
 import type { DraggableSyntheticListeners } from '@dnd-kit/core';
 import type { Transform } from '@dnd-kit/utilities';

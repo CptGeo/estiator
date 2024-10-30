@@ -2,7 +2,7 @@ import { createContext, PropsWithChildren, useContext, useEffect, useState } fro
 import { client } from "../core/request";
 import { useNavigate } from "react-router-dom";
 import { ensureErr, sleep } from "../core/utils";
-import { AxiosError, HttpStatusCode } from "axios";
+import { AxiosError } from "axios";
 import { AuthValue, Credentials, UserData } from "../core/types";
 
 const AuthContext = createContext<AuthValue | null>(null);

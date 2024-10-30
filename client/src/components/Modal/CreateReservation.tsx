@@ -46,7 +46,7 @@ export default function CreateReservationModal(props: Props) {
     } catch (error) {
       console.error(error);
     } finally {
-      methods.reset({persons: 5});
+      methods.reset({ persons: 5 });
       setLoading(false);
       onClose();
     }
