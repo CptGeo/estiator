@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { ForwardedRef, forwardRef, ReactElement } from 'react';
 import classNames from 'classnames';
 import type { DraggableSyntheticListeners } from '@dnd-kit/core';
 import type { Transform } from '@dnd-kit/utilities';
@@ -51,22 +51,49 @@ export const Draggable = forwardRef<HTMLButtonElement, Props>(
             '--translate-y': `${transform?.y ?? 0}px`,
           } as React.CSSProperties }
       >
-        <button
-          className={`z-auto group absolute w-[100px] h-[100px] text-lg ${buttonClassName}`} {...(handle ? {} : listeners)}
+        <GridTableItem
+          label={label}
           ref={ref}
-          style={buttonStyle}
-          aria-label="Table A1"
-          {...props}
-          >
-            <p className="text-xs absolute top-1">Τραπέζι</p>
-            <p className="text-xl absolute top-[50%] translate-y-[-50%] font-bold">{label}</p>
-            <Link to={"#"} color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
-              <EditIcon className="text-sm" />
-            </Link>
-        </button>
-
-        {/* {label ? <label>{label}</label> : null} */}
+          className="bg-indigo-800 text-default-50"
+          buttonStyle={buttonStyle}
+          handle={handle}
+          listeners={listeners}
+        />
       </div>
     );
   }
 );
+
+type ItemProps = {
+  label?: string;
+  handle?: boolean;
+  listeners?: DraggableSyntheticListeners;
+  className?: string;
+  buttonStyle?: React.CSSProperties;
+}
+
+function GridTableItem(props: ItemProps & { ref: ForwardedRef<HTMLButtonElement> }): ReactElement {
+  const { ref, label, className, buttonStyle, handle, listeners } = props;
+
+  const combinedClassName = classNames(
+    "z-auto group absolute w-[100px] h-[100px] text-lg",
+    className
+  );
+
+  console.log(combinedClassName);
+
+  return (
+    <button
+      className={combinedClassName} {...(handle ? {} : listeners)}
+      ref={ref}
+      style={buttonStyle}
+      aria-label={label}
+    >
+      <p className="text-xs absolute top-1">Τραπέζι</p>
+      <p className="text-xl absolute top-[50%] translate-y-[-50%] font-bold">{label}</p>
+      <Link to={`/${label}#`} color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
+        <EditIcon className="text-sm" />
+      </Link>
+  </button>
+  )
+}
