@@ -66,6 +66,7 @@ export function GridDraggable({
       sensors={sensors}
       onDragEnd={(e) => {
         const delta = e.delta;
+        console.log(e);
         setCoordinates((prev) => {
           const x = prev[e.active.id].x;
           const y = prev[e.active.id].y;
