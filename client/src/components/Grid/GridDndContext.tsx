@@ -155,7 +155,7 @@ function GridTableDraggable({
             <Link to={`/${label}#`} color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
               <EditIcon className="text-sm" />
             </Link>
-            <p className="text-[12px] w-full text-right inline-block drop-shadow-lg shadow-2xl absolute right-0 bottom-0 pr-1">Άτομα: 4</p>
+            <p className="text-[12px] w-full text-right inline-block drop-shadow-lg absolute right-0 bottom-0 pr-1">Άτομα: 4</p>
         </button>
 
       </div>
