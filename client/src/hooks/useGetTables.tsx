@@ -7,7 +7,7 @@ import { equals } from "../core/utils";
 /**
  * @todo Implement such hooks using TanStack Query
  */
-export default function useGetTables(): TableData[] | undefined | null {
+export default function useGetTables(interval?: number): TableData[] | undefined | null {
   const [ data, setData ] = useState<TableData[] | null | undefined>(undefined);
 
   useEffect(() => {
@@ -25,10 +25,15 @@ export default function useGetTables(): TableData[] | undefined | null {
       }
     };
 
-    const i = setInterval(getTables, 2000);
-    return () => {
-      clearInterval(i);
+    if (interval) {
+      const i = setInterval(getTables, interval);
+      return () => {
+        clearInterval(i);
+      }
+    } else {
+      getTables();
     }
+
   }, [data]);
 
   return data;
