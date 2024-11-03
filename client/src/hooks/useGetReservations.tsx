@@ -9,6 +9,9 @@ type Return<T> = {
   loading: boolean;
 }
 
+/**
+ * @todo Implement such hooks using TanStack Query
+ */
 export default function useGetReservations(): Return<ReservationData[] | null> {
   const [ data, setData ] = useState<ReservationData[] | null>(null);
   const [ loading, setLoading ] = useState(false);

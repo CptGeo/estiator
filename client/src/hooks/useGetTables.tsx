@@ -4,6 +4,9 @@ import { TableData } from "../core/types";
 import { HttpStatusCode } from "axios";
 import { equals } from "../core/utils";
 
+/**
+ * @todo Implement such hooks using TanStack Query
+ */
 export default function useGetTables(): TableData[] | undefined | null {
   const [ data, setData ] = useState<TableData[] | null | undefined>(undefined);
 
