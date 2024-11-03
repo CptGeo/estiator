@@ -53,6 +53,10 @@ export function ensureErr(value: unknown): Error {
 /**
  * Returns `true` if data are equal, `false` otherwise.
  */
-export default function equals(obj1: unknown, obj2: unknown) {
+export function equals(obj1: unknown, obj2: unknown) {
     return JSON.stringify(obj1) == JSON.stringify(obj2);
+}
+
+export function isUndefined(value: unknown): value is undefined {
+    return typeof value === "undefined";
 }
