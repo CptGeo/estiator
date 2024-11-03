@@ -1,5 +1,5 @@
 import { createSnapModifier, restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
-import { GridDraggable } from "../Grid/GridDraggable";
+import { GridDndContext } from "../Grid/GridDndContext";
 import { ReactElement, useCallback, useMemo } from "react";
 import useGetTables from "../../hooks/useGetTables";
 import { isUndefined, normalize } from "../../core/utils";
@@ -35,7 +35,7 @@ export default function TablesGrid(props: Props): ReactElement {
   const getNormalizedTable = useCallback((data: TableData[] | null | undefined) => normalize<TableData>(data), [tables]);
 
   return !isUndefined(tables) ? (
-      <GridDraggable
+      <GridDndContext
         activationConstraint={activationConstraint}
         modifiers={[snapToGrid, restrictToFirstScrollableAncestor]}
         buttonStyle={buttonStyle}

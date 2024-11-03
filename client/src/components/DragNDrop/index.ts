@@ -1,1 +1,1 @@
-export { Draggable } from './Draggable';
+export { Draggable } from './TableDraggable';

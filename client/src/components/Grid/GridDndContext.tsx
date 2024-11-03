@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   DndContext,
   useDraggable,
@@ -10,17 +10,19 @@ import {
   Modifiers,
   useSensors
 } from '@dnd-kit/core';
-import type { Coordinates } from '@dnd-kit/utilities';
+import type { Coordinates, Transform } from '@dnd-kit/utilities';
 
-import { Draggable } from '../DragNDrop/index';
 import { Normalized, TableData } from '../../core/types';
+import classNames from 'classnames';
+import styles from '../DragNDrop/TableDraggable/TableDraggable.module.css';
+import { Link } from 'react-router-dom';
+import { EditIcon } from '../Icons/EditIcon';
 
 interface Props {
   activationConstraint?: PointerActivationConstraint;
   handle?: boolean;
   modifiers?: Modifiers;
   buttonStyle?: React.CSSProperties;
-  buttonClassName?: string ;
   style?: React.CSSProperties;
   tables: Normalized<TableData>;
   label?: string;
@@ -29,24 +31,27 @@ interface Props {
 
 export type DefaultCoordinates = Record<string, Coordinates>;
 
-export function GridDraggable({
+export function GridDndContext({
   activationConstraint,
   handle,
   modifiers,
   style,
   buttonStyle,
-  buttonClassName,
   tables,
   gridSize
 }: Props) {
 
   const [coordinates, setCoordinates] = useState<Normalized<TableData>>(tables);
-
   // Context specific hooks
   const mouseSensor = useSensor(MouseSensor, { activationConstraint });
   const touchSensor = useSensor(TouchSensor, { activationConstraint });
   const keyboardSensor = useSensor(KeyboardSensor, {});
   const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
+
+  // TODO: Find a way to this temporary fix;
+  useEffect(() => {
+    setCoordinates(tables);
+  }, [tables]);
 
   return (
     <DndContext
@@ -75,15 +80,15 @@ export function GridDraggable({
     >
       {coordinates && Object.entries(coordinates).map(([key]) => {
         return coordinates[key] && (
-          <DraggableItem
+          <GridTableDraggable
             key={key}
             handle={handle}
             top={coordinates[key].y}
             left={coordinates[key].x}
             style={style}
             buttonStyle={buttonStyle}
-            buttonClassName={buttonClassName}
-            label={key}
+            buttonClassName={coordinates[key].color}
+            label={coordinates[key].label}
           />
         );
       })}
@@ -91,7 +96,7 @@ export function GridDraggable({
   );
 }
 
-interface DraggableItemProps {
+interface GridTableDraggableProps {
   handle?: boolean;
   style?: React.CSSProperties;
   buttonStyle?: React.CSSProperties;
@@ -99,35 +104,55 @@ interface DraggableItemProps {
   top?: number;
   left?: number;
   label?: string;
+  dragOverlay?: boolean;
+  dragging?: boolean;
+  transform?: Transform | null;
 }
 
-function DraggableItem({
+function GridTableDraggable({
   style,
   top,
   left,
   handle,
   label,
   buttonStyle,
-  buttonClassName
-}: DraggableItemProps) {
+  buttonClassName,
+  dragOverlay,
+}: GridTableDraggableProps) {
   const id = label?.split(" ").join("-") ?? "any";
-  const { attributes, isDragging, listeners, setNodeRef, transform } =
-  useDraggable({
-    id,
-  });
+  const { attributes, isDragging, listeners, setNodeRef, transform } = useDraggable({ id });
 
   return (
-    <Draggable
-      ref={setNodeRef}
-      dragging={isDragging}
-      handle={handle}
-      listeners={listeners}
-      style={{ ...style, top, left }}
-      buttonStyle={buttonStyle}
-      buttonClassName={buttonClassName}
-      transform={transform}
-      label={label}
-      {...attributes}
-    />
+    <div
+        {...attributes}
+        className={classNames(
+          styles.Draggable,
+          dragOverlay && styles.dragOverlay,
+          isDragging && styles.dragging,
+          handle && styles.handle,
+          "hover:z-50"
+        )}
+        style={{
+            ...style,
+            top,
+            left,
+            '--translate-x': `${transform?.x ?? 0}px`,
+            '--translate-y': `${transform?.y ?? 0}px`,
+          } as React.CSSProperties }
+      >
+        <button
+            className={classNames("text-default-50 z-auto group absolute w-[100px] h-[100px] text-lg", buttonClassName ?? "bg-default-800")}
+            ref={setNodeRef}
+            style={buttonStyle}
+            aria-label={label}
+            {...(handle ? {} : listeners)}>
+            <p className="text-xs absolute top-1">Τραπέζι</p>
+            <p className="text-xl absolute top-[50%] translate-y-[-50%] font-bold">{label}</p>
+            <Link to={`/${label}#`} color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
+              <EditIcon className="text-sm" />
+            </Link>
+        </button>
+
+      </div>
   );
 }

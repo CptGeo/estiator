@@ -1,3 +1,5 @@
+/* TODO: Find a way to get rid of this file */
+
 .Draggable {
   position: relative;
   display: flex;
@@ -46,33 +48,6 @@
         margin-right: -10px;
       }
     }
-  }
-
-  img {
-    width: 140px;
-    user-select: none;
-    pointer-events: none;
-  }
-
-  label {
-    display: block;
-    flex-shrink: 1;
-    padding: 10px;
-    transition: opacity 250ms ease;
-
-    text-align: center;
-    font-size: 1rem;
-    font-weight: 300;
-    color: #8d8d8d;
-    user-select: none;
-    cursor: url('/cursor.svg'), auto;
-
-    animation-name: pulse;
-    animation-duration: 1.5s;
-    animation-delay: 2s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease;
-    animation-direction: alternate;
   }
 
   &.dragging {
