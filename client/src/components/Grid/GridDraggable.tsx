@@ -39,21 +39,13 @@ export function GridDraggable({
   gridSize
 }: Props) {
 
-  if (!defaultCoordinates) {
-    defaultCoordinates = {
-      "A1": { x: 0, y: 0 },
-      "A2": { x: 120, y: 80 },
-      "A3": { x: 240, y: 360 },
-    }
-  }
-
   useEffect(() => {
     if (typeof defaultCoordinates !== "undefined") {
       setCoordinates(defaultCoordinates);
     }
   }, [defaultCoordinates]);
 
-  const [coordinates, setCoordinates] = useState<DefaultCoordinates>(defaultCoordinates);
+  const [coordinates, setCoordinates] = useState<DefaultCoordinates>(defaultCoordinates || {});
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint,
   });
