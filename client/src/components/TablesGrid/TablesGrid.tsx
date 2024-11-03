@@ -1,9 +1,10 @@
 import { createSnapModifier, restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
-import { DefaultCoordinates, GridDraggable } from "../Grid/GridDraggable";
+import { GridDraggable } from "../Grid/GridDraggable";
 import { ReactElement, useCallback, useMemo } from "react";
 import useGetTables from "../../hooks/useGetTables";
-import { isUndefined } from "../../core/utils";
+import { isUndefined, normalize } from "../../core/utils";
 import { Spinner } from "@nextui-org/react";
+import { TableData } from "../../core/types";
 
 type Props = {
   size: number;
@@ -30,20 +31,8 @@ export default function TablesGrid(props: Props): ReactElement {
     tolerance: 5
   };
 
-  const tables  = useGetTables();
-
-  const getCoordinates = useCallback(() => {
-    if (tables) {
-      const coords: DefaultCoordinates = {};
-      for (const table of tables) {
-        coords[table.id] = { ...table.coordinates };
-      }
-      return coords;
-    }
-    return {};
-  }, [tables]);
-
-  const defaultCoordinates = getCoordinates();
+  const tables = useGetTables();
+  const getNormalizedTable = useCallback((data: TableData[] | null | undefined) => normalize<TableData>(data), [tables]);
 
   return !isUndefined(tables) ? (
       <GridDraggable
@@ -51,7 +40,7 @@ export default function TablesGrid(props: Props): ReactElement {
         modifiers={[snapToGrid, restrictToFirstScrollableAncestor]}
         buttonStyle={buttonStyle}
         style={style}
-        defaultCoordinates={defaultCoordinates}
+        tables={getNormalizedTable(tables)}
         gridSize={gridSize}
       />
   ) : <div className="p-4"><Spinner /></div>;

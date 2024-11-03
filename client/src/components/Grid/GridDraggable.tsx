@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   DndContext,
   useDraggable,
@@ -13,6 +13,7 @@ import {
 import type { Coordinates } from '@dnd-kit/utilities';
 
 import { Draggable } from '../DragNDrop/index';
+import { Normalized, TableData } from '../../core/types';
 
 interface Props {
   activationConstraint?: PointerActivationConstraint;
@@ -21,7 +22,7 @@ interface Props {
   buttonStyle?: React.CSSProperties;
   buttonClassName?: string ;
   style?: React.CSSProperties;
-  defaultCoordinates?: DefaultCoordinates;
+  tables: Normalized<TableData>;
   label?: string;
   gridSize: number;
 }
@@ -35,23 +36,15 @@ export function GridDraggable({
   style,
   buttonStyle,
   buttonClassName,
-  defaultCoordinates,
+  tables,
   gridSize
 }: Props) {
 
-  useEffect(() => {
-    if (typeof defaultCoordinates !== "undefined") {
-      setCoordinates(defaultCoordinates);
-    }
-  }, [defaultCoordinates]);
+  const [coordinates, setCoordinates] = useState<Normalized<TableData>>(tables);
 
-  const [coordinates, setCoordinates] = useState<DefaultCoordinates>(defaultCoordinates || {});
-  const mouseSensor = useSensor(MouseSensor, {
-    activationConstraint,
-  });
-  const touchSensor = useSensor(TouchSensor, {
-    activationConstraint,
-  });
+  // Context specific hooks
+  const mouseSensor = useSensor(MouseSensor, { activationConstraint });
+  const touchSensor = useSensor(TouchSensor, { activationConstraint });
   const keyboardSensor = useSensor(KeyboardSensor, {});
   const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
 
@@ -60,7 +53,7 @@ export function GridDraggable({
       sensors={sensors}
       onDragEnd={(e) => {
         const delta = e.delta;
-        console.log(e);
+
         setCoordinates((prev) => {
           const x = prev[e.active.id].x;
           const y = prev[e.active.id].y;
@@ -71,6 +64,7 @@ export function GridDraggable({
           return {
             ...prev,
             [e.active.id]: {
+              ...prev[e.active.id],
               x: roundedX,
               y: roundedY
             }
@@ -79,7 +73,7 @@ export function GridDraggable({
       }}
       modifiers={modifiers}
     >
-      {defaultCoordinates && Object.entries(defaultCoordinates).map(([key]) => {
+      {coordinates && Object.entries(coordinates).map(([key]) => {
         return coordinates[key] && (
           <DraggableItem
             key={key}
