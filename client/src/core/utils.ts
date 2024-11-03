@@ -49,3 +49,10 @@ export function ensureErr(value: unknown): Error {
     const error = new Error(`This value was thrown as is, not through an Error: ${stringified}`);
     return error;
 }
+
+/**
+ * Returns `true` if data are equal, `false` otherwise.
+ */
+export default function equals(obj1: unknown, obj2: unknown) {
+    return JSON.stringify(obj1) == JSON.stringify(obj2);
+}
