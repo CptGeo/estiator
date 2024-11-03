@@ -2,16 +2,10 @@ import { useEffect, useState } from "react";
 import { client } from "../core/request";
 import { TableData } from "../core/types";
 import { HttpStatusCode } from "axios";
-import equals from "../core/utils";
+import { equals } from "../core/utils";
 
-type Return<T> = {
-  data: T;
-  loading: boolean;
-}
-
-export default function useGetTables(): Return<TableData[] | null> {
-  const [ data, setData ] = useState<TableData[] | null>(null);
-  const [ loading, setLoading ] = useState(false);
+export default function useGetTables(): TableData[] | undefined | null {
+  const [ data, setData ] = useState<TableData[] | null | undefined>(undefined);
 
   useEffect(() => {
     async function getTables(): Promise<void> {
@@ -23,9 +17,8 @@ export default function useGetTables(): Return<TableData[] | null> {
           }
         }
       } catch (error) {
+        setData(null);
         console.error(error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -35,5 +28,5 @@ export default function useGetTables(): Return<TableData[] | null> {
     }
   }, [data]);
 
-  return { data, loading };
+  return data;
 }
