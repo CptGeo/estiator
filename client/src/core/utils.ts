@@ -1,5 +1,5 @@
 import { FieldValues, FormState } from "react-hook-form";
-import { UserData } from "./types";
+import { HasId, Normalized, UserData } from "./types";
 
 /**
  * Checks if field has any errors
@@ -60,3 +60,20 @@ export function equals(obj1: unknown, obj2: unknown) {
 export function isUndefined(value: unknown): value is undefined {
     return typeof value === "undefined";
 }
+
+/**
+ * Normalize array to object
+ * @param obj The object to be normalized
+ */
+export function normalize<T extends HasId>(data: T[] | null | undefined) {
+    if (isUndefined(data) || data === null) {
+        return {};
+    }
+
+    const coords: Normalized<T> = {};
+    for (const item of data) {
+        coords[item.id] = { ...item };
+    }
+    return coords;
+}
+
