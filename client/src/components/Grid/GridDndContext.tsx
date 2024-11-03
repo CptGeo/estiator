@@ -112,6 +112,7 @@ interface GridTableDraggableProps {
   id: UniqueIdentifier;
 }
 
+/** TODO: Extract in separate file */
 function GridTableDraggable({
   style,
   top,
