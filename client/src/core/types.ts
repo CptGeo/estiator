@@ -66,3 +66,15 @@ export type ReservationData = {
   persons: number,
   table: string
 };
+
+export type TableData = {
+  id: string | number,
+  label: string;
+  capacity: number,
+  coordinates: {
+    x: number,
+    y: number
+  },
+  color: string
+};
+
