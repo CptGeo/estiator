@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Key, useEffect, useState } from 'react';
 import {
   DndContext,
   useDraggable,
@@ -8,7 +8,8 @@ import {
   KeyboardSensor,
   PointerActivationConstraint,
   Modifiers,
-  useSensors
+  useSensors,
+  UniqueIdentifier
 } from '@dnd-kit/core';
 import type { Coordinates, Transform } from '@dnd-kit/utilities';
 
@@ -89,6 +90,7 @@ export function GridDndContext({
             buttonStyle={buttonStyle}
             buttonClassName={coordinates[key].color}
             label={coordinates[key].label}
+            id={key}
           />
         );
       })}
@@ -107,6 +109,7 @@ interface GridTableDraggableProps {
   dragOverlay?: boolean;
   dragging?: boolean;
   transform?: Transform | null;
+  id: UniqueIdentifier;
 }
 
 function GridTableDraggable({
@@ -118,8 +121,8 @@ function GridTableDraggable({
   buttonStyle,
   buttonClassName,
   dragOverlay,
+  id
 }: GridTableDraggableProps) {
-  const id = label?.split(" ").join("-") ?? "any";
   const { attributes, isDragging, listeners, setNodeRef, transform } = useDraggable({ id });
 
   return (
