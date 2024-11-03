@@ -1,6 +1,9 @@
 import { createSnapModifier, restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
 import { DefaultCoordinates, GridDraggable } from "../Grid/GridDraggable";
-import { ReactElement, useMemo } from "react";
+import { ReactElement, useCallback, useMemo } from "react";
+import useGetTables from "../../hooks/useGetTables";
+import { isUndefined } from "../../core/utils";
+import { Spinner } from "@nextui-org/react";
 
 type Props = {
   size: number;
@@ -27,29 +30,22 @@ export default function TablesGrid(props: Props): ReactElement {
     tolerance: 5
   };
 
-  /** Mock coordinates */
-  const defaultCoordinates: DefaultCoordinates = {
-    "A1": { x: 200, y: 480 },
-    "A2": { x: 200, y: 360 },
-    "A3": { x: 200, y: 240 },
-    "A4": { x: 200, y: 120 },
-    "B1": { x: 360, y: 480 },
-    "B2": { x: 360, y: 360 },
-    "B3": { x: 360, y: 240 },
-    "B4": { x: 360, y: 120 },
-    "C1": { x: 520, y: 480 },
-    "C2": { x: 520, y: 360 },
-    "C3": { x: 520, y: 240 },
-    "D1": { x: 680, y: 480 },
-    "D2": { x: 680, y: 360 },
-    "D3": { x: 680, y: 240 },
-    "Z1": { x: 1160, y: 120 },
-    "Z2": { x: 1040, y: 220 },
-    "Z3": { x: 1040, y: 120 },
-    "Z4": { x: 1160, y: 220 },
-  }
+  const tables  = useGetTables();
 
-  return (
+  const getCoordinates = useCallback(() => {
+    if (tables) {
+      const coords: DefaultCoordinates = {};
+      for (const table of tables) {
+        coords[table.id] = { ...table.coordinates };
+      }
+      return coords;
+    }
+    return {};
+  }, [tables]);
+
+  const defaultCoordinates = getCoordinates();
+
+  return !isUndefined(tables) ? (
       <GridDraggable
         activationConstraint={activationConstraint}
         modifiers={[snapToGrid, restrictToFirstScrollableAncestor]}
@@ -58,5 +54,5 @@ export default function TablesGrid(props: Props): ReactElement {
         defaultCoordinates={defaultCoordinates}
         gridSize={gridSize}
       />
-  );
+  ) : <div className="p-4"><Spinner /></div>;
 }
