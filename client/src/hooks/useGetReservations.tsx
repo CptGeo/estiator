@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { client } from "../core/request";
 import { ReservationData } from "../core/types";
 import { HttpStatusCode } from "axios";
-import equals from "../core/utils";
+import { equals } from "../core/utils";
 
 type Return<T> = {
   data: T;
