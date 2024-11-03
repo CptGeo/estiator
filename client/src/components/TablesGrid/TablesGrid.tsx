@@ -46,22 +46,22 @@ export default function TablesGrid(props: Props): ReactElement {
     )
   }
 
-  return !isUndefined(tables) ? (
+  return (
     <div className="flex flex-col gap-4">
       {topContent()}
-      <div className="grid-outer-bg rounded-large w-full overflow-auto max-h-[400px] md:max-h-[650px]">
-        <div style={{ "--grid-size": `${gridSize}px` } as CSSProperties} className="relative h-[1500px] w-[1500px] overflow-hidden grid-bg z-0 justify-between bg-content2 shadow-inner">
-          <GridDndContext
-            activationConstraint={activationConstraint}
-            modifiers={[snapToGrid, restrictToFirstScrollableAncestor]}
-            buttonStyle={buttonStyle}
-            style={style}
-            tables={getNormalizedTable(tables)}
-            gridSize={gridSize}
-          />
-        </div>
-      </div>
+      {!isUndefined(tables) ?
+        <div className="grid-outer-bg rounded-large w-full overflow-auto max-h-[400px] md:max-h-[650px]">
+          <div style={{ "--grid-size": `${gridSize}px` } as CSSProperties} className="relative h-[1500px] w-[1500px] overflow-hidden grid-bg z-0 justify-between bg-content2 shadow-inner">
+            <GridDndContext
+              activationConstraint={activationConstraint}
+              modifiers={[snapToGrid, restrictToFirstScrollableAncestor]}
+              buttonStyle={buttonStyle}
+              style={style}
+              tables={getNormalizedTable(tables)}
+              gridSize={gridSize}
+              />
+          </div>
+        </div> : <div className="p-4 w-full flex justify-center"><Spinner /></div>}
     </div>
-
-  ) : <div className="p-4 w-full flex justify-center"><Spinner /></div>;
+  )
 }
