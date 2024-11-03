@@ -145,16 +145,17 @@ function GridTableDraggable({
           } as React.CSSProperties }
       >
         <button
-            className={classNames("text-default-50 z-auto group absolute w-[100px] h-[100px] text-lg", buttonClassName ?? "bg-default-800")}
+            className={classNames("text-default-50 z-auto group absolute w-[100px] h-[100px]", buttonClassName ?? "bg-default-800")}
             ref={setNodeRef}
             style={buttonStyle}
             aria-label={label}
             {...(handle ? {} : listeners)}>
             <p className="text-xs absolute top-1">Τραπέζι</p>
-            <p className="text-xl absolute top-[50%] translate-y-[-50%] font-bold">{label}</p>
+            <p className="text-xl absolute top-[50%] translate-y-[-50%] font-bold drop-shadow-lg">{label}</p>
             <Link to={`/${label}#`} color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
               <EditIcon className="text-sm" />
             </Link>
+            <p className="text-[12px] w-full text-right inline-block drop-shadow-lg shadow-2xl absolute right-0 bottom-0 pr-1">Άτομα: 4</p>
         </button>
 
       </div>
