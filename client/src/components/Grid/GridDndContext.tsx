@@ -9,7 +9,8 @@ import {
   PointerActivationConstraint,
   Modifiers,
   useSensors,
-  UniqueIdentifier
+  UniqueIdentifier,
+  DragEndEvent
 } from '@dnd-kit/core';
 import type { Coordinates, Transform } from '@dnd-kit/utilities';
 
@@ -18,6 +19,7 @@ import classNames from 'classnames';
 import styles from '../DragNDrop/TableDraggable/TableDraggable.module.css';
 import { Link } from 'react-router-dom';
 import { EditIcon } from '../Icons/EditIcon';
+import { client } from '../../core/request';
 
 interface Props {
   activationConstraint?: PointerActivationConstraint;
@@ -54,29 +56,40 @@ export function GridDndContext({
     setCoordinates(tables);
   }, [tables]);
 
+  /** Updates the position data every time there is a change on the UI from the user */
+  async function updatePosition(id: Key, coords: Coordinates) : Promise<void> {
+    try {
+      await client.patch(`/tables/${id}`, { ...coords });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function handleDragEnd(e: DragEndEvent): void {
+    const delta = e.delta;
+    const x = coordinates[e.active.id].x;
+    const y = coordinates[e.active.id].y;
+    // normalize the final placement to be valid on the grid
+    const roundedX = (Math.floor((x + delta.x) / gridSize)) * gridSize;
+    const roundedY = (Math.floor((y + delta.y) / gridSize)) * gridSize;
+
+    setCoordinates((prev) => {
+      return {
+        ...prev,
+        [e.active.id]: {
+          ...prev[e.active.id],
+          x: roundedX,
+          y: roundedY
+        }
+      }
+    });
+    updatePosition(e.active.id, { x: roundedX, y: roundedY });
+  }
+
   return (
     <DndContext
       sensors={sensors}
-      onDragEnd={(e) => {
-        const delta = e.delta;
-
-        setCoordinates((prev) => {
-          const x = prev[e.active.id].x;
-          const y = prev[e.active.id].y;
-          // normalize the final placement to be valid on the grid
-          const roundedX = (Math.floor((x + delta.x) / gridSize)) * gridSize;
-          const roundedY = (Math.floor((y + delta.y) / gridSize)) * gridSize;
-
-          return {
-            ...prev,
-            [e.active.id]: {
-              ...prev[e.active.id],
-              x: roundedX,
-              y: roundedY
-            }
-          }
-        });
-      }}
+      onDragEnd={handleDragEnd}
       modifiers={modifiers}
     >
       {coordinates && Object.entries(coordinates).map(([key]) => {
