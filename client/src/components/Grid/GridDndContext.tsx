@@ -17,9 +17,11 @@ import type { Coordinates, Transform } from '@dnd-kit/utilities';
 import { Normalized, TableData } from '../../core/types';
 import classNames from 'classnames';
 import styles from '../DragNDrop/TableDraggable/TableDraggable.module.css';
-import { Link } from 'react-router-dom';
 import { EditIcon } from '../Icons/EditIcon';
 import { client } from '../../core/request';
+import { Link } from 'react-router-dom';
+import EditTableModal from '../Modal/EditTable';
+import { useDisclosure } from '@nextui-org/react';
 
 interface Props {
   activationConstraint?: PointerActivationConstraint;
@@ -41,7 +43,7 @@ export function GridDndContext({
   style,
   buttonStyle,
   tables,
-  gridSize
+  gridSize,
 }: Props) {
 
   const [coordinates, setCoordinates] = useState<Normalized<TableData>>(tables);
@@ -93,18 +95,22 @@ export function GridDndContext({
       modifiers={modifiers}
     >
       {coordinates && Object.entries(coordinates).map(([key]) => {
+        const modal = useDisclosure();
         return coordinates[key] && (
-          <GridTableDraggable
-            key={key}
-            handle={handle}
-            top={coordinates[key].y}
-            left={coordinates[key].x}
-            style={style}
-            buttonStyle={buttonStyle}
-            buttonClassName={coordinates[key].color}
-            label={coordinates[key].label}
-            id={key}
-          />
+          <React.Fragment key={key}>
+            <GridTableDraggable
+              handle={handle}
+              top={coordinates[key].y}
+              left={coordinates[key].x}
+              style={style}
+              buttonStyle={buttonStyle}
+              buttonClassName={coordinates[key].color}
+              label={coordinates[key].label}
+              id={key}
+              onOpen={modal.onOpen}
+              />
+            <EditTableModal key={key} table={coordinates[key]} {...modal} />
+          </React.Fragment>
         );
       })}
     </DndContext>
@@ -123,6 +129,7 @@ interface GridTableDraggableProps {
   dragging?: boolean;
   transform?: Transform | null;
   id: UniqueIdentifier;
+  onOpen: () => void;
 }
 
 /** TODO: Extract in separate file */
@@ -135,7 +142,8 @@ function GridTableDraggable({
   buttonStyle,
   buttonClassName,
   dragOverlay,
-  id
+  id,
+  onOpen
 }: GridTableDraggableProps) {
   const { attributes, isDragging, listeners, setNodeRef, transform } = useDraggable({ id });
 
@@ -158,14 +166,14 @@ function GridTableDraggable({
           } as React.CSSProperties }
       >
         <button
-            className={classNames("text-default-50 z-auto group absolute w-[100px] h-[100px]", buttonClassName ?? "bg-default-800")}
+            className={classNames("text-default-50 z-auto group absolute", buttonClassName ?? "bg-default-800")}
             ref={setNodeRef}
             style={buttonStyle}
             aria-label={label}
             {...(handle ? {} : listeners)}>
             <p className="text-xs absolute top-1">Τραπέζι</p>
             <p className="text-xl absolute top-[50%] translate-y-[-50%] font-bold drop-shadow-lg">{label}</p>
-            <Link to={`/${label}#`} color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
+            <Link onClick={onOpen} to="" color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
               <EditIcon className="text-sm" />
             </Link>
             <p className="text-[12px] w-full text-right inline-block drop-shadow-lg absolute right-0 bottom-0 pr-1">Άτομα: 4</p>
