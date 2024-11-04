@@ -1,4 +1,7 @@
 {
   "drawerOpen": true,
-  "gridSize": 20
+  "gridSize": 20,
+  "gridItemMultiplierHeight": 4,
+  "gridItemMultiplierWidth": 6,
+  "gridItemGap": 1
 }
