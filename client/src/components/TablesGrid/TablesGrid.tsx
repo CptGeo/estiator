@@ -59,7 +59,7 @@ export default function TablesGrid(props: Props): ReactElement {
               style={style}
               tables={getNormalizedTable(tables)}
               gridSize={gridSize}
-              />
+            />
           </div>
         </div> : <div className="p-4 w-full flex justify-center"><Spinner /></div>}
     </div>
