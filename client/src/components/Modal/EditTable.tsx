@@ -3,7 +3,7 @@ import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDi
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import InputField from "../Fields/Input";
 import NumberField from "../Fields/Number";
-import { useState } from "react";
+import { Key, useState } from "react";
 import { client } from "../../core/request";
 import ColorPickerField, { ColorPickerOption } from "../Fields/ColorPicker";
 import GridTable from "../Grid/GridTable";
@@ -14,7 +14,8 @@ type Props = {
 
 export default function EditTableModal(props: Props) {
   const { table, isOpen, onOpenChange, onClose } = props;
-  const [loading, setLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const methods = useForm({
     mode: "onChange",
@@ -25,9 +26,21 @@ export default function EditTableModal(props: Props) {
   const label = methods.watch("label") || "";
   const color = methods.watch("color") || "bg-default-50";
 
+  async function handleDelete() {
+    try {
+      setDeleteLoading(true);
+      await client.delete(`/tables/${table.id}`);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setDeleteLoading(false);
+      props.onClose();
+    }
+  }
+
   async function onSubmit(values: FieldValues): Promise<void> {
     try {
-      setLoading(true);
+      setSubmitLoading(true);
       const data = {
         label: values.label,
         capacity: values.capacity,
@@ -37,7 +50,7 @@ export default function EditTableModal(props: Props) {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false);
+      setSubmitLoading(false);
       onClose();
     }
   }
@@ -86,13 +99,18 @@ export default function EditTableModal(props: Props) {
                   </ColorPickerField>
               </div>
               </ModalBody>
-              <ModalFooter>
-                <Button color="default" variant="light" onPress={onClose}>
-                  Cancel
+              <ModalFooter className="flex flex-row justify-between">
+                <Button color="danger" variant="flat" onPress={handleDelete} isLoading={deleteLoading}>
+                  Delete table
                 </Button>
-                <Button color="primary" type="submit" isLoading={loading}>
-                  Update table
-                </Button>
+                <div>
+                  <Button color="default" variant="light" onPress={onClose}>
+                    Cancel
+                  </Button>
+                  <Button color="primary" type="submit" isLoading={submitLoading}>
+                    Update table
+                  </Button>
+                </div>
               </ModalFooter>
               </form>
             </FormProvider>
