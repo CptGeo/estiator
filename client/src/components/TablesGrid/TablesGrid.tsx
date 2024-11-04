@@ -36,7 +36,7 @@ export default function TablesGrid(props: Props): ReactElement {
         <p className="text-xs text-default-600">
           {count! > 0 && `Total capacity: ${count} seats`}
         </p>
-        <Button color="primary" onClick={tableDisclosure.onOpen}><AddIcon className="text-md" />Add table</Button>
+        <Button color="primary" onPress={tableDisclosure.onOpen}><AddIcon className="text-md" />Add table</Button>
         <AddTableModal {...tableDisclosure} />
       </div>
     )
