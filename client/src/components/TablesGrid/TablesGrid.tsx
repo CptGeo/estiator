@@ -3,10 +3,11 @@ import { GridDndContext } from "../Grid/GridDndContext";
 import { CSSProperties, ReactElement, useCallback, useMemo } from "react";
 import useGetTables from "../../hooks/useGetTables";
 import { isUndefined, normalize } from "../../core/utils";
-import { Button, Spinner } from "@nextui-org/react";
+import { Button, Spinner, useDisclosure } from "@nextui-org/react";
 import { TableData } from "../../core/types";
 import AddIcon from "../Icons/AddIcon";
 import { PointerActivationConstraint } from "@dnd-kit/core";
+import AddTableModal from "../Modal/AddTable";
 
 type Props = {
   size: number;
@@ -21,16 +22,22 @@ export default function TablesGrid(props: Props): ReactElement {
     tolerance: 5,
   };
 
-  const tables = useGetTables();
-  const getNormalizedTable = useCallback((data: TableData[] | null | undefined) => normalize<TableData>(data), [tables]);
+  const tables = useGetTables(1000);
+  const getNormalizedTable =
+    useCallback((data: TableData[] | null | undefined) => normalize<TableData>(data), [tables]);
 
-  const tablesCount = tables?.length;
+  const count = useMemo(() => tables?.reduce((prev, current) => prev + current.capacity, 0), [tables]);
 
   function topContent(): ReactElement {
+    const tableDisclosure = useDisclosure();
+
     return (
       <div className="flex flex-row justify-between items-end">
-        <p className="text-xs text-default-600">{tablesCount! > 0 && `Total ${tablesCount} table${tablesCount! > 1 ? "s" : ""}`}</p>
-        <Button color="primary"><AddIcon className="text-md" />Add table</Button>
+        <p className="text-xs text-default-600">
+          {count! > 0 && `Total capacity: ${count} seats`}
+        </p>
+        <Button color="primary" onClick={tableDisclosure.onOpen}><AddIcon className="text-md" />Add table</Button>
+        <AddTableModal {...tableDisclosure} />
       </div>
     )
   }
@@ -40,7 +47,9 @@ export default function TablesGrid(props: Props): ReactElement {
       {topContent()}
       {!isUndefined(tables) ?
         <div className="grid-outer-bg rounded-large w-full overflow-auto max-h-[400px] md:max-h-[650px]">
-          <div style={{ "--grid-size": `${gridSize}px` } as CSSProperties} className="relative h-[1500px] w-[1500px] overflow-hidden grid-bg z-0 justify-between bg-content2 shadow-inner">
+          <div
+            style={{ "--grid-size": `${gridSize}px` } as CSSProperties}
+            className="relative h-[1500px] w-[1500px] overflow-hidden grid-bg z-0 justify-between bg-content2 shadow-inner">
             <GridDndContext
               activationConstraint={activationConstraint}
               modifiers={[snapToGrid, restrictToFirstScrollableAncestor]}
