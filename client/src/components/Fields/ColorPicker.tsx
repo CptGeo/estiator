@@ -24,9 +24,9 @@ export default function ColorPickerField({ name, label, defaultValue, children }
     <Controller name={name} defaultValue={defaultValue} render={({ field: { onChange, value, ref } }) => {
       return (
         <ColorPickerContextProvider value={{ selectedValue: value, onChange: onChange }}>
-          <div className="flex-col bg-default-100 p-3 rounded-lg flex items-start" ref={ref}>
+          <div className="flex-col max-w-full bg-default-100 p-3 rounded-lg flex items-start" ref={ref}>
             <p className="text-xs text-default-600 mb-2">{label}</p>
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 flex-wrap">
               {children}
             </div>
           </div>
