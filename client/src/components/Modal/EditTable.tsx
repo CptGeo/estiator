@@ -3,7 +3,7 @@ import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDi
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import InputField from "../Fields/Input";
 import NumberField from "../Fields/Number";
-import { Key, useState } from "react";
+import { useState } from "react";
 import { client } from "../../core/request";
 import ColorPickerField, { ColorPickerOption } from "../Fields/ColorPicker";
 import GridTable from "../Grid/GridTable";
@@ -103,7 +103,7 @@ export default function EditTableModal(props: Props) {
                 <Button color="danger" variant="flat" onPress={handleDelete} isLoading={deleteLoading}>
                   Delete table
                 </Button>
-                <div>
+                <div className="gap-2 flex">
                   <Button color="default" variant="light" onPress={onClose}>
                     Cancel
                   </Button>
