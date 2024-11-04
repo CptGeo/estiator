@@ -6,30 +6,19 @@ import { isUndefined, normalize } from "../../core/utils";
 import { Button, Spinner } from "@nextui-org/react";
 import { TableData } from "../../core/types";
 import AddIcon from "../Icons/AddIcon";
+import { PointerActivationConstraint } from "@dnd-kit/core";
 
 type Props = {
   size: number;
 }
 
 export default function TablesGrid(props: Props): ReactElement {
-  const gap = 1;
   const gridSize = props.size;
 
-  const style = {
-    alignItems: "flex-start"
-  }
-
-  const buttonStyle = {
-    marginLeft: gridSize - 20 + gap,
-    marginTop: gridSize - 20 + gap,
-    width: 20 * 5 - gap,
-    height: 20 * 4 - gap
-  };
-
   const snapToGrid = useMemo(() => createSnapModifier(gridSize), [gridSize]);
-  const activationConstraint = {
-    delay: 250,
-    tolerance: 5
+  const activationConstraint: PointerActivationConstraint = {
+    delay: 200,
+    tolerance: 5,
   };
 
   const tables = useGetTables();
@@ -55,9 +44,7 @@ export default function TablesGrid(props: Props): ReactElement {
             <GridDndContext
               activationConstraint={activationConstraint}
               modifiers={[snapToGrid, restrictToFirstScrollableAncestor]}
-              buttonStyle={buttonStyle}
-              style={style}
-              tables={getNormalizedTable(tables)}
+              data={getNormalizedTable(tables)}
               gridSize={gridSize}
             />
           </div>
