@@ -1,29 +1,36 @@
-import { UniqueIdentifier, useDraggable } from "@dnd-kit/core";
+import { DragEndEvent, UniqueIdentifier, useDndMonitor, useDraggable } from "@dnd-kit/core";
 import { TableData } from "../../core/types";
 import classNames from "classnames";
 import styles from '../DragNDrop/TableDraggable/TableDraggable.module.css';
 import { Link } from "react-router-dom";
 import { EditIcon } from "../Icons/EditIcon";
 import { gridSize, gridItemMultiplierHeight, gridItemMultiplierWidth, gridItemGap } from "../../settings.json";
+import { Key, useEffect, useState } from "react";
+import { Coordinates } from "@dnd-kit/core/dist/types";
+import { client } from "../../core/request";
+import EditTableModal from "../Modal/EditTable";
+import { useDisclosure } from "@nextui-org/react";
 
 type Props = {
   handle?: boolean;
   dragOverlay?: boolean;
   id: UniqueIdentifier;
   value: TableData;
-  onOpen: () => void;
+  // onOpen: () => void;
 }
 
-/** TODO: Extract in separate file */
-export function GridTableDraggable({
-  handle,
-  dragOverlay,
-  id,
-  value,
-  onOpen
-}: Props) {
+export function GridTableDraggable({ handle, dragOverlay, id, value }: Props) {
   const { attributes, isDragging, listeners, setNodeRef, transform } = useDraggable({ id });
-  const { label, capacity, x, y, color } = value;
+  const [data, setData] = useState<TableData>(value);
+  const { label, capacity, x, y, color } = data;
+  const modal = useDisclosure();
+  useDndMonitor({ onDragEnd: handleDragEnd });
+
+  useEffect(() => {
+    if (value && !isDragging) {
+      setData(value);
+    }
+  }, [value]);
 
   const buttonStyle = {
     marginLeft: gridItemGap,
@@ -33,6 +40,36 @@ export function GridTableDraggable({
     width: gridSize * gridItemMultiplierWidth - (gridItemGap * 2),
     height: gridSize * gridItemMultiplierHeight - (gridItemGap * 2)
   };
+
+  /** Updates the position of the item every time there is a change on the UI */
+  async function updatePosition(id: Key, coords: Coordinates) : Promise<void> {
+    try {
+      await client.patch(`/tables/${id}`, { ...coords });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function handleDragEnd({ active, delta }: DragEndEvent): void {
+    if (active.id === id) {
+      const x = data.x;
+      const y = data.y;
+
+      // normalize the final placement to be valid on the grid
+      const roundedX = (Math.floor((x + delta.x) / gridSize)) * gridSize;
+      const roundedY = (Math.floor((y + delta.y) / gridSize)) * gridSize;
+
+      setData((prev) => {
+        return {
+          ...prev,
+          x: roundedX,
+          y: roundedY
+        }
+      });
+
+      updatePosition(active.id, { x: roundedX, y: roundedY });
+    }
+  }
 
   return (
     <div
@@ -60,12 +97,12 @@ export function GridTableDraggable({
             {...(handle ? {} : listeners)}>
             <p className="text-xs absolute top-1">Τραπέζι</p>
             <p className="text-xl absolute top-[50%] translate-y-[-50%] font-bold drop-shadow-lg">{label}</p>
-            <Link onClick={onOpen} to="" color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
+            <Link onClick={modal.onOpen} to="" color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
               <EditIcon className="text-sm" />
             </Link>
             <p className="text-[12px] w-full text-right inline-block drop-shadow-lg absolute right-0 bottom-0 pr-1">Άτομα: {capacity}</p>
         </button>
-
+        <EditTableModal {...modal} table={value}/>
       </div>
   );
 }
