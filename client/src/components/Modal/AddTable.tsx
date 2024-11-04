@@ -15,10 +15,10 @@ import { useState } from "react";
 import { client } from "../../core/request";
 import ColorPickerField, { ColorPickerOption } from "../Fields/ColorPicker";
 import GridTable from "../Grid/GridTable";
-import { DevTool } from "@hookform/devtools";
+import { Coordinates } from "@dnd-kit/core/dist/types";
 
-export default function AddTableModal(props: ReturnType<typeof useDisclosure>) {
-  const { isOpen, onOpenChange, onClose } = props;
+export default function AddTableModal(props: ReturnType<typeof useDisclosure> & { defaultCoordinates: Coordinates }) {
+  const { isOpen, onOpenChange, onClose, defaultCoordinates } = props;
   const [loading, setLoading] = useState(false);
 
   const methods = useForm<TableData>({
@@ -41,8 +41,10 @@ export default function AddTableModal(props: ReturnType<typeof useDisclosure>) {
         label: values.label,
         capacity: values.capacity,
         color: values.color,
-        x: 100,
-        y: 100
+        ...defaultCoordinates ? defaultCoordinates : {
+          x: 100,
+          y: 100
+        }
       };
       await client.post("/tables", { ...data });
     } catch (error) {
@@ -109,7 +111,6 @@ export default function AddTableModal(props: ReturnType<typeof useDisclosure>) {
                 </Button>
               </ModalFooter>
             </form>
-            <DevTool control={methods.control} />
           </FormProvider>
         )}
       </ModalContent>
