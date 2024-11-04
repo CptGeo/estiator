@@ -25,13 +25,13 @@ export default function useGetTables(interval?: number): TableData[] | undefined
       }
     };
 
+    getTables();
+
     if (interval) {
       const i = setInterval(getTables, interval);
       return () => {
         clearInterval(i);
       }
-    } else {
-      getTables();
     }
 
   }, [data]);
