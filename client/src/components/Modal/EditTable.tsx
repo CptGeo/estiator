@@ -6,6 +6,7 @@ import NumberField from "../Fields/Number";
 import { useState } from "react";
 import { client } from "../../core/request";
 import ColorPickerField, { ColorPickerOption } from "../Fields/ColorPicker";
+import GridTable from "../Grid/GridTable";
 
 type Props = {
   table: TableData;
@@ -58,21 +59,11 @@ export default function EditTableModal(props: Props) {
               </ModalHeader>
               <ModalBody>
               <div className="gap-4 flex flex-col">
-                {/* <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2 flex-grow"> */}
 
                   <div className="grid-bg p-10 flex justify-center items-center rounded-large overflow-hidden bg-content2 shadow-inner">
-                    <button
-                      type="button"
-                      style={ { maxWidth: "100px", maxHeight: "80px" } }
-                      className={`rounded-md flex flex-col items-center text-default-50 relative w-[100px] h-[100px] ${color}`}>
-                      <p className="text-xs top-1 relative">Τραπέζι</p>
-                      <p className="text-xl font-bold top-[50%] -translate-y-full relative drop-shadow-lg">{label}</p>
-                      <p className="text-[12px] w-full text-right inline-block drop-shadow-lg absolute right-0 bottom-0 pr-1">Άτομα: {!isNaN(capacity) ? capacity : table.capacity}</p>
-                    </button>
+                    <GridTable color={color} capacity={capacity} label={label} />
                   </div>
 
-                {/* </div> */}
-                {/* <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2"> */}
                   <InputField isRequired label="Label" name="label" />
                   <NumberField isRequired label="Capacity" name="capacity" className="bg-" />
                   <ColorPickerField name="color" label="Color" defaultValue={color}>
@@ -93,7 +84,6 @@ export default function EditTableModal(props: Props) {
                     <ColorPickerOption value="bg-slate-400" />
                     <ColorPickerOption value="bg-slate-600" />
                   </ColorPickerField>
-                {/* </div> */}
               </div>
               </ModalBody>
               <ModalFooter>
