@@ -4,17 +4,11 @@ import { ReservationData } from "../core/types";
 import { HttpStatusCode } from "axios";
 import { equals } from "../core/utils";
 
-type Return<T> = {
-  data: T;
-  loading: boolean;
-}
-
 /**
  * @todo Implement such hooks using TanStack Query
  */
-export default function useGetReservations(): Return<ReservationData[] | null> {
+export default function useGetReservations(): ReservationData[] | null {
   const [ data, setData ] = useState<ReservationData[] | null>(null);
-  const [ loading, setLoading ] = useState(false);
 
   useEffect(() => {
     async function getReservations(): Promise<void> {
@@ -27,8 +21,6 @@ export default function useGetReservations(): Return<ReservationData[] | null> {
         }
       } catch (error) {
         console.error(error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -38,5 +30,5 @@ export default function useGetReservations(): Return<ReservationData[] | null> {
     }
   }, []);
 
-  return { data, loading };
+  return data;
 }
