@@ -81,7 +81,7 @@ export default function AddTableModal(props: ReturnType<typeof useDisclosure> & 
                     />
                   </div>
 
-                  <InputField isRequired label="Label" name="label" />
+                  <InputField isRequired label="Label" name="label" maxLength={8} />
                   <NumberField isRequired label="Capacity" name="capacity" min={2} />
                   <ColorPickerField name="color" label="Color" defaultValue={color}>
                     <ColorPickerOption value="bg-secondary" />

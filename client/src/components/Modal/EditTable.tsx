@@ -80,7 +80,7 @@ export default function EditTableModal(props: Props) {
                     <GridTable color={color} capacity={capacity} label={label} />
                   </div>
 
-                  <InputField isRequired label="Label" name="label" />
+                  <InputField isRequired label="Label" name="label" maxLength={8} />
                   <NumberField isRequired label="Capacity" name="capacity" className="bg-" />
                   <ColorPickerField name="color" label="Color" defaultValue={color}>
                     <ColorPickerOption value="bg-secondary" />
