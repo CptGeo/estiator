@@ -51,6 +51,7 @@ export default function AddTableModal(props: ReturnType<typeof useDisclosure> & 
       console.error(error);
     } finally {
       setLoading(false);
+      methods.reset();
       onClose();
     }
   }
