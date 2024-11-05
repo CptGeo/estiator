@@ -11,6 +11,7 @@ import LoginPage from "./pages/Login/Login";
 import MainLayout from "./layouts/Main";
 import AuthLayout from "./layouts/Auth";
 import ReservationsManagementPage from "./pages/ReservationsManagement/ReservationsManagement";
+import TablesManagementPage from "./pages/TablesManagement/TablesManagement";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
           {
             path: "reservations-management",
             element: <ReservationsManagementPage />
+          },
+          {
+            path: "tables-management",
+            element: <TablesManagementPage />
           }
         ],
       },

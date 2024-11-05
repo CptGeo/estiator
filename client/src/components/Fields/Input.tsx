@@ -5,14 +5,28 @@ import { getError, hasError } from "../../core/utils";
 import { ControlledInputProps } from "./types";
 
 export default function InputField(props: ControlledInputProps): ReactElement {
-    const { name, isRequired, rules, ...otherProps } = props;
+    const { name, isRequired, rules, maxLength, minLength, label, ...otherProps } = props;
     const { register, formState } = useFormContext();
 
     const defaultRules: RegisterOptions = {
         ...rules,
+        ...maxLength && !minLength && { maxLength: {
+            message: `${label} cannot exceed ${maxLength} characters.`,
+            value: maxLength
+        } },
+        ...minLength && !maxLength && { minLength: {
+            message: `${label} cannot be less than ${maxLength} characters.`,
+            value: minLength
+        } },
+
         required: {
             message: "This field is required",
             value: isRequired ? isRequired : false
+        },
+
+        validate: {
+            ...minLength && maxLength && {
+                range: (value: string) => value.length >= minLength && value.length <= maxLength ? true : `${label} length must be between ${minLength} and ${maxLength} characters.` }
         }
     }
 
@@ -20,6 +34,7 @@ export default function InputField(props: ControlledInputProps): ReactElement {
         <Input
             {...otherProps}
             {...register(name, defaultRules)}
+            label={label}
             isRequired={isRequired}
             isInvalid={hasError(formState, name)}
             errorMessage={getError(formState, name)}

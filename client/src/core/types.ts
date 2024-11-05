@@ -1,6 +1,9 @@
 /** Represents type for the key of sequential data (e.g. arrays) */
 export type Key = string | number;
 
+/** Represents a type that is extended by all types that have `id` */
+export type HasId = { id: Key };
+
 /** Represents a type for times of business operations and availability */
 export type OperationalTime = {
   key: Key;
@@ -57,8 +60,7 @@ export enum ReservationStatus {
 }
 
 /** Represents reservation data */
-export type ReservationData = {
-  id: string | number,
+export interface ReservationData extends HasId {
   date: string, // "YYYY-MM-DD"
   time: string,
   user: UserData,
@@ -66,3 +68,17 @@ export type ReservationData = {
   persons: number,
   table: string
 };
+
+/** Represents table data */
+export interface TableData extends HasId {
+  label: string;
+  capacity: number,
+  x: number,
+  y: number,
+  color: string
+};
+
+/**
+ * Utility type to use when representing data as normalized data (hashmap)
+ */
+export type Normalized<T> = Record<string | number, T>;

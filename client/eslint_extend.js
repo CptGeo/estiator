@@ -18,7 +18,7 @@ export default {
         mode: "strict",
       },
     ],
-    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" } ],
+    "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" } ],
     "no-trailing-spaces": "warn",
     "object-curly-spacing": ["warn", "always"]

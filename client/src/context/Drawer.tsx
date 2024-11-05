@@ -1,14 +1,14 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react"
 import settings from "../settings.json";
 
-type DrawerValue = {
+type ContextProps = {
   open: boolean;
   toggleDrawer: () => void;
 }
 
-const DrawerContext = createContext<DrawerValue>({ open: false, toggleDrawer: () => {} });
+const DrawerContext = createContext<ContextProps>({ open: false, toggleDrawer: () => {} });
 
-export function DrawerProvider( props: PropsWithChildren ) {
+export function DrawerProvider(props: PropsWithChildren) {
   const [open, setOpen] = useState(settings.drawerOpen);
 
   function toggleDrawer() {

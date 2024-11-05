@@ -1,9 +1,9 @@
 {
   "uuid": "834fb3b0-d185-4e3f-80d3-bf296c2513fb",
-  "lastMigration": 32,
+  "lastMigration": 33,
   "name": "Estiator API v0.1",
   "endpointPrefix": "",
-  "latency": 0,
+  "latency": 200,
   "port": 7777,
   "hostname": "0.0.0.0",
   "folders": [],
@@ -35,7 +35,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "bc86919a-9485-44b6-a5a6-a590b96f3143",
@@ -64,7 +66,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "48d8b61f-b6f3-46f6-a942-f97c61a92401",
@@ -93,7 +97,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "6966a5d2-d792-411a-bf47-b346efdc9418",
@@ -122,7 +128,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "2499676e-2f3e-4767-bb3b-ecbe4a9486d8",
@@ -190,7 +198,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     },
     {
       "uuid": "eac7bbef-ff84-4a1a-931b-25efc81bd0e4",
@@ -219,7 +229,9 @@
           "callbacks": []
         }
       ],
-      "responseMode": null
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     }
   ],
   "rootChildren": [
@@ -297,14 +309,14 @@
       "id": "qz0g",
       "name": "Tables",
       "documentation": "",
-      "value": "[\r\n  {\r\n    \"id\": \"TABLE_ID\",\r\n    \"name\": \"TABLE_NAME\",\r\n    \"capacity\": 0\r\n  }\r\n]"
+      "value": "[\n  {\n    \"id\": 1,\n    \"label\": \"A1\",\n    \"capacity\": 4,\n    \"x\": 200,\n    \"y\": 480,\n    \"color\": \"bg-danger\"\n  },\n  {\n    \"id\": 2,\n    \"label\": \"A2\",\n    \"capacity\": 4,\n    \"x\": 200,\n    \"y\": 380,\n    \"color\": \"bg-danger\"\n  },\n  {\n    \"id\": 4,\n    \"label\": \"A4\",\n    \"capacity\": 4,\n    \"x\": 200,\n    \"y\": 180,\n    \"color\": \"bg-danger\"\n  },\n  {\n    \"id\": 5,\n    \"label\": \"B1\",\n    \"capacity\": 6,\n    \"x\": 380,\n    \"y\": 480,\n    \"color\": \"bg-emerald-400\"\n  },\n  {\n    \"id\": 6,\n    \"label\": \"B2\",\n    \"capacity\": 2,\n    \"x\": 380,\n    \"y\": 380,\n    \"color\": \"bg-emerald-400\"\n  },\n  {\n    \"id\": 7,\n    \"label\": \"B3\",\n    \"capacity\": 2,\n    \"x\": 380,\n    \"y\": 280,\n    \"color\": \"bg-emerald-400\"\n  },\n  {\n    \"id\": 8,\n    \"label\": \"B4\",\n    \"capacity\": 8,\n    \"x\": 380,\n    \"y\": 180,\n    \"color\": \"bg-emerald-400\"\n  },\n  {\n    \"id\": 9,\n    \"label\": \"J4\",\n    \"capacity\": 6,\n    \"x\": 560,\n    \"y\": 480,\n    \"color\": \"bg-warning\"\n  },\n  {\n    \"id\": 10,\n    \"label\": \"A2\",\n    \"capacity\": 4,\n    \"x\": 560,\n    \"y\": 380,\n    \"color\": \"bg-warning\"\n  },\n  {\n    \"id\": 11,\n    \"label\": \"F1\",\n    \"capacity\": 4,\n    \"x\": 560,\n    \"y\": 280,\n    \"color\": \"bg-warning\"\n  },\n  {\n    \"id\": 12,\n    \"label\": \"A3\",\n    \"capacity\": 4,\n    \"x\": 200,\n    \"y\": 280,\n    \"color\": \"bg-danger\"\n  },\n  {\n    \"id\": 13,\n    \"label\": \"D3\",\n    \"capacity\": 2,\n    \"x\": 740,\n    \"y\": 480,\n    \"color\": \"bg-slate-600\"\n  },\n  {\n    \"id\": 15,\n    \"label\": \"A1\",\n    \"capacity\": 4,\n    \"x\": 560,\n    \"y\": 180,\n    \"color\": \"bg-warning\"\n  },\n  {\n    \"id\": 25,\n    \"label\": \"D5\",\n    \"capacity\": 4,\n    \"x\": 740,\n    \"y\": 380,\n    \"color\": \"bg-slate-600\"\n  },\n  {\n    \"label\": \"A9\",\n    \"capacity\": 2,\n    \"color\": \"bg-slate-600\",\n    \"id\": 27,\n    \"x\": 740,\n    \"y\": 280\n  },\n  {\n    \"label\": \"Out 2\",\n    \"capacity\": 2,\n    \"color\": \"bg-rose-500\",\n    \"x\": 1060,\n    \"y\": 220,\n    \"id\": 28\n  },\n  {\n    \"label\": \"Out 1\",\n    \"capacity\": 2,\n    \"color\": \"bg-purple-400\",\n    \"x\": 1060,\n    \"y\": 120,\n    \"id\": 29\n  },\n  {\n    \"label\": \"Z9\",\n    \"capacity\": 2,\n    \"color\": \"bg-slate-600\",\n    \"x\": 740,\n    \"y\": 180,\n    \"id\": 30\n  }\n]\n"
     },
     {
       "uuid": "9571d77f-7c46-4c89-8fbb-c801f6b60b78",
       "id": "usje",
       "name": "Reservation",
       "documentation": "",
-      "value": "[\n  {{#repeat (queryParam 'total' '6')}}\n  {\n    \"id\": {{@index}},\n    \"date\": \"2024-12-10\",\n    \"time\": \"{{faker 'number.int' min=10 max=23}}:{{oneOf (array '00' '30')}}\",\n    \"user\": {\n      \"registered\": {{boolean}},\n      \"name\": \"{{firstName}}\",\n      \"surname\": \"{{faker 'person.lastName'}}\",\n      \"email\": \"{{email}}\",\n      \"phone\": \"{{faker 'phone.number' national}}\"\n    },\n    \"status\": \"{{oneOf (array 'completed' 'pending' 'cancelled' 'confirmed')}}\",\n    \"persons\": {{faker 'number.int' min=1 max=6}},\n    \"table\": \"{{oneOf (array 'A1' 'A2' 'A3' 'B1' 'B2' 'B3' 'C1' 'C2' 'C3' 'D1' 'D2' 'E1' 'E2' 'F1')}}\"\n  }\n  {{/repeat}}\n]\n"
+      "value": "[\n  {{#repeat (queryParam 'total' 10)}}\n  {\n    \"id\": {{@index}},\n    \"date\": \"2024-12-10\",\n    \"time\": \"{{faker 'number.int' min=10 max=23}}:{{oneOf (array '00' '30')}}\",\n    \"user\": {\n      \"registered\": {{boolean}},\n      \"name\": \"{{firstName}}\",\n      \"surname\": \"{{faker 'person.lastName'}}\",\n      \"email\": \"{{email}}\",\n      \"phone\": \"{{faker 'phone.number' national}}\"\n    },\n    \"status\": \"{{oneOf (array 'completed' 'pending' 'cancelled' 'confirmed')}}\",\n    \"persons\": {{faker 'number.int' min=1 max=6}},\n    \"table\": \"{{oneOf (array 'A1' 'A2' 'A3' 'B1' 'B2' 'B3' 'C1' 'C2' 'C3' 'D1' 'D2' 'E1' 'E2' 'F1')}}\"\n  }\n  {{/repeat}}\n]\n"
     },
     {
       "uuid": "c47b455e-2842-448d-b760-b0e6f1c33ee7",
