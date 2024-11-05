@@ -16,7 +16,6 @@ type Props = {
   dragOverlay?: boolean;
   id: UniqueIdentifier;
   value: TableData;
-  // onOpen: () => void;
 }
 
 export function GridTableDraggable({ handle, dragOverlay, id, value }: Props) {
