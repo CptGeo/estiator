@@ -24,17 +24,20 @@ export default function TablesGrid(props: Props): ReactElement {
   });
 
   const snapToGrid = useMemo(() => createSnapModifier(gridSize), [gridSize]);
+
+  /** Dragging activation constraints */
   const activationConstraint: PointerActivationConstraint = {
     delay: 200,
     tolerance: 5,
   };
 
   const tables = useGetTables(1000);
-  const getNormalizedTable =
-    useCallback((data: TableData[] | null | undefined) => normalize<TableData>(data), [tables]);
+  const getNormalizedTable = useCallback((data: TableData[] | null | undefined) => normalize<TableData>(data), [tables]);
 
+  /** Memoized calculation of total capacity */
   const count = useMemo(() => tables?.reduce((prev, current) => prev + current.capacity, 0), [tables]);
 
+  /** Content to render over grid area */
   function topContent(): ReactElement {
     return (
       <div className="flex flex-row justify-between items-end">
@@ -46,11 +49,13 @@ export default function TablesGrid(props: Props): ReactElement {
     )
   }
 
+  /** Handles opening the modal to add a new table */
   function handleAddTable() {
     addTableDisclosure.onOpen();
     closeContextMenu();
   }
 
+  /** Closes context menu */
   function closeContextMenu() {
     setContextMenu((prev) => {
       return {
@@ -60,6 +65,7 @@ export default function TablesGrid(props: Props): ReactElement {
     })
   }
 
+  /** Context menu to display when user right clicks on the grid area */
   function ContextMenu(): ReactElement {
     function handleAction(key: Key) {
       switch(key) {
@@ -80,6 +86,7 @@ export default function TablesGrid(props: Props): ReactElement {
       </Dropdown>);
   }
 
+  /** Displays the context menu on pointer location */
   function showContextMenu(event: React.MouseEvent<HTMLDivElement>) {
     event.preventDefault();
     if(event.target as HTMLElement == containerRef.current) {
@@ -90,6 +97,7 @@ export default function TablesGrid(props: Props): ReactElement {
     }
   }
 
+  /** Deactivates and resets context menu */
   function resetContextMenu() {
     setContextMenu({ x: 100, y: 100, active: false });
   }
