@@ -18,7 +18,7 @@ import GridTable from "../Grid/GridTable";
 import { Coordinates } from "@dnd-kit/core/dist/types";
 
 export default function AddTableModal(props: ReturnType<typeof useDisclosure> & { defaultCoordinates: Coordinates }) {
-  const { isOpen, onOpenChange, onClose, defaultCoordinates } = props;
+  const { isOpen, onOpenChange, onClose: close, defaultCoordinates } = props;
   const [loading, setLoading] = useState(false);
 
   const methods = useForm<TableData>({
@@ -52,7 +52,7 @@ export default function AddTableModal(props: ReturnType<typeof useDisclosure> & 
     } finally {
       setLoading(false);
       methods.reset();
-      onClose();
+      close();
     }
   }
 
@@ -63,7 +63,7 @@ export default function AddTableModal(props: ReturnType<typeof useDisclosure> & 
       placement="top"
       size="md"
       backdrop="opaque"
-    >
+      onClose={methods.reset}>
       <ModalContent>
         {(onClose) => (
           <FormProvider {...methods}>
@@ -113,7 +113,7 @@ export default function AddTableModal(props: ReturnType<typeof useDisclosure> & 
               </ModalFooter>
             </form>
           </FormProvider>
-        )}
+          )}
       </ModalContent>
     </Modal>
   );

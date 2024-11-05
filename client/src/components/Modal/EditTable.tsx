@@ -13,13 +13,13 @@ type Props = {
 } & ReturnType<typeof useDisclosure>;
 
 export default function EditTableModal(props: Props) {
-  const { table, isOpen, onOpenChange, onClose } = props;
+  const { table, isOpen, onOpenChange, onClose: close } = props;
   const [submitLoading, setSubmitLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const methods = useForm({
     mode: "onChange",
-    defaultValues: { ...table }
+    values: { ...table }
   });
 
   const capacity = methods.watch("capacity") || 0;
@@ -34,7 +34,8 @@ export default function EditTableModal(props: Props) {
       console.error(error);
     } finally {
       setDeleteLoading(false);
-      props.onClose();
+      methods.reset();
+      close();
     }
   }
 
@@ -51,7 +52,8 @@ export default function EditTableModal(props: Props) {
       console.error(error);
     } finally {
       setSubmitLoading(false);
-      onClose();
+      methods.reset();
+      close();
     }
   }
 
@@ -62,6 +64,7 @@ export default function EditTableModal(props: Props) {
         placement="top"
         size="md"
         backdrop="opaque"
+        onClose={methods.reset}
       >
         <ModalContent>
           {(onClose) => (
