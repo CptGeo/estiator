@@ -31,7 +31,7 @@ export default function TablesGrid(props: Props): ReactElement {
     tolerance: 5,
   };
 
-  const tables = useGetTables(1000);
+  const tables = useGetTables(500);
   const getNormalizedTable = useCallback((data: TableData[] | null | undefined) => normalize<TableData>(data), [tables]);
 
   /** Memoized calculation of total capacity */
