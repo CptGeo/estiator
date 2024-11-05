@@ -11,7 +11,6 @@ type Props = {
 
 type ContextProps = {
   selectedValue: string | null;
-  // eslint-disable-next-line no-unused-vars
   onChange: (...event: unknown[]) => void;
 }
 
