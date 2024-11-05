@@ -58,7 +58,3 @@ jobs:
         with:
           name: estiator.io_build_${{ github.run_id }}
           path: ./client/dist/
-      - name: Save artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: estiator.io_build_${{ github.run_id }}
