@@ -97,13 +97,8 @@ export default function TablesGrid(props: Props): ReactElement {
     }
   }
 
-  /** Deactivates and resets context menu */
-  function resetContextMenu() {
-    setContextMenu({ x: 100, y: 100, active: false });
-  }
-
   return (
-    <div className="flex flex-col gap-4" onClick={resetContextMenu}>
+    <div className="flex flex-col gap-4" onClick={closeContextMenu}>
       {topContent()}
       {!isUndefined(tables) ?
         <div className="relative grid-outer-bg rounded-large w-full overflow-auto max-h-[400px] md:max-h-[650px]">
