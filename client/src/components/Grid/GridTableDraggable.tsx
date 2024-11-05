@@ -51,7 +51,8 @@ export function GridTableDraggable({ handle, dragOverlay, id, value }: Props) {
   }
 
   function handleDragEnd({ active, delta }: DragEndEvent): void {
-    if (active.id === id) {
+    // update current only (1) when current item is being dragged, and (2) when delta is not 0
+    if (active.id === id && (Math.abs(delta.x) + Math.abs(delta.y)) != 0 ) {
       const x = data.x;
       const y = data.y;
 
@@ -90,7 +91,7 @@ export function GridTableDraggable({ handle, dragOverlay, id, value }: Props) {
           } as React.CSSProperties }
       >
         <button
-            className={classNames("text-default-50 z-auto group absolute", color ?? "bg-default-800")}
+            className={classNames("select-none text-default-50 z-auto group absolute", color ?? "bg-default-800")}
             ref={setNodeRef}
             style={buttonStyle}
             aria-label={label}
