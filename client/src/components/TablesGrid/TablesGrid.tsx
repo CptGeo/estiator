@@ -1,6 +1,6 @@
 import { createSnapModifier, restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
 import { GridDndContext } from "../Grid/GridDndContext";
-import { CSSProperties, Key, MouseEventHandler, ReactElement, useCallback, useMemo, useRef, useState } from "react";
+import { CSSProperties, Key, ReactElement, useCallback, useMemo, useRef, useState } from "react";
 import useGetTables from "../../hooks/useGetTables";
 import { isUndefined, normalize } from "../../core/utils";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner, useDisclosure } from "@nextui-org/react";
@@ -41,9 +41,14 @@ export default function TablesGrid(props: Props): ReactElement {
         <p className="text-xs text-default-600">
           {count! > 0 && `Total capacity: ${count} seats`}
         </p>
-        <Button color="primary" onPress={addTableDisclosure.onOpen}><AddIcon className="text-md" />Add table</Button>
+        <Button color="primary" onPress={handleAddTable}><AddIcon className="text-md" />Add table</Button>
       </div>
     )
+  }
+
+  function handleAddTable() {
+    addTableDisclosure.onOpen();
+    closeContextMenu();
   }
 
   function closeContextMenu() {
@@ -59,8 +64,7 @@ export default function TablesGrid(props: Props): ReactElement {
     function handleAction(key: Key) {
       switch(key) {
         case "new":
-          addTableDisclosure.onOpen();
-          closeContextMenu();
+          handleAddTable();
           break;
       }
     }
