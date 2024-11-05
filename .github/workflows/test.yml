@@ -1,8 +1,9 @@
 # Note: When running locally through `act` package and in order to verify the exposed artifacts,
 # I need to supply the `--artifact-serve-path` option with a valid local path to save them.
 #
-# example: sudo act --artifact-server-path ./tmp/artifacts
+# @example: sudo act --artifact-server-path ./tmp/artifacts
 #
+# @source: https://github.com/nektos/act/issues/329#issuecomment-1187246629
 #
 
 name: Estiator.io CI/CD pipeline
@@ -57,3 +58,7 @@ jobs:
         with:
           name: estiator.io_build_${{ github.run_id }}
           path: ./client/dist/
+      - name: Save artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: estiator.io_build_${{ github.run_id }}
