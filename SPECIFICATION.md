@@ -1,4 +1,4 @@
-[Διαβάστε το έγγραφο στα Ελληνικά](./README_GR.md)  
+[Διαβάστε το έγγραφο στα Ελληνικά](./SPECIFICATION_GR.md)  
 
 <p align="center">
    <a href="https://estiator.io" target="_blank">

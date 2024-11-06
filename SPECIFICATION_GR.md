@@ -1,4 +1,4 @@
-[Read the document in English](./README.md)  
+[Read the document in English](./SPECIFICATION.md)  
 
 <p align="center">
    <a href="https://estiator.io" target="_blank">
