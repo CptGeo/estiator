@@ -6,7 +6,7 @@
    </a>
 </p>
 <p align="center">
-  The <strong>open source</strong> platform for managing <em>Restaurants</em> and other <em>Food & Beverage</em> businesses. 
+  The <strong>open source</strong> platform for managing <strong>Restaurants</strong> and other <strong>Food & Beverage</strong> businesses. 
 </p>
 
 ---
