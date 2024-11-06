@@ -6,7 +6,7 @@
    </a>
 </p>
 <p align="center">
-      An open-source project for managing restaurants and related businesses
+   An open-source project for managing restaurants and related businesses
 </p>
 
 # Specifications
