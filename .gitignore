@@ -1,3 +1,4 @@
 node_modules
 client/tsconfig.node.tsbuildinfo
 client/tsconfig.app.tsbuildinfo
+local_specs.md
