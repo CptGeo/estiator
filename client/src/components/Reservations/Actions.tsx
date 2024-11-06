@@ -1,11 +1,12 @@
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, DropdownSection, useDisclosure } from "@nextui-org/react";
-import MenuDotsIcon from "../Icons/MenuDotsIcon";
-import { ReservationData, ReservationStatus } from "../../core/types";
-import { Key, ReactElement } from "react";
-import EditReservationModal from "../Modal/EditReservation";
-import RemoveReservationModal from "../Modal/RemoveReservation";
-import CancelReservationModal from "../Modal/CancelReservation";
-import ConfirmReservationModal from "../Modal/ConfirmReservation";
+import MenuDotsIcon from "@components/Icons/MenuDotsIcon";
+import type { ReservationData } from "@core/types";
+import { ReservationStatus } from "@core/types";
+import type { Key, ReactElement } from "react";
+import EditReservationModal from "@components/Modal/EditReservation";
+import RemoveReservationModal from "@components/Modal/RemoveReservation";
+import CancelReservationModal from "@components/Modal/CancelReservation";
+import ConfirmReservationModal from "@components/Modal/ConfirmReservation";
 
 type Props = {
   reservation: ReservationData;

@@ -1,5 +1,5 @@
 import { User } from "@nextui-org/react";
-import { CompanyData } from "../../core/types";
+import type { CompanyData } from "@core/types";
 
 export default function CompanyAvatar(props: { company: CompanyData }) {
   const { name, description } = props.company;

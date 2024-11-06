@@ -1,21 +1,23 @@
-import { TableData } from "../../core/types";
+import { useState } from "react";
+import type { TableData } from "@core/types";
+import type {
+  useDisclosure } from "@nextui-org/react";
 import {
   Button,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader,
-  useDisclosure,
+  ModalHeader
 } from "@nextui-org/react";
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import InputField from "../Fields/Input";
-import NumberField from "../Fields/Number";
-import { useState } from "react";
-import { client } from "../../core/request";
-import ColorPickerField, { ColorPickerOption } from "../Fields/ColorPicker";
-import GridTable from "../Grid/GridTable";
-import { Coordinates } from "@dnd-kit/core/dist/types";
+import type { FieldValues } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+import InputField from "@components/Fields/Input";
+import NumberField from "@components/Fields/Number";
+import { client } from "@core/request";
+import ColorPickerField, { ColorPickerOption } from "@components/Fields/ColorPicker";
+import GridTable from "@components/Grid/GridTable";
+import type { Coordinates } from "@dnd-kit/core/dist/types";
 
 export default function AddTableModal(props: ReturnType<typeof useDisclosure> & { defaultCoordinates: Coordinates }) {
   const { isOpen, onOpenChange, onClose: close, defaultCoordinates } = props;

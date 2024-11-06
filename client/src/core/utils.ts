@@ -1,5 +1,5 @@
-import { FieldValues, FormState } from "react-hook-form";
-import { HasId, Normalized, UserData } from "./types";
+import type { FieldValues, FormState } from "react-hook-form";
+import type { HasId, Normalized, UserData } from "@core/types";
 
 /**
  * Checks if field has any errors

@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
-import DrawerMenu from "../../components/DrawerMenu/DrawerMenu";
-import Navigation from "../../components/Navigation/Navigation";
-import Footer from "../../components/Footer/Footer";
-import { useDrawer } from "../../context/Drawer";
+import DrawerMenu from "@components/DrawerMenu/DrawerMenu";
+import Navigation from "@components/Navigation/Navigation";
+import Footer from "@components/Footer/Footer";
+import { useDrawer } from "@context/Drawer";
 
 export default function MainContent() {
   const { open } = useDrawer();

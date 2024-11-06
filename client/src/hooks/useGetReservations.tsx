@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { client } from "../core/request";
-import { ReservationData } from "../core/types";
+import { client } from "@core/request";
+import type { ReservationData } from "@core/types";
 import { HttpStatusCode } from "axios";
-import { equals } from "../core/utils";
+import { equals } from "@core/utils";
 
 /**
  * @todo Implement such hooks using TanStack Query

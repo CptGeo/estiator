@@ -1,8 +1,8 @@
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../../context/Authentication";
-import DrawerProvider from "../../context/Drawer";
-import MainContent from "./MainContent";
+import { useAuth } from "@context/Authentication";
+import DrawerProvider from "@context/Drawer";
+import MainContent from "@layouts/Private/MainContent";
 
 export default function PrivateLayout(): ReactElement {
   const auth = useAuth();

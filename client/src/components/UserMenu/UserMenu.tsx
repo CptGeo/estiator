@@ -1,8 +1,8 @@
 import { Dropdown, DropdownItem, DropdownMenu } from "@nextui-org/react";
-import { ReactElement } from "react";
-import { useAuth } from "../../context/Authentication";
-import { UserData } from "../../core/types";
-import UserAvatar from "../Avatar/User";
+import type { ReactElement } from "react";
+import { useAuth } from "@context/Authentication";
+import type { UserData } from "@core/types";
+import UserAvatar from "@components/Avatar/User";
 
 type Props = {
   user: UserData

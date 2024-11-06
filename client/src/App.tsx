@@ -1,17 +1,18 @@
-import { ReactElement, StrictMode } from "react";
+import type { ReactElement } from "react";
+import { StrictMode } from "react";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./pages/Home/Home";
-import PrivateLayout from "./layouts/Private/Private";
-import PlaygroundPage from "./pages/Playground/Playground";
-import LoginPage from "./pages/Login/Login";
-import MainLayout from "./layouts/Main";
-import AuthLayout from "./layouts/Auth";
-import ReservationsManagementPage from "./pages/ReservationsManagement/ReservationsManagement";
-import TablesManagementPage from "./pages/TablesManagement/TablesManagement";
+import HomePage from "@pages/Home/Home";
+import PrivateLayout from "@layouts/Private/Private";
+import PlaygroundPage from "@pages/Playground/Playground";
+import LoginPage from "@pages/Login/Login";
+import MainLayout from "@layouts/Main";
+import AuthLayout from "@layouts/Auth";
+import ReservationsManagementPage from "@pages/ReservationsManagement/ReservationsManagement";
+import TablesManagementPage from "@pages/TablesManagement/TablesManagement";
 
 const router = createBrowserRouter([
   {

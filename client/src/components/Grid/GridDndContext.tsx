@@ -1,16 +1,17 @@
-import React from 'react';
+import React from "react";
+import type {
+  PointerActivationConstraint,
+  Modifiers } from "@dnd-kit/core";
 import {
   DndContext,
   useSensor,
   MouseSensor,
   TouchSensor,
-  PointerActivationConstraint,
-  Modifiers,
   useSensors
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 
-import { Normalized, TableData } from '../../core/types';
-import { GridTableDraggable } from './GridTableDraggable';
+import type { Normalized, TableData } from "@core/types";
+import { GridTableDraggable } from "@components/Grid/GridTableDraggable";
 
 interface Props {
   activationConstraint?: PointerActivationConstraint;

@@ -1,9 +1,9 @@
+import type { ReactElement } from "react";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Image } from "@nextui-org/react";
-import logo from "../../assets/images/logo.png";
+import logo from "@assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
-import { ReactElement } from "react";
-import { useAuth } from "../../context/Authentication";
-import UserMenu from "../UserMenu/UserMenu";
+import { useAuth } from "@context/Authentication";
+import UserMenu from "@components/UserMenu/UserMenu";
 
 export default function Navigation() {
   const navigate = useNavigate();

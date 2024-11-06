@@ -1,10 +1,12 @@
-import { ReactElement, useState } from "react";
+import type { ReactElement } from "react";
+import { useState } from "react";
 import { Input } from "@nextui-org/react";
-import { RegisterOptions, useFormContext } from "react-hook-form";
-import { getError, hasError } from "../../core/utils";
-import { ControlledInputProps } from "./types";
-import { EyeSlashFilledIcon } from "../Icons/EyeSlashFilledIcon";
-import { EyeFilledIcon } from "../Icons/EyeFilledIcon";
+import type { RegisterOptions } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
+import { getError, hasError } from "@core/utils";
+import type { ControlledInputProps } from "@components/Fields/types";
+import { EyeSlashFilledIcon } from "@components/Icons/EyeSlashFilledIcon";
+import { EyeFilledIcon } from "@components/Icons/EyeFilledIcon";
 
 /**
  * @todo Implement password validation
