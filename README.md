@@ -1,4 +1,4 @@
-[Διαβάστε το έγγραφο στα Ελληνικά](./README_GR.md)  
+<em>Work in progress...</em>
 
 <p align="center">
    <a href="https://estiator.io" target="_blank">
@@ -6,58 +6,60 @@
    </a>
 </p>
 <p align="center">
-      An open-source project for managing restaurants and related businesses
+  The <strong>open source</strong> platform for managing <strong>Restaurants</strong> and other <strong>Food & Beverage</strong> businesses. 
 </p>
 
-# Specifications
+---
 
-### Goal
-Design and create an information system to support the activities of dining establishments. The system will offer functionalities that will improve reservation management, table planning and organization, provide excellent customer service, as well as data analysis and the creation of marketing strategies to increase profitability.
+<p align="center">
+<img src="https://img.shields.io/badge/v5.6-%233178c6?style=for-the-badge&label=typescript">
+<img src="https://img.shields.io/badge/v5.4-%23ffd747?style=for-the-badge&label=vite">
+<img src="https://img.shields.io/badge/v18.3-%23007fa2?style=for-the-badge&label=react">
+<img src="https://img.shields.io/badge/v2.4-%23d03bf3?style=for-the-badge&label=nextui"/>
+<img src="https://img.shields.io/badge/v3.4-%23a1f4fb?style=for-the-badge&label=tailwindcss">
 
-### Main System Features (Indicative):
-1. **Reservation and Customer Management:**
-   - Register and modify reservations.
-   - Manage customers and create profiles.
-   - Notifications and reminders for scheduled reservations.
-   - Manage changes and special requests (e.g., dietary restrictions).
-2. **Table Reception and Organization:**
-   - Guest entry and creation of a waiting list.
-   - Table assignment based on the number of waitstaff.
-   - Update customers on table availability.
-3. **Staff Monitoring and Management:**
-   - Organize and manage shifts.
-   - Monitor and optimize workflow.
-   - Communicate changes with the staff.
-4. **Data Analysis and Marketing:**
-   - Sales data analysis.
-   - Create marketing campaigns to increase profitability.
-   - Organize special events and promotions.
-   - Build and maintain customer relationships to enhance loyalty.
-5. **Technologies to be Used (Indicative):**
-   - Modern programming languages (e.g., Python or Java)
-   - Web application development frameworks (e.g., Django or Spring Boot)
-   - Databases (e.g., MySQL or PostgreSQL)
-   - Frontend technologies (HTML/CSS, JavaScript, React, Angular)
-   - Container technologies (e.g., Docker)
+</p>
 
-### The work includes the following (to an extent and depth that will be specified later):
-1. Study of Relevant Literature
-2. System Analysis and Design
-3. Determination of technologies to be used
-4. Database Design
-5. System Implementation
-6. Testing, evaluation, conclusions
+<p align="center">
+  <a href="https://estiator.io" target="_blank">Estiator.io</a> is the <strong>open source</strong> solution when it comes to managing an FnB business! You can install it on your infrastracture and start managing reservations, tables and more!
+</p>
 
-### Relevant References:
-- Melé, A. (2024). *Django 5 By Example: Build powerful and reliable Python web applications from scratch*. Packt Publishing Ltd.
-- Pedro, B. (2024). *Building an API Product: Design, implement, and release API products that meet user needs*. Packt Publishing.
-- Shaw, B., Badhwar, S., Bird, A., KS, B. C., & Guest, C. (2021). *Web Development with Django: Learn to build modern web applications with a Python-based framework*. Packt Publishing Ltd.
-- Walls, C. (2018). *Spring in Action*. Simon and Schuster.
-- Hinkula, J. (2023). *Full Stack Development with Spring Boot 3 and React*. Packt Publishing Ltd.
+![alt text](.assets/demo.gif)
 
-### Search Terms:
-- Online Appointment System
-- Web Conferencing
-- Full-stack Development with Django
-- Full-stack Development with Spring Boot
-- API Development
+## :rocket: Quickstart
+
+### Prerequisites 
+In order to start this application, you will need the following: 
+
+- **Node.js** runtime v &ge; 20 (download [here](https://nodejs.org/en))
+- **Git** (download [here](https://git-scm.com/downloads))
+- **Mockoon** (download [here](https://mockoon.com/))
+
+To run the application, follow these steps: 
+```shell
+
+# Open a terminal (Command prompt or PowerShell for Windows, Terminal for MacOS or Linux)
+
+# Clone the repository
+git clone https://github.com/CptGeo/estiator
+
+# Navigate to the project directory (note: currently only client is supported)
+cd estiator.io/client
+
+# Install client dependencies
+npm i
+
+# Run application
+npm run dev
+
+# Congrats! The application is running!
+```
+
+Last step, is to start the mock server.
+
+- Start **Mockoon**
+- Click on `File->Open local environment`
+- Select the `mockoon.json` from the `client` folder of the project directory 
+- Hit the ![alt text](.assets/play-button.png) button and start the mock server
+
+Done!
