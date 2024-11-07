@@ -19,8 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
       - name: Cache dependencies
@@ -32,13 +31,36 @@ jobs:
       - name: Install dependencies
         working-directory: ./client
         run: npm ci --ignore-scripts
-  build:
+  test: 
     runs-on: ubuntu-latest
     needs: lint
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Cache dependencies, including dev dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-dev-${{ hashFiles('client/package.json') }}
+          restore-keys: npm-dev-
+      - name: Install dependencies
+        working-directory: ./client
+        run: npm i --ignore-scripts
+      - name: Run tests
+        working-directory: ./client
+        run: npm run test
+      - name: Generate Code Coverage Report
+        uses: romeovs/lcov-reporter-action@v0.4.0
+        with:
+          lcov-file: ./client/coverage/lcov.info
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with: 
           node-version: 20
       - name: Cache dependencies
