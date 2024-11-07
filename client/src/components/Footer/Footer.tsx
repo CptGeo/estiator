@@ -13,7 +13,6 @@ export default function Footer(): ReactElement {
             </div>
             <ul className="list-none">
               <li><Link className="tracking-wider text-slate-200 mb-1" to="/">Home</Link></li>
-              <li><Link className="tracking-wider text-slate-200 mb-1" to="/playground">Playground</Link></li>
               <li><Link className="tracking-wider text-slate-200" to="/login">Login</Link></li>
             </ul>
             <ul className="list-none bg-primary" />

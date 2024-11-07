@@ -8,11 +8,10 @@ import type { OperationalTime } from "@core/types";
 
 type Props = {
   name: string;
-  label: string;
+  label?: string;
 } & Omit<SelectProps, "children"> ;
 
 export default function TimeField(props: Props): ReactElement {
-  const { name, defaultSelectedKeys, ...rest } = props;
 
   /**
    * Times mock date
@@ -62,13 +61,11 @@ export default function TimeField(props: Props): ReactElement {
 
   return (
     <SelectField
-      {...rest}
-      defaultSelectedKeys={defaultSelectedKeys}
-      startContent={<AccessTime fontSize="small"/>}
-      name={name}>
-          {parsedTime.map( (time) => {
-            return <SelectItem key={time.key}>{time.label}</SelectItem>
-          })}
+      {...props}
+      startContent={<AccessTime fontSize="small"/>}>
+        {parsedTime.map( (time) => {
+          return <SelectItem key={time.key}>{time.label}</SelectItem>
+        })}
       </SelectField>
     );
 }

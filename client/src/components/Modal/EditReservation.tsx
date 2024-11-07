@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { client } from "../../core/request";
+import TimeField from "../Fields/Time";
+import { DevTool } from "@hookform/devtools";
+import TablesSelect from "../Fields/Tables";
 import type { ReservationData } from "@core/types";
 import type { useDisclosure } from "@nextui-org/react";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
@@ -11,8 +15,6 @@ import CalendarPlainField from "@components/Fields/CalendarPlain";
 import { parseDate } from "@internationalized/date";
 import CheckboxField from "@components/Fields/Checkbox";
 import EmailField from "@components/Fields/Email";
-import { client } from "@core/request";
-import TimeField from "@components/Fields/Time";
 
 type Props = {
   reservation: ReservationData;
@@ -33,7 +35,7 @@ export default function EditReservationModal(props: Props) {
       email: reservation.user.email,
       phone: reservation.user.phone,
       persons: reservation.persons.toString(),
-      table: reservation.table
+      table: String(reservation.table.id)
     }
   });
 
@@ -70,6 +72,7 @@ export default function EditReservationModal(props: Props) {
         placement="top"
         size="2xl"
         backdrop="opaque"
+        onClose={methods.reset}
       >
         <ModalContent>
           {(onClose) => (
@@ -82,11 +85,11 @@ export default function EditReservationModal(props: Props) {
               <div className="gap-4 md:flex">
                 <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2">
                   <CalendarPlainField name="date" showMonthAndYearPickers />
-                  <TimeField label="Time" name="time" placeholder="Time" />
+                  <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
                 </div>
                 <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                   <NumberField isRequired label="Persons" name="persons" />
-                  <InputField isRequired label="Table" name="table" />
+                  <TablesSelect label="Select table" name="table" />
                   <InputField isRequired label="Name" name="name" isDisabled={isRegistered} />
                   <InputField isRequired label="Surname" isDisabled={isRegistered} name="surname" />
                   <EmailField isRequired label="Email" isDisabled={isRegistered} name="email" />
@@ -96,7 +99,6 @@ export default function EditReservationModal(props: Props) {
 
               {/* @todo Needs implementation */}
               {/* <StatusGroupField status={reservation.status} /> */}
-
               <CheckboxField label="Inform client about the changes (requires user email)" defaultSelected name="inform" />
               </ModalBody>
               <ModalFooter>
@@ -108,7 +110,7 @@ export default function EditReservationModal(props: Props) {
                 </Button>
               </ModalFooter>
               </form>
-              {/* <DevTool control={methods.control} /> */}
+              <DevTool control={methods.control} />
             </FormProvider>
           )}
         </ModalContent>
