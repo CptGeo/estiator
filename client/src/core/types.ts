@@ -66,7 +66,7 @@ export interface ReservationData extends HasId {
   user: UserData,
   status: ReservationStatus,
   persons: number,
-  table: string
+  table: TableData
 };
 
 /** Represents table data */

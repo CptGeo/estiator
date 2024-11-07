@@ -35,7 +35,7 @@ export default function EditReservationModal(props: Props) {
       email: reservation.user.email,
       phone: reservation.user.phone,
       persons: reservation.persons.toString(),
-      table: String(reservation.table)
+      table: String(reservation.table.id)
     }
   });
 
