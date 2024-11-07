@@ -10,6 +10,7 @@ import { client } from "../../core/request";
 import TimeField from "../Fields/Time";
 import { ReservationStatus } from "../../core/types";
 import { today } from "@internationalized/date";
+import TablesSelect from "../Fields/Tables";
 
 type Props = ReturnType<typeof useDisclosure>;
 
@@ -22,7 +23,6 @@ export default function CreateReservationModal(props: Props) {
     defaultValues: {
       date: today("GMT").add({ days: 1 }),
       persons: 1,
-      time: "08:00"
     }
   });
 
@@ -38,7 +38,8 @@ export default function CreateReservationModal(props: Props) {
           email: values.email,
           phone: values.phone
         },
-        table: values.table,
+        // Note: Remove table so that we don't need to post mock table data for adding a reservation. To be removed
+        // table: values.table,
         time: values.time,
         status: ReservationStatus.CONFIRMED
       };
@@ -59,6 +60,7 @@ export default function CreateReservationModal(props: Props) {
         placement="top"
         size="2xl"
         backdrop="opaque"
+        onClose={methods.reset}
       >
         <ModalContent>
           {(onClose) => (
@@ -71,11 +73,11 @@ export default function CreateReservationModal(props: Props) {
               <div className="gap-4 md:flex">
                 <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2">
                   <CalendarPlainField name="date" showMonthAndYearPickers />
-                  <TimeField label="Time" name="time" placeholder="Time" isRequired />
+                  <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
                 </div>
                 <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                   <NumberField isRequired label="Persons" name="persons" />
-                  <InputField isRequired label="Table" name="table" />
+                  <TablesSelect name="table" />
                   <InputField isRequired label="Name" name="name" />
                   <InputField isRequired label="Surname" name="surname"/>
                   <EmailField isRequired label="Email" name="email" />
