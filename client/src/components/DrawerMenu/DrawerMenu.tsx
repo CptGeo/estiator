@@ -1,14 +1,14 @@
 import { Button } from "@nextui-org/react";
-import { ReactElement } from "react";
-import MenuCloseIcon from "../Icons/MenuCloseIcon";
-import MenuOpenIcon from "../Icons/MenuOpenIcon";
+import type { ReactElement } from "react";
+import MenuCloseIcon from "@components/Icons/MenuCloseIcon";
+import MenuOpenIcon from "@components/Icons/MenuOpenIcon";
 import { useLocation, useNavigate } from "react-router-dom";
-import HomeIcon from "../Icons/HomeIcon";
-import SettingsIcon from "../Icons/SettingsIcon";
-import CompanyAvatar from "../Avatar/Company";
-import { useDrawer } from "../../context/Drawer";
-import TableClockIcon from "../Icons/TableClockIcon";
-import TableIcon from "../Icons/TableIcon";
+import HomeIcon from "@components/Icons/HomeIcon";
+import SettingsIcon from "@components/Icons/SettingsIcon";
+import CompanyAvatar from "@components/Avatar/Company";
+import { useDrawer } from "@context/Drawer";
+import TableClockIcon from "@components/Icons/TableClockIcon";
+import TableIcon from "@components/Icons/TableIcon";
 
 export default function DrawerMenu(): ReactElement {
   const navigate = useNavigate();

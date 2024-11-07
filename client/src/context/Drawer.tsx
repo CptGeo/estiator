@@ -1,5 +1,6 @@
-import { createContext, PropsWithChildren, useContext, useState } from "react"
-import settings from "../settings.json";
+import type { PropsWithChildren } from "react";
+import { createContext, useContext, useState } from "react"
+import settings from "@settings";
 
 type ContextProps = {
   open: boolean;

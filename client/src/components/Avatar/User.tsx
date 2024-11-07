@@ -1,5 +1,5 @@
 import { DropdownTrigger, User } from "@nextui-org/react";
-import { UserData } from "../../core/types";
+import type { UserData } from "@core/types";
 
 export default function UserAvatar(props: { user: UserData }) {
   const { name, surname, username } = props.user;

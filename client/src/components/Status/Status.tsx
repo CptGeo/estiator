@@ -1,6 +1,6 @@
+import type { ReactElement } from "react";
 import { Chip } from "@nextui-org/react";
-import { ReactElement } from "react";
-import { ReservationStatus } from "../../core/types";
+import { ReservationStatus } from "@core/types";
 
 type Props = {
     status: ReservationStatus | undefined

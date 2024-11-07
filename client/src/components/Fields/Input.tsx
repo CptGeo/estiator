@@ -1,8 +1,9 @@
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 import { Input } from "@nextui-org/react";
-import { RegisterOptions, useFormContext } from "react-hook-form";
-import { getError, hasError } from "../../core/utils";
-import { ControlledInputProps } from "./types";
+import type { RegisterOptions } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
+import { getError, hasError } from "@core/utils";
+import type { ControlledInputProps } from "@components/Fields/types";
 
 export default function InputField(props: ControlledInputProps): ReactElement {
     const { name, isRequired, rules, maxLength, minLength, label, ...otherProps } = props;

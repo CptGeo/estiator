@@ -1,14 +1,16 @@
-import { DragEndEvent, UniqueIdentifier, useDndMonitor, useDraggable } from "@dnd-kit/core";
-import { TableData } from "../../core/types";
+import type { DragEndEvent, UniqueIdentifier } from "@dnd-kit/core";
+import { useDndMonitor, useDraggable } from "@dnd-kit/core";
+import type { TableData } from "@core/types";
 import classNames from "classnames";
-import styles from '../DragNDrop/TableDraggable/TableDraggable.module.css';
+import styles from '@components/DragNDrop/TableDraggable/TableDraggable.module.css';
 import { Link } from "react-router-dom";
-import { EditIcon } from "../Icons/EditIcon";
-import { gridSize, gridItemMultiplierHeight, gridItemMultiplierWidth, gridItemGap } from "../../settings.json";
-import { Key, useEffect, useState } from "react";
-import { Coordinates } from "@dnd-kit/core/dist/types";
-import { client } from "../../core/request";
-import EditTableModal from "../Modal/EditTable";
+import { EditIcon } from "@components/Icons/EditIcon";
+import { gridSize, gridItemMultiplierHeight, gridItemMultiplierWidth, gridItemGap } from "@settings";
+import type { Key } from "react";
+import { useEffect, useState } from "react";
+import type { Coordinates } from "@dnd-kit/core/dist/types";
+import { client } from "@core/request";
+import EditTableModal from "@components/Modal/EditTable";
 import { useDisclosure } from "@nextui-org/react";
 
 type Props = {

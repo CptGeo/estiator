@@ -1,9 +1,10 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react"
-import { client } from "../core/request";
+import type { PropsWithChildren } from "react";
+import { createContext, useContext, useEffect, useState } from "react"
+import { client } from "@core/request";
 import { useNavigate } from "react-router-dom";
-import { ensureErr, sleep } from "../core/utils";
+import { ensureErr, sleep } from "@core/utils";
 import { AxiosError } from "axios";
-import { AuthValue, Credentials, UserData } from "../core/types";
+import type { AuthValue, Credentials, UserData } from "@core/types";
 
 const AuthContext = createContext<AuthValue | null>(null);
 

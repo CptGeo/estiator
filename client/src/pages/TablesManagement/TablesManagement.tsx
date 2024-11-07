@@ -1,7 +1,7 @@
-import { ReactElement } from "react";
-import PageHeader from "../../components/PageHeader/PageHeader";
-import TablesGrid from "../../components/TablesGrid/TablesGrid";
-import config from "../../settings.json";
+import type { ReactElement } from "react";
+import PageHeader from "@components/PageHeader/PageHeader";
+import TablesGrid from "@components/TablesGrid/TablesGrid";
+import config from "@settings";
 
 const GRID_SIZE = config.gridSize;
 
