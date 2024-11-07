@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-  <a href="https://estiator.io" target="_blank">Estiator.io</a> is the <strong>open source</strong> solution when it comes to managing an FnB business! You can install it on your infrastracture and start managing reservations, tables and more!
+  <a href="https://estiator.io" target="_blank">Estiator.io</a> is the <strong>open source</strong> solution when it comes to managing an FnB business! You can install it on your infrastracture and start managing reservations, tables and more! (not really right now, but let's stay positive :v:)
 </p>
 
 ![alt text](.assets/demo.gif)
