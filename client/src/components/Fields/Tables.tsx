@@ -17,10 +17,9 @@ export default function TablesSelect(props: Props): ReactElement {
       {...props}
       isLoading={isLoading}>
       {tables ? tables.map((table) => {
+        const label = `${table.label} (${table.capacity}) `
         return (
-          <SelectItem value={String(table.id)} key={table.id}>
-            {table.label}
-          </SelectItem>
+          <SelectItem value={String(table.id)} key={table.id}>{label}</SelectItem>
         );
       }) : []}
     </SelectField>
