@@ -1,5 +1,5 @@
 import { Button } from "@nextui-org/react";
-import { ReservationStatus } from "../../core/types";
+import type { ReservationStatus } from "@core/types";
 
 /** @todo This could be a nice status changer */
 export default function StatusGroupField(props: { status: ReservationStatus } ) {

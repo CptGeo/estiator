@@ -1,7 +1,7 @@
-import { ReactElement } from "react";
-import InputField from "./Input";
-import { RegisterOptions } from "react-hook-form";
-import { ControlledInputProps } from "./types";
+import type { ReactElement } from "react";
+import InputField from "@components/Fields/Input";
+import type { RegisterOptions } from "react-hook-form";
+import type { ControlledInputProps } from "@components/Fields/types";
 
 export default function NumberField(props: Omit<ControlledInputProps, "type">): ReactElement {
 

@@ -1,16 +1,18 @@
-import { ReservationData } from "../../core/types";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
-import { getFullName } from "../../core/utils";
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import InputField from "../Fields/Input";
-import NumberField from "../Fields/Number";
-import CalendarPlainField from "../Fields/CalendarPlain";
-import { parseDate } from "@internationalized/date";
-import CheckboxField from "../Fields/Checkbox";
-import EmailField from "../Fields/Email";
 import { useState } from "react";
-import { client } from "../../core/request";
-import TimeField from "../Fields/Time";
+import type { ReservationData } from "@core/types";
+import type { useDisclosure } from "@nextui-org/react";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
+import { getFullName } from "@core/utils";
+import type { FieldValues } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+import InputField from "@components/Fields/Input";
+import NumberField from "@components/Fields/Number";
+import CalendarPlainField from "@components/Fields/CalendarPlain";
+import { parseDate } from "@internationalized/date";
+import CheckboxField from "@components/Fields/Checkbox";
+import EmailField from "@components/Fields/Email";
+import { client } from "@core/request";
+import TimeField from "@components/Fields/Time";
 
 type Props = {
   reservation: ReservationData;

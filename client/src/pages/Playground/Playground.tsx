@@ -1,15 +1,16 @@
+import type { ReactElement } from "react";
+import type { FieldValues } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { Button, SelectItem } from "@nextui-org/react";
-import { ReactElement } from "react";
-import ReservationTimeField from "../../components/Fields/ReservationTime";
-import InputField from "../../components/Fields/Input";
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
+import ReservationTimeField from "@components/Fields/ReservationTime";
+import InputField from "@components/Fields/Input";
 import { DevTool } from "@hookform/devtools";
-import EmailField from "../../components/Fields/Email";
-import CalendarField from "../../components/Fields/Calendar";
-import CheckboxField from "../../components/Fields/Checkbox";
-import NumberField from "../../components/Fields/Number";
-import SelectField from "../../components/Fields/Select";
-import PageHeader from "../../components/PageHeader/PageHeader";
+import EmailField from "@components/Fields/Email";
+import CalendarField from "@components/Fields/Calendar";
+import CheckboxField from "@components/Fields/Checkbox";
+import NumberField from "@components/Fields/Number";
+import SelectField from "@components/Fields/Select";
+import PageHeader from "@components/PageHeader/PageHeader";
 
 export default function PlaygroundPage(): ReactElement {
 

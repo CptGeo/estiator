@@ -1,12 +1,13 @@
-import { ReactElement } from "react";
-import { Button, Link } from "@nextui-org/react";
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import PasswordField from "../../components/Fields/Password";
-import { DevTool } from "@hookform/devtools";
-import EmailField from "../../components/Fields/Email";
-import { useAuth } from "../../context/Authentication";
+import type { ReactElement } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import PageHeader from "../../components/PageHeader/PageHeader";
+import type { FieldValues } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+import { Button, Link } from "@nextui-org/react";
+import PasswordField from "@components/Fields/Password";
+import { DevTool } from "@hookform/devtools";
+import EmailField from "@components/Fields/Email";
+import { useAuth } from "@context/Authentication";
+import PageHeader from "@components/PageHeader/PageHeader";
 
 /**
  * @todo Convert to modal instead of page

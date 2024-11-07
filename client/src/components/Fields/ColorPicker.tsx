@@ -1,6 +1,7 @@
 import { Button } from "@nextui-org/react";
 import classNames from "classnames";
-import { createContext, PropsWithChildren, ReactElement, useContext } from "react";
+import type { PropsWithChildren, ReactElement } from "react";
+import { createContext, useContext } from "react";
 import { Controller } from "react-hook-form";
 
 type Props = {

@@ -1,6 +1,6 @@
-import { ReactElement } from "react";
+import type { ReactElement } from "react";
 import { Outlet } from "react-router-dom";
-import AuthProvider from "../context/Authentication";
+import AuthProvider from "@context/Authentication";
 
 export default function AuthLayout(): ReactElement {
   return (

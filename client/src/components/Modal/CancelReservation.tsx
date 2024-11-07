@@ -1,9 +1,10 @@
-import { useDisclosure } from "@nextui-org/react";
-import ConfirmationModal from "./Confirmation";
-import { ReservationData, ReservationStatus } from "../../core/types";
+import type { useDisclosure } from "@nextui-org/react";
+import ConfirmationModal from "@components/Modal/Confirmation";
+import type { ReservationData } from "@core/types";
+import { ReservationStatus } from "@core/types";
 import { useState } from "react";
-import { client } from "../../core/request";
-import { getFullName } from "../../core/utils";
+import { client } from "@core/request";
+import { getFullName } from "@core/utils";
 
 type Props = {
   reservation: ReservationData;

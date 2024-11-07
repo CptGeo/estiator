@@ -1,12 +1,14 @@
-import { TableData } from "../../core/types";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import InputField from "../Fields/Input";
-import NumberField from "../Fields/Number";
 import { useState } from "react";
-import { client } from "../../core/request";
-import ColorPickerField, { ColorPickerOption } from "../Fields/ColorPicker";
-import GridTable from "../Grid/GridTable";
+import type { TableData } from "@core/types";
+import type { useDisclosure } from "@nextui-org/react";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
+import type { FieldValues } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
+import InputField from "@components/Fields/Input";
+import NumberField from "@components/Fields/Number";
+import { client } from "@core/request";
+import ColorPickerField, { ColorPickerOption } from "@components/Fields/ColorPicker";
+import GridTable from "@components/Grid/GridTable";
 
 type Props = {
   table: TableData;

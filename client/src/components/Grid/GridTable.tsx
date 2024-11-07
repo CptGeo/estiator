@@ -1,4 +1,4 @@
-import { gridSize, gridItemMultiplierHeight, gridItemMultiplierWidth, gridItemGap } from "../../settings.json";
+import { gridSize, gridItemMultiplierHeight, gridItemMultiplierWidth, gridItemGap } from "@settings";
 
 export default function GridTable({ color, label, capacity }: { color: string; label: string; capacity: number }) {
   const buttonStyle = {

@@ -1,7 +1,7 @@
-import { Divider, Image } from "@nextui-org/react";
-import { ReactElement } from "react";
-import logo from "../../assets/images/logo.png";
+import type { ReactElement } from "react";
 import { Link } from "react-router-dom";
+import { Divider, Image } from "@nextui-org/react";
+import logo from "@assets/images/logo.png";
 
 export default function Footer(): ReactElement {
   return (

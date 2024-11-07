@@ -1,9 +1,9 @@
+import type { ReactElement } from "react";
 import { Time } from "@internationalized/date";
 import { AccessTime } from "@mui/icons-material";
 import { SelectItem } from "@nextui-org/react";
-import { ReactElement } from "react";
-import SelectField from "./Select";
-import { OperationalTime } from "../../core/types";
+import SelectField from "@components/Fields/Select";
+import type { OperationalTime } from "@core/types";
 
 type Props = {
   name: string;

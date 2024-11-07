@@ -1,13 +1,13 @@
 import { useCallback, useMemo, useState } from "react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Spinner, Pagination, Button, useDisclosure } from "@nextui-org/react";
-import Status from "../Status/Status";
 import { parseDate, parseTime } from "@internationalized/date";
-import { ReservationData } from "../../core/types";
-import ReservationsActions from "./Actions";
-import { getFullName } from "../../core/utils";
-import useGetReservations from "../../hooks/useGetReservations";
-import AddIcon from "../Icons/AddIcon";
-import CreateReservationModal from "../Modal/CreateReservation";
+import Status from "@components/Status/Status";
+import type { ReservationData } from "@core/types";
+import ReservationsActions from "@components/Reservations/Actions";
+import { getFullName } from "@core/utils";
+import useGetReservations from "@hooks/useGetReservations";
+import AddIcon from "@components/Icons/AddIcon";
+import CreateReservationModal from "@components/Modal/CreateReservation";
 
 const columns = [
   { name: "NAME", uid: "name" },

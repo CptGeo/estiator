@@ -1,13 +1,14 @@
+import { useCallback, useMemo, useRef, useState } from "react";
+import type { CSSProperties, Key, ReactElement } from "react";
 import { createSnapModifier, restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
-import { GridDndContext } from "../Grid/GridDndContext";
-import { CSSProperties, Key, ReactElement, useCallback, useMemo, useRef, useState } from "react";
-import useGetTables from "../../hooks/useGetTables";
-import { isUndefined, normalize } from "../../core/utils";
+import { GridDndContext } from "@components/Grid/GridDndContext";
+import useGetTables from "@hooks/useGetTables";
+import { isUndefined, normalize } from "@core/utils";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner, useDisclosure } from "@nextui-org/react";
-import { TableData } from "../../core/types";
-import AddIcon from "../Icons/AddIcon";
-import { PointerActivationConstraint } from "@dnd-kit/core";
-import AddTableModal from "../Modal/AddTable";
+import type { TableData } from "@core/types";
+import AddIcon from "@components/Icons/AddIcon";
+import type { PointerActivationConstraint } from "@dnd-kit/core";
+import AddTableModal from "@components/Modal/AddTable";
 
 type Props = {
   size: number;
