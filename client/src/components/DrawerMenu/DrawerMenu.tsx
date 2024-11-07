@@ -4,7 +4,6 @@ import MenuCloseIcon from "../Icons/MenuCloseIcon";
 import MenuOpenIcon from "../Icons/MenuOpenIcon";
 import { useLocation, useNavigate } from "react-router-dom";
 import HomeIcon from "../Icons/HomeIcon";
-import PlaygroundIcon from "../Icons/PlaygroundIcon";
 import SettingsIcon from "../Icons/SettingsIcon";
 import CompanyAvatar from "../Avatar/Company";
 import { useDrawer } from "../../context/Drawer";
@@ -39,7 +38,6 @@ export default function DrawerMenu(): ReactElement {
       <div className="flex flex-col justify-between h-full">
         <div className="flex flex-col gap-2">
           <DrawerItem to="/" text="Home" icon={<HomeIcon />} />
-          <DrawerItem to="/playground" text="Playground" icon={<PlaygroundIcon />} />
           <DrawerItem to="/reservations-management" text="Reservations Management" icon={<TableClockIcon />} />
           <DrawerItem to="/tables-management" text="Tables Management" icon={<TableIcon />} />
         </div>
