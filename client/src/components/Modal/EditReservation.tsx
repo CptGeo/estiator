@@ -1,5 +1,5 @@
 import { ReservationData } from "../../core/types";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SelectItem, useDisclosure } from "@nextui-org/react";
 import { getFullName } from "../../core/utils";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import InputField from "../Fields/Input";
@@ -11,6 +11,9 @@ import EmailField from "../Fields/Email";
 import { useState } from "react";
 import { client } from "../../core/request";
 import TimeField from "../Fields/Time";
+import useGetTables from "../../hooks/useGetTables";
+import { DevTool } from "@hookform/devtools";
+import SelectField from "../Fields/Select";
 
 type Props = {
   reservation: ReservationData;
@@ -20,6 +23,7 @@ export default function EditReservationModal(props: Props) {
   const { reservation, isOpen, onOpenChange, onClose } = props;
   const [loading, setLoading] = useState(false);
   const isRegistered = reservation.user.registered;
+  const tables = useGetTables();
 
   const methods = useForm({
     mode: "onChange",
@@ -31,7 +35,7 @@ export default function EditReservationModal(props: Props) {
       email: reservation.user.email,
       phone: reservation.user.phone,
       persons: reservation.persons.toString(),
-      table: reservation.table
+      table: String(reservation.table)
     }
   });
 
@@ -68,6 +72,7 @@ export default function EditReservationModal(props: Props) {
         placement="top"
         size="2xl"
         backdrop="opaque"
+        onClose={methods.reset}
       >
         <ModalContent>
           {(onClose) => (
@@ -84,7 +89,18 @@ export default function EditReservationModal(props: Props) {
                 </div>
                 <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                   <NumberField isRequired label="Persons" name="persons" />
-                  <InputField isRequired label="Table" name="table" />
+                  <SelectField
+                    isLoading={typeof tables === "undefined"}
+                    name="table"
+                  >
+                  {tables ? tables.map((table) => {
+                    return (
+                      <SelectItem value={String(table.id)} key={table.id}>
+                        {table.label}
+                      </SelectItem>
+                    );
+                  }) : <SelectItem value="0" key="0">Nothing to select</SelectItem>}
+                </SelectField>
                   <InputField isRequired label="Name" name="name" isDisabled={isRegistered} />
                   <InputField isRequired label="Surname" isDisabled={isRegistered} name="surname" />
                   <EmailField isRequired label="Email" isDisabled={isRegistered} name="email" />
@@ -94,7 +110,6 @@ export default function EditReservationModal(props: Props) {
 
               {/* @todo Needs implementation */}
               {/* <StatusGroupField status={reservation.status} /> */}
-
               <CheckboxField label="Inform client about the changes (requires user email)" defaultSelected name="inform" />
               </ModalBody>
               <ModalFooter>
@@ -106,7 +121,7 @@ export default function EditReservationModal(props: Props) {
                 </Button>
               </ModalFooter>
               </form>
-              {/* <DevTool control={methods.control} /> */}
+              <DevTool control={methods.control} />
             </FormProvider>
           )}
         </ModalContent>
