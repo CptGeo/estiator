@@ -2,7 +2,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import type { CSSProperties, Key, ReactElement } from "react";
 import { createSnapModifier, restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
 import { GridDndContext } from "@components/Grid/GridDndContext";
-import useGetTables from "@hooks/useGetTables";
+import useQueryTables from "@hooks/useQueryTables";
 import { isUndefined, normalize } from "@core/utils";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner, useDisclosure } from "@nextui-org/react";
 import type { TableData } from "@core/types";
@@ -32,7 +32,8 @@ export default function TablesGrid(props: Props): ReactElement {
     tolerance: 5,
   };
 
-  const tables = useGetTables(500);
+  const {data: tables} = useQueryTables(500);
+
   const getNormalizedTable = useCallback((data: TableData[] | null | undefined) => normalize<TableData>(data), [tables]);
 
   /** Memoized calculation of total capacity */
