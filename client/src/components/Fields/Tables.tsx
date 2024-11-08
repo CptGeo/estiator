@@ -1,6 +1,6 @@
 import { SelectItem, SelectProps } from "@nextui-org/react";
 import { ReactElement } from "react";
-import useGetTables from "../../hooks/useGetTables";
+import useQueryTables from "@hooks/useQueryTables";
 import SelectField from "./Select";
 
 type Props = {
@@ -9,8 +9,7 @@ type Props = {
 } & Omit<SelectProps, "children"> ;
 
 export default function TablesSelect(props: Props): ReactElement {
-  const tables = useGetTables();
-  const isLoading = typeof tables === "undefined";
+  const {data: tables, isLoading} = useQueryTables();
 
   return (
     <SelectField

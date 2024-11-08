@@ -5,7 +5,7 @@ import Status from "@components/Status/Status";
 import type { ReservationData } from "@core/types";
 import ReservationsActions from "@components/Reservations/Actions";
 import { getFullName } from "@core/utils";
-import useGetReservations from "@hooks/useGetReservations";
+import useQueryReservations from "@hooks/useQueryReservations";
 import AddIcon from "@components/Icons/AddIcon";
 import CreateReservationModal from "@components/Modal/CreateReservation";
 
@@ -20,7 +20,7 @@ const columns = [
 ];
 
 export default function ReservationsTable() {
-  const reservations = useGetReservations();
+  const {data: reservations} = useQueryReservations(500);
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
   const pages = reservations ? Math.ceil(reservations.length / rowsPerPage) : 0;
@@ -36,7 +36,7 @@ export default function ReservationsTable() {
     const count = reservations?.length;
     return (
       <div className="flex flex-row justify-between items-end">
-        <p className="text-xs text-default-600">{count! > 0 && `Total ${reservations?.length} reservation${count! > 1 ? "s" : ""}`}</p>
+        <p className="text-xs text-default-600">{count! > 0 && `Total reservations: ${reservations?.length}`}</p>
         <Button color="primary" onClick={createDisclosure.onOpen}><AddIcon className="text-md" />Create reservation</Button>
       </div>
     )
