@@ -17,7 +17,7 @@ export type AuthValue = {
   token?: string | null;
 
   /** @property user data stored in localStorage  */
-  user?: UserData | null;
+  user?: UserData | null | undefined;
 
   /** @property `true` if user is authenticating, `false` otherwise */
   loading?: boolean;
