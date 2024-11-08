@@ -8,7 +8,7 @@ export default function useLocalStorage<T>(key: string, defaultValue?: unknown):
         return JSON.parse(value);
       }
 
-      // Value is empty. Set key with defaultValue if is set 
+      // Value is empty. Set key with defaultValue if is set
       if (defaultValue) {
         window.localStorage.setItem(key, JSON.stringify(defaultValue));
       }
