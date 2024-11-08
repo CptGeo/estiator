@@ -12,6 +12,7 @@ import MainLayout from "@layouts/Main";
 import AuthLayout from "@layouts/Auth";
 import ReservationsManagementPage from "@pages/ReservationsManagement/ReservationsManagement";
 import TablesManagementPage from "@pages/TablesManagement/TablesManagement";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createBrowserRouter([
   {
@@ -47,8 +48,12 @@ const router = createBrowserRouter([
   }
 ]);
 
+const queryClient = new QueryClient();
+
 export default function App(): ReactElement {
   return <StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </StrictMode>
 }
