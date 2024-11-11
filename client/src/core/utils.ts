@@ -1,5 +1,6 @@
 import type { FieldValues, FormState } from "react-hook-form";
 import type { HasId, Normalized, UserData } from "@core/types";
+import { parseTime } from "@internationalized/date";
 
 /**
  * Checks if field has any errors
@@ -77,3 +78,19 @@ export function normalize<T extends HasId>(data: T[] | null | undefined) {
     return coords;
 }
 
+
+export function sortByTimeAscending<T extends { time: string }>(a: T, b: T): number {
+    return sortByTime(a, b, "asc");
+}
+
+export function sortByTimeDescending<T extends { time: string }>(a: T, b: T): number {
+    return sortByTime(a, b, "desc");
+}
+
+export function sortByTime<T extends { time: string }>(a: T, b: T, method: "asc" | "desc"): number {
+    const aParsed = parseTime(a.time);
+    const bParsed = parseTime(b.time);
+    const result = aParsed.compare(bParsed);
+
+    return method === "asc" ? result : -result;
+}
