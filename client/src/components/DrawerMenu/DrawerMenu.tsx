@@ -3,12 +3,12 @@ import type { ReactElement } from "react";
 import MenuCloseIcon from "@components/Icons/MenuCloseIcon";
 import MenuOpenIcon from "@components/Icons/MenuOpenIcon";
 import { useLocation, useNavigate } from "react-router-dom";
-import HomeIcon from "@components/Icons/HomeIcon";
 import SettingsIcon from "@components/Icons/SettingsIcon";
 import CompanyAvatar from "@components/Avatar/Company";
 import { useDrawer } from "@context/Drawer";
 import TableClockIcon from "@components/Icons/TableClockIcon";
 import TableIcon from "@components/Icons/TableIcon";
+import DashboardIcon from "@components/Icons/DashboardIcon";
 
 export default function DrawerMenu(): ReactElement {
   const navigate = useNavigate();
@@ -37,9 +37,9 @@ export default function DrawerMenu(): ReactElement {
       </div>
       <div className="flex flex-col justify-between h-full">
         <div className="flex flex-col gap-2">
-          <DrawerItem to="/" text="Home" icon={<HomeIcon />} />
-          <DrawerItem to="/reservations-management" text="Reservations Management" icon={<TableClockIcon />} />
-          <DrawerItem to="/tables-management" text="Tables Management" icon={<TableIcon />} />
+          <DrawerItem to="/" text="Dashboard" icon={<DashboardIcon className="text-xl" />} />
+          <DrawerItem to="/reservations-management" text="Reservations Management" icon={<TableClockIcon className="text-xl" />} />
+          <DrawerItem to="/tables-management" text="Tables Management" icon={<TableIcon className="text-xl" />} />
         </div>
 
         <div className="flex flex-col gap-2">
