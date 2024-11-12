@@ -107,3 +107,14 @@ export async function get<T>(url: string, config?: AxiosRequestConfig): Promise<
     }
     throw new Error("No data");
 };
+
+/**
+ * Performs HTTP PUT request
+ */
+export async function patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T | undefined> {
+    const response = await client.patch<T>(url, data, config);
+    if (response.status == HttpStatusCode.Ok) {
+        return response.data;
+    }
+    throw new Error("No data");
+};
