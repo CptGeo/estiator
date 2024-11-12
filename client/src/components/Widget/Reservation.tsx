@@ -9,19 +9,19 @@ import { Link } from "react-router-dom";
 export default function ReservationWidget() {
   const {data: reservations} = useQueryReservations();
   const filtered = reservations?.filter(filter).sort(sortByTimeAscending);
-
   /**
    * Filters only upcoming, Confirmed reservations (current day only) 
    */
   function filter(reservation: ReservationData) {
     const parsed = parseDate(reservation.date);
 
+    /** TODO: Change GMT with local time */
     return isToday(parsed, "GMT") && reservation.status === ReservationStatus.CONFIRMED;
   }
 
   function renderRow(reservation: ReservationData) {
     return (
-      <TableRow className="first:bg-primary first:text-default-50">
+      <TableRow>
         <TableCell className="w-[35%]" textValue="Name">
           {getFullName(reservation.user)}
         </TableCell>
@@ -33,7 +33,7 @@ export default function ReservationWidget() {
         </TableCell>
         <TableCell className="w-[5%]" textValue="Time">
           <Tooltip content="Set as Completed" delay={0} closeDelay={0}>
-            <Button onPress={() => alert(`${reservation.id} completed`)} isIconOnly size="sm" variant="light"><TickIcon /></Button>
+            <Button onPress={() => alert(`${reservation.id} completed`)} isIconOnly size="sm" color="success" variant="solid"><TickIcon className="text-lg text-content1" /></Button>
           </Tooltip>
         </TableCell>
       </TableRow>
@@ -51,7 +51,7 @@ export default function ReservationWidget() {
         <Table 
           hideHeader={true}
           isStriped
-          {...filtered && { bottomContent : <small><Link className="text-primary" to={"reservations-management"}>Check all reservations</Link></small>}}
+          {...filtered && { bottomContent : <small><Link className="text-primary" to={"reservations-management"}>View all reservations</Link></small>}}
         >
           <TableHeader>
             <TableColumn>Name</TableColumn>
