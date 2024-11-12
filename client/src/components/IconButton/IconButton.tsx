@@ -7,10 +7,11 @@ type Props = ButtonProps & {
   withConfirmation?: boolean;
   confirmationTooltip?: string;
   tooltip?: string;
+  confirmationDelay?: number;
 }
 
 export default function IconButton(props: Props): ReactElement {
-  const { withConfirmation, children, onPress, confirmationTooltip, tooltip, ...otherProps } = props;
+  const { withConfirmation, children, onPress, confirmationTooltip, confirmationDelay = 3000, tooltip, ...otherProps } = props;
   const [confirmed, setConfirmed] = useState(false);
 
   function handlePress(event: PressEvent): void {
@@ -29,12 +30,12 @@ export default function IconButton(props: Props): ReactElement {
       setConfirmed(true);
       setTimeout(() => {
         setConfirmed(false);
-      }, 5000);
+      }, confirmationDelay);
     }
   }
 
   return (
-    <Tooltip content={confirmed ? confirmationTooltip : tooltip}>
+    <Tooltip content={confirmed ? confirmationTooltip : tooltip} closeDelay={100}>
       <Button onPress={handlePress} {...otherProps} {...confirmed && { color: "warning"  }}>
         {confirmed && withConfirmation ? <WarningIcon className="text-lg text-content1"/> : children}
       </Button>
