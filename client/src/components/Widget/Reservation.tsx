@@ -7,8 +7,8 @@ import { Button, Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCel
 import { Link } from "react-router-dom";
 
 export default function ReservationWidget() {
-  const {data: reservations} = useQueryReservations();
-  const filtered = reservations?.filter(filter).sort(sortByTimeAscending);
+  const {data: reservations} = useQueryReservations(3000);
+  const filtered = reservations?.filter(filter).sort(sortByTimeAscending) as ReservationData[];
   /**
    * Filters only upcoming, Confirmed reservations (current day only) 
    */
