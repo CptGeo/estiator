@@ -1,14 +1,27 @@
 import TickIcon from "@components/Icons/TickIcon";
 import { ReservationData, ReservationStatus } from "@core/types";
-import { getFullName, sortByTimeAscending } from "@core/utils";
+import { getFullName, patch, sortByTimeAscending } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
-import { getLocalTimeZone, isToday, parseDate, today } from "@internationalized/date";
+import { getLocalTimeZone, isToday, parseDate } from "@internationalized/date";
 import { Button, Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from "@nextui-org/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 export default function ReservationWidget() {
-  const {data: reservations} = useQueryReservations(3000);
-  const filtered = reservations?.filter(filter).sort(sortByTimeAscending) as ReservationData[];
+  const {data: reservations} = useQueryReservations(5000);
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: (data: ReservationData) => patch(`reservations/${data.id}`, data),
+    onSettled: () => {
+      queryClient.invalidateQueries({queryKey: ["reservations"]})
+    }
+  });
+
+  const filtered = useMemo(() => {
+    return reservations?.filter(filter).sort(sortByTimeAscending) as ReservationData[];
+  }, [reservations]);
+
   /**
    * Filters only upcoming, Confirmed reservations (current day only) 
    */
@@ -33,7 +46,7 @@ export default function ReservationWidget() {
         </TableCell>
         <TableCell className="w-[5%]" textValue="Time">
           <Tooltip content="Set as Completed" delay={0} closeDelay={0}>
-            <Button onPress={() => alert(`${reservation.id} completed`)} isIconOnly size="sm" color="success" variant="solid"><TickIcon className="text-lg text-content1" /></Button>
+            <Button onPress={mutate.bind(null, { ...reservation, status: ReservationStatus.COMPLETED })} isIconOnly size="sm" color="success" variant="solid"><TickIcon className="text-lg text-content1" /></Button>
           </Tooltip>
         </TableCell>
       </TableRow>
