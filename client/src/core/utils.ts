@@ -1,6 +1,8 @@
 import type { FieldValues, FormState } from "react-hook-form";
-import type { HasId, Normalized, UserData } from "@core/types";
+import type { HasId, Normalized, RequestMethod, UserData } from "@core/types";
 import { parseTime } from "@internationalized/date";
+import { client } from "./request";
+import { AxiosRequestConfig, HttpStatusCode } from "axios";
 
 /**
  * Checks if field has any errors
@@ -94,3 +96,14 @@ export function sortByTime<T extends { time: string }>(a: T, b: T, method: "asc"
 
     return method === "asc" ? result : -result;
 }
+
+/**
+ * Performs HTTP GET request
+ */
+export async function get<T>(url: string, config?: AxiosRequestConfig): Promise<T | undefined> {
+    const response = await client.get<T>(url, config);
+    if (response.status == HttpStatusCode.Ok) {
+        return response.data;
+    }
+    throw new Error("No data");
+};
