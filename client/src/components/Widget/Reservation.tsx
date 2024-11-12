@@ -1,9 +1,10 @@
+import IconButton from "@components/IconButton/IconButton";
 import TickIcon from "@components/Icons/TickIcon";
 import { ReservationData, ReservationStatus } from "@core/types";
 import { getFullName, patch, sortByTimeAscending } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
 import { getLocalTimeZone, isToday, parseDate } from "@internationalized/date";
-import { Button, Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
@@ -45,9 +46,21 @@ export default function ReservationWidget() {
           {reservation.time}
         </TableCell>
         <TableCell className="w-[5%]" textValue="Time">
-          <Tooltip content="Set as Completed" delay={0} closeDelay={0}>
-            <Button onPress={mutate.bind(null, { ...reservation, status: ReservationStatus.COMPLETED })} isIconOnly size="sm" color="success" variant="solid"><TickIcon className="text-lg text-content1" /></Button>
-          </Tooltip>
+          <IconButton
+            withConfirmation
+            confirmationTooltip="Confirm action"
+            tooltip="Set as completed"
+            onPress={mutate.bind(null, {
+              ...reservation,
+              status: ReservationStatus.COMPLETED,
+            })}
+            isIconOnly
+            size="sm"
+            color="success"
+            variant="solid"
+          >
+            <TickIcon className="text-lg text-content1" />
+          </IconButton>
         </TableCell>
       </TableRow>
     );
