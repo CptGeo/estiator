@@ -2,7 +2,7 @@ import TickIcon from "@components/Icons/TickIcon";
 import { ReservationData, ReservationStatus } from "@core/types";
 import { getFullName, sortByTimeAscending } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
-import { isToday, parseDate } from "@internationalized/date";
+import { getLocalTimeZone, isToday, parseDate, today } from "@internationalized/date";
 import { Button, Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 
@@ -16,7 +16,7 @@ export default function ReservationWidget() {
     const parsed = parseDate(reservation.date);
 
     /** TODO: Change GMT with local time */
-    return isToday(parsed, "GMT") && reservation.status === ReservationStatus.CONFIRMED;
+    return isToday(parsed, getLocalTimeZone()) && reservation.status === ReservationStatus.CONFIRMED;
   }
 
   function renderRow(reservation: ReservationData) {
