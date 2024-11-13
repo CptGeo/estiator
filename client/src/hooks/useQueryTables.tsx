@@ -10,7 +10,7 @@ export default function useQueryTables(interval?: number): UseQueryResult<TableD
     queryKey: [queryKey],
     queryFn: () => get<TableData[]>(queryKey),
     // stop refetching after encountering error
-    refetchInterval: (query: UseQueryResult) => query.state.fetchFailureCount > 0 ? false : interval
+    refetchInterval: (query) => query.state.fetchFailureCount > 0 ? false : interval
   });
 
   return query;

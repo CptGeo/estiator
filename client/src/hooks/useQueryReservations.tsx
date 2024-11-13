@@ -10,7 +10,7 @@ export default function useQueryReservations(interval?: number): UseQueryResult<
     queryKey: [queryKey],
     queryFn: () => get<ReservationData[]>(queryKey),
     // stop refetching after encountering error
-    refetchInterval: (query: UseQueryResult) => query.state.fetchFailureCount > 0 ? false : interval
+    refetchInterval: (query) => query.state.fetchFailureCount > 0 ? false : interval
   });
 
   return query;
