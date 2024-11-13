@@ -5,7 +5,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "@pages/Home/Home";
+import DashboardPage from "@pages/Dashboard/Dashboard";
 import PrivateLayout from "@layouts/Private/Private";
 import LoginPage from "@pages/Login/Login";
 import MainLayout from "@layouts/Main";
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "/",
-            element: <HomePage />,
+            element: <DashboardPage />,
           },
           {
             path: "reservations-management",

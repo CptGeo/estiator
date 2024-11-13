@@ -1,23 +1,17 @@
-import { client } from "@core/request";
 import type { ReservationData } from "@core/types";
-import { HttpStatusCode } from "axios";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { get } from "@core/utils";
+
+const queryKey = "reservations";
 
 export default function useQueryReservations(interval?: number): UseQueryResult<ReservationData[] | undefined> {
   const query = useQuery({
-    queryKey: ["reservations"],
-    queryFn: getReservations,
+    queryKey: [queryKey],
+    queryFn: () => get<ReservationData[]>(queryKey),
     // stop refetching after encountering error
-    refetchInterval: ({state}) => state.fetchFailureCount > 0 ? false : interval
+    refetchInterval: (query) => query.state.fetchFailureCount > 0 ? false : interval
   });
-
-  async function getReservations<T extends ReservationData[]>(): Promise<T | undefined> {
-    const response = await client.get<T>("reservations");
-    if (response.status == HttpStatusCode.Ok) {
-      return response.data;
-    }
-    throw new Error("No data");
-  };
 
   return query;
 }

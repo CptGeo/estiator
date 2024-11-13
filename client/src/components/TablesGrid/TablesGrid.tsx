@@ -32,12 +32,12 @@ export default function TablesGrid(props: Props): ReactElement {
     tolerance: 5,
   };
 
-  const {data: tables} = useQueryTables(500);
+  const { data: tables } = useQueryTables(500);
 
   const getNormalizedTable = useCallback((data: TableData[] | null | undefined) => normalize<TableData>(data), [tables]);
 
   /** Memoized calculation of total capacity */
-  const count = useMemo(() => tables?.reduce((prev, current) => prev + current.capacity, 0), [tables]);
+  const count = useMemo(() => tables?.reduce((prev: number, current: TableData) => prev + current.capacity, 0), [tables]);
 
   /** Content to render over grid area */
   function topContent(): ReactElement {

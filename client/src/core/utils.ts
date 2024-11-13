@@ -1,5 +1,9 @@
 import type { FieldValues, FormState } from "react-hook-form";
 import type { HasId, Normalized, UserData } from "@core/types";
+import { parseTime } from "@internationalized/date";
+import { client } from "./request";
+import type { AxiosRequestConfig } from "axios";
+import { HttpStatusCode } from "axios";
 
 /**
  * Checks if field has any errors
@@ -77,3 +81,40 @@ export function normalize<T extends HasId>(data: T[] | null | undefined) {
     return coords;
 }
 
+export function sortByTimeAscending<T extends { time: string }>(a: T, b: T): number {
+    return sortByTime(a, b, "asc");
+}
+
+export function sortByTimeDescending<T extends { time: string }>(a: T, b: T): number {
+    return sortByTime(a, b, "desc");
+}
+
+export function sortByTime<T extends { time: string }>(a: T, b: T, method: "asc" | "desc"): number {
+    const aParsed = parseTime(a.time);
+    const bParsed = parseTime(b.time);
+    const result = aParsed.compare(bParsed);
+
+    return method === "asc" ? result : -result;
+}
+
+/**
+ * Performs HTTP GET request
+ */
+export async function get<T>(url: string, config?: AxiosRequestConfig): Promise<T | undefined> {
+    const response = await client.get<T>(url, config);
+    if (response.status == HttpStatusCode.Ok) {
+        return response.data;
+    }
+    throw new Error("No data");
+};
+
+/**
+ * Performs HTTP PUT request
+ */
+export async function patch<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T | undefined> {
+    const response = await client.patch<T>(url, data, config);
+    if (response.status == HttpStatusCode.Ok) {
+        return response.data;
+    }
+    throw new Error("No data");
+};
