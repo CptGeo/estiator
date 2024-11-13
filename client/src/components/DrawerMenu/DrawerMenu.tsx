@@ -9,6 +9,7 @@ import { useDrawer } from "@context/Drawer";
 import TableClockIcon from "@components/Icons/TableClockIcon";
 import TableIcon from "@components/Icons/TableIcon";
 import DashboardIcon from "@components/Icons/DashboardIcon";
+import PersonIcon from "@components/Icons/PersonIcon";
 
 export default function DrawerMenu(): ReactElement {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ export default function DrawerMenu(): ReactElement {
           <DrawerItem to="/" text="Dashboard" icon={<DashboardIcon className="text-xl" />} />
           <DrawerItem to="/reservations-management" text="Reservations Management" icon={<TableClockIcon className="text-xl" />} />
           <DrawerItem to="/tables-management" text="Tables Management" icon={<TableIcon className="text-xl" />} />
+          <DrawerItem to="/staff-management" text="Staff Management" icon={<PersonIcon className="text-xl" />} />
         </div>
 
         <div className="flex flex-col gap-2">
