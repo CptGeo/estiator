@@ -20,7 +20,7 @@ const columns = [
 ];
 
 export default function ReservationsTable() {
-  const {data: reservations} = useQueryReservations(500);
+  const { data: reservations } = useQueryReservations(500);
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
   const pages = reservations ? Math.ceil(reservations.length / rowsPerPage) : 0;

@@ -2,7 +2,8 @@ import type { FieldValues, FormState } from "react-hook-form";
 import type { HasId, Normalized, UserData } from "@core/types";
 import { parseTime } from "@internationalized/date";
 import { client } from "./request";
-import { AxiosRequestConfig, HttpStatusCode } from "axios";
+import type { AxiosRequestConfig } from "axios";
+import { HttpStatusCode } from "axios";
 
 /**
  * Checks if field has any errors
@@ -80,7 +81,6 @@ export function normalize<T extends HasId>(data: T[] | null | undefined) {
     return coords;
 }
 
-
 export function sortByTimeAscending<T extends { time: string }>(a: T, b: T): number {
     return sortByTime(a, b, "asc");
 }
@@ -111,7 +111,7 @@ export async function get<T>(url: string, config?: AxiosRequestConfig): Promise<
 /**
  * Performs HTTP PUT request
  */
-export async function patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T | undefined> {
+export async function patch<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T | undefined> {
     const response = await client.patch<T>(url, data, config);
     if (response.status == HttpStatusCode.Ok) {
         return response.data;

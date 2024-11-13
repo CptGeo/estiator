@@ -32,7 +32,7 @@ export default function TablesGrid(props: Props): ReactElement {
     tolerance: 5,
   };
 
-  const {data: tables} = useQueryTables(500);
+  const { data: tables } = useQueryTables(500);
 
   const getNormalizedTable = useCallback((data: TableData[] | null | undefined) => normalize<TableData>(data), [tables]);
 

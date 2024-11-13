@@ -1,5 +1,6 @@
 import type { ReservationData } from "@core/types";
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { get } from "@core/utils";
 
 const queryKey = "reservations";

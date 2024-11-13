@@ -1,7 +1,9 @@
 import WarningIcon from "@components/Icons/WarningIcon";
-import { Button, ButtonProps, Tooltip } from "@nextui-org/react";
-import { PressEvent } from "@react-types/shared";
-import { ReactElement, useState } from "react";
+import type { ButtonProps } from "@nextui-org/react";
+import { Button, Tooltip } from "@nextui-org/react";
+import type { PressEvent } from "@react-types/shared";
+import type { ReactElement } from "react";
+import { useState } from "react";
 
 type Props = ButtonProps & {
   withConfirmation?: boolean;
