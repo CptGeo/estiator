@@ -121,7 +121,7 @@ export default function ReservationsTable() {
             items={items || []}
             loadingContent={<Spinner label="Loading..." />}
         >
-          {(reservation) => renderRow(reservation)}
+          {(reservation: ReservationData) => renderRow(reservation)}
         </TableBody>
       </Table>
       <CreateReservationModal {...createDisclosure} />
