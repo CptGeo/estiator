@@ -39,11 +39,14 @@ export default function ReservationWidget() {
         <TableCell className="w-[35%]" textValue="Name">
           {getFullName(reservation.user)}
         </TableCell>
-        <TableCell className="w-[30%] text-right" textValue="Date">
+        <TableCell className="w-[30%]" textValue="Date">
           {reservation.date}
         </TableCell>
-        <TableCell className="w-[25%] text-right" textValue="Time">
+        <TableCell className="w-[25%]" textValue="Time">
           {reservation.time}
+        </TableCell>
+        <TableCell className="w-[10%]" textValue="Table">
+          {reservation.table.label}
         </TableCell>
         <TableCell className="w-[5%]" textValue="Time">
           <IconButton
@@ -75,7 +78,7 @@ export default function ReservationWidget() {
       </CardHeader>
       <CardBody className="overflow-visible py-2">
         <Table 
-          hideHeader={true}
+          hideHeader={false}
           isStriped
           {...filtered && { bottomContent : <small><Link className="text-primary" to={"reservations-management"}>View all reservations</Link></small>}}
         >
@@ -83,6 +86,7 @@ export default function ReservationWidget() {
             <TableColumn>Name</TableColumn>
             <TableColumn>Date</TableColumn>
             <TableColumn>Time</TableColumn>
+            <TableColumn>Table</TableColumn>
             <TableColumn>Actions</TableColumn>
           </TableHeader>
           <TableBody 
