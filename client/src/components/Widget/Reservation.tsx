@@ -1,21 +1,22 @@
 import IconButton from "@components/IconButton/IconButton";
 import TickIcon from "@components/Icons/TickIcon";
-import { ReservationData, ReservationStatus } from "@core/types";
+import type { ReservationData } from "@core/types";
+import { ReservationStatus } from "@core/types";
 import { getFullName, patch, sortByTimeAscending } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
 import { getLocalTimeZone, isToday, parseDate } from "@internationalized/date";
-import { Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
 export default function ReservationWidget() {
-  const {data: reservations} = useQueryReservations(5000);
+  const { data: reservations } = useQueryReservations(5000);
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: (data: ReservationData) => patch(`reservations/${data.id}`, data),
     onSettled: () => {
-      queryClient.invalidateQueries({queryKey: ["reservations"]})
+      queryClient.invalidateQueries({ queryKey: ["reservations"] })
     }
   });
 
@@ -24,7 +25,7 @@ export default function ReservationWidget() {
   }, [reservations]);
 
   /**
-   * Filters only upcoming, Confirmed reservations (current day only) 
+   * Filters only upcoming, Confirmed reservations (current day only)
    */
   function filter(reservation: ReservationData) {
     const parsed = parseDate(reservation.date);
@@ -53,7 +54,7 @@ export default function ReservationWidget() {
             withConfirmation
             confirmationTooltip="Confirm action"
             tooltip="Set as completed"
-            onPress={mutate.bind(null, {
+            onPress={() => mutate({
               ...reservation,
               status: ReservationStatus.COMPLETED,
             })}
@@ -77,10 +78,10 @@ export default function ReservationWidget() {
         <h4>Upcoming reservations</h4>
       </CardHeader>
       <CardBody className="overflow-visible py-2">
-        <Table 
+        <Table
           hideHeader={false}
           isStriped
-          {...filtered && { bottomContent : <small><Link className="text-primary" to={"reservations-management"}>View all reservations</Link></small>}}
+          {...filtered && { bottomContent: <small><Link className="text-primary" to={"reservations-management"}>View all reservations</Link></small> }}
         >
           <TableHeader>
             <TableColumn>Name</TableColumn>
@@ -89,7 +90,7 @@ export default function ReservationWidget() {
             <TableColumn>Table</TableColumn>
             <TableColumn>Actions</TableColumn>
           </TableHeader>
-          <TableBody 
+          <TableBody
             items={filtered || []}
             isLoading={typeof filtered === "undefined"}
             loadingContent={<Spinner label="Loading..." />}
