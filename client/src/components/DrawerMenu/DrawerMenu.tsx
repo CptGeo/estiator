@@ -45,7 +45,7 @@ export default function DrawerMenu(): ReactElement {
         </div>
 
         <div className="flex flex-col gap-2">
-          <DrawerItem to="/settings" text="Settings" icon={<SettingsIcon />} />
+          <DrawerItem to="/settings" text="Settings" icon={<SettingsIcon className="text-xl" />} />
         </div>
       </div>
       <Button onClick={toggleDrawer} className="shadow-md cursor-pointer absolute top-[18px] right-0 translate-x-full rounded-l-none p-0 text-sm" isIconOnly size="sm" variant="solid" color="warning">

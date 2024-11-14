@@ -6,7 +6,7 @@ export default function StaffManagementPage(): ReactElement {
     <>
       <PageHeader
         heading="Staff Management"
-        subheading="Here you can manage the business staff, assign them to tables and more"
+        subheading="Here you can manage the business staff, assign them to tables and more."
       />
     </>
   );
