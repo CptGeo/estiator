@@ -5,7 +5,7 @@
   "endpointPrefix": "",
   "latency": 200,
   "port": 7777,
-  "hostname": "0.0.0.0",
+  "hostname": "",
   "folders": [],
   "routes": [
     {
@@ -232,6 +232,37 @@
       "responseMode": null,
       "streamingMode": null,
       "streamingInterval": 0
+    },
+    {
+      "uuid": "dcaa1452-74d8-4b1b-9461-c9eda59abaac",
+      "type": "crud",
+      "documentation": "",
+      "method": "",
+      "endpoint": "employees",
+      "responses": [
+        {
+          "uuid": "391ab3df-b44a-4ccc-a26f-1dbc6f2d2dcf",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "DATABUCKET",
+          "filePath": "",
+          "databucketID": "prtq",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
     }
   ],
   "rootChildren": [
@@ -258,6 +289,10 @@
     {
       "type": "route",
       "uuid": "eac7bbef-ff84-4a1a-931b-25efc81bd0e4"
+    },
+    {
+      "type": "route",
+      "uuid": "dcaa1452-74d8-4b1b-9461-c9eda59abaac"
     }
   ],
   "proxyMode": false,
@@ -316,7 +351,7 @@
       "id": "usje",
       "name": "Reservation",
       "documentation": "",
-      "value": "[\n  {{#repeat (queryParam 'total' 10)}}\n  {\n    \"id\": {{@index}},\n    \"date\": \"2024-12-10\",\n    \"time\": \"{{faker 'number.int' min=10 max=23}}:{{oneOf (array '00' '30')}}\",\n    \"user\": {\n      \"registered\": {{boolean}},\n      \"name\": \"{{firstName}}\",\n      \"surname\": \"{{faker 'person.lastName'}}\",\n      \"email\": \"{{email}}\",\n      \"phone\": \"{{faker 'phone.number' national}}\"\n    },\n    \"status\": \"{{oneOf (array 'completed' 'pending' 'cancelled' 'confirmed')}}\",\n    \"persons\": {{faker 'number.int' min=1 max=6}},\n    \"table\": {{oneOf (dataRaw 'Tables') true}}\n  }\n  {{/repeat}}\n]\n"
+      "value": "[\n  {{#repeat (queryParam 'total' 10)}}\n  {\n    \"id\": {{@index}},\n    \"date\": \"2024-11-24\",\n    \"time\": \"{{faker 'number.int' min=10 max=23}}:{{oneOf (array '00' '30')}}\",\n    \"user\": {\n      \"registered\": {{boolean}},\n      \"name\": \"{{firstName}}\",\n      \"surname\": \"{{faker 'person.lastName'}}\",\n      \"email\": \"{{email}}\",\n      \"phone\": \"{{faker 'phone.number' national}}\"\n    },\n    \"status\": \"{{oneOf (array 'completed' 'pending' 'cancelled' 'confirmed')}}\",\n    \"persons\": {{faker 'number.int' min=1 max=6}},\n    \"table\": {{oneOf (dataRaw 'Tables') true}}\n  }\n  {{/repeat}}\n]\n"
     },
     {
       "uuid": "c47b455e-2842-448d-b760-b0e6f1c33ee7",
@@ -338,6 +373,13 @@
       "name": "Authentication - Success",
       "documentation": "",
       "value": "{\n  \"success\": true,\n  \"data\": {\n    \"token\": \"THISISAFAKE.JWTTOKEN.USEDFORMOCKAUTH\",\n    \"userId\": \"THISISAFAKEUSERID\",\n    \"user\": {\n      \"username\": \"cptgeo\",\n      \"name\": \"George\",\n      \"surname\": \"Kalyvianakis\",\n      \"email\": \"george@example.com\"\n    }\n  }\n}"
+    },
+    {
+      "uuid": "a07c5829-5cc4-494f-be20-aa403f611720",
+      "id": "prtq",
+      "name": "Employees",
+      "documentation": "",
+      "value": "[\n  {{#repeat (queryParam 'total' 5)}}\n  {\n    \"id\": {{@index}},\n    \"registrationDate\": \"{{date '2023-01-01' '2024-12-31' 'yyyy-MM-dd'}}\",\n    \"name\": \"{{firstName}}\",\n    \"surname\": \"{{faker 'person.lastName'}}\",\n    \"email\": \"{{email}}\",\n    \"phone\": \"{{faker 'phone.number' national}}\",\n    \"role\": \"{{oneOf (array 'manager' 'waiter' 'waiter' 'waiter' 'waiter' 'pr')}}\",\n    \"profileImage\": \"https://nextui.org/images/hero-card-complete.jpeg\"\n  }\n  {{/repeat}}\n]\n"
     }
   ],
   "callbacks": []
