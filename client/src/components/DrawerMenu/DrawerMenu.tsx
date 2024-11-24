@@ -41,7 +41,7 @@ export default function DrawerMenu(): ReactElement {
           <DrawerItem to="/" text="Dashboard" icon={<DashboardIcon className="text-xl" />} />
           <DrawerItem to="/reservations-management" text="Reservations Management" icon={<TableClockIcon className="text-xl" />} />
           <DrawerItem to="/tables-management" text="Tables Management" icon={<TableIcon className="text-xl" />} />
-          <DrawerItem to="/staff-management" text="Staff Management" icon={<PersonIcon className="text-xl" />} />
+          <DrawerItem to="/employees-management" text="Employees Management" icon={<PersonIcon className="text-xl" />} />
         </div>
 
         <div className="flex flex-col gap-2">

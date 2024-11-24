@@ -13,7 +13,7 @@ import AuthLayout from "@layouts/Auth";
 import ReservationsManagementPage from "@pages/ReservationsManagement/ReservationsManagement";
 import TablesManagementPage from "@pages/TablesManagement/TablesManagement";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import StaffManagementPage from "@pages/StaffManagement/StaffManagement";
+import EmployeesManagementPage from "@pages/EmployeesManagement/EmployeesManagement";
 
 const router = createBrowserRouter([
   {
@@ -35,8 +35,8 @@ const router = createBrowserRouter([
             element: <TablesManagementPage />
           },
           {
-            path: "staff-management",
-            element: <StaffManagementPage />
+            path: "employees-management",
+            element: <EmployeesManagementPage />
           }
         ],
       },
