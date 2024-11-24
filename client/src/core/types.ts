@@ -45,6 +45,29 @@ export type UserData = {
   registered: boolean;
 };
 
+export interface EmployeeData extends HasId {
+  name: string;
+  surname: string;
+  email?: string;
+  phone?: string;
+  role: Role;
+  profileImage: string;
+  registrationDate: string;
+}
+
+export enum Role {
+  WAITER = "waiter",
+  MANAGER = "manager",
+  PR = "pr"
+}
+
+/** Todo: Replace with i18n */
+export const Roles = {
+  [Role.MANAGER]: "Manager",
+  [Role.PR]: "PR",
+  [Role.WAITER]: "Waiter"
+}
+
 /** Represents company related information */
 export type CompanyData = {
   name: string;
@@ -82,3 +105,5 @@ export interface TableData extends HasId {
  * Utility type to use when representing data as normalized data (hashmap)
  */
 export type Normalized<T> = Record<string | number, T>;
+
+export type Color = "default" | "primary" | "secondary" | "success" | "warning" | "danger" | undefined;

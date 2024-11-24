@@ -9,6 +9,7 @@ import { useDrawer } from "@context/Drawer";
 import TableClockIcon from "@components/Icons/TableClockIcon";
 import TableIcon from "@components/Icons/TableIcon";
 import DashboardIcon from "@components/Icons/DashboardIcon";
+import PersonIcon from "@components/Icons/PersonIcon";
 
 export default function DrawerMenu(): ReactElement {
   const navigate = useNavigate();
@@ -40,10 +41,11 @@ export default function DrawerMenu(): ReactElement {
           <DrawerItem to="/" text="Dashboard" icon={<DashboardIcon className="text-xl" />} />
           <DrawerItem to="/reservations-management" text="Reservations Management" icon={<TableClockIcon className="text-xl" />} />
           <DrawerItem to="/tables-management" text="Tables Management" icon={<TableIcon className="text-xl" />} />
+          <DrawerItem to="/employees-management" text="Employees Management" icon={<PersonIcon className="text-xl" />} />
         </div>
 
         <div className="flex flex-col gap-2">
-          <DrawerItem to="/settings" text="Settings" icon={<SettingsIcon />} />
+          <DrawerItem to="/settings" text="Settings" icon={<SettingsIcon className="text-xl" />} />
         </div>
       </div>
       <Button onClick={toggleDrawer} className="shadow-md cursor-pointer absolute top-[18px] right-0 translate-x-full rounded-l-none p-0 text-sm" isIconOnly size="sm" variant="solid" color="warning">
