@@ -2,7 +2,7 @@ import IconButton from "@components/IconButton/IconButton";
 import TickIcon from "@components/Icons/TickIcon";
 import type { ReservationData } from "@core/types";
 import { ReservationStatus } from "@core/types";
-import { getFullName, patch, sortByTimeAscending } from "@core/utils";
+import { getFullName, patchReq, sortByTimeAscending } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
 import { getLocalTimeZone, isToday, parseDate } from "@internationalized/date";
 import { Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
@@ -14,7 +14,7 @@ export default function ReservationWidget() {
   const { data: reservations } = useQueryReservations(5000);
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
-    mutationFn: (data: ReservationData) => patch(`reservations/${data.id}`, data),
+    mutationFn: (data: ReservationData) => patchReq(`reservations/${data.id}`, data),
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["reservations"] })
     }
