@@ -3,42 +3,11 @@
   "lastMigration": 33,
   "name": "Estiator API v0.1",
   "endpointPrefix": "",
-  "latency": 200,
+  "latency": 100,
   "port": 7777,
   "hostname": "",
   "folders": [],
   "routes": [
-    {
-      "uuid": "db1a7c90-47ef-4589-8d8d-a9c7a6afc2b3",
-      "type": "http",
-      "documentation": "",
-      "method": "get",
-      "endpoint": "",
-      "responses": [
-        {
-          "uuid": "15c7ee1d-7f0c-4659-a444-a889d0612b3c",
-          "body": "{}",
-          "latency": 0,
-          "statusCode": 200,
-          "label": "",
-          "headers": [],
-          "bodyType": "INLINE",
-          "filePath": "",
-          "databucketID": "",
-          "sendFileAsBody": false,
-          "rules": [],
-          "rulesOperator": "OR",
-          "disableTemplating": false,
-          "fallbackTo404": false,
-          "default": true,
-          "crudKey": "id",
-          "callbacks": []
-        }
-      ],
-      "responseMode": null,
-      "streamingMode": null,
-      "streamingInterval": 0
-    },
     {
       "uuid": "bc86919a-9485-44b6-a5a6-a590b96f3143",
       "type": "crud",
@@ -268,10 +237,6 @@
   "rootChildren": [
     {
       "type": "route",
-      "uuid": "db1a7c90-47ef-4589-8d8d-a9c7a6afc2b3"
-    },
-    {
-      "type": "route",
       "uuid": "bc86919a-9485-44b6-a5a6-a590b96f3143"
     },
     {
@@ -284,15 +249,15 @@
     },
     {
       "type": "route",
+      "uuid": "dcaa1452-74d8-4b1b-9461-c9eda59abaac"
+    },
+    {
+      "type": "route",
       "uuid": "2499676e-2f3e-4767-bb3b-ecbe4a9486d8"
     },
     {
       "type": "route",
       "uuid": "eac7bbef-ff84-4a1a-931b-25efc81bd0e4"
-    },
-    {
-      "type": "route",
-      "uuid": "dcaa1452-74d8-4b1b-9461-c9eda59abaac"
     }
   ],
   "proxyMode": false,
@@ -351,7 +316,7 @@
       "id": "usje",
       "name": "Reservation",
       "documentation": "",
-      "value": "[\n  {{#repeat (queryParam 'total' 10)}}\n  {\n    \"id\": {{@index}},\n    \"date\": \"2024-11-24\",\n    \"time\": \"{{faker 'number.int' min=10 max=23}}:{{oneOf (array '00' '30')}}\",\n    \"user\": {\n      \"registered\": {{boolean}},\n      \"name\": \"{{firstName}}\",\n      \"surname\": \"{{faker 'person.lastName'}}\",\n      \"email\": \"{{email}}\",\n      \"phone\": \"{{faker 'phone.number' national}}\"\n    },\n    \"status\": \"{{oneOf (array 'completed' 'pending' 'cancelled' 'confirmed')}}\",\n    \"persons\": {{faker 'number.int' min=1 max=6}},\n    \"table\": {{oneOf (dataRaw 'Tables') true}}\n  }\n  {{/repeat}}\n]\n"
+      "value": "[\n  {{#repeat (queryParam 'total' 10)}}\n  {\n    \"id\": {{@index}},\n    \"date\": \"2024-12-14\",\n    \"time\": \"{{faker 'number.int' min=10 max=23}}:{{oneOf (array '00' '30')}}\",\n    \"user\": {\n      \"registered\": {{boolean}},\n      \"name\": \"{{firstName}}\",\n      \"surname\": \"{{faker 'person.lastName'}}\",\n      \"email\": \"{{email}}\",\n      \"phone\": \"{{faker 'phone.number' national}}\"\n    },\n    \"status\": \"{{oneOf (array 'completed' 'pending' 'cancelled' 'confirmed')}}\",\n    \"persons\": {{faker 'number.int' min=1 max=6}},\n    \"table\": {{oneOf (dataRaw 'Tables') true}}\n  }\n  {{/repeat}}\n]\n"
     },
     {
       "uuid": "c47b455e-2842-448d-b760-b0e6f1c33ee7",
@@ -379,7 +344,7 @@
       "id": "prtq",
       "name": "Employees",
       "documentation": "",
-      "value": "[\n  {{#repeat (queryParam 'total' 5)}}\n  {\n    \"id\": {{@index}},\n    \"registrationDate\": \"{{date '2023-01-01' '2024-12-31' 'yyyy-MM-dd'}}\",\n    \"name\": \"{{firstName}}\",\n    \"surname\": \"{{faker 'person.lastName'}}\",\n    \"email\": \"{{email}}\",\n    \"phone\": \"{{faker 'phone.number' national}}\",\n    \"role\": \"{{oneOf (array 'manager' 'waiter' 'waiter' 'waiter' 'waiter' 'pr')}}\",\n    \"profileImage\": \"https://nextui.org/images/hero-card-complete.jpeg\"\n  }\n  {{/repeat}}\n]\n"
+      "value": "[\n  {{#repeat (queryParam 'total' 5)}}\n  {\n    \"id\": {{@index}},\n    \"registrationDate\": \"{{date '2023-01-01' '2024-12-31' 'yyyy-MM-dd'}}\",\n    \"name\": \"{{firstName}}\",\n    \"surname\": \"{{faker 'person.lastName'}}\",\n    \"email\": \"{{email}}\",\n    \"phone\": \"{{faker 'phone.number' national}}\",\n    \"role\": \"{{oneOf (array 'manager' 'employee' 'employee' 'employee' 'employee' 'employee')}}\",\n    \"position\": \"{{oneOf (array 'Waiter' 'Head Waiter' 'Wine Expert' 'Ordering')}}\",\n    \"profileImage\": \"https://i.pravatar.cc/300\"\n  }\n  {{/repeat}}\n]\n"
     }
   ],
   "callbacks": []
