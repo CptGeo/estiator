@@ -1,12 +1,12 @@
 import MailIcon from "@components/Icons/MailIcon";
-import MenuDotsIcon from "@components/Icons/MenuDotsIcon";
 import IconSuitcase from "@components/Icons/SuitcaseIcon";
 import TableClockIcon from "@components/Icons/TableClockIcon";
 import type { EmployeeData } from "@core/types";
 import { Roles } from "@core/types";
 import useQueryEmployees from "@hooks/useQueryEmployees";
 import { parseDate } from "@internationalized/date";
-import { Avatar, Button, Card, CardBody, CardHeader, Chip } from "@nextui-org/react";
+import { Avatar, Card, CardBody, CardHeader, Chip } from "@nextui-org/react";
+import { Link } from "react-router-dom";
 
 export default function EmployeesList() {
   const { data: employees } = useQueryEmployees(500);
@@ -17,10 +17,9 @@ export default function EmployeesList() {
     return (
       <div className="w-full sm:w-[50%] md:w-[33.3%] xl:w-[25%] p-2">
         <Card className="py-1 px-1 h-full">
-          <CardHeader className="pb-0 pt-0 flex-col items-start">
+          <CardHeader className="pb-0 pt-2 flex-col items-start">
             <div className="flex flex-row items-center justify-between grow w-full">
               <Chip color="success" className="text-white" variant="solid">Active</Chip>
-              <Button isIconOnly variant="light"><MenuDotsIcon className="text-xl" /></Button>
             </div>
           </CardHeader>
           <CardBody>
@@ -39,17 +38,17 @@ export default function EmployeesList() {
                   <ul className="flex gap-2 flex-col">
                     <ul className="inline-flex items-center gap-2">
                       <li className="inline-flex items-center text-xs gap-1"><IconSuitcase />{Roles[employee.role]}</li>
-                      <li className="inline-flex items-center text-xs gap-1"><TableClockIcon /> Fulltime</li>
+                      <li className="inline-flex items-center text-xs gap-1"><TableClockIcon />{employee.position}</li>
                     </ul>
                     <li className="inline-flex items-center text-xs gap-1"><MailIcon /><a href={`mailto:${employee.email}`} className="break-all">{employee.email}</a></li>
                   </ul>
                 </div>
                 <div className="flex text-xs flex-row justify-between w-full items-center mt-2">
                   <p>
-                    <span className="text-foreground-400">Joined at </span>
+                    <span className="text-foreground-400">Added on </span>
                     {parseDate(employee.registrationDate).toString()}
                   </p>
-                  <a href="#" className="underline">View details</a>
+                  <Link className="underline" to={`${employee.id}`}>View details</Link>
                 </div>
             </div>
           </CardBody>
