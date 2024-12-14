@@ -53,19 +53,18 @@ export interface EmployeeData extends HasId {
   role: Role;
   profileImage: string;
   registrationDate: string;
+  position: string;
 }
 
 export enum Role {
-  WAITER = "waiter",
   MANAGER = "manager",
-  PR = "pr"
+  EMPLOYEE = "employee"
 }
 
 /** Todo: Replace with i18n */
 export const Roles = {
   [Role.MANAGER]: "Manager",
-  [Role.PR]: "PR",
-  [Role.WAITER]: "Waiter"
+  [Role.EMPLOYEE]: "Employee",
 }
 
 /** Represents company related information */
