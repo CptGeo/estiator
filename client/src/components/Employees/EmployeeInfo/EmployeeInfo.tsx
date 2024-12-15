@@ -16,6 +16,7 @@ import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import EmployeeSchedule from "./EmployeeSchedule";
+import ImageIcon from "@components/Icons/ImageIcon";
 
 export default function EmployeeInfo(props: {
   employee: EmployeeData;
@@ -147,7 +148,7 @@ export default function EmployeeInfo(props: {
                   src={employee.profileImage}
                   className="w-full mb-3 object-cover"
                 />
-                <a className="text-blue-600 text-sm">Change profile image</a>
+                <Button className="text-blue-600 text-sm" variant="light"><ImageIcon /> Change profile image</Button>
               </div>
             </div>
             <div className="w-full lg:w-1/4 p-1">
