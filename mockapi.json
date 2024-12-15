@@ -344,7 +344,7 @@
       "id": "prtq",
       "name": "Employees",
       "documentation": "",
-      "value": "[\n  {{#repeat (queryParam 'total' 15)}}\n  {\n    \"id\": {{@index}},\n    \"registrationDate\": \"{{date '2023-01-01' '2024-12-31' 'yyyy-MM-dd'}}\",\n    \"name\": \"{{firstName}}\",\n    \"surname\": \"{{faker 'person.lastName'}}\",\n    \"email\": \"{{email}}\",\n    \"phone\": \"{{faker 'phone.number' national}}\",\n    \"role\": \"{{oneOf (array 'manager' 'employee' 'employee' 'employee' 'employee' 'employee')}}\",\n    \"position\": \"{{oneOf (array 'Waiter' 'Head Waiter' 'Wine Expert' 'Ordering')}}\",\n    \"profileImage\": \"https://i.pravatar.cc/300\",\n    \"status\": \"{{oneOf (array 'active' 'on_leave' 'terminated')}}\",\n    \"tables\": [\"1\", \"2\", \"5\", \"7\"]\n  }\n  {{/repeat}}\n]\n"
+      "value": "[\n  {{#repeat (queryParam 'total' 15)}}\n  {\n    \"id\": {{@index}},\n    \"registrationDate\": \"{{date '2023-01-01' '2024-12-31' 'yyyy-MM-dd'}}\",\n    \"name\": \"{{firstName}}\",\n    \"surname\": \"{{faker 'person.lastName'}}\",\n    \"email\": \"{{email}}\",\n    \"phone\": \"{{faker 'phone.number' national}}\",\n    \"role\": \"{{oneOf (array 'manager' 'employee' 'employee' 'employee' 'employee' 'employee')}}\",\n    \"position\": \"{{oneOf (array 'Waiter' 'Head Waiter' 'Wine Expert' 'Ordering')}}\",\n    \"profileImage\": \"https://i.pravatar.cc/300?u={{@index}}\",\n    \"status\": \"{{oneOf (array 'active' 'on_leave' 'terminated')}}\",\n    \"tables\": [\"1\", \"2\", \"5\", \"7\"]\n  }\n  {{/repeat}}\n]\n"
     }
   ],
   "callbacks": []
