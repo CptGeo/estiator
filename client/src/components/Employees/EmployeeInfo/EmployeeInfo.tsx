@@ -9,9 +9,10 @@ import Status from "@components/Status/Employee/Status";
 import { EmployeeStatus, EmployeeStatuses, Role, Roles, type EmployeeData } from "@core/types";
 import { deleteReq, patchReq } from "@core/utils";
 import { Time } from "@internationalized/date";
-import { SelectItem, Button, Image, useDisclosure } from "@nextui-org/react";
+import { SelectItem, Button, Image, useDisclosure, Avatar } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, type ReactElement } from "react";
+import type { ReactElement } from "react";
+import { useEffect } from "react";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -101,6 +102,10 @@ export default function EmployeeInfo(props: {
     }, 500)
   }
 
+  function getFallbackSrc(employee: EmployeeData) {
+    return `https://ui-avatars.com/api/?size=300&name=${employee.name}+${employee.surname}`
+  }
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(handleSubmit)} noValidate>
@@ -110,10 +115,13 @@ export default function EmployeeInfo(props: {
               <Link to="/employees-management">
                 <BackIcon className="text-3xl hover:bg-slate-300 rounded-full" />
               </Link>
-              <Image
-                className="rounded-full drop-shadow-lg mr-3"
-                src={employee.profileImage}
-                width="65"
+              <Avatar
+                  isBordered
+                  src={employee.profileImage}
+                  className="w-16 h-16 text-large mr-1"
+                  name={`${employee.name.charAt(0).toUpperCase()} ${employee.surname
+                    .charAt(0)
+                    .toUpperCase()}`}
               />
               <div>
                 <h1 className="text-2xl">
@@ -143,9 +151,13 @@ export default function EmployeeInfo(props: {
               <h3 className="opacity-65 uppercase text-sm py-3">
                 Profile Image
               </h3>
-              <div className="text-center w-fit">
+              <div className="text-center w-fit [&_div]:bg-center">
                 <Image
                   src={employee.profileImage}
+                  fallbackSrc={getFallbackSrc(employee)}
+                  width={300}
+                  height={300}
+                  loading="eager"
                   className="w-full mb-3 object-cover"
                 />
                 <Button className="text-blue-600 text-sm" variant="light"><ImageIcon /> Change profile image</Button>
