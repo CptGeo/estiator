@@ -79,7 +79,7 @@ export default function EmployeeInfo(props: {
                 <BackIcon className="text-3xl hover:bg-slate-300 rounded-full" />
               </Link>
               <Image
-                className="rounded-full drop-shadow-lg"
+                className="rounded-full drop-shadow-lg mr-3"
                 src={employee.profileImage}
                 width="65"
                 />
