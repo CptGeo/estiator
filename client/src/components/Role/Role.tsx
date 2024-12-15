@@ -7,8 +7,7 @@ export default function RoleChip(props: { role?: Role }) {
 
    const Color: Record<Role, Color> = {
     [Role.MANAGER]: "default",
-    [Role.PR]: "warning",
-    [Role.WAITER]: "primary"
+    [Role.EMPLOYEE]: "primary"
   }
 
   return role && <Chip color={Color[role]}>{role}</Chip>;
