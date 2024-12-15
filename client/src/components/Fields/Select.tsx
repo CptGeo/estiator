@@ -15,7 +15,7 @@ export default function SelectField(props: ControlledSelectProps): ReactElement 
         onBlur={onBlur}
         ref={ref}
         value={value}
-        defaultSelectedKeys={[value]}
+        defaultSelectedKeys={Array.isArray(value) ? value : [value]}
         >{children}</Select>
     } } />
   );
