@@ -73,7 +73,7 @@ export default function EmployeeInfo(props: {
 
   const methods = useForm({
     defaultValues,
-    mode: "onChange",
+    mode: "all",
   });
 
   useEffect(() => {
