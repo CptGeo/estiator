@@ -9,7 +9,7 @@ export type OperationalTime = {
   key: Key;
   hour: number;
   minute: number;
-}
+};
 
 /** Represents the useAuth hook return object */
 export type AuthValue = {
@@ -33,7 +33,7 @@ export type AuthValue = {
 export type Credentials = {
   username: string;
   password: string;
-}
+};
 
 /** Represent the returned user data after a user has logged in */
 export type UserData = {
@@ -54,18 +54,32 @@ export interface EmployeeData extends HasId {
   profileImage: string;
   registrationDate: string;
   position: string;
-}
+  status: EmployeeStatus;
+  tables: string[]; // temporary table ids
+};
+
+export enum EmployeeStatus {
+  ACTIVE = "active",
+  ON_LEAVE = "on_leave",
+  TERMINATED = "terminated"
+};
+
+export const EmployeeStatuses = {
+  [EmployeeStatus.ACTIVE]: "Active",
+  [EmployeeStatus.ON_LEAVE]: "On Leave",
+  [EmployeeStatus.TERMINATED]: "Terminated"
+};
 
 export enum Role {
   MANAGER = "manager",
   EMPLOYEE = "employee"
-}
+};
 
 /** Todo: Replace with i18n */
 export const Roles = {
   [Role.MANAGER]: "Manager",
   [Role.EMPLOYEE]: "Employee",
-}
+};
 
 /** Represents company related information */
 export type CompanyData = {
@@ -79,7 +93,7 @@ export enum ReservationStatus {
   COMPLETED = "completed",
   PENDING = "pending",
   CONFIRMED = "confirmed"
-}
+};
 
 /** Represents reservation data */
 export interface ReservationData extends HasId {
