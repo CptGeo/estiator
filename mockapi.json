@@ -316,7 +316,7 @@
       "id": "usje",
       "name": "Reservation",
       "documentation": "",
-      "value": "[\n  {{#repeat (queryParam 'total' 10)}}\n  {\n    \"id\": {{@index}},\n    \"date\": \"2024-12-14\",\n    \"time\": \"{{faker 'number.int' min=10 max=23}}:{{oneOf (array '00' '30')}}\",\n    \"user\": {\n      \"registered\": {{boolean}},\n      \"name\": \"{{firstName}}\",\n      \"surname\": \"{{faker 'person.lastName'}}\",\n      \"email\": \"{{email}}\",\n      \"phone\": \"{{faker 'phone.number' national}}\"\n    },\n    \"status\": \"{{oneOf (array 'completed' 'pending' 'cancelled' 'confirmed')}}\",\n    \"persons\": {{faker 'number.int' min=1 max=6}},\n    \"table\": {{oneOf (dataRaw 'Tables') true}}\n  }\n  {{/repeat}}\n]\n"
+      "value": "[\n  {{#repeat (queryParam 'total' 10)}}\n  {\n    \"id\": {{@index}},\n    \"date\": \"2024-12-15\",\n    \"time\": \"{{faker 'number.int' min=10 max=23}}:{{oneOf (array '00' '30')}}\",\n    \"user\": {\n      \"registered\": {{boolean}},\n      \"name\": \"{{firstName}}\",\n      \"surname\": \"{{faker 'person.lastName'}}\",\n      \"email\": \"{{email}}\",\n      \"phone\": \"{{faker 'phone.number' national}}\"\n    },\n    \"status\": \"{{oneOf (array 'completed' 'pending' 'cancelled' 'confirmed')}}\",\n    \"persons\": {{faker 'number.int' min=1 max=6}},\n    \"table\": {{oneOf (dataRaw 'Tables') true}}\n  }\n  {{/repeat}}\n]\n"
     },
     {
       "uuid": "c47b455e-2842-448d-b760-b0e6f1c33ee7",
@@ -344,7 +344,7 @@
       "id": "prtq",
       "name": "Employees",
       "documentation": "",
-      "value": "[\n  {{#repeat (queryParam 'total' 5)}}\n  {\n    \"id\": {{@index}},\n    \"registrationDate\": \"{{date '2023-01-01' '2024-12-31' 'yyyy-MM-dd'}}\",\n    \"name\": \"{{firstName}}\",\n    \"surname\": \"{{faker 'person.lastName'}}\",\n    \"email\": \"{{email}}\",\n    \"phone\": \"{{faker 'phone.number' national}}\",\n    \"role\": \"{{oneOf (array 'manager' 'employee' 'employee' 'employee' 'employee' 'employee')}}\",\n    \"position\": \"{{oneOf (array 'Waiter' 'Head Waiter' 'Wine Expert' 'Ordering')}}\",\n    \"profileImage\": \"https://i.pravatar.cc/300\"\n  }\n  {{/repeat}}\n]\n"
+      "value": "[\n  {{#repeat (queryParam 'total' 15)}}\n  {\n    \"id\": {{@index}},\n    \"registrationDate\": \"{{date '2023-01-01' '2024-12-31' 'yyyy-MM-dd'}}\",\n    \"name\": \"{{firstName}}\",\n    \"surname\": \"{{faker 'person.lastName'}}\",\n    \"email\": \"{{email}}\",\n    \"phone\": \"{{faker 'phone.number' national}}\",\n    \"role\": \"{{oneOf (array 'manager' 'employee' 'employee' 'employee' 'employee' 'employee')}}\",\n    \"position\": \"{{oneOf (array 'Waiter' 'Head Waiter' 'Wine Expert' 'Ordering')}}\",\n    \"profileImage\": \"https://i.pravatar.cc/300\",\n    \"status\": \"{{oneOf (array 'active' 'on_leave' 'terminated')}}\",\n    \"tables\": [\"1\", \"2\", \"5\", \"7\"]\n  }\n  {{/repeat}}\n]\n"
     }
   ],
   "callbacks": []
