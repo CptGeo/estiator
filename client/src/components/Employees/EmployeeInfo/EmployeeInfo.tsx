@@ -8,7 +8,7 @@ import ConfirmationModal from "@components/Modal/Confirmation";
 import Status from "@components/Status/Employee/Status";
 import { EmployeeStatus, EmployeeStatuses, Role, Roles, type EmployeeData } from "@core/types";
 import { deleteReq, patchReq } from "@core/utils";
-import { SelectItem, Button, Image, useDisclosure, Chip } from "@nextui-org/react";
+import { SelectItem, Button, Image, useDisclosure } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, type ReactElement } from "react";
 import type { FieldValues } from "react-hook-form";
