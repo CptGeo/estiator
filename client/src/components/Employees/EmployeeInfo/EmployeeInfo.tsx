@@ -1,12 +1,14 @@
 import EmailField from "@components/Fields/Email";
 import InputField from "@components/Fields/Input";
 import SelectField from "@components/Fields/Select";
+import TablesSelect from "@components/Fields/Tables";
 import BackIcon from "@components/Icons/BackIcon";
 import { DeleteIcon } from "@components/Icons/DeleteIcon";
 import ConfirmationModal from "@components/Modal/Confirmation";
-import type { EmployeeData } from "@core/types";
+import Status from "@components/Status/Employee/Status";
+import { EmployeeStatus, EmployeeStatuses, Role, Roles, type EmployeeData } from "@core/types";
 import { deleteReq, patchReq } from "@core/utils";
-import { SelectItem, Button, Image, useDisclosure } from "@nextui-org/react";
+import { SelectItem, Button, Image, useDisclosure, Chip } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, type ReactElement } from "react";
 import type { FieldValues } from "react-hook-form";
@@ -39,7 +41,9 @@ export default function EmployeeInfo(props: {
     email: employee?.email,
     phone: employee?.phone,
     role: employee?.role,
-    position: employee?.position
+    position: employee?.position,
+    status: employee?.status,
+    tables: employee?.tables
   }
 
   const methods = useForm({
@@ -85,9 +89,12 @@ export default function EmployeeInfo(props: {
                 src={employee.profileImage}
                 width="65"
               />
-              <h1 className="text-2xl">
-                {employee.name} {employee.surname}
-              </h1>
+              <div>
+                <h1 className="text-2xl">
+                  {employee.name} {employee.surname}
+                </h1>
+                <Status status={employee.status} />
+              </div>
             </div>
             <div className="flex flex-row items-center gap-4">
               <p className="text-xs text-slate-500">
@@ -140,15 +147,12 @@ export default function EmployeeInfo(props: {
               </div>
             </div>
             <div className="w-full lg:w-1/4 p-1">
-              <h3 className="opacity-65 uppercase text-sm py-3">Role</h3>
+              <h3 className="opacity-65 uppercase text-sm py-3">Role & Responsibilities</h3>
               <div className="flex flex-col gap-2">
-                <SelectField name="role">
-                  <SelectItem key="manager" value="manager">
-                    Manager
-                  </SelectItem>
-                  <SelectItem key="employee" value="employee">
-                    Employee
-                  </SelectItem>
+                <SelectField name="role" label="Role">
+                  {Object.values(Role).map((item: Role) => {
+                    return <SelectItem key={item} value={item}>{Roles[item]}</SelectItem>
+                  })}
                 </SelectField>
                 <InputField
                   name="position"
@@ -156,6 +160,13 @@ export default function EmployeeInfo(props: {
                   isRequired
                   maxLength={50}
                 />
+                <TablesSelect name="tables" label="Assigned Tables" selectionMode="multiple" />
+                <h3 className="opacity-65 uppercase text-sm py-3">Status</h3>
+                <SelectField name="status">
+                  {Object.values(EmployeeStatus).map((item: EmployeeStatus) => {
+                    return <SelectItem key={item} value={item}>{EmployeeStatuses[item]}</SelectItem>
+                  })}
+                </SelectField>
               </div>
             </div>
           </div>
