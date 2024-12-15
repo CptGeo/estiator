@@ -3,9 +3,10 @@ import InputField from "@components/Fields/Input";
 import SelectField from "@components/Fields/Select";
 import BackIcon from "@components/Icons/BackIcon";
 import { DeleteIcon } from "@components/Icons/DeleteIcon";
+import ConfirmationModal from "@components/Modal/Confirmation";
 import type { EmployeeData } from "@core/types";
 import { deleteReq, patchReq } from "@core/utils";
-import { SelectItem, Button, Image } from "@nextui-org/react";
+import { SelectItem, Button, Image, useDisclosure } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, type ReactElement } from "react";
 import type { FieldValues } from "react-hook-form";
@@ -19,6 +20,7 @@ export default function EmployeeInfo(props: {
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const modal = useDisclosure();
 
   const { isPending: savePending, mutateAsync } = useMutation({
     mutationFn: (data: EmployeeData) => patchReq(`employees/${data.id}`, data),
@@ -82,14 +84,24 @@ export default function EmployeeInfo(props: {
                 className="rounded-full drop-shadow-lg mr-3"
                 src={employee.profileImage}
                 width="65"
-                />
+              />
               <h1 className="text-2xl">
                 {employee.name} {employee.surname}
               </h1>
             </div>
             <div className="flex flex-row items-center gap-4">
-              <p className="text-xs text-slate-500">Added on {employee.registrationDate}</p>
-              <Button className="py-6" color="danger" variant="flat" isLoading={deletePending} onPress={handleDelete.bind(null, employee.id)}><DeleteIcon/> Delete Employee</Button>
+              <p className="text-xs text-slate-500">
+                Added on {employee.registrationDate}
+              </p>
+              <Button
+                className="py-6"
+                color="danger"
+                variant="flat"
+                isLoading={deletePending}
+                onPress={modal.onOpen}
+              >
+                <DeleteIcon className="text-lg" /> Delete Employee
+              </Button>
             </div>
           </div>
           <hr />
@@ -111,8 +123,18 @@ export default function EmployeeInfo(props: {
                 Employee Details
               </h3>
               <div className="flex flex-col gap-2">
-                <InputField name="name" label="First name" isRequired maxLength={25} />
-                <InputField name="surname" label="Last name" isRequired maxLength={25} />
+                <InputField
+                  name="name"
+                  label="First name"
+                  isRequired
+                  maxLength={25}
+                />
+                <InputField
+                  name="surname"
+                  label="Last name"
+                  isRequired
+                  maxLength={25}
+                />
                 <EmailField name="email" label="Email Address" isRequired />
                 <InputField name="phone" label="Phone Number" />
               </div>
@@ -128,8 +150,13 @@ export default function EmployeeInfo(props: {
                     Employee
                   </SelectItem>
                 </SelectField>
-                <InputField name="position" label="Position" isRequired maxLength={50}/>
-            </div>
+                <InputField
+                  name="position"
+                  label="Position"
+                  isRequired
+                  maxLength={50}
+                />
+              </div>
             </div>
           </div>
           <div className="w-full flex gap-3">
@@ -139,13 +166,25 @@ export default function EmployeeInfo(props: {
               color="primary"
               type="submit"
               isLoading={savePending}
-              isDisabled={!methods.formState.isDirty || !methods.formState.isValid}
+              isDisabled={
+                !methods.formState.isDirty || !methods.formState.isValid
+              }
             >
               Save changes
             </Button>
           </div>
         </div>
       </form>
+      <ConfirmationModal
+        {...modal}
+        body={
+          <p>
+            Employee <strong>{employee.name} {employee.surname}</strong> will be <strong>removed.</strong>
+          </p>
+        }
+        title={`Remove employee ${employee.name} ${employee.surname}`}
+        callback={handleDelete.bind(null, employee.id)}
+      />
     </FormProvider>
   );
 }
