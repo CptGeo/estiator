@@ -1,11 +1,12 @@
 import MailIcon from "@components/Icons/MailIcon";
 import IconSuitcase from "@components/Icons/SuitcaseIcon";
 import TableClockIcon from "@components/Icons/TableClockIcon";
+import Status from "@components/Status/Employee/Status";
 import type { EmployeeData } from "@core/types";
 import { Roles } from "@core/types";
 import useQueryEmployees from "@hooks/useQueryEmployees";
 import { parseDate } from "@internationalized/date";
-import { Avatar, Card, CardBody, CardHeader, Chip } from "@nextui-org/react";
+import { Avatar, Card, CardBody, CardHeader } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 
 export default function EmployeesList() {
@@ -19,7 +20,7 @@ export default function EmployeesList() {
         <Card className="py-1 px-1 h-full">
           <CardHeader className="pb-0 pt-2 flex-col items-start">
             <div className="flex flex-row items-center justify-between grow w-full">
-              <Chip color="success" className="text-white" variant="solid">Active</Chip>
+              <Status status={employee.status} />
             </div>
           </CardHeader>
           <CardBody>
