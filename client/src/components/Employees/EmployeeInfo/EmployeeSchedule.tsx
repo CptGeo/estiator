@@ -12,8 +12,6 @@ export default function EmployeeSchedule() {
     off.set(day, watch(`${day}Off`));
   }
 
-  console.log(off);
-
   return (
     <div className="flex flex-col mb-5">
       <h2 className="opacity-65 uppercase text-sm py-3">Schedule</h2>
