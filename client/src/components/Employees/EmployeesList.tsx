@@ -1,6 +1,6 @@
+import BuildingIcon from "@components/Icons/BuildingIcon";
 import MailIcon from "@components/Icons/MailIcon";
 import IconSuitcase from "@components/Icons/SuitcaseIcon";
-import TableClockIcon from "@components/Icons/TableClockIcon";
 import Status from "@components/Status/Employee/Status";
 import type { EmployeeData } from "@core/types";
 import { Roles } from "@core/types";
@@ -39,7 +39,7 @@ export default function EmployeesList() {
                   <ul className="flex gap-2 flex-col">
                     <ul className="inline-flex items-center gap-2">
                       <li className="inline-flex items-center text-xs gap-1"><IconSuitcase />{Roles[employee.role]}</li>
-                      <li className="inline-flex items-center text-xs gap-1"><TableClockIcon />{employee.position}</li>
+                      <li className="inline-flex items-center text-xs gap-1"><BuildingIcon />{employee.position}</li>
                     </ul>
                     <li className="inline-flex items-center text-xs gap-1"><MailIcon /><a href={`mailto:${employee.email}`} className="break-all">{employee.email}</a></li>
                   </ul>
