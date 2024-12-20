@@ -2,7 +2,8 @@ import type { ReactElement } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
-import { Button, Link } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
+import { Link } from "react-router-dom";
 import PasswordField from "@components/Fields/Password";
 import { DevTool } from "@hookform/devtools";
 import EmailField from "@components/Fields/Email";
@@ -125,7 +126,7 @@ export default function RegisterPage(): ReactElement {
           {/*  */}
           <div className="flex pb-2 px-1 gap-2">
             Are you a client?
-            <Link color="primary" href="#" size="md">
+            <Link className="text-blue-600" to="/register-client">
               Register a client account here.
             </Link>
           </div>
