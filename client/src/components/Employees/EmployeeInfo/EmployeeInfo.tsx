@@ -49,7 +49,7 @@ export default function EmployeeInfo(props: {
     status: employee?.status,
     tables: employee?.tables,
 
-    // temp static data
+    /** Temporary static data */
     monOff: false,
     tueOff: false,
     wedOff: false,
@@ -71,6 +71,7 @@ export default function EmployeeInfo(props: {
     satCheckout: new Time(15, 30),
     sunCheckin: new Time(15, 30),
     sunCheckout: new Time(15, 30)
+    /** --------------- */
   }
 
   const methods = useForm({
