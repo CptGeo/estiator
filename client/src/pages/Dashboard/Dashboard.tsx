@@ -7,7 +7,7 @@ export default function DashboardPage(): ReactElement {
     <>
       <PageHeader
         heading="Dashboard"
-        subheading="Here you can manage existing or create new reservations for your business."
+        subheading="Here you can have an overview of your business analytics, quick actions and more."
       />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="grid gap-4 md:col-span-2">
