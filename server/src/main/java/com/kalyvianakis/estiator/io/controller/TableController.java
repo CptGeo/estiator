@@ -24,38 +24,64 @@ public class TableController {
     // @todo - Fix issue with entity creation. Instead of 400 - Bad Request, I get 500 - Internal Server Error after data validation with 'false' result
     public ResponseEntity<String> add(@RequestBody Table table) {
         try {
-            System.out.println(table.getX());
-            System.out.println(table.getLabel());
             tableService.save(table);
-        } catch (Error e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } 
-        return ResponseEntity.status(HttpStatus.OK).body("Table has been added successfully");
+            return ResponseEntity.ok().body("Table has been added successfully");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("An error occurred: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
-    public Table get(@PathVariable Integer id) {
-        return tableService.get(id);
+    public ResponseEntity<?> get(@PathVariable Integer id) {
+        try{ 
+            Table table = tableService.get(id);
+            if (table == null) {
+                return ResponseEntity.badRequest().body("Resource not found for ID: " + id);
+            }
+            return ResponseEntity.ok().body(table);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.internalServerError().body("An error occurred: " + e.getMessage());
+        }
     }
 
     @GetMapping()
-    public List<Table> get() {
-        return tableService.get();
+    public ResponseEntity<List<Table>> get() {
+        return ResponseEntity.ok().body(tableService.get());
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
-        tableService.delete(id);
+    public ResponseEntity<String> delete(@PathVariable Integer id) {
+        try {
+            if(tableService.notExists(id)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found for ID: " + id);
+            }
+            
+            tableService.delete(id);
+            return ResponseEntity.ok().body(String.format("Resource deleted for ID: ", id)); 
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.internalServerError().body("An error occurred: " + e.getMessage());
+        }
     }
     
     @PatchMapping("/{id}")
-    public ResponseEntity<Table> patch(@PathVariable Integer id, @RequestBody Table table) {
-        Table current = tableService.get(id);
+    public ResponseEntity<?> patch(@PathVariable Integer id, @RequestBody Table table) {
+        try {
+            if (id == null || id < 0) {
+                return ResponseEntity.badRequest().body("Invalid ID provided");
+            }
 
-        tablePatcher.patch(current, table); 
-        tableService.save(current);
+            Table current = tableService.get(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(current);
+            if(current == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found for ID: " + id);
+            }
+
+            tablePatcher.patch(current, table); 
+            tableService.save(current);
+
+            return ResponseEntity.ok().body(current);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.internalServerError().body("An error occurred: " + e.getMessage());
+        }
     }
 }
