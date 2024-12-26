@@ -32,4 +32,14 @@ public class TableService implements ITableService {
     public void delete(int id) {
         tableRepository.deleteById(id);
     }
+
+    @Override
+    public boolean exists(int id) {
+        return tableRepository.existsById(id);
+    }
+
+    @Override
+    public boolean notExists(int id) {
+        return !this.exists(id);
+    }
 }
