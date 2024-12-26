@@ -9,4 +9,6 @@ public interface ITableService {
     public List<Table> get();
     public Table get(int id);
     public void delete(int id);
+    public boolean exists(int id);
+    public boolean notExists(int id);
 }
