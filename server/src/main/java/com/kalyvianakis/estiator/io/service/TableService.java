@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class TableService implements ITableService {
@@ -33,5 +31,15 @@ public class TableService implements ITableService {
     @Override
     public void delete(int id) {
         tableRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean exists(int id) {
+        return tableRepository.existsById(id);
+    }
+
+    @Override
+    public boolean notExists(int id) {
+        return !this.exists(id);
     }
 }
