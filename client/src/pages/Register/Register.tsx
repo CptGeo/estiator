@@ -47,7 +47,7 @@ export default function RegisterPage(): ReactElement {
             <div className="bg-slate-800 bg-opacity-50 absolute left-0 top-0 w-full h-full"></div>
           </div>
         </div>
-        <div className="basis-1/2 px-5 pb-5 pt-2">
+        <div className="basis-1/2 px-5 pb-10 pt-5">
         <h2 className="text-xl tracking-wide drop-shadow-md font-light mb-3">Registration info</h2>
         <FormProvider {...methods}>
         <form
