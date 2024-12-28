@@ -15,6 +15,7 @@ import TablesManagementPage from "@pages/TablesManagement/TablesManagement";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import EmployeesManagementPage from "@pages/EmployeesManagement/EmployeesManagement";
 import EmployeeDetails from "@pages/EmployeesManagement/EmployeeDetails/EmployeeDetails";
+import RegisterPage from "@pages/Register/Register";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
           {
             path: "/login",
             element: <LoginPage />,
+          },
+          {
+            path: "/register",
+            element: <RegisterPage />,
           }
         ]
       }

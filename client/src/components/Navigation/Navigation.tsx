@@ -16,7 +16,7 @@ export default function Navigation() {
           <Button onClick={() => navigate("/login")} variant="light" color="primary">Login</Button>
         </NavbarItem>
         <NavbarItem>
-          <Button onClick={() => alert("Register")} variant="solid" color="primary">Register</Button>
+          <Button onClick={() => navigate("/register")} variant="solid" color="primary">Register</Button>
         </NavbarItem>
       </>
     )

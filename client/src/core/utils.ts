@@ -66,6 +66,16 @@ export function isUndefined(value: unknown): value is undefined {
 }
 
 /**
+ * Constructs and returns the URL of an asset.
+ *
+ * @param asset - The relative path to the asset.
+ * @returns The full URL of the asset.
+ */
+export function getAssetUrl(asset: string): string {
+    return new URL(`../assets${asset.startsWith("/") ? asset : `/${asset}`}`, import.meta.url).href;
+}
+
+/**
  * Normalize array to object
  * @param obj The object to be normalized
  */
@@ -113,6 +123,17 @@ export async function getReq<T>(url: string, config?: AxiosRequestConfig): Promi
  */
 export async function patchReq<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T | undefined> {
     const response = await client.patch<T>(url, data, config);
+    if (response.status == HttpStatusCode.Ok) {
+        return response.data;
+    }
+    throw new Error("No data");
+};
+
+/**
+ * Performs HTTP PUT request
+ */
+export async function postReq<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T | undefined> {
+    const response = await client.post<T>(url, data, config);
     if (response.status == HttpStatusCode.Ok) {
         return response.data;
     }
