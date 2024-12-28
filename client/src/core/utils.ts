@@ -66,6 +66,16 @@ export function isUndefined(value: unknown): value is undefined {
 }
 
 /**
+ * Constructs and returns the URL of an asset.
+ *
+ * @param asset - The relative path to the asset.
+ * @returns The full URL of the asset.
+ */
+export function getAssetUrl(asset: string): string {
+    return new URL(`../assets${asset.startsWith("/") ? asset : `/${asset}`}`, import.meta.url).href;
+}
+
+/**
  * Normalize array to object
  * @param obj The object to be normalized
  */
