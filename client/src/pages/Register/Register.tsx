@@ -13,6 +13,7 @@ import InputField from "@components/Fields/Input";
 import registerImage from "@assets/images/register_image.jpg";
 import { useMutation } from "@tanstack/react-query";
 import { postReq } from "@core/utils";
+import PhoneCodeField from "@components/Fields/PhoneCode";
 
 /**
  * @todo Convert to modal instead of page
@@ -61,12 +62,12 @@ export default function RegisterPage(): ReactElement {
         subheading="Please provide your details to create a new admin user"
       />
       <div className="flex flex-row bg-foreground-50 rounded-lg shadow-xl overflow-hidden">
-        <div className="basis-1/2">
+        <div className="basis-2/5">
           <div style={{ backgroundImage: `url('${registerImage}')` }} className="w-full h-full bg-cover bg-center relative">
             <div className="bg-slate-800 bg-opacity-50 absolute left-0 top-0 w-full h-full"></div>
           </div>
         </div>
-        <div className="basis-1/2 px-5 pb-10 pt-5">
+        <div className="basis-3/5 px-5 pb-10 pt-5">
         <h2 className="text-xl tracking-wide drop-shadow-md font-light mb-3">Registration info</h2>
         <FormProvider {...methods}>
         <form
@@ -136,14 +137,19 @@ export default function RegisterPage(): ReactElement {
                   maxLength={64}
                   />
               </div>
-              <div className="basis-full p-1">
-                <InputField
-                  name="phone"
-                  label="Phone number"
-                  variant="bordered"
-                  placeholder="Enter your phone number"
-                  maxLength={64}
-                />
+              <div className="flex flex-nowrap basis-full">
+                <div className="basis-2/6 p-1">
+                  <PhoneCodeField name="countryCode" label="Country code" />
+                </div>
+                <div className="basis-4/6 p-1">
+                  <InputField
+                    name="phone"
+                    label="Phone number"
+                    variant="bordered"
+                    placeholder="Enter your phone number"
+                    maxLength={64}
+                  />
+                </div>
               </div>
             </div>
           </div>
