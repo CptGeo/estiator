@@ -8,7 +8,7 @@ import https from "https";
 // --- SCRIPT BEGIN
 const PATH = "./src/assets/images/flags";
 const CODES_PATH = "https://flagcdn.com/en/codes.json";
-const IMAGE_SIZE = "64x48";
+const IMAGE_SIZE = "w80";
 
 createDir(PATH);
 
