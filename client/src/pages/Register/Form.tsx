@@ -122,7 +122,7 @@ export default function RegisterForm() {
             </div>
             <div className="flex flex-nowrap basis-full">
               <div className="basis-2/6 p-1">
-                <PhoneCodeField name="countryCode" label="Country code" />
+                <PhoneCodeField name="countryCode" label="Country code" defaultSelectedKeys={["gr"]} />
               </div>
               <div className="basis-4/6 p-1">
                 <InputField
