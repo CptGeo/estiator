@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import type { FieldValues } from "react-hook-form";
+import type { FieldValues, RegisterOptions } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "@nextui-org/react";
 import { Link } from "react-router-dom";
@@ -11,6 +11,8 @@ import { useAuth } from "@context/Authentication";
 import PageHeader from "@components/PageHeader/PageHeader";
 import InputField from "@components/Fields/Input";
 import registerImage from "@assets/images/register_image.jpg";
+import { useMutation } from "@tanstack/react-query";
+import { postReq } from "@core/utils";
 
 /**
  * @todo Convert to modal instead of page
@@ -18,21 +20,38 @@ import registerImage from "@assets/images/register_image.jpg";
 export default function RegisterPage(): ReactElement {
   const auth = useAuth();
   const location = useLocation();
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (data: FieldValues) => postReq("users", data)
+  })
 
   const methods = useForm({
-    mode: "onSubmit",
+    mode: "onChange",
   });
 
   if (auth?.user && auth.token) {
     return <Navigate to="/" replace />;
   }
 
-  async function onSubmit(values: FieldValues) {
-    const { password, email } = values;
+  const passwordRules: RegisterOptions = {
+    validate: (val) => {
+      const { confirmPassword } = methods.getValues();
+      if (confirmPassword.length === 0) { return true; }
 
-    if (auth?.loginAction) {
-      await auth.loginAction({ password, username: email });
+      return confirmPassword === val || "The password and confirmation password do not match";
     }
+  }
+
+  const confirmPasswordRules: RegisterOptions = {
+    validate: (val) => {
+      const { password } = methods.getValues();
+      if (password.length === 0) { return true; }
+
+      return password === val || "The password and confirmation password do not match";
+    }
+  }
+
+  async function onSubmit(values: FieldValues) {
+    mutateAsync(values);
   }
 
   return (
@@ -53,6 +72,7 @@ export default function RegisterPage(): ReactElement {
         <form
           onSubmit={methods.handleSubmit(onSubmit)}
           className="w-full flex flex-col"
+          noValidate
         >
           {/* ACCOUNT INFO */}
           <div className="mb-4">
@@ -75,6 +95,7 @@ export default function RegisterPage(): ReactElement {
                   placeholder="Enter your password"
                   isRequired
                   variant="bordered"
+                  rules={passwordRules}
                 />
               </div>
               <div className="basis-1/2 p-1">
@@ -84,6 +105,7 @@ export default function RegisterPage(): ReactElement {
                   placeholder="Enter your password"
                   isRequired
                   variant="bordered"
+                  rules={confirmPasswordRules}
                 />
               </div>
             </div>
@@ -101,7 +123,8 @@ export default function RegisterPage(): ReactElement {
                   isRequired
                   variant="bordered"
                   placeholder="Enter your first name"
-                />
+                  maxLength={64}
+                  />
               </div>
               <div className="basis-1/2 p-1">
                 <InputField
@@ -110,15 +133,16 @@ export default function RegisterPage(): ReactElement {
                   isRequired
                   variant="bordered"
                   placeholder="Enter your last name"
-                />
+                  maxLength={64}
+                  />
               </div>
               <div className="basis-full p-1">
                 <InputField
                   name="phone"
                   label="Phone number"
-                  isRequired
                   variant="bordered"
                   placeholder="Enter your phone number"
+                  maxLength={64}
                 />
               </div>
             </div>
@@ -130,7 +154,7 @@ export default function RegisterPage(): ReactElement {
               Register a client account here.
             </Link>
           </div>
-          <Button type="submit" color="primary" isLoading={auth?.loading}>
+          <Button type="submit" color="primary" isLoading={isPending}>
             Register
           </Button>
           {location.state && !auth?.loading && (
