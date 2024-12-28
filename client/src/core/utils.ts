@@ -120,6 +120,17 @@ export async function patchReq<T>(url: string, data?: unknown, config?: AxiosReq
 };
 
 /**
+ * Performs HTTP PUT request
+ */
+export async function postReq<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T | undefined> {
+    const response = await client.post<T>(url, data, config);
+    if (response.status == HttpStatusCode.Ok) {
+        return response.data;
+    }
+    throw new Error("No data");
+};
+
+/**
  * Performs HTTP DELETE request
  */
 export async function deleteReq<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
