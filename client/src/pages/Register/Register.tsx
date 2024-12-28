@@ -29,6 +29,8 @@ export default function RegisterPage(): ReactElement {
     mode: "onChange",
   });
 
+  const { isValid } = methods.formState;
+
   if (auth?.user && auth.token) {
     return <Navigate to="/" replace />;
   }
@@ -160,7 +162,7 @@ export default function RegisterPage(): ReactElement {
               Register a client account here.
             </Link>
           </div>
-          <Button type="submit" color="primary" isLoading={isPending}>
+          <Button type="submit" color="primary" isLoading={isPending} isDisabled={!isValid}>
             Register
           </Button>
           {location.state && !auth?.loading && (
