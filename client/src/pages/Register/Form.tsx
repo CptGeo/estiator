@@ -33,7 +33,7 @@ export default function RegisterForm() {
       }
 
       return confirmPassword === val || "The password and confirmation password do not match";
-    },
+    }
   };
 
   const confirmPasswordRules: RegisterOptions = {
@@ -44,7 +44,7 @@ export default function RegisterForm() {
       }
 
       return password === val || "The password and confirmation password do not match";
-    },
+    }
   };
 
   async function onSubmit(values: FieldValues) {
