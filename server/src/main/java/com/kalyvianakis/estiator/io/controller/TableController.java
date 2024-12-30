@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/tables")
+@RequestMapping("tables")
 public class TableController {
     @Autowired
     private TableService tableService;
