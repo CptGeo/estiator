@@ -4,11 +4,15 @@ import type { Color } from "@core/types";
 import { ReservationStatus } from "@core/types";
 
 type Props = {
-    status: ReservationStatus | undefined
+    status: ReservationStatus | undefined;
 }
 
 export default function Status(props: Props): ReactElement {
     const { status } = props;
+
+    if (!status) {
+        return <Chip color="danger" variant="flat">Unknown</Chip>
+    }
 
     const Color: Record<ReservationStatus, Color> = {
         [ReservationStatus.CANCELLED]: "default",
@@ -17,5 +21,5 @@ export default function Status(props: Props): ReactElement {
         [ReservationStatus.CONFIRMED]: "success",
     }
 
-    return <Chip color={Color[status as ReservationStatus] ?? "danger"} variant="flat">{status}</Chip>
+    return <Chip color={Color[status]} variant="flat">{status}</Chip>
 }
