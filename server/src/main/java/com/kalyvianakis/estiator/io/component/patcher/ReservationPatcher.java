@@ -20,6 +20,7 @@ public class ReservationPatcher implements IPatcher<Reservation>{
       existing.setTime(incomplete.getTime());
     }
     if (incomplete.getStatus() != null) {
+      existing.setStatusValue(incomplete.getStatus().getLabel());
       existing.setStatus(incomplete.getStatus());
     }
     if (incomplete.getPersons() != null) {
