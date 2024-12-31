@@ -48,14 +48,14 @@ public class Reservation {
 
   @PostLoad
   void fillTransientStatus() {
-      if (statusValue > 0) {
+      if (statusValue >= 0) {
           this.status = Status.of(statusValue);
       }
   }
 
   @PrePersist
   void fillPersistentStatus() {
-      if (statusValue > 0) {
+      if (statusValue >= 0) {
           this.statusValue = status.getLabel();
       }
   }
@@ -90,6 +90,14 @@ public class Reservation {
 
   public void setStatus(Status status) {
     this.status = status;
+  }
+
+  public Short getStatusValue() {
+    return statusValue;
+  }
+
+  public void setStatusValue(Short statusValue) {
+    this.statusValue = statusValue;
   }
 
   public Integer getPersons() {
