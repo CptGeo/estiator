@@ -42,7 +42,7 @@ public class ReservationController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<?> get(@RequestParam Integer id) {
+  public ResponseEntity<?> get(@PathVariable Integer id) {
     try {
       Reservation reservation = reservationService.get(id);
       if (reservation == null) {
@@ -60,11 +60,12 @@ public class ReservationController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<?> delete(@RequestParam Integer id) {
+  public ResponseEntity<?> delete(@PathVariable Integer id) {
     try {
       if (reservationService.notExists(id)) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found for ID: " + id);
       }
+      reservationService.delete(id);
       return ResponseEntity.ok().body("Resource deleted for ID: " + id);
     } catch (IllegalArgumentException e) {
       return ResponseEntity.internalServerError().body("An error occurred: " + e.getMessage());
