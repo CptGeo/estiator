@@ -1,8 +1,16 @@
 package com.kalyvianakis.estiator.io.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jdk.jfr.Unsigned;
+import org.hibernate.annotations.Type;
+import org.springframework.data.annotation.Reference;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @jakarta.persistence.Table(name = "tables")
@@ -11,19 +19,20 @@ public class Table {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "Value for 'label' cannot be blank")
     private String label;
 
-    @NotNull(message = "Value for 'capacity' cannot be empty")
     private Integer capacity;
 
-    @NotNull(message = "Value for 'x' cannot be empty")
     private Integer x;
 
-    @NotNull(message = "Value for 'y' cannot be empty")
     private Integer y;
 
     private String color;
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "user_id", nullable = true)
+    @JsonIgnoreProperties(value = { "reservations", "tables" })
+    private User user;
 
     public Integer getX() {
         return x;
@@ -72,4 +81,8 @@ public class Table {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
 }

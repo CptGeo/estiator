@@ -28,5 +28,8 @@ public class TablePatcher implements IPatcher<Table>{
     if (incomplete.getY() != null) {
       existing.setY(incomplete.getY());
     }
+    if (incomplete.getUser() != null) {
+      existing.setUser(incomplete.getUser());
+    }
   }
 }

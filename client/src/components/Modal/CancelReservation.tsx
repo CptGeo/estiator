@@ -14,14 +14,14 @@ export default function CancelReservationModal(props: Props) {
   const { reservation, ...disclosureProps } = props;
   const [loading, setLoading] = useState(false);
 
+  /** @todo Replace with useMutation */
   async function handleAction() {
-    const data: ReservationData = {
-      ...reservation,
+    const data = {
       status: ReservationStatus.CANCELLED,
     };
     try {
       setLoading(true);
-      await client.put(`/reservations/${reservation.id}`, { ...data });
+      await client.patch(`/reservations/${reservation.id}`, { ...data });
     } catch (error) {
       console.error(error);
     } finally {
