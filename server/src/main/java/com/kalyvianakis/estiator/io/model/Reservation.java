@@ -4,19 +4,15 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
-import com.kalyvianakis.estiator.io.enums.Status;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.PostLoad;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CurrentTimestamp;
+import org.hibernate.annotations.SourceType;
 
 @Entity
 @jakarta.persistence.Table(name = "reservations")
@@ -32,28 +28,34 @@ public class Reservation {
   @Basic
   @Column(name = "status")
   private Short statusValue;
-  
+
   @Transient
-  private Status status;
+  private ReservationStatus status;
 
   private Integer persons;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "table_id", referencedColumnName = "id")
+  @JsonIgnoreProperties(value = { "user" })
   private Table table;
 
+  @CurrentTimestamp(source = SourceType.DB)
   private Timestamp createdDate;
 
-  /** @todo Missing non-implemented User property */
+  @ManyToOne
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
+  @JsonIgnoreProperties(value = { "tables", "reservations" })
+  private User user;
 
   @PostLoad
   void fillTransientStatus() {
       if (statusValue >= 0) {
-          this.status = Status.of(statusValue);
+          this.status = ReservationStatus.of(statusValue);
       }
   }
 
   @PrePersist
+  @PreUpdate
   void fillPersistentStatus() {
       if (statusValue >= 0) {
           this.statusValue = status.getLabel();
@@ -84,11 +86,11 @@ public class Reservation {
     this.time = time;
   }
 
-  public Status getStatus() {
+  public ReservationStatus getStatus() {
     return status;
   }
 
-  public void setStatus(Status status) {
+  public void setStatus(ReservationStatus status) {
     this.status = status;
   }
 
@@ -123,4 +125,8 @@ public class Reservation {
   public void setCreatedDate(Timestamp createdDate) {
     this.createdDate = createdDate;
   }
+
+  public User getUser() { return user; }
+
+  public void setUser(User user) { this.user = user; }
 }
