@@ -29,5 +29,8 @@ public class ReservationPatcher implements IPatcher<Reservation>{
     if (incomplete.getTable() != null) {
       existing.setTable(incomplete.getTable());
     }
+    if (incomplete.getUser() != null) {
+      existing.setUser(incomplete.getUser());
+    }
   }
 }
