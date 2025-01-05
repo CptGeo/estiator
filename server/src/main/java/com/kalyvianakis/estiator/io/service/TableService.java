@@ -1,10 +1,15 @@
 package com.kalyvianakis.estiator.io.service;
 
+import com.kalyvianakis.estiator.io.model.Reservation;
 import com.kalyvianakis.estiator.io.model.Table;
+import com.kalyvianakis.estiator.io.repository.ReservationRepository;
 import com.kalyvianakis.estiator.io.repository.TableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -12,6 +17,9 @@ public class TableService implements ITableService {
 
     @Autowired
     private TableRepository tableRepository;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @Override
     public Table save(Table table) {
@@ -29,7 +37,17 @@ public class TableService implements ITableService {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws IllegalArgumentException {
+        Table table = tableRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Table not found: Invalid ID provided"));
+
+        List<Reservation> reservations = table.getReservations();
+
+        // Iterate through table reservations and set table reference to null
+        for (Reservation reservation: reservations) {
+            reservation.setTable(null);
+        }
+
+        reservationRepository.saveAll(reservations);
         tableRepository.deleteById(id);
     }
 
