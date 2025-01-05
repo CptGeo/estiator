@@ -1,20 +1,13 @@
 package com.kalyvianakis.estiator.io.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jdk.jfr.Unsigned;
-import org.hibernate.annotations.Type;
-import org.springframework.data.annotation.Reference;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @jakarta.persistence.Table(name = "tables")
-public class Table {
+public class Table extends PropertyPrinter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -33,6 +26,10 @@ public class Table {
     @JoinColumn(name = "user_id", nullable = true)
     @JsonIgnoreProperties(value = { "reservations", "tables" })
     private User user;
+
+    @OneToMany(mappedBy = "table", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = false)
+    @JsonIgnoreProperties(value = { "table" })
+    private List<Reservation> reservations;
 
     public Integer getX() {
         return x;
@@ -85,4 +82,8 @@ public class Table {
     public User getUser() { return user; }
 
     public void setUser(User user) { this.user = user; }
+
+    public List<Reservation> getReservations() { return reservations; }
+
+    public void setReservations(List<Reservation> reservations) { this.reservations = reservations; }
 }
