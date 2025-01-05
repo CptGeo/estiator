@@ -49,9 +49,5 @@ public class UserPatcher implements IPatcher<User>{
     if (incomplete.getTables() != null) {
       existing.setTables(incomplete.getTables());
     }
-
-    if (incomplete.getRegistered() != null) {
-      existing.setRegistered(incomplete.getRegistered());
-    }
   }
 }

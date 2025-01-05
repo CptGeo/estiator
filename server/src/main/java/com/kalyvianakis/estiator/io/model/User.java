@@ -1,6 +1,7 @@
 package com.kalyvianakis.estiator.io.model;
 
 import com.fasterxml.jackson.annotation.*;
+import com.kalyvianakis.estiator.io.enums.UserRole;
 import com.kalyvianakis.estiator.io.enums.UserStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -42,9 +43,6 @@ public class User extends PropertyPrinter {
 
     private String profileImage;
 
-    @ColumnDefault("false")
-    private Boolean isRegistered;
-
     @Transient
     @NotNull(message = "Status must not be null")
     private UserStatus status;
@@ -54,11 +52,23 @@ public class User extends PropertyPrinter {
     @JsonIgnore
     private Short statusValue;
 
+    @Transient
+    @NotNull(message = "User role must not be null")
+    private UserRole userRole;
+
+    @Basic
+    @Column(name = "user_role")
+    @JsonIgnore
+    private Short userRoleValue;
+
     @PostLoad
     @SuppressWarnings("unused")
     void fillTransientStatus() {
         if (statusValue >= 0) {
             this.status = UserStatus.of(statusValue);
+        }
+        if (userRoleValue >= 0) {
+            this.userRole = UserRole.of(userRoleValue);
         }
     }
 
@@ -69,8 +79,8 @@ public class User extends PropertyPrinter {
             statusValue = status.getLabel();
         }
 
-        if (isRegistered == null) {
-            isRegistered = false;
+        if (userRoleValue >= 0) {
+            userRoleValue = userRole.getLabel();
         }
     }
 
@@ -124,10 +134,6 @@ public class User extends PropertyPrinter {
 
     public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
 
-    public Boolean getRegistered() { return isRegistered; }
-
-    public void setRegistered(Boolean registered) { isRegistered = registered; }
-
     public UserStatus getStatus() { return status; }
 
     public void setStatus(UserStatus status) { this.status = status; }
@@ -147,4 +153,20 @@ public class User extends PropertyPrinter {
     public List<Reservation> getReferredReservations() { return referredReservations; }
 
     public void setReferredReservations(List<Reservation> referredReservations) { this.referredReservations = referredReservations; }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
+    public Short getUserRoleValue() {
+        return userRoleValue;
+    }
+
+    public void setUserRoleValue(Short userRoleValue) {
+        this.userRoleValue = userRoleValue;
+    }
 }
