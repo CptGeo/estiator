@@ -1,10 +1,8 @@
 package com.kalyvianakis.estiator.io.controller;
 
-import com.kalyvianakis.estiator.io.component.patcher.TablePatcher;
 import com.kalyvianakis.estiator.io.component.patcher.UserPatcher;
-import com.kalyvianakis.estiator.io.model.Table;
+import com.kalyvianakis.estiator.io.enums.UserStatus;
 import com.kalyvianakis.estiator.io.model.User;
-import com.kalyvianakis.estiator.io.service.TableService;
 import com.kalyvianakis.estiator.io.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +14,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("users")
+@SuppressWarnings("unused")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -27,8 +26,9 @@ public class UserController {
     // @todo - Fix issue with entity creation. Instead of 400 - Bad Request, I get 500 - Internal Server Error after data validation with 'false' result
     public ResponseEntity<String> add(@RequestBody User user) {
         try {
+            user.setStatusValue(user.getStatus().getLabel());
             userService.save(user);
-            return ResponseEntity.ok().body("Table has been added successfully");
+            return ResponseEntity.ok().body("User has been added successfully");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("An error occurred: " + e.getMessage());
         }
