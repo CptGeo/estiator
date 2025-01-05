@@ -1,6 +1,5 @@
 package com.kalyvianakis.estiator.io.component.patcher;
 
-import com.kalyvianakis.estiator.io.model.Table;
 import com.kalyvianakis.estiator.io.model.User;
 import org.springframework.stereotype.Component;
 
@@ -49,6 +48,10 @@ public class UserPatcher implements IPatcher<User>{
 
     if (incomplete.getTables() != null) {
       existing.setTables(incomplete.getTables());
+    }
+
+    if (incomplete.getRegistered() != null) {
+      existing.setRegistered(incomplete.getRegistered());
     }
   }
 }

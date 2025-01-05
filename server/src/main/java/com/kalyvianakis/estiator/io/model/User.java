@@ -3,6 +3,10 @@ package com.kalyvianakis.estiator.io.model;
 import com.fasterxml.jackson.annotation.*;
 import com.kalyvianakis.estiator.io.enums.UserStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.SourceType;
 
@@ -11,7 +15,7 @@ import java.util.List;
 
 @Entity
 @jakarta.persistence.Table(name = "users")
-public class User {
+public class User extends PropertyPrinter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
@@ -20,12 +24,16 @@ public class User {
     @CurrentTimestamp(source = SourceType.DB)
     private Timestamp createdDate;
 
+    @NotBlank(message = "Name must not be empty")
     private String name;
 
+    @NotBlank(message = "Surname must not be empty")
     private String surname;
 
+    @NotBlank(message = "Email must not be empty")
     private String email;
 
+    @NotBlank(message = "Password must not be empty")
     private String password;
 
     private String phone;
@@ -34,7 +42,11 @@ public class User {
 
     private String profileImage;
 
+    @ColumnDefault("false")
+    private Boolean isRegistered;
+
     @Transient
+    @NotNull(message = "Status must not be null")
     private UserStatus status;
 
     @Basic
@@ -43,6 +55,7 @@ public class User {
     private Short statusValue;
 
     @PostLoad
+    @SuppressWarnings("unused")
     void fillTransientStatus() {
         if (statusValue >= 0) {
             this.status = UserStatus.of(statusValue);
@@ -50,9 +63,14 @@ public class User {
     }
 
     @PrePersist
+    @SuppressWarnings("unused")
     void fillPersistentStatus() {
         if (statusValue >= 0) {
-            this.statusValue = status.getLabel();
+            statusValue = status.getLabel();
+        }
+
+        if (isRegistered == null) {
+            isRegistered = false;
         }
     }
 
@@ -60,9 +78,13 @@ public class User {
     @JsonIgnoreProperties(value = { "user" })
     private List<Table> tables;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "table", "user" })
-    private List<Reservation> reservations;
+    private List<Reservation> createdReservations;
+
+    @OneToMany(mappedBy = "createdFor", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "table", "user" })
+    private List<Reservation> referredReservations;
 
     private Integer getId() {
         return id;
@@ -102,6 +124,10 @@ public class User {
 
     public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
 
+    public Boolean getRegistered() { return isRegistered; }
+
+    public void setRegistered(Boolean registered) { isRegistered = registered; }
+
     public UserStatus getStatus() { return status; }
 
     public void setStatus(UserStatus status) { this.status = status; }
@@ -114,7 +140,11 @@ public class User {
 
     public void setStatusValue(Short statusValue) { this.statusValue = statusValue; }
 
-    public List<Reservation> getReservations() { return reservations; }
+    public List<Reservation> getCreatedReservations() { return createdReservations; }
 
-    public void setReservations(List<Reservation> reservations) { this.reservations = reservations; }
+    public void setCreatedReservations(List<Reservation> reservations) { this.createdReservations = reservations; }
+
+    public List<Reservation> getReferredReservations() { return referredReservations; }
+
+    public void setReferredReservations(List<Reservation> referredReservations) { this.referredReservations = referredReservations; }
 }
