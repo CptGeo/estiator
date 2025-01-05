@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @CrossOrigin
 @RequestMapping("reservations")
+@SuppressWarnings("unused")
 public class ReservationController {
   @Autowired
   ReservationService reservationService;

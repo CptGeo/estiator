@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("tables")
+@SuppressWarnings("unused")
 public class TableController {
     @Autowired
     private TableService tableService;
