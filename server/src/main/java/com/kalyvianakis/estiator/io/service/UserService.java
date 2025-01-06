@@ -32,11 +32,11 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User getOneByEmail(String email) throws IllegalArgumentException {
+    public User getOneByEmail(String email) throws IllegalArgumentException, ResourceNotFoundException {
         if (email == null) {
             throw new IllegalArgumentException("Email must not be null");
         }
-        return userRepository.findOne(UserSpecification.emailEquals(email)).orElse(null);
+        return userRepository.findOne(UserSpecification.emailEquals(email)).orElseThrow(() -> new ResourceNotFoundException("User not found with Email: " + email));
     }
 
     public List<User> getRegistered() {
@@ -53,12 +53,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean exists(int id) {
+    public Boolean exists(int id) {
         return userRepository.existsById(id);
     }
 
     @Override
-    public boolean notExists(int id) {
+    public Boolean notExists(int id) {
         return !this.exists(id);
     }
 }

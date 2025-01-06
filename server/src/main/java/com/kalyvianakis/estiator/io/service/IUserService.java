@@ -9,10 +9,10 @@ public interface IUserService {
     public User save(User user);
     public List<User> get();
     public User get(Integer id) throws ResourceNotFoundException;
-    public User getOneByEmail(String email);
+    public User getOneByEmail(String email) throws ResourceNotFoundException;
     public List<User> getRegistered();
     public List<User> getNotRegistered();
     public void delete(int id);
-    public boolean exists(int id);
-    public boolean notExists(int id);
+    public Boolean exists(int id);
+    public Boolean notExists(int id);
 }
