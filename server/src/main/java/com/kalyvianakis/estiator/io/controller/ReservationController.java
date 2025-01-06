@@ -2,6 +2,8 @@ package com.kalyvianakis.estiator.io.controller;
 
 import java.util.List;
 
+import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
+import com.kalyvianakis.estiator.io.model.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,26 +33,13 @@ public class ReservationController {
   ReservationPatcher reservationPatcher;
 
   @PostMapping
-  public ResponseEntity<String> add(@RequestBody Reservation reservation) {
-      try {
-          reservationService.save(reservation);
-          return ResponseEntity.ok().body("Resource has been added successfully");
-      } catch (Exception e) {
-          return ResponseEntity.internalServerError().body("An error occurred: " + e.getMessage());
-      }
+  public ResponseEntity<Reservation> add(@RequestBody Reservation reservation) {
+      return ResponseEntity.ok().body(reservationService.save(reservation));
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<?> get(@PathVariable Integer id) {
-    try {
-      Reservation reservation = reservationService.get(id);
-      if (reservation == null) {
-        return ResponseEntity.badRequest().body("Resource not found for ID: " + id);
-      }
-      return ResponseEntity.ok().body(reservation);
-    } catch (IllegalArgumentException e) {
-      return ResponseEntity.internalServerError().body("An error occurred: " + e.getMessage());
-    }
+  public ResponseEntity<?> get(@PathVariable Integer id) throws ResourceNotFoundException {
+      return ResponseEntity.ok().body(reservationService.get(id));
   }
 
   @GetMapping()
@@ -59,38 +48,23 @@ public class ReservationController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<?> delete(@PathVariable Integer id) {
-    try {
+  public ResponseEntity<?> delete(@PathVariable Integer id) throws ResourceNotFoundException {
       if (reservationService.notExists(id)) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found for ID: " + id);
+        throw new ResourceNotFoundException("Reservation not found for ID: " + id);
       }
+
       reservationService.delete(id);
-      return ResponseEntity.ok().body("Resource deleted for ID: " + id);
-    } catch (IllegalArgumentException e) {
-      return ResponseEntity.internalServerError().body("An error occurred: " + e.getMessage());
-    }
+      return ResponseEntity.ok().body(new MessageResponse("Reservation deleted for ID: " + id));
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<?> patch(@PathVariable Integer id, @RequestBody Reservation reservation) {
-      try {
-          if (id == null || id < 0) {
-              return ResponseEntity.badRequest().body("Invalid ID provided");
-          }
+  public ResponseEntity<?> patch(@PathVariable Integer id, @RequestBody Reservation reservation) throws ResourceNotFoundException {
+      Reservation current = reservationService.get(id);
 
-          Reservation current = reservationService.get(id);
+      reservationPatcher.patch(current, reservation);
+      reservationService.save(current);
 
-          if(current == null) {
-              return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found for ID: " + id);
-          }
-
-          reservationPatcher.patch(current, reservation); 
-          reservationService.save(current);
-
-          return ResponseEntity.ok().body(current);
-      } catch (IllegalArgumentException e) {
-          return ResponseEntity.internalServerError().body("An error occurred: " + e.getMessage());
-      }
+      return ResponseEntity.ok().body(current);
   }
   
 }
