@@ -11,7 +11,7 @@ public class GlobalExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnknownException(Exception e, HttpServletRequest httpServletRequest) {
         ErrorResponse response = new ErrorResponse(e.getMessage(), "UNKNOWN_EXCEPTION");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(ResourceNotFoundException.class)
@@ -23,6 +23,6 @@ public class GlobalExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFoundException(IllegalArgumentException e, HttpServletRequest httpServletRequest) {
         ErrorResponse response = new ErrorResponse(e.getMessage(), "INVALID_ARGUMENT");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
