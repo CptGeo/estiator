@@ -3,11 +3,10 @@ package com.kalyvianakis.estiator.io.model;
 import com.fasterxml.jackson.annotation.*;
 import com.kalyvianakis.estiator.io.enums.UserRole;
 import com.kalyvianakis.estiator.io.enums.UserStatus;
+import com.kalyvianakis.estiator.io.global.PropertyPrinter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.SourceType;
 

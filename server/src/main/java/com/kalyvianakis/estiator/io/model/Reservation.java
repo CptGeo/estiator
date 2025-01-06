@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 
+import com.kalyvianakis.estiator.io.global.PropertyPrinter;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.SourceType;
@@ -133,11 +134,19 @@ public class Reservation extends PropertyPrinter {
     this.createdDate = createdDate;
   }
 
-  public User getCreatedBy() { return createdBy; }
+  public User getCreatedBy() {
+    return createdBy;
+  }
 
-  public void setCreatedBy(User user) { this.createdBy = user; }
+  public void setCreatedBy(User user) {
+    this.createdBy = user;
+  }
 
-  public User getCreatedFor() { return createdFor; }
+  public User getCreatedFor() {
+    return createdFor;
+  }
 
-  public void setCreatedFor(User user) { this.createdFor = user; }
+  public void setCreatedFor(User user) {
+    this.createdFor = user;
+  }
 }
