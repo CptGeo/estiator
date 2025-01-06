@@ -2,6 +2,7 @@ package com.kalyvianakis.estiator.io.service;
 
 import java.util.List;
 
+import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,8 @@ public class ReservationService implements IReservationService {
   }
 
   @Override
-  public Reservation get(Integer id) {
-    return reservationRepository.findById(id).orElse(null);
+  public Reservation get(Integer id) throws ResourceNotFoundException {
+    return reservationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Reservation not found for ID: " + id));
   }
 
   @Override
@@ -35,12 +36,12 @@ public class ReservationService implements IReservationService {
   }
 
   @Override
-  public boolean exists(Integer id) {
+  public Boolean exists(Integer id) {
     return reservationRepository.existsById(id);
   }
 
   @Override
-  public boolean notExists(Integer id) {
+  public Boolean notExists(Integer id) {
     return !this.exists(id);
   }
 
