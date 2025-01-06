@@ -1,5 +1,6 @@
 package com.kalyvianakis.estiator.io.service;
 
+import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.Reservation;
 import com.kalyvianakis.estiator.io.model.Table;
 import com.kalyvianakis.estiator.io.repository.ReservationRepository;
@@ -7,9 +8,6 @@ import com.kalyvianakis.estiator.io.repository.TableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -32,13 +30,13 @@ public class TableService implements ITableService {
     }
 
     @Override
-    public Table get(int id) {
-        return tableRepository.findById(id).orElse(null);
+    public Table get(Integer id) throws ResourceNotFoundException {
+        return tableRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Table not found for ID: " + id));
     }
 
     @Override
-    public void delete(int id) throws IllegalArgumentException {
-        Table table = tableRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Table not found: Invalid ID provided"));
+    public void delete(Integer id) throws ResourceNotFoundException {
+        Table table = tableRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Table not found for ID: " + id));
 
         List<Reservation> reservations = table.getReservations();
 
@@ -52,12 +50,12 @@ public class TableService implements ITableService {
     }
 
     @Override
-    public boolean exists(int id) {
+    public Boolean exists(int id) {
         return tableRepository.existsById(id);
     }
 
     @Override
-    public boolean notExists(int id) {
+    public Boolean notExists(int id) {
         return !this.exists(id);
     }
 }
