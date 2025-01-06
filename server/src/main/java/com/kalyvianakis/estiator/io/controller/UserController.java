@@ -6,6 +6,7 @@ import com.kalyvianakis.estiator.io.model.MessageResponse;
 import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,10 +25,10 @@ public class UserController {
 
     @PostMapping
     // @todo - Fix issue with entity creation. Instead of 400 - Bad Request, I get 500 - Internal Server Error after data validation with 'false' result
-    public ResponseEntity<String> add(@RequestBody User user) {
+    public ResponseEntity<User> add(@RequestBody User user) {
         user.setStatusValue(user.getStatus().getLabel());
-        userService.save(user);
-        return ResponseEntity.ok().body("User has been added successfully");
+
+        return ResponseEntity.ok().body(userService.save(user));
     }
 
     @GetMapping("/{id}")
@@ -50,11 +51,7 @@ public class UserController {
 
     @GetMapping("/email/{email}")
     public ResponseEntity<User> get(@PathVariable String email) throws ResourceNotFoundException {
-        User result = userService.getOneByEmail(email);
-        if (result == null) {
-            throw new ResourceNotFoundException("User not found with email: " + email);
-        }
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.ok().body(userService.getOneByEmail(email));
     }
 
     @DeleteMapping("/{id}")
@@ -64,7 +61,7 @@ public class UserController {
         }
 
         userService.delete(id);
-        MessageResponse response = new MessageResponse(String.format("Resource deleted for ID: %s", id));
+        MessageResponse response = new MessageResponse("Resource deleted for ID: " + id);
         return ResponseEntity.ok().body(response);
     }
     
