@@ -25,9 +25,9 @@ export default function ReservationStatusField({ name, label, children }: PropsW
     <Controller {...methods.register(name)} render={({ field: { onChange, value, ref } }) => {
       return (
         <ReservationStatusContextProvider value={{ selectedValue: value, onChange: onChange }}>
-          <div className="flex-col max-w-full p-3 rounded-lg flex items-start" ref={ref}>
+          <div className="p-3 rounded-lg" ref={ref}>
             <p className="text-xs text-default-600 mb-2">{label}</p>
-            <div className="flex gap-1 rounded-xl p-2 bg-default-100">
+            <div className="flex gap-1 rounded-xl p-2 bg-default-100" >
               {children}
             </div>
           </div>
