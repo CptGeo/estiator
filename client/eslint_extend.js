@@ -21,7 +21,8 @@ export default {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" } ],
     "no-trailing-spaces": "warn",
+    "@/no-trailing-spaces": "warn",
     "object-curly-spacing": ["warn", "always"],
-    "@typescript-eslint/consistent-type-imports": "warn"
+    "@typescript-eslint/consistent-type-imports": "warn",
   },
 };

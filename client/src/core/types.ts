@@ -36,7 +36,7 @@ export type Credentials = {
 };
 
 /** Represent the returned user data after a user has logged in */
-export type UserData = {
+export interface UserData extends HasId {
   username?: string;
   name: string;
   surname: string;
@@ -89,10 +89,10 @@ export type CompanyData = {
 
 /** Represents statuses of reservations */
 export enum ReservationStatus {
-  CANCELLED = "cancelled",
-  COMPLETED = "completed",
-  PENDING = "pending",
-  CONFIRMED = "confirmed"
+  CANCELLED = "Cancelled",
+  COMPLETED = "Completed",
+  PENDING = "Pending",
+  CONFIRMED = "Confirmed"
 };
 
 /** Represents reservation data */

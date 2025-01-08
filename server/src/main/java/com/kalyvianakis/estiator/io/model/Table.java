@@ -1,29 +1,36 @@
 package com.kalyvianakis.estiator.io.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.kalyvianakis.estiator.io.global.PropertyPrinter;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 @Entity
 @jakarta.persistence.Table(name = "tables")
-public class Table {
+public class Table extends PropertyPrinter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "Value for 'label' cannot be blank")
     private String label;
 
-    @NotNull(message = "Value for 'capacity' cannot be empty")
     private Integer capacity;
 
-    @NotNull(message = "Value for 'x' cannot be empty")
     private Integer x;
 
-    @NotNull(message = "Value for 'y' cannot be empty")
     private Integer y;
 
     private String color;
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "user_id", nullable = true)
+    @JsonIgnoreProperties(value = { "reservations", "tables" })
+    private User user;
+
+    @OneToMany(mappedBy = "table", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = false)
+    @JsonIgnoreProperties(value = { "table" })
+    private List<Reservation> reservations;
 
     public Integer getX() {
         return x;
@@ -72,4 +79,12 @@ public class Table {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
+
+    public List<Reservation> getReservations() { return reservations; }
+
+    public void setReservations(List<Reservation> reservations) { this.reservations = reservations; }
 }

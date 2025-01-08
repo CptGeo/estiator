@@ -4,7 +4,7 @@
   "name": "Estiator API v0.1",
   "endpointPrefix": "",
   "latency": 100,
-  "port": 7777,
+  "port": 8080,
   "hostname": "",
   "folders": [],
   "routes": [

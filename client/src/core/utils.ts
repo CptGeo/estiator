@@ -66,6 +66,16 @@ export function isUndefined(value: unknown): value is undefined {
 }
 
 /**
+ * Converts a time string into a formatted time string with hours and minutes.
+ *
+ * @param time - The time string to be parsed, expected in a format that can be parsed by `parseTime`.
+ * @returns A string representing the parsed time in "HH:MM" format.
+ */
+export default function toParsedTimeString(time: string): string {
+    return `${parseTime(time).hour.toString().padStart(2, "0")}:${parseTime(time).minute.toString().padStart(2, "0")}`;
+}
+
+/**
  * Constructs and returns the URL of an asset.
  *
  * @param asset - The relative path to the asset.

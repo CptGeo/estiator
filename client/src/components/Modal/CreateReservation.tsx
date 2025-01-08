@@ -10,21 +10,28 @@ import EmailField from "@components/Fields/Email";
 import { useState } from "react";
 import { client } from "@core/request";
 import TimeField from "@components/Fields/Time";
-import { ReservationStatus } from "@core/types";
-import { today } from "@internationalized/date";
+import { parseTime, today } from "@internationalized/date";
 import TablesSelect from "../Fields/Tables";
+import { useAuth } from "@context/Authentication";
 
 type Props = ReturnType<typeof useDisclosure>;
 
 export default function CreateReservationModal(props: Props) {
   const { isOpen, onOpenChange, onClose } = props;
   const [loading, setLoading] = useState(false);
+  const auth = useAuth();
+  const user = auth?.user;
+
+  const loggedIn = Boolean(auth?.user) && Boolean(auth?.token);
 
   const methods = useForm({
     mode: "onChange",
     defaultValues: {
       date: today("GMT").add({ days: 1 }),
       persons: 1,
+      user: {
+        ...user
+      }
     }
   });
 
@@ -34,22 +41,17 @@ export default function CreateReservationModal(props: Props) {
       const data = {
         date: values.date.toString(),
         persons: values.persons,
-        user: {
-          name: values.name,
-          surname: values.surname,
-          email: values.email,
-          phone: values.phone
-        },
-        // Note: Remove table so that we don't need to post mock table data for adding a reservation. To be removed
-        // table: values.table,
-        time: values.time,
-        status: ReservationStatus.CONFIRMED
+        user: { id: user ? user.id : null },
+        table: { id: Number(values.table) },
+        time: parseTime(values.time).toString(),
+        status: 0,
+        statusValue: 0,
       };
       await client.post(`/reservations`, { ...data });
     } catch (error) {
       console.error(error);
     } finally {
-      methods.reset({ persons: 5 });
+      methods.reset();
       setLoading(false);
       onClose();
     }
@@ -80,10 +82,10 @@ export default function CreateReservationModal(props: Props) {
                 <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                   <NumberField isRequired label="Persons" name="persons" />
                   <TablesSelect label="Select table" name="table" />
-                  <InputField isRequired label="Name" name="name" />
-                  <InputField isRequired label="Surname" name="surname"/>
-                  <EmailField isRequired label="Email" name="email" />
-                  <InputField label="Phone" name="phone" />
+                  <InputField isRequired label="Name" name="user.name" isDisabled={loggedIn} />
+                  <InputField isRequired label="Surname" name="user.surname" isDisabled={loggedIn}/>
+                  <EmailField isRequired label="Email" name="user.email" isDisabled={loggedIn}/>
+                  <InputField label="Phone" name="user.phone" isDisabled={loggedIn}/>
                 </div>
               </div>
 

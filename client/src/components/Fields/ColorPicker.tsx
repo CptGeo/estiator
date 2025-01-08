@@ -2,12 +2,11 @@ import { Button } from "@nextui-org/react";
 import classNames from "classnames";
 import type { PropsWithChildren, ReactElement } from "react";
 import { createContext, useContext } from "react";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
 type Props = {
   name: string;
   label: string;
-  defaultValue: string;
 }
 
 type ContextProps = {
@@ -17,11 +16,12 @@ type ContextProps = {
 
 const colorPickerContext = createContext<ContextProps>({ selectedValue: null, onChange: () => {} });
 
-export default function ColorPickerField({ name, label, defaultValue, children }: PropsWithChildren<Props>) {
+export default function ColorPickerField({ name, label, children }: PropsWithChildren<Props>) {
+  const methods = useFormContext();
   const ColorPickerContextProvider = colorPickerContext.Provider;
 
   return (
-    <Controller name={name} defaultValue={defaultValue} render={({ field: { onChange, value, ref } }) => {
+    <Controller {...methods.register(name)} render={({ field: { onChange, value, ref } }) => {
       return (
         <ColorPickerContextProvider value={{ selectedValue: value, onChange: onChange }}>
           <div className="flex-col max-w-full bg-default-100 p-3 rounded-lg flex items-start" ref={ref}>
@@ -40,7 +40,7 @@ export function ColorPickerOption({ value } : { value: string; }): ReactElement 
   const selected = selectedValue === value;
 
   return <Button
-      onClick={() => onChange(value)}
+      onPress={() => onChange(value)}
       value={value} isIconOnly
       className={classNames(value, selected ? "border-4 border-indigo-700 shadow-sm": "")}
     />

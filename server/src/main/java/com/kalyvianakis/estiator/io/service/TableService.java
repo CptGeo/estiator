@@ -1,6 +1,9 @@
 package com.kalyvianakis.estiator.io.service;
 
+import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
+import com.kalyvianakis.estiator.io.model.Reservation;
 import com.kalyvianakis.estiator.io.model.Table;
+import com.kalyvianakis.estiator.io.repository.ReservationRepository;
 import com.kalyvianakis.estiator.io.repository.TableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,9 @@ public class TableService implements ITableService {
     @Autowired
     private TableRepository tableRepository;
 
+    @Autowired
+    private ReservationRepository reservationRepository;
+
     @Override
     public Table save(Table table) {
         return tableRepository.save(table);
@@ -24,22 +30,32 @@ public class TableService implements ITableService {
     }
 
     @Override
-    public Table get(int id) {
-        return tableRepository.findById(id).orElse(null);
+    public Table get(Integer id) throws ResourceNotFoundException {
+        return tableRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Table not found for ID: " + id));
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Integer id) throws ResourceNotFoundException {
+        Table table = tableRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Table not found for ID: " + id));
+
+        List<Reservation> reservations = table.getReservations();
+
+        // Iterate through table reservations and set table reference to null
+        for (Reservation reservation: reservations) {
+            reservation.setTable(null);
+        }
+
+        reservationRepository.saveAll(reservations);
         tableRepository.deleteById(id);
     }
 
     @Override
-    public boolean exists(int id) {
+    public Boolean exists(int id) {
         return tableRepository.existsById(id);
     }
 
     @Override
-    public boolean notExists(int id) {
+    public Boolean notExists(int id) {
         return !this.exists(id);
     }
 }
