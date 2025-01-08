@@ -3,18 +3,20 @@ import { client } from "../../core/request";
 import TimeField from "../Fields/Time";
 import { DevTool } from "@hookform/devtools";
 import TablesSelect from "../Fields/Tables";
-import type { ReservationData } from "@core/types";
+import { ReservationStatus, type ReservationData } from "@core/types";
 import type { useDisclosure } from "@nextui-org/react";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
-import { getFullName } from "@core/utils";
+import toParsedTimeString, { getFullName } from "@core/utils";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import InputField from "@components/Fields/Input";
 import NumberField from "@components/Fields/Number";
 import CalendarPlainField from "@components/Fields/CalendarPlain";
-import { parseDate } from "@internationalized/date";
+import { parseDate, parseTime } from "@internationalized/date";
 import CheckboxField from "@components/Fields/Checkbox";
 import EmailField from "@components/Fields/Email";
+import { ReservationStatusOption } from "@components/Fields/ReservationStatus";
+import ReservationStatusField from "@components/Fields/ReservationStatus";
 
 type Props = {
   reservation: ReservationData;
@@ -29,13 +31,15 @@ export default function EditReservationModal(props: Props) {
     mode: "onChange",
     defaultValues: {
       date: parseDate(reservation.date),
-      time: reservation.time,
+      time: toParsedTimeString(reservation.time),
       name: reservation.user.name,
       surname: reservation.user.surname,
       email: reservation.user.email,
       phone: reservation.user.phone,
       persons: reservation.persons.toString(),
-      table: String(reservation.table.id)
+      table: String(reservation?.table?.id),
+      status: reservation.status,
+      inform: false
     }
   });
 
@@ -53,8 +57,10 @@ export default function EditReservationModal(props: Props) {
             phone: values.phone
           },
         }),
-        table: values.table,
-        time: values.time,
+        table: { id: Number(values.table) },
+        time: parseTime(values.time).toString(),
+        status: values.status,
+        inform: values.inform
       };
       await client.patch(`/reservations/${reservation.id}`, { ...data });
     } catch (error) {
@@ -96,10 +102,13 @@ export default function EditReservationModal(props: Props) {
                   <InputField label="Phone" isDisabled={isRegistered} name="phone" />
                 </div>
               </div>
-
-              {/* @todo Needs implementation */}
-              {/* <StatusGroupField status={reservation.status} /> */}
-              <CheckboxField label="Inform client about the changes (requires user email)" defaultSelected name="inform" />
+              <ReservationStatusField name="status" label="Status">
+                <ReservationStatusOption status={ReservationStatus.CANCELLED} />
+                <ReservationStatusOption status={ReservationStatus.PENDING} />
+                <ReservationStatusOption status={ReservationStatus.COMPLETED} />
+                <ReservationStatusOption status={ReservationStatus.CONFIRMED} />
+              </ReservationStatusField>
+              <CheckboxField label="Inform client about the changes (requires user email)" name="inform" />
               </ModalBody>
               <ModalFooter>
                 <Button color="default" variant="light" onPress={onClose}>
