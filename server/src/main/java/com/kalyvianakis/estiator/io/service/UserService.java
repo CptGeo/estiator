@@ -1,10 +1,14 @@
 package com.kalyvianakis.estiator.io.service;
 
 import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
+import com.kalyvianakis.estiator.io.model.Schedule;
 import com.kalyvianakis.estiator.io.model.User;
+import com.kalyvianakis.estiator.io.repository.ReservationRepository;
+import com.kalyvianakis.estiator.io.repository.ScheduleRepository;
 import com.kalyvianakis.estiator.io.repository.UserRepository;
 import com.kalyvianakis.estiator.io.specifications.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ScheduleRepository scheduleRepository;
 
     @Override
     public User save(User user) {
@@ -45,6 +52,10 @@ public class UserService implements IUserService {
 
     public List<User> getNotRegistered() {
         return userRepository.findAll(Specification.where(Specification.not(UserSpecification.isAdmin()).and(Specification.not(UserSpecification.isModerator()))));
+    }
+
+    public List<Schedule> getSchedule(Integer id) {
+        return scheduleRepository.findByUserId(id, Sort.by("date").ascending());
     }
 
     @Override
