@@ -31,11 +31,13 @@ public class User extends PropertyPrinter {
     private String surname;
 
     @NotBlank(message = "Email must not be empty")
+    @Column(unique = true)
     private String email;
 
     @NotBlank(message = "Password must not be empty")
     private String password;
 
+    @Column(unique = true)
     private String phone;
 
     private String position;
@@ -59,6 +61,8 @@ public class User extends PropertyPrinter {
     @Column(name = "user_role")
     @JsonIgnore
     private Short userRoleValue;
+
+
 
     @PostLoad
     @SuppressWarnings("unused")
@@ -94,6 +98,11 @@ public class User extends PropertyPrinter {
     @OneToMany(mappedBy = "createdFor", fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "table", "user" })
     private List<Reservation> referredReservations;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @JsonIgnoreProperties(value = { "user" })
+    private List<Schedule> schedules;
 
     private Integer getId() {
         return id;
@@ -167,5 +176,13 @@ public class User extends PropertyPrinter {
 
     public void setUserRoleValue(Short userRoleValue) {
         this.userRoleValue = userRoleValue;
+    }
+
+    public List<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules;
     }
 }
