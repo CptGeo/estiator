@@ -50,12 +50,12 @@ public class TableService implements ITableService {
     }
 
     @Override
-    public Boolean exists(int id) {
+    public Boolean exists(Integer id) {
         return tableRepository.existsById(id);
     }
 
     @Override
-    public Boolean notExists(int id) {
+    public Boolean notExists(Integer id) {
         return !this.exists(id);
     }
 }

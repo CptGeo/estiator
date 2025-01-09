@@ -10,6 +10,6 @@ public interface ITableService {
     public List<Table> get();
     public Table get(Integer id) throws ResourceNotFoundException;
     public void delete(Integer id) throws ResourceNotFoundException;
-    public Boolean exists(int id);
-    public Boolean notExists(int id);
+    public Boolean exists(Integer id);
+    public Boolean notExists(Integer id);
 }
