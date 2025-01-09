@@ -6,7 +6,6 @@ import com.kalyvianakis.estiator.io.model.MessageResponse;
 import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +33,11 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable Integer id) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(userService.get(id));
+    }
+
+    @GetMapping("/{id}/schedule")
+    public ResponseEntity<?> getSchedule(@PathVariable Integer id) throws ResourceNotFoundException {
+        return ResponseEntity.ok().body(userService.getSchedule(id));
     }
 
     @GetMapping()
