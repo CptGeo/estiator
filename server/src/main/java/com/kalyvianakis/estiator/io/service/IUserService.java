@@ -11,7 +11,6 @@ public interface IUserService {
     public User get(Integer id) throws ResourceNotFoundException;
     public User getOneByEmail(String email) throws ResourceNotFoundException;
     public List<User> getRegistered();
-    public List<User> getNotRegistered();
     public void delete(int id);
     public Boolean exists(int id);
     public Boolean notExists(int id);

@@ -9,7 +9,6 @@ import com.kalyvianakis.estiator.io.model.ScheduleRequest;
 import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.service.ScheduleService;
 import com.kalyvianakis.estiator.io.service.UserService;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -47,7 +45,10 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<?> get(@PathVariable Integer id, @RequestParam(required = false, name = "registered") Boolean registered ) throws ResourceNotFoundException {
+        if (registered != null && registered) {
+            return ResponseEntity.ok().body(userService.getRegistered(id));
+        }
         return ResponseEntity.ok().body(userService.get(id));
     }
 

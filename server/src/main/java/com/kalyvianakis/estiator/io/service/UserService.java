@@ -1,5 +1,6 @@
 package com.kalyvianakis.estiator.io.service;
 
+import com.kalyvianakis.estiator.io.enums.UserRole;
 import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.Schedule;
 import com.kalyvianakis.estiator.io.model.User;
@@ -8,11 +9,10 @@ import com.kalyvianakis.estiator.io.repository.UserRepository;
 import com.kalyvianakis.estiator.io.specifications.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserService implements IUserService {
@@ -47,11 +47,17 @@ public class UserService implements IUserService {
     }
 
     public List<User> getRegistered() {
-        return userRepository.findAll(Specification.where(UserSpecification.isAdmin().or(UserSpecification.isModerator())));
+        List<Short> roleValues = new ArrayList<>();
+        roleValues.add(UserRole.Moderator.getLabel());
+        roleValues.add(UserRole.Admin.getLabel());
+        return userRepository.findByUserRoleValueIn(roleValues);
     }
 
-    public List<User> getNotRegistered() {
-        return userRepository.findAll(Specification.where(Specification.not(UserSpecification.isAdmin()).and(Specification.not(UserSpecification.isModerator()))));
+    public User getRegistered(Integer id) throws ResourceNotFoundException {
+        List<Short> roleValues = new ArrayList<>();
+        roleValues.add(UserRole.Moderator.getLabel());
+        roleValues.add(UserRole.Admin.getLabel());
+        return userRepository.findByIdAndUserRoleValueIn(id, roleValues).orElseThrow(() -> new ResourceNotFoundException("Registered user not found with ID: " + id));
     }
 
     public List<Schedule> getSchedule(Integer id) {
