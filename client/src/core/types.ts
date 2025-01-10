@@ -35,15 +35,44 @@ export type Credentials = {
   password: string;
 };
 
+export enum UserRole {
+  ADMIN = "Admin",
+  MODERATOR = "Moderator",
+  GUEST = "Guest",
+};
+
+export enum UserStatus {
+  ACTIVE = "Active",
+  ON_LEAVE = "On_Leave",
+  TERMINATED = "Terminated"
+}
+
 /** Represent the returned user data after a user has logged in */
 export interface UserData extends HasId {
-  username?: string;
   name: string;
   surname: string;
   email?: string;
   phone?: string;
-  registered: boolean;
+  position: string;
+  profileImage: string;
+  status: UserStatus,
+  userRole: UserRole;
+  createdDate: string;
+  tables?: TableData[];
 };
+
+export enum ScheduleStatus {
+  Working = "Working",
+  OnLeave = "On_Leave",
+  Sick = "Sick"
+};
+
+export interface Schedule extends HasId {
+  date: string;
+  startTime: string;
+  endTime: string;
+  status: ScheduleStatus
+}
 
 export interface EmployeeData extends HasId {
   name: string;
@@ -55,13 +84,13 @@ export interface EmployeeData extends HasId {
   registrationDate: string;
   position: string;
   status: EmployeeStatus;
-  tables: string[]; // temporary table ids
+  tables: string[];
 };
 
 export enum EmployeeStatus {
-  ACTIVE = "active",
-  ON_LEAVE = "on_leave",
-  TERMINATED = "terminated"
+  ACTIVE = "Active",
+  ON_LEAVE = "On_leave",
+  TERMINATED = "Terminated"
 };
 
 export const EmployeeStatuses = {
@@ -99,8 +128,9 @@ export enum ReservationStatus {
 export interface ReservationData extends HasId {
   date: string, // "YYYY-MM-DD"
   time: string,
-  user: UserData,
   status: ReservationStatus,
+  createdBy: UserData,
+  createdFor: UserData,
   persons: number,
   table: TableData
 };
@@ -111,7 +141,8 @@ export interface TableData extends HasId {
   capacity: number,
   x: number,
   y: number,
-  color: string
+  color: string,
+  user?: Partial<UserData>
 };
 
 /**
@@ -120,3 +151,5 @@ export interface TableData extends HasId {
 export type Normalized<T> = Record<string | number, T>;
 
 export type Color = "default" | "primary" | "secondary" | "success" | "warning" | "danger" | undefined;
+
+export const Day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
