@@ -2,7 +2,7 @@ import { DropdownTrigger, User } from "@nextui-org/react";
 import type { UserData } from "@core/types";
 
 export default function UserAvatar(props: { user: UserData }) {
-  const { name, surname, username } = props.user;
+  const { name, surname, email } = props.user;
 
   return (
     <DropdownTrigger>
@@ -16,7 +16,7 @@ export default function UserAvatar(props: { user: UserData }) {
           }}
           classNames={{ name: "max-md:hidden", description: "max-md:hidden" }}
           className="transition-transform"
-          description={`@${username}`}
+          description={email}
           name={`${name} ${surname}`}
       />
     </DropdownTrigger>
