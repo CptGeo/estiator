@@ -1,14 +1,16 @@
-import type { EmployeeData } from "@core/types";
+import type { UserData } from "@core/types";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { getReq } from "@core/utils";
 
-export default function useQueryEmployee(id: string | undefined, interval?: number): UseQueryResult<EmployeeData | undefined> {
+type Params = Record<string, unknown>;
 
-  const queryKey = `employees/${id}`;
+export default function useQueryUser(id: string | undefined, params?: Params, interval?: number): UseQueryResult<UserData | undefined> {
+
+  const queryKey = `users/${id}`;
   const query = useQuery({
     queryKey: [queryKey],
-    queryFn: () => getReq<EmployeeData>(queryKey),
+    queryFn: () => getReq<UserData>(queryKey, { params }),
     // stop refetching after encountering error
     refetchInterval: (query) => query.state.fetchFailureCount > 0 ? false : interval
   });
