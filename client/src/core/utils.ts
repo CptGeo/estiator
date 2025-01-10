@@ -1,6 +1,7 @@
 import type { FieldValues, FormState } from "react-hook-form";
-import type { HasId, Normalized, UserData } from "@core/types";
-import { parseTime } from "@internationalized/date";
+import { Day, type HasId, type Normalized, type UserData } from "@core/types";
+import type { CalendarDate } from "@internationalized/date";
+import { CalendarDateTime, parseTime } from "@internationalized/date";
 import { client } from "./request";
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
 import { HttpStatusCode } from "axios";
@@ -160,3 +161,44 @@ export async function deleteReq<T>(url: string, config?: AxiosRequestConfig): Pr
     }
     throw new Error("No data");
 };
+
+/**
+ * Parses a timestamp string to a `CalendarDateTime` instance
+ */
+export function parseTimestamp(timestamp: string): CalendarDateTime {
+    const ts = Date.parse(timestamp);
+    const date = new Date(ts);
+    const parsedDate = new CalendarDateTime(date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+    return parsedDate;
+}
+
+/**
+ * Formats CalendarDateTime to `dd-mm-yyyy hh:ss` style
+ */
+export function formatDateTime(date: CalendarDateTime): string {
+    const year = date.year;
+    const month = date.month.toString().padStart(2, "0");
+    const day = date.day.toString().padStart(2, "0");
+    const hour = date.hour.toString().padStart(2, "0");
+    const minute = date.minute.toString().padStart(2, "0");
+
+    return `${day}-${month}-${year} ${hour}:${minute}`;
+}
+
+/**
+ * Formats CalendarDateTime to `dd/mm/yyyy hh:ss` style
+ */
+export function formatDate(date: CalendarDate): string {
+    const year = date.year;
+    const month = date.month.toString().padStart(2, "0");
+    const day = date.day.toString().padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+export function dayToString(day: number): string {
+    if (day > 6 || day < 0) {
+        throw new Error("Invalid day of the week");
+    }
+    return Day[day];
+}
