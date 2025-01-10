@@ -1,12 +1,13 @@
 import EmployeeInfo from "@components/Employees/EmployeeInfo/EmployeeInfo";
-import useQueryEmployee from "@hooks/useQueryEmployee";
+import EmployeeSchedule from "@components/EmployeeSchedule/EmployeeSchedule";
+import useQueryUser from "@hooks/useQueryUser";
 import { Skeleton } from "@nextui-org/react";
 import { type ReactElement } from "react";
 import { useParams } from "react-router-dom";
 
 export default function EmployeeDetails(): ReactElement {
   const { id } = useParams();
-  const { data: employee } = useQueryEmployee(id);
+  const { data: employee } = useQueryUser(id, { full: true });
 
   if (!employee) {
     return (
@@ -17,5 +18,10 @@ export default function EmployeeDetails(): ReactElement {
     )
   }
 
-  return <EmployeeInfo employee={employee} />
+  return (
+    <>
+      <EmployeeInfo employee={employee} />
+      <EmployeeSchedule employee={employee} />
+    </>
+  );
 }
