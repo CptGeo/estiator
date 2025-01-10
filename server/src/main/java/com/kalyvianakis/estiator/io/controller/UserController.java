@@ -118,7 +118,7 @@ public class UserController {
             if (registered) {
                 return ResponseEntity.ok().body(userService.getRegistered());
             } else {
-                return ResponseEntity.ok().body(userService.getNotRegistered());
+                return ResponseEntity.ok().body(userService.getGuest());
             }
         }
 

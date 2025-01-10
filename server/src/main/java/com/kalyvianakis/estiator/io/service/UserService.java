@@ -60,6 +60,12 @@ public class UserService implements IUserService {
         return userRepository.findByIdAndUserRoleValueIn(id, roleValues).orElseThrow(() -> new ResourceNotFoundException("Registered user not found with ID: " + id));
     }
 
+    public List<User> getGuest() {
+        List<Short> roleValues = new ArrayList<>();
+        roleValues.add(UserRole.Guest.getLabel());
+        return userRepository.findByUserRoleValueIn(roleValues);
+    }
+
     public List<Schedule> getSchedule(Integer id) {
         return scheduleRepository.findByUserId(id, Sort.by("date").ascending());
     }
