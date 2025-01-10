@@ -8,15 +8,22 @@ export default function SelectField(props: ControlledSelectProps): ReactElement 
 
   return (
     <Controller defaultValue={defaultSelectedKeys} name={name} render={({ field: { onChange, onBlur, value, ref } }) => {
-      return <Select
-        {...rest}
-        name={name}
-        onChange={onChange}
-        onBlur={onBlur}
-        ref={ref}
-        value={value}
-        defaultSelectedKeys={Array.isArray(value) ? value : [value]}
-        >{children}</Select>
+      const val = String(value).split(",");
+      return (
+        <Select
+          {...rest}
+          name={name}
+          required={true}
+          isRequired={true}
+          onChange={onChange}
+          onBlur={onBlur}
+          ref={ref}
+          selectedKeys={val}
+          defaultSelectedKeys={defaultSelectedKeys}
+        >
+          {children}
+        </Select>
+      );
     } } />
   );
 }
