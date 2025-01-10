@@ -4,10 +4,10 @@ import { parseDate, parseTime } from "@internationalized/date";
 import Status from "@components/Status/Reservation/Status";
 import type { ReservationData } from "@core/types";
 import ReservationsActions from "@components/Reservations/Actions";
-import { getFullName } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
 import AddIcon from "@components/Icons/AddIcon";
 import CreateReservationModal from "@components/Modal/CreateReservation";
+import { getFullName } from "@core/utils";
 
 const columns = [
   { name: "NAME", uid: "name" },
@@ -74,8 +74,8 @@ export default function ReservationsTable() {
             classNames={{
               description: "text-default-500",
             }}
-            description={reservation.user.email || reservation.user.phone}
-            name={getFullName(reservation.user)}
+            description={reservation.createdBy.email || reservation.createdBy.phone}
+            name={getFullName(reservation.createdBy)}
           />
         </TableCell>
         <TableCell className="w-[20%]" textValue="Date">

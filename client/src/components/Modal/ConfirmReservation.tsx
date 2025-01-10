@@ -36,7 +36,7 @@ export default function ConfirmReservationModal(props: Props) {
       title="Confirm reservation"
       confirmText="Confirm reservation"
       confirmButtonProps={{ isLoading: loading }}
-      body={<p>The reservation of customer <strong>{getFullName(reservation.user)}</strong> will be confirmed for the date <strong>{reservation.date}</strong> and time <strong>{reservation.time}</strong>.<br />Are you sure you want to continue?</p>}
+      body={<p>The reservation of customer <strong>{getFullName(reservation.createdFor)}</strong> will be confirmed for the date <strong>{reservation.date}</strong> and time <strong>{reservation.time}</strong>.<br />Are you sure you want to continue?</p>}
       callback={handleAction}
     />
   );

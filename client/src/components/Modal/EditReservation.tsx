@@ -25,17 +25,16 @@ type Props = {
 export default function EditReservationModal(props: Props) {
   const { reservation, isOpen, onOpenChange, onClose } = props;
   const [loading, setLoading] = useState(false);
-  const isRegistered = reservation.user.registered;
 
   const methods = useForm({
     mode: "onChange",
     defaultValues: {
       date: parseDate(reservation.date),
       time: toParsedTimeString(reservation.time),
-      name: reservation.user.name,
-      surname: reservation.user.surname,
-      email: reservation.user.email,
-      phone: reservation.user.phone,
+      name: reservation.createdBy.name,
+      surname: reservation.createdBy.surname,
+      email: reservation.createdBy.email,
+      phone: reservation.createdBy.phone,
       persons: reservation.persons.toString(),
       table: String(reservation?.table?.id),
       status: reservation.status,
@@ -49,14 +48,12 @@ export default function EditReservationModal(props: Props) {
       const data = {
         date: values.date.toString(),
         persons: values.persons,
-        ...(!reservation.user.registered && {
-          user: {
-            name: values.name,
-            surname: values.surname,
-            email: values.email,
-            phone: values.phone
-          },
-        }),
+        user: {
+          name: values.name,
+          surname: values.surname,
+          email: values.email,
+          phone: values.phone
+        },
         table: { id: Number(values.table) },
         time: parseTime(values.time).toString(),
         status: values.status,
@@ -85,7 +82,7 @@ export default function EditReservationModal(props: Props) {
             <FormProvider {...methods}>
               <form onSubmit={methods.handleSubmit(onSubmit)}>
               <ModalHeader className="gap-1">
-                Editing reservation of <em>{getFullName(reservation.user)}</em><br />
+                Editing reservation of <em>{getFullName(reservation.createdFor)}</em><br />
               </ModalHeader>
               <ModalBody>
               <div className="gap-4 md:flex">
@@ -96,10 +93,10 @@ export default function EditReservationModal(props: Props) {
                 <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                   <NumberField isRequired label="Persons" name="persons" />
                   <TablesSelect label="Select table" name="table" />
-                  <InputField isRequired label="Name" name="name" isDisabled={isRegistered} />
-                  <InputField isRequired label="Surname" isDisabled={isRegistered} name="surname" />
-                  <EmailField isRequired label="Email" isDisabled={isRegistered} name="email" />
-                  <InputField label="Phone" isDisabled={isRegistered} name="phone" />
+                  <InputField isRequired label="Name" name="name"  />
+                  <InputField isRequired label="Surname" name="surname" />
+                  <EmailField isRequired label="Email" name="email" />
+                  <InputField label="Phone" name="phone" />
                 </div>
               </div>
               <ReservationStatusField name="status" label="Status">
