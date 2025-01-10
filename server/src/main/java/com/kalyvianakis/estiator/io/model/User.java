@@ -62,8 +62,6 @@ public class User extends PropertyPrinter {
     @JsonIgnore
     private Short userRoleValue;
 
-
-
     @PostLoad
     @SuppressWarnings("unused")
     void fillTransientStatus() {

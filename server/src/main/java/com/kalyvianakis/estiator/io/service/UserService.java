@@ -3,7 +3,6 @@ package com.kalyvianakis.estiator.io.service;
 import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.Schedule;
 import com.kalyvianakis.estiator.io.model.User;
-import com.kalyvianakis.estiator.io.repository.ReservationRepository;
 import com.kalyvianakis.estiator.io.repository.ScheduleRepository;
 import com.kalyvianakis.estiator.io.repository.UserRepository;
 import com.kalyvianakis.estiator.io.specifications.UserSpecification;
@@ -12,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -56,6 +56,10 @@ public class UserService implements IUserService {
 
     public List<Schedule> getSchedule(Integer id) {
         return scheduleRepository.findByUserId(id, Sort.by("date").ascending());
+    }
+
+    public Schedule getScheduleByDate(Integer id, LocalDate date) {
+        return scheduleRepository.findByUserIdAndDate(id, date);
     }
 
     @Override
