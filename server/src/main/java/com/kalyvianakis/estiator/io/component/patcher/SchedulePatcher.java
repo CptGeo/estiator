@@ -13,5 +13,9 @@ public class SchedulePatcher implements IPatcher<Schedule> {
         if(incomplete.getEndTime() != null) {
             existing.setEndTime(incomplete.getEndTime());
         }
+        if (incomplete.getStatus() != null) {
+            existing.setStatusValue(incomplete.getStatus().getLabel());
+            existing.setStatus(incomplete.getStatus());
+        }
     }
 }
