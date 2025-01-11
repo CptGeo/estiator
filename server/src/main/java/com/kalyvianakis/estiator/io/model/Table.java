@@ -28,7 +28,7 @@ public class Table extends PropertyPrinter {
     @JsonIgnoreProperties(value = { "reservations", "tables" })
     private User user;
 
-    @OneToMany(mappedBy = "table", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = false)
+    @OneToMany(mappedBy = "table", fetch = FetchType.LAZY, orphanRemoval = false)
     @JsonIgnoreProperties(value = { "table" })
     private List<Reservation> reservations;
 
