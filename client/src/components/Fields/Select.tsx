@@ -13,8 +13,6 @@ export default function SelectField(props: ControlledSelectProps): ReactElement 
         <Select
           {...rest}
           name={name}
-          required={true}
-          isRequired={true}
           onChange={onChange}
           onBlur={onBlur}
           ref={ref}
