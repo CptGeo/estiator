@@ -54,7 +54,7 @@ export default function EditReservationModal(props: Props) {
           email: values.email,
           phone: values.phone
         },
-        table: { id: Number(values.table) },
+        table: { id: values.table != "" ? Number(values.table) : null },
         time: parseTime(values.time).toString(),
         status: values.status,
         inform: values.inform
