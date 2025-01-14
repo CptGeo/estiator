@@ -5,11 +5,8 @@ import com.kalyvianakis.estiator.io.enums.UserRole;
 import com.kalyvianakis.estiator.io.enums.UserStatus;
 import com.kalyvianakis.estiator.io.global.PropertyPrinter;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.SourceType;
-
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -24,17 +21,13 @@ public class User extends PropertyPrinter {
     @CurrentTimestamp(source = SourceType.DB)
     private Timestamp createdDate;
 
-    @NotBlank(message = "Name must not be empty")
     private String name;
 
-    @NotBlank(message = "Surname must not be empty")
     private String surname;
 
-    @NotBlank(message = "Email must not be empty")
     @Column(unique = true)
     private String email;
 
-    @NotBlank(message = "Password must not be empty")
     private String password;
 
     @Column(unique = true)
@@ -45,7 +38,6 @@ public class User extends PropertyPrinter {
     private String profileImage;
 
     @Transient
-    @NotNull(message = "Status must not be null")
     private UserStatus status;
 
     @Basic
@@ -54,7 +46,6 @@ public class User extends PropertyPrinter {
     private Short statusValue;
 
     @Transient
-    @NotNull(message = "User role must not be null")
     private UserRole userRole;
 
     @Basic
@@ -65,10 +56,10 @@ public class User extends PropertyPrinter {
     @PostLoad
     @SuppressWarnings("unused")
     void fillTransientStatus() {
-        if (statusValue >= 0) {
+        if (this.getStatusValue() != null && statusValue >= 0) {
             this.status = UserStatus.of(statusValue);
         }
-        if (userRoleValue >= 0) {
+        if (this.getUserRoleValue() != null && userRoleValue >= 0) {
             this.userRole = UserRole.of(userRoleValue);
         }
     }
@@ -76,12 +67,18 @@ public class User extends PropertyPrinter {
     @PrePersist
     @SuppressWarnings("unused")
     void fillPersistentStatus() {
-        if (statusValue >= 0) {
+        if (this.getStatusValue() != null && statusValue >= 0) {
             statusValue = status.getLabel();
+        } else {
+            this.setStatusValue(UserStatus.Active.getLabel());
+            this.setStatus(UserStatus.Active);
         }
 
-        if (userRoleValue >= 0) {
+        if (this.getUserRoleValue() != null && userRoleValue >= 0) {
             userRoleValue = userRole.getLabel();
+        } else {
+            this.setUserRoleValue(UserRole.Guest.getLabel());
+            this.setUserRole(UserRole.Guest);
         }
     }
 
