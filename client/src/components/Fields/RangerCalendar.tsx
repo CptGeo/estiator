@@ -13,13 +13,15 @@ export default function RangeCalendarField(props: Props) {
         <Controller
             name={name}
             defaultValue={defaultValue}
-            render={({ field: { onChange, onBlur, value, ref } }) => (
+            render={({ field: { onChange, onBlur, value, ref }, fieldState: { error } }) => (
                 <RangeCalendar
                     {...calendarProps}
                     value={value}
                     onChange={onChange}
                     ref={ref}
                     onBlur={onBlur}
+                    errorMessage={error?.message}
+                    isInvalid={!!error?.message}
                 />
             )}
         />
