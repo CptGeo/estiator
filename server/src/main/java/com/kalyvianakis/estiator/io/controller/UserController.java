@@ -39,7 +39,13 @@ public class UserController {
     @PostMapping
     // @todo - Fix issue with entity creation. Instead of 400 - Bad Request, I get 500 - Internal Server Error after data validation with 'false' result
     public ResponseEntity<User> add(@RequestBody User user) {
-        user.setStatusValue(user.getStatus().getLabel());
+        if (user.getStatus() != null) {
+            user.setStatusValue(user.getStatus().getLabel());
+        }
+
+        if (user.getUserRole() != null) {
+            user.setUserRoleValue(user.getUserRole().getLabel());
+        }
 
         return ResponseEntity.ok().body(userService.save(user));
     }
