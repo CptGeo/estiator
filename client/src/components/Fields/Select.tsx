@@ -2,13 +2,14 @@ import type { ReactElement } from "react";
 import { Select } from "@nextui-org/react";
 import { Controller } from "react-hook-form";
 import type { ControlledSelectProps } from "@components/Fields/types";
+import { isUndefined } from "@core/utils";
 
 export default function SelectField(props: ControlledSelectProps): ReactElement {
   const { children, defaultSelectedKeys, name, ...rest } = props;
 
   return (
     <Controller defaultValue={defaultSelectedKeys} name={name} render={({ field: { onChange, onBlur, value, ref } }) => {
-      const val = String(value).split(",");
+      const val = !isUndefined(value) ? String(value).split(",") : value;
       return (
         <Select
           {...rest}
