@@ -2,9 +2,9 @@ import type { useDisclosure } from "@nextui-org/react";
 import ConfirmationModal from "@components/Modal/Confirmation";
 import type { ReservationData } from "@core/types";
 import { ReservationStatus } from "@core/types";
-import { useState } from "react";
-import { client } from "@core/request";
-import { getFullName } from "@core/utils";
+import type { Key } from "react";
+import { getFullName, patchReq } from "@core/utils";
+import { useMutation } from "@tanstack/react-query";
 
 type Props = {
   reservation: ReservationData;
@@ -12,22 +12,14 @@ type Props = {
 
 export default function CancelReservationModal(props: Props) {
   const { reservation, ...disclosureProps } = props;
-  const [loading, setLoading] = useState(false);
 
-  /** @todo Replace with useMutation */
-  async function handleAction() {
-    const data = {
-      status: ReservationStatus.CANCELLED,
-    };
-    try {
-      setLoading(true);
-      await client.patch(`/reservations/${reservation.id}`, { ...data });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-      disclosureProps.onClose();
-    }
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (id: Key) => patchReq(`/reservations/${id}`, { status: ReservationStatus.CANCELLED }),
+    onSettled: () => disclosureProps.onClose()
+  })
+
+  async function handleAction(id: Key) {
+    await mutateAsync(id);
   }
 
   return (
@@ -36,7 +28,7 @@ export default function CancelReservationModal(props: Props) {
       title="Cancel reservation"
       cancelText="Abort"
       confirmText="Cancel reservation"
-      confirmButtonProps={{ color: "danger", isLoading: loading }}
+      confirmButtonProps={{ color: "danger", isLoading: isPending }}
       body={
         <p>
           The reservation of customer
@@ -45,7 +37,7 @@ export default function CancelReservationModal(props: Props) {
           Are you sure you want to continue?
       </p>
       }
-      callback={handleAction}
+      callback={handleAction.bind(null, reservation.id)}
     />
   );
 }
