@@ -22,16 +22,11 @@ export default function CreateReservationModal(props: Props) {
   const auth = useAuth();
   const user = auth?.user;
 
-  const loggedIn = Boolean(auth?.user) && Boolean(auth?.token);
-
   const methods = useForm({
-    mode: "onChange",
+    mode: "all",
     defaultValues: {
       date: today("GMT").add({ days: 1 }),
-      persons: 1,
-      user: {
-        ...user
-      }
+      persons: 1
     }
   });
 
@@ -83,10 +78,10 @@ export default function CreateReservationModal(props: Props) {
                 <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                   <NumberField isRequired label="Persons" name="persons" />
                   <TablesSelect label="Select table" name="table" />
-                  <InputField isRequired label="Name" name="user.name" isDisabled={loggedIn} />
-                  <InputField isRequired label="Surname" name="user.surname" isDisabled={loggedIn}/>
-                  <EmailField isRequired label="Email" name="user.email" isDisabled={loggedIn}/>
-                  <InputField label="Phone" name="user.phone" isDisabled={loggedIn}/>
+                  <InputField isRequired label="Name" name="name" />
+                  <InputField isRequired label="Surname" name="surname" />
+                  <EmailField isRequired label="Email" name="email" />
+                  <InputField label="Phone" name="phone" />
                 </div>
               </div>
 
