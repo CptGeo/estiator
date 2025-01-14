@@ -23,5 +23,5 @@ export default function NumberField(props: Omit<ControlledInputProps, "type">): 
         }
     }
 
-    return <InputField {...otherProps} type="text" rules={defaultRules} />;
+    return <InputField {...otherProps} type="text" label={label} rules={defaultRules} />;
 }
