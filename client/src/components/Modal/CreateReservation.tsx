@@ -7,20 +7,22 @@ import NumberField from "@components/Fields/Number";
 import CalendarPlainField from "@components/Fields/CalendarPlain";
 import CheckboxField from "@components/Fields/Checkbox";
 import EmailField from "@components/Fields/Email";
-import { useState } from "react";
-import { client } from "@core/request";
 import TimeField from "@components/Fields/Time";
 import { parseTime, today } from "@internationalized/date";
 import TablesSelect from "../Fields/Tables";
 import { useAuth } from "@context/Authentication";
+import { useMutation } from "@tanstack/react-query";
+import { postReq } from "@core/utils";
 
 type Props = ReturnType<typeof useDisclosure>;
 
 export default function CreateReservationModal(props: Props) {
   const { isOpen, onOpenChange, onClose } = props;
-  const [loading, setLoading] = useState(false);
   const auth = useAuth();
   const user = auth?.user;
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (data: unknown) => postReq("reservations", data)
+  })
 
   const methods = useForm({
     mode: "all",
@@ -31,26 +33,20 @@ export default function CreateReservationModal(props: Props) {
   });
 
   async function onSubmit(values: FieldValues): Promise<void> {
-    try {
-      setLoading(true);
-      const data = {
-        date: values.date.toString(),
-        persons: values.persons,
-        createdBy: { id: user ? user.id : null },
-        createdFor: { id: user ? user.id : null },
-        table: { id: Number(values.table) },
-        time: parseTime(values.time).toString(),
-        status: 0,
-        statusValue: 0,
-      };
-      await client.post(`/reservations`, { ...data });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      methods.reset();
-      setLoading(false);
-      onClose();
-    }
+    const data = {
+      date: values.date.toString(),
+      persons: values.persons,
+      createdBy: { id: user ? user.id : null },
+      createdFor: { id: user ? user.id : null },
+      table: { id: Number(values.table) },
+      time: parseTime(values.time).toString(),
+      status: 0,
+      statusValue: 0,
+    };
+    await mutateAsync(data);
+
+    methods.reset();
+    onClose();
   }
 
   return (
@@ -91,7 +87,7 @@ export default function CreateReservationModal(props: Props) {
                 <Button color="default" variant="light" onPress={onClose}>
                   Cancel
                 </Button>
-                <Button color="primary" type="submit" isLoading={loading}>
+                <Button color="primary" type="submit" isLoading={isPending}>
                   Create reservation
                 </Button>
               </ModalFooter>
