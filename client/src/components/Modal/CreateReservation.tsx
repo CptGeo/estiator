@@ -38,7 +38,7 @@ export default function CreateReservationModal(props: Props) {
       persons: values.persons,
       createdBy: { id: user ? user.id : null },
       createdFor: { id: user ? user.id : null },
-      table: { id: Number(values.table) },
+      ...values.table && { table: { id: Number(values.table) } },
       time: parseTime(values.time).toString(),
       status: 0,
       statusValue: 0,
