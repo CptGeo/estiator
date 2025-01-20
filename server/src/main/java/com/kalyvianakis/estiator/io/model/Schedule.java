@@ -4,32 +4,33 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kalyvianakis.estiator.io.enums.ScheduleStatus;
-import com.kalyvianakis.estiator.io.enums.UserRole;
-import com.kalyvianakis.estiator.io.enums.UserStatus;
 import com.kalyvianakis.estiator.io.global.PropertyPrinter;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(name = "UniqueUserAndDate", columnNames = { "user_id", "date" }))
+@Table(name = "schedules", uniqueConstraints = @UniqueConstraint(name = "UniqueUserAndDate", columnNames = { "user_id", "date" }))
 public class Schedule extends PropertyPrinter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", columnDefinition = "INT UNSIGNED", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @JsonIgnoreProperties(value = { "tables", "reservations", "createdReservations", "referredReservations", "schedules" })
     @JsonProperty(value = "user", access = JsonProperty.Access.WRITE_ONLY)
     private User user;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
+
     private Time startTime;
+
     private Time endTime;
 
     @Transient
@@ -65,11 +66,11 @@ public class Schedule extends PropertyPrinter {
         this.user = user;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
