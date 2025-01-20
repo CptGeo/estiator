@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable Integer id, @RequestParam(required = false, name = "registered") Boolean registered ) throws ResourceNotFoundException {
+    public ResponseEntity<?> get(@PathVariable Long id, @RequestParam(required = false, name = "registered") Boolean registered ) throws ResourceNotFoundException {
         if (registered != null && registered) {
             return ResponseEntity.ok().body(userService.getRegistered(id));
         }
@@ -59,17 +59,17 @@ public class UserController {
     }
 
     @GetMapping("/{id}/schedule")
-    public ResponseEntity<?> getSchedule(@PathVariable Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<?> getSchedule(@PathVariable Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(userService.getSchedule(id));
     }
 
     @GetMapping("/{id}/schedule/{date}")
-    public ResponseEntity<Schedule> getScheduleByDate(@PathVariable Integer id, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) throws ResourceNotFoundException {
+    public ResponseEntity<Schedule> getScheduleByDate(@PathVariable Long id, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(userService.getScheduleByDate(id, date));
     }
 
     @PostMapping("/{id}/schedules")
-    public ResponseEntity<?> addSchedule(@PathVariable Integer id, @RequestBody ScheduleRequest scheduleRequest) throws ResourceNotFoundException {
+    public ResponseEntity<?> addSchedule(@PathVariable Long id, @RequestBody ScheduleRequest scheduleRequest) throws ResourceNotFoundException {
         LocalDate startDate = scheduleRequest.getStartDate();
         LocalDate endDate = scheduleRequest.getEndDate();
         Time startTime = scheduleRequest.getStartTime();
@@ -137,7 +137,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) throws ResourceNotFoundException, IllegalArgumentException {
+    public ResponseEntity<?> delete(@PathVariable Long id) throws ResourceNotFoundException, IllegalArgumentException {
         if(userService.notExists(id)) {
             throw new ResourceNotFoundException("User not found for ID: " + id);
         }
@@ -148,7 +148,7 @@ public class UserController {
     }
     
     @PatchMapping("/{id}")
-    public ResponseEntity<?> patch(@PathVariable Integer id, @RequestBody User user) throws ResourceNotFoundException, IllegalArgumentException {
+    public ResponseEntity<?> patch(@PathVariable Long id, @RequestBody User user) throws ResourceNotFoundException, IllegalArgumentException {
         User current = userService.get(id);
 
         userPatcher.patch(current, user);

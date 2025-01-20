@@ -29,26 +29,26 @@ public class ScheduleService implements IScheduleService {
   }
 
   @Override
-  public Schedule get(Integer id) throws ResourceNotFoundException {
+  public Schedule get(Long id) throws ResourceNotFoundException {
     return scheduleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Schedule not found for ID: " + id));
   }
 
-  public List<Schedule> getByUserIdAndDateRange(Integer id, LocalDate startDate, LocalDate endDate) {
+  public List<Schedule> getByUserIdAndDateRange(Long id, LocalDate startDate, LocalDate endDate) {
     return scheduleRepository.findByUserIdAndDateBetween(id, startDate, endDate);
   }
 
   @Override
-  public void delete(Integer id) {
+  public void delete(Long id) {
     scheduleRepository.deleteById(id);
   }
 
   @Override
-  public Boolean exists(Integer id) {
+  public Boolean exists(Long id) {
     return scheduleRepository.existsById(id);
   }
 
   @Override
-  public Boolean notExists(Integer id) {
+  public Boolean notExists(Long id) {
     return !this.exists(id);
   }
 

@@ -28,7 +28,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<?> get(@PathVariable Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(scheduleService.get(id));
     }
 
@@ -37,7 +37,7 @@ public class ScheduleController {
         return ResponseEntity.ok().body(scheduleService.get());
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) throws ResourceNotFoundException, IllegalArgumentException {
+    public ResponseEntity<?> delete(@PathVariable Long id) throws ResourceNotFoundException, IllegalArgumentException {
         if(scheduleService.notExists(id)) {
             throw new ResourceNotFoundException("Resource not found for ID: " + id);
         }
@@ -48,7 +48,7 @@ public class ScheduleController {
     }
     
     @PatchMapping("/{id}")
-    public ResponseEntity<?> patch(@PathVariable Integer id, @RequestBody Schedule schedule) throws ResourceNotFoundException, IllegalArgumentException {
+    public ResponseEntity<?> patch(@PathVariable Long id, @RequestBody Schedule schedule) throws ResourceNotFoundException, IllegalArgumentException {
         Schedule current = scheduleService.get(id);
 
         schedulePatcher.patch(current, schedule);

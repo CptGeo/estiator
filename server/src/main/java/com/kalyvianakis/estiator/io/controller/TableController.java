@@ -29,7 +29,7 @@ public class TableController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Table> get(@PathVariable Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<Table> get(@PathVariable Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(tableService.get(id));
     }
 
@@ -39,7 +39,7 @@ public class TableController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<?> delete(@PathVariable Long id) throws ResourceNotFoundException {
         if(tableService.notExists(id)) {
             throw new ResourceNotFoundException("User not found for ID: " + id);
         }
@@ -50,7 +50,7 @@ public class TableController {
     }
     
     @PatchMapping("/{id}")
-    public ResponseEntity<?> patch(@PathVariable Integer id, @RequestBody Table table) throws ResourceNotFoundException, IllegalArgumentException {
+    public ResponseEntity<?> patch(@PathVariable Long id, @RequestBody Table table) throws ResourceNotFoundException, IllegalArgumentException {
         Table current = tableService.get(id);
 
         tablePatcher.patch(current, table);

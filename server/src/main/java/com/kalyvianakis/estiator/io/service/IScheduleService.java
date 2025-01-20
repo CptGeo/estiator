@@ -9,8 +9,8 @@ import java.util.List;
 public interface IScheduleService {
     public Schedule save(Schedule resource);
     public List<Schedule> get();
-    public Schedule get(Integer id) throws ResourceNotFoundException;
-    public void delete(Integer id);
-    public Boolean exists(Integer id);
-    public Boolean notExists(Integer id);
+    public Schedule get(Long id) throws ResourceNotFoundException;
+    public void delete(Long id);
+    public Boolean exists(Long id);
+    public Boolean notExists(Long id);
 }

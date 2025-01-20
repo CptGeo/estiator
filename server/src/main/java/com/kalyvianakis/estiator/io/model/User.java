@@ -16,7 +16,7 @@ public class User extends PropertyPrinter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
 
     @CurrentTimestamp(source = SourceType.DB)
     private Timestamp createdDate;
@@ -99,11 +99,11 @@ public class User extends PropertyPrinter {
     @JsonIgnoreProperties(value = { "user" })
     private List<Schedule> schedules;
 
-    private Integer getId() {
+    private Long getId() {
         return id;
     }
 
-    public void setId(Integer id) { this.id = id; }
+    public void setId(Long id) { this.id = id; }
 
     public Timestamp getCreatedDate() { return createdDate; }
 

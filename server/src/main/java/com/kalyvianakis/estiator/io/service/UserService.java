@@ -34,7 +34,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User get(Integer id) throws ResourceNotFoundException {
+    public User get(Long id) throws ResourceNotFoundException {
         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found for ID: " + id));
     }
 
@@ -53,7 +53,7 @@ public class UserService implements IUserService {
         return userRepository.findByUserRoleValueIn(roleValues);
     }
 
-    public User getRegistered(Integer id) throws ResourceNotFoundException {
+    public User getRegistered(Long id) throws ResourceNotFoundException {
         List<Short> roleValues = new ArrayList<>();
         roleValues.add(UserRole.Moderator.getLabel());
         roleValues.add(UserRole.Admin.getLabel());
@@ -66,26 +66,26 @@ public class UserService implements IUserService {
         return userRepository.findByUserRoleValueIn(roleValues);
     }
 
-    public List<Schedule> getSchedule(Integer id) {
+    public List<Schedule> getSchedule(Long id) {
         return scheduleRepository.findByUserId(id, Sort.by("date").ascending());
     }
 
-    public Schedule getScheduleByDate(Integer id, LocalDate date) {
+    public Schedule getScheduleByDate(Long id, LocalDate date) {
         return scheduleRepository.findByUserIdAndDate(id, date);
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public Boolean exists(int id) {
+    public Boolean exists(Long id) {
         return userRepository.existsById(id);
     }
 
     @Override
-    public Boolean notExists(int id) {
+    public Boolean notExists(Long id) {
         return !this.exists(id);
     }
 }

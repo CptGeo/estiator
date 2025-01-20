@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
+public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     List<User> findByUserRoleValueIn(List<Short> userRoles);
-    Optional<User> findByIdAndUserRoleValueIn(Integer id, Collection<Short> userRoles);
+    Optional<User> findByIdAndUserRoleValueIn(Long id, Collection<Short> userRoles);
 }
