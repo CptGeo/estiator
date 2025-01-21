@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 @StaticMetamodel(User.class)
 public class _User {
-        public static volatile SingularAttribute<User, Integer> id;
+        public static volatile SingularAttribute<User, Long> id;
         public static volatile SingularAttribute<User, Timestamp> createdDate;
         public static volatile SingularAttribute<User, String> name;
         public static volatile SingularAttribute<User, String> surname;

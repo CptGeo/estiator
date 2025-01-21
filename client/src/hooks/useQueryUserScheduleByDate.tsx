@@ -1,15 +1,13 @@
-import type { UserData } from "@core/types";
+import type { Key, Schedule } from "@core/types";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { getReq } from "@core/utils";
 
-const queryKey = "users";
-
-export default function useQueryEmployees(interval?: number): UseQueryResult<(UserData)[] | undefined> {
-
+export default function useQueryUserScheduleByDate(id: Key, date: string, interval?: number): UseQueryResult<Schedule[] | undefined> {
+  const queryKey = `users/${id}/schedule/${date}`;
   const query = useQuery({
     queryKey: [queryKey],
-    queryFn: () => getReq<UserData[]>(queryKey, { params: { "registered": true } }),
+    queryFn: () => getReq<Schedule[]>(queryKey),
     // stop refetching after encountering error
     refetchInterval: (query) => query.state.fetchFailureCount > 0 ? false : interval
   });

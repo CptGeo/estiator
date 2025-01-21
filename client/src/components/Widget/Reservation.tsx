@@ -38,7 +38,7 @@ export default function ReservationWidget() {
     return (
       <TableRow>
         <TableCell className="w-[35%]" textValue="Name">
-          {getFullName(reservation.user)}
+          {getFullName(reservation.createdFor)}
         </TableCell>
         <TableCell className="w-[30%]" textValue="Date">
           {reservation.date}

@@ -9,8 +9,10 @@ export default function InputField(props: ControlledInputProps): ReactElement {
     const { name, isRequired, rules, maxLength, minLength, label, ...otherProps } = props;
     const { register, formState } = useFormContext();
 
+    const { validate, ...restRules } = rules || {};
+
     const defaultRules: RegisterOptions = {
-        ...rules,
+        ...restRules,
         ...maxLength && !minLength && { maxLength: {
             message: `${label} cannot exceed ${maxLength} characters.`,
             value: maxLength
@@ -26,6 +28,7 @@ export default function InputField(props: ControlledInputProps): ReactElement {
         },
 
         validate: {
+            ...validate,
             ...minLength && maxLength && {
                 range: (value: string) => value.length >= minLength && value.length <= maxLength ? true : `${label} length must be between ${minLength} and ${maxLength} characters.` }
         }

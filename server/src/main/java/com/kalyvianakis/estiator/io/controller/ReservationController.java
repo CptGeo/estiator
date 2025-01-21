@@ -38,7 +38,7 @@ public class ReservationController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<?> get(@PathVariable Integer id) throws ResourceNotFoundException {
+  public ResponseEntity<?> get(@PathVariable Long id) throws ResourceNotFoundException {
       return ResponseEntity.ok().body(reservationService.get(id));
   }
 
@@ -48,7 +48,7 @@ public class ReservationController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<?> delete(@PathVariable Integer id) throws ResourceNotFoundException {
+  public ResponseEntity<?> delete(@PathVariable Long id) throws ResourceNotFoundException {
       if (reservationService.notExists(id)) {
         throw new ResourceNotFoundException("Reservation not found for ID: " + id);
       }
@@ -58,7 +58,7 @@ public class ReservationController {
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<?> patch(@PathVariable Integer id, @RequestBody Reservation reservation) throws ResourceNotFoundException {
+  public ResponseEntity<?> patch(@PathVariable Long id, @RequestBody Reservation reservation) throws ResourceNotFoundException {
       Reservation current = reservationService.get(id);
 
       reservationPatcher.patch(current, reservation);

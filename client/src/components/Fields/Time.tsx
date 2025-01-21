@@ -2,14 +2,14 @@ import { Time } from "@internationalized/date";
 import { AccessTime } from "@mui/icons-material";
 import type { SelectProps } from "@nextui-org/react";
 import { SelectItem } from "@nextui-org/react";
-import type { ReactElement } from "react";
+import { useMemo, type ReactElement } from "react";
 import SelectField from "@components/Fields/Select";
 import type { OperationalTime } from "@core/types";
 
 type Props = {
   name: string;
   label?: string;
-} & Omit<SelectProps, "children"> ;
+} & Omit<SelectProps, "children">;
 
 export default function TimeField(props: Props): ReactElement {
 
@@ -53,11 +53,13 @@ export default function TimeField(props: Props): ReactElement {
     { key: 31, hour: 23, minute: 30 }
   ];
 
-  const parsedTime = times.map(time => {
-    const t = new Time(time.hour, time.minute);
-    const label = t.toString().slice(0, -3);
-    return { key: label, label };
-  });
+  const parsedTime = useMemo(() => {
+    return times.map(time => {
+      const t = new Time(time.hour, time.minute);
+      const label = t.toString().slice(0, -3);
+      return { key: label, label };
+    })
+  }, [times]);
 
   return (
     <SelectField

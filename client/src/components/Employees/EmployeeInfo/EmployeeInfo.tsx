@@ -1,26 +1,23 @@
 import EmailField from "@components/Fields/Email";
 import InputField from "@components/Fields/Input";
 import SelectField from "@components/Fields/Select";
-import TablesSelect from "@components/Fields/Tables";
 import BackIcon from "@components/Icons/BackIcon";
 import { DeleteIcon } from "@components/Icons/DeleteIcon";
 import ConfirmationModal from "@components/Modal/Confirmation";
 import Status from "@components/Status/Employee/Status";
-import { EmployeeStatus, EmployeeStatuses, Role, Roles, type EmployeeData } from "@core/types";
-import { deleteReq, patchReq } from "@core/utils";
-import { Time } from "@internationalized/date";
+import { UserRole, UserStatus, type UserData } from "@core/types";
+import { deleteReq, formatDateTime, parseTimestamp, patchReq } from "@core/utils";
 import { SelectItem, Button, Image, useDisclosure, Avatar } from "@nextui-org/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { ReactElement } from "react";
-import { useEffect } from "react";
+import { type ReactElement } from "react";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import EmployeeSchedule from "./EmployeeSchedule";
 import ImageIcon from "@components/Icons/ImageIcon";
+import { DevTool } from "@hookform/devtools";
 
 export default function EmployeeInfo(props: {
-  employee: EmployeeData;
+  employee: UserData;
 }): ReactElement {
   const employee = props.employee;
 
@@ -28,14 +25,14 @@ export default function EmployeeInfo(props: {
   const navigate = useNavigate();
   const modal = useDisclosure();
 
-  const { isPending: savePending, mutateAsync } = useMutation({
-    mutationFn: (data: EmployeeData) => patchReq(`employees/${data.id}`, data),
+  const { isPending: savePending, mutateAsync: usersMutateAsync } = useMutation({
+    mutationFn: (data: UserData) => patchReq(`users/${data.id}`, data),
   })
 
   const { isPending: deletePending, mutateAsync: deleteItem } = useMutation({
-    mutationFn: (id: unknown) => deleteReq(`employees/${id}`),
+    mutationFn: (id: unknown) => deleteReq(`users/${id}`),
     onSettled: () => {
-      queryClient.refetchQueries({ queryKey: ["employees"] })
+      queryClient.refetchQueries({ queryKey: ["users"] })
     }
   });
 
@@ -44,34 +41,9 @@ export default function EmployeeInfo(props: {
     surname: employee?.surname,
     email: employee?.email,
     phone: employee?.phone,
-    role: employee?.role,
+    userRole: employee?.userRole,
     position: employee?.position,
-    status: employee?.status,
-    tables: employee?.tables,
-
-    /** Temporary static data */
-    monOff: false,
-    tueOff: false,
-    wedOff: false,
-    thuOff: false,
-    friOff: false,
-    satOff: true,
-    sunOff: true,
-    monCheckin: new Time(15, 30),
-    monCheckout: new Time(15, 30),
-    tueCheckin: new Time(15, 30),
-    tueCheckout: new Time(15, 30),
-    wedCheckin: new Time(15, 30),
-    wedCheckout: new Time(15, 30),
-    thuCheckin: new Time(15, 30),
-    thuCheckout: new Time(15, 30),
-    friCheckin: new Time(15, 30),
-    friCheckout: new Time(15, 30),
-    satCheckin: new Time(15, 30),
-    satCheckout: new Time(15, 30),
-    sunCheckin: new Time(15, 30),
-    sunCheckout: new Time(15, 30)
-    /** --------------- */
+    status: employee?.status
   }
 
   const methods = useForm({
@@ -79,18 +51,17 @@ export default function EmployeeInfo(props: {
     mode: "all",
   });
 
-  useEffect(() => {
-    methods.reset(defaultValues);
-  }, [employee])
+  const { formState: { isValid, isDirty } } = methods;
 
   async function handleSubmit(values: FieldValues) {
-    await mutateAsync({
+    await usersMutateAsync({
       ...values,
       id: employee.id
-    } as EmployeeData);
+    } as UserData);
 
-    queryClient.invalidateQueries({ queryKey: [`employees/${employee.id}`] });
-    queryClient.refetchQueries({ queryKey: ["employees"] });
+    queryClient.invalidateQueries({ queryKey: [`users/${employee.id}`] });
+    queryClient.invalidateQueries({ queryKey: [`users/${employee.id}/schedule`] });
+    queryClient.refetchQueries({ queryKey: ["users"] });
   }
 
   async function handleDelete(id: unknown) {
@@ -103,13 +74,13 @@ export default function EmployeeInfo(props: {
     }, 500)
   }
 
-  function getFallbackSrc(employee: EmployeeData) {
+  function getFallbackSrc(employee: UserData) {
     return `https://ui-avatars.com/api/?size=300&name=${employee.name}+${employee.surname}`
   }
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(handleSubmit)} noValidate>
+      <form onSubmit={methods.handleSubmit(handleSubmit)} noValidate className="mb-5">
         <div className="flex flex-col gap-7 mb-3">
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-center gap-2">
@@ -133,7 +104,7 @@ export default function EmployeeInfo(props: {
             </div>
             <div className="flex flex-row items-center gap-4">
               <p className="text-xs text-slate-500">
-                Added on {employee.registrationDate}
+                Added on {formatDateTime(parseTimestamp(employee.createdDate))}
               </p>
               <Button
                 className="py-6"
@@ -190,11 +161,11 @@ export default function EmployeeInfo(props: {
                 Role & Responsibilities
               </h3>
               <div className="flex flex-col gap-2">
-                <SelectField name="role" label="Role">
-                  {Object.values(Role).map((item: Role) => {
+                <SelectField name="userRole" label="Role">
+                  {Object.values(UserRole).map((item: UserRole) => {
                     return (
                       <SelectItem key={item} value={item}>
-                        {Roles[item]}
+                        {item}
                       </SelectItem>
                     );
                   })}
@@ -205,17 +176,12 @@ export default function EmployeeInfo(props: {
                   isRequired
                   maxLength={50}
                 />
-                <TablesSelect
-                  name="tables"
-                  label="Assigned Tables"
-                  selectionMode="multiple"
-                />
                 <h3 className="opacity-65 uppercase text-sm py-3">Status</h3>
-                <SelectField name="status">
-                  {Object.values(EmployeeStatus).map((item: EmployeeStatus) => {
+                <SelectField name="status" label="Status" defaultSelectedKeys={employee?.tables?.map(table => table.id) || []}>
+                  {Object.values(UserStatus).map((item: UserStatus) => {
                     return (
                       <SelectItem key={item} value={item}>
-                        {EmployeeStatuses[item]}
+                        {item}
                       </SelectItem>
                     );
                   })}
@@ -224,9 +190,6 @@ export default function EmployeeInfo(props: {
             </div>
           </div>
         </div>
-
-        <EmployeeSchedule />
-
         <div className="w-full flex gap-3">
           <Button
             variant="solid"
@@ -234,11 +197,9 @@ export default function EmployeeInfo(props: {
             color="primary"
             type="submit"
             isLoading={savePending}
-            isDisabled={
-              !methods.formState.isDirty || !methods.formState.isValid
-            }
+            isDisabled={!isDirty || !isValid}
           >
-            Save changes
+            Save profile changes
           </Button>
         </div>
       </form>
@@ -256,6 +217,7 @@ export default function EmployeeInfo(props: {
         title={`Remove employee ${employee.name} ${employee.surname}`}
         callback={handleDelete.bind(null, employee.id)}
       />
+      <DevTool control={methods.control} />
     </FormProvider>
   );
 }

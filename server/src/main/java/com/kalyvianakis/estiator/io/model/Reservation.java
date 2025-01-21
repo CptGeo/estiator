@@ -18,7 +18,7 @@ import org.hibernate.annotations.SourceType;
 public class Reservation extends PropertyPrinter {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  private Long id;
 
   private Date date;
 
@@ -42,13 +42,13 @@ public class Reservation extends PropertyPrinter {
   private Timestamp createdDate;
 
   @ManyToOne
-  @JoinColumn(name = "created_by_user_id", referencedColumnName = "id", nullable = true, columnDefinition = "INT UNSIGNED")
+  @JoinColumn(name = "created_by_user_id", referencedColumnName = "id", nullable = true)
   @JsonIgnoreProperties(value = { "tables", "reservations", "createdReservations", "referredReservations" })
   @JsonProperty(value = "createdBy")
   private User createdBy;
 
   @ManyToOne
-  @JoinColumn(name = "created_for_user_id", referencedColumnName = "id", nullable = true, columnDefinition = "INT UNSIGNED")
+  @JoinColumn(name = "created_for_user_id", referencedColumnName = "id", nullable = true)
   @JsonIgnoreProperties(value = { "tables", "reservations", "createdReservations", "referredReservations" })
   @JsonProperty(value = "createdFor")
   private User createdFor;
@@ -70,11 +70,11 @@ public class Reservation extends PropertyPrinter {
       }
   }
 
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

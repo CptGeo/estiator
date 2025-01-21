@@ -26,22 +26,22 @@ public class ReservationService implements IReservationService {
   }
 
   @Override
-  public Reservation get(Integer id) throws ResourceNotFoundException {
+  public Reservation get(Long id) throws ResourceNotFoundException {
     return reservationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Reservation not found for ID: " + id));
   }
 
   @Override
-  public void delete(Integer id) {
+  public void delete(Long id) {
     reservationRepository.deleteById(id);
   }
 
   @Override
-  public Boolean exists(Integer id) {
+  public Boolean exists(Long id) {
     return reservationRepository.existsById(id);
   }
 
   @Override
-  public Boolean notExists(Integer id) {
+  public Boolean notExists(Long id) {
     return !this.exists(id);
   }
 

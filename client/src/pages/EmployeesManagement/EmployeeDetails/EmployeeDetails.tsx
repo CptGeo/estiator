@@ -1,14 +1,19 @@
 import EmployeeInfo from "@components/Employees/EmployeeInfo/EmployeeInfo";
-import useQueryEmployee from "@hooks/useQueryEmployee";
+import EmployeeSchedule from "@components/EmployeeSchedule/EmployeeSchedule";
+import useQueryUser from "@hooks/useQueryUser";
 import { Skeleton } from "@nextui-org/react";
+import NotFound from "@pages/Errors/ResourceNotFound";
 import { type ReactElement } from "react";
 import { useParams } from "react-router-dom";
 
 export default function EmployeeDetails(): ReactElement {
   const { id } = useParams();
-  const { data: employee } = useQueryEmployee(id);
+  const { data: employee, isError } = useQueryUser(id, { registered: true });
 
   if (!employee) {
+    if (isError) {
+      return <NotFound resourceName="Employee" url={window.location.pathname} />
+    }
     return (
       <>
         <Skeleton className="w-[150px] h-[30px] mb-1" />
@@ -17,5 +22,10 @@ export default function EmployeeDetails(): ReactElement {
     )
   }
 
-  return <EmployeeInfo employee={employee} />
+  return (
+    <>
+      <EmployeeInfo employee={employee} />
+      <EmployeeSchedule employee={employee} />
+    </>
+  );
 }

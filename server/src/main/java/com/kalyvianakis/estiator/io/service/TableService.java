@@ -30,12 +30,12 @@ public class TableService implements ITableService {
     }
 
     @Override
-    public Table get(Integer id) throws ResourceNotFoundException {
+    public Table get(Long id) throws ResourceNotFoundException {
         return tableRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Table not found for ID: " + id));
     }
 
     @Override
-    public void delete(Integer id) throws ResourceNotFoundException {
+    public void delete(Long id) throws ResourceNotFoundException {
         Table table = tableRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Table not found for ID: " + id));
 
         List<Reservation> reservations = table.getReservations();
@@ -50,12 +50,12 @@ public class TableService implements ITableService {
     }
 
     @Override
-    public Boolean exists(int id) {
+    public Boolean exists(Long id) {
         return tableRepository.existsById(id);
     }
 
     @Override
-    public Boolean notExists(int id) {
+    public Boolean notExists(Long id) {
         return !this.exists(id);
     }
 }

@@ -8,8 +8,8 @@ import com.kalyvianakis.estiator.io.model.Reservation;
 public interface IReservationService {
   public Reservation save(Reservation reservation);
   public List<Reservation> get();
-  public Reservation get(Integer id) throws ResourceNotFoundException;
-  public void delete(Integer id);
-  public Boolean exists(Integer id);
-  public Boolean notExists(Integer id);
+  public Reservation get(Long id) throws ResourceNotFoundException;
+  public void delete(Long id);
+  public Boolean exists(Long id);
+  public Boolean notExists(Long id);
 }
