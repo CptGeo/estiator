@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "postinstall": "node scripts/getflags.js",
     "dev": "vite",
     "dev:expose": "vite --host",
     "styles:build": "tailwindcss -i ./src/input.css -o ./build/output.css",
