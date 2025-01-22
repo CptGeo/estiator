@@ -1,4 +1,5 @@
 import type { FieldValues, FormState } from "react-hook-form";
+import type { TokenClaims } from "@core/types";
 import { Day, type HasId, type Normalized, type UserData } from "@core/types";
 import type { CalendarDate } from "@internationalized/date";
 import { CalendarDateTime, parseTime } from "@internationalized/date";
@@ -145,9 +146,10 @@ export async function patchReq<T>(url: string, data?: unknown, config?: AxiosReq
  */
 export async function postReq<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T | undefined> {
     const response = await client.post<T>(url, data, config);
-    if (response.status == HttpStatusCode.Ok) {
+    if ([HttpStatusCode.Ok, HttpStatusCode.Created].includes(response.status)) {
         return response.data;
     }
+
     throw new Error("No data");
 };
 
@@ -159,6 +161,7 @@ export async function deleteReq<T>(url: string, config?: AxiosRequestConfig): Pr
     if (response.status == HttpStatusCode.Ok) {
         return response;
     }
+
     throw new Error("No data");
 };
 
@@ -201,4 +204,20 @@ export function dayToString(day: number): string {
         throw new Error("Invalid day of the week");
     }
     return Day[day];
+}
+
+/**
+ * Encrypts the given object to a JWT token
+ * @ref https://stackoverflow.com/questions/20977968/javascript-jwt-with-public-and-private-key
+ */
+export function decryptJwt(token: string): TokenClaims {
+    // Retrieve claims part of the token
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+
+    const jsonPayload = decodeURIComponent(window.atob(base64).split("").map(c => {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(""));
+
+    return JSON.parse(jsonPayload);
 }
