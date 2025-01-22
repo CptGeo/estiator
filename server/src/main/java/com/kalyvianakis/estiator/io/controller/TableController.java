@@ -1,12 +1,11 @@
 package com.kalyvianakis.estiator.io.controller;
 
 import com.kalyvianakis.estiator.io.component.patcher.TablePatcher;
-import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
+import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.MessageResponse;
 import com.kalyvianakis.estiator.io.model.Table;
 import com.kalyvianakis.estiator.io.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

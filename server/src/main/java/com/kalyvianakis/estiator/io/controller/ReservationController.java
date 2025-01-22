@@ -2,10 +2,9 @@ package com.kalyvianakis.estiator.io.controller;
 
 import java.util.List;
 
-import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
+import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
