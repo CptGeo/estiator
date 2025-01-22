@@ -1,6 +1,6 @@
 package com.kalyvianakis.estiator.io.service;
 
-import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
+import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.Table;
 
 import java.util.List;

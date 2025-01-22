@@ -1,8 +1,7 @@
 package com.kalyvianakis.estiator.io.service;
 
-import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
+import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.Schedule;
-import com.kalyvianakis.estiator.io.model.User;
 
 import java.util.List;
 

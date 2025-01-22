@@ -2,7 +2,7 @@ package com.kalyvianakis.estiator.io.service;
 
 import java.util.List;
 
-import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
+import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
