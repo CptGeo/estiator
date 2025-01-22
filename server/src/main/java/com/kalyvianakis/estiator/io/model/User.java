@@ -53,10 +53,11 @@ public class User extends PropertyPrinter {
     @JsonIgnore
     private Short userRoleValue;
 
-    public User(String name, String surname, String email, String password) {
+    public User(String name, String surname, String email, String phone, String password) {
         this.name = name;
         this.surname = surname;
         this.email = email;
+        this.phone = phone;
         this.password = password;
     }
     public User() {}
