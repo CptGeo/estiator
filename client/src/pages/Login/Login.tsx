@@ -28,7 +28,7 @@ export default function LoginPage(): ReactElement {
     const { password, email } = values;
 
     if (auth?.loginAction) {
-      await auth.loginAction({ password, username: email });
+      await auth.loginAction({ password, email });
     }
   }
 
@@ -42,14 +42,12 @@ export default function LoginPage(): ReactElement {
             autoFocus
             isRequired
             label="Email"
-            defaultValue="george@gmail.com"
             placeholder="Enter your email"
             variant="bordered"
             />
           <PasswordField
             name="password"
             label="Password"
-            defaultValue="1234"
             placeholder="Enter your password"
             isRequired
             variant="bordered"
