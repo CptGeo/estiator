@@ -31,7 +31,7 @@ export type AuthValue = {
 
 /** Represents the username and password credentials for logging in a user */
 export type Credentials = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -153,3 +153,10 @@ export type Normalized<T> = Record<string | number, T>;
 export type Color = "default" | "primary" | "secondary" | "success" | "warning" | "danger" | undefined;
 
 export const Day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+export type TokenClaims = {
+  sub: string;
+  exp: number;
+  iat: number;
+  user: UserData;
+}
