@@ -1,7 +1,7 @@
 package com.kalyvianakis.estiator.io.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.kalyvianakis.estiator.io.global.PropertyPrinter;
+import com.kalyvianakis.estiator.io.utils.PropertyPrinter;
 import jakarta.persistence.*;
 
 import java.util.List;
