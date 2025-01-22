@@ -41,9 +41,8 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) throws ResourceNotFoundException {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
         User user = userService.getOneByEmail(request.email());
-        AuthenticatedUser loggedUser = new AuthenticatedUser(user);
-        String token = JwtHelper.generateToken(request.email());
+        String token = JwtHelper.generateToken(user);
 
-        return ResponseEntity.ok(new LoginResponse(request.email(), token, loggedUser));
+        return ResponseEntity.ok(new LoginResponse(request.email(), token));
     }
 }

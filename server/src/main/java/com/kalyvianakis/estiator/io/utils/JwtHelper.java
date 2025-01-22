@@ -1,5 +1,7 @@
 package com.kalyvianakis.estiator.io.utils;
 
+import com.kalyvianakis.estiator.io.dto.AuthenticatedUser;
+import com.kalyvianakis.estiator.io.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -17,10 +19,12 @@ public class JwtHelper {
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private static final Integer MINUTES = 60;
 
-    public static String generateToken(String email) {
+    public static String generateToken(User user) {
         Instant now = Instant.now();
+        AuthenticatedUser authUser = new AuthenticatedUser(user);
         return Jwts.builder()
-                .subject(email)
+                .subject(authUser.getEmail())
+                .claim("user", authUser)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(now.plus(MINUTES, ChronoUnit.MINUTES)))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
