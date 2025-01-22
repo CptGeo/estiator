@@ -1,7 +1,7 @@
 package com.kalyvianakis.estiator.io.service;
 
 import com.kalyvianakis.estiator.io.enums.UserRole;
-import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
+import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.Schedule;
 import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.repository.ScheduleRepository;
@@ -9,13 +9,18 @@ import com.kalyvianakis.estiator.io.repository.UserRepository;
 import com.kalyvianakis.estiator.io.specifications.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
 
 @Service
-public class UserService implements IUserService {
+@Transactional(readOnly = true)
+public class UserService implements IUserService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -72,6 +77,15 @@ public class UserService implements IUserService {
 
     public Schedule getScheduleByDate(Long id, LocalDate date) {
         return scheduleRepository.findByUserIdAndDate(id, date);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User does not exist, email: %s", username)));
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getEmail())
+                .password(user.getPassword())
+                .build();
     }
 
     @Override
