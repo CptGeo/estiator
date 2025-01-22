@@ -4,18 +4,38 @@
  */
 import fs from "fs";
 import https from "https";
+import process from "process";
 
-// --- SCRIPT BEGIN
 const PATH = "./src/assets/images/flags";
 const CODES_PATH = "https://flagcdn.com/en/codes.json";
 const IMAGE_SIZE = "w80";
+// Delay between requests in order to prevent remote server from rejecting them. In milliseconds (ms).
+const REQUEST_GAP = 10;
 
-createDir(PATH);
+main();
 
-(await getCountryCodes()).forEach(code => {
-  getCountryFlag(code, PATH);
-});
-// --- SCRIPT END
+async function main() {
+  createDir(PATH);
+
+  try {
+    await getFlags();
+  } catch(error) {
+    console.warn(error);
+  } finally {
+    process.exit(0);
+  }
+}
+
+async function getFlags() {
+  const countryCodes = await getCountryCodes();
+  const promises = countryCodes.map((code, i) => new Promise((resolve, reject) => { setTimeout(() => getCountryFlag(code, PATH).then(resolve).catch(reject), i * REQUEST_GAP) }));
+
+  await Promise.all(promises).then(() => {
+    console.log("Flags downloaded successfully.");
+  }).catch(error => {
+    console.log(error);
+  })
+}
 
 async function getCountryCodes() {
   const result = await fetch(CODES_PATH).then(response => response.json());
@@ -49,12 +69,12 @@ async function getCountryFlag(code, path) {
       });
 
       fileStream.on('error', (err) => {
-        fs.unlink(filePath, () => reject(err)); // Delete the file on error
+        fs.unlink(filePath, () => reject(`${code} ${path} ${err.message}`)); // Delete the file on error
       });
     });
 
     request.on('error', (err) => {
-      reject(err);
+      reject(`${code} ${path} ${err.message}`);
     });
   });
 }
