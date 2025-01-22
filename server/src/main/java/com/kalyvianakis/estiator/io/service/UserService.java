@@ -48,7 +48,7 @@ public class UserService implements IUserService, UserDetailsService {
         if (email == null) {
             throw new IllegalArgumentException("Email must not be null");
         }
-        return userRepository.findOne(UserSpecification.emailEquals(email)).orElseThrow(() -> new ResourceNotFoundException("User not found with Email: " + email));
+        return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found with Email: " + email));
     }
 
     public List<User> getRegistered() {
