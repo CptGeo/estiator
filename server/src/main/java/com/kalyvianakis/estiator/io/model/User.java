@@ -3,7 +3,7 @@ package com.kalyvianakis.estiator.io.model;
 import com.fasterxml.jackson.annotation.*;
 import com.kalyvianakis.estiator.io.enums.UserRole;
 import com.kalyvianakis.estiator.io.enums.UserStatus;
-import com.kalyvianakis.estiator.io.global.PropertyPrinter;
+import com.kalyvianakis.estiator.io.utils.PropertyPrinter;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.SourceType;
@@ -52,6 +52,14 @@ public class User extends PropertyPrinter {
     @Column(name = "user_role")
     @JsonIgnore
     private Short userRoleValue;
+
+    public User(String name, String surname, String email, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+    }
+    public User() {}
 
     @PostLoad
     @SuppressWarnings("unused")
