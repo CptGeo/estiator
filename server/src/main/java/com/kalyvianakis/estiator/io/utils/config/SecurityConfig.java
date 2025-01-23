@@ -46,7 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/tables/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
                         .requestMatchers("/users/**").hasAnyAuthority("ROLE_ADMIN")
                         .requestMatchers("/schedules/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
-                        .anyRequest().authenticated())
+                        .anyRequest().hasAuthority("ROLE_ADMIN"))
                 .authenticationManager(authenticationManager)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
