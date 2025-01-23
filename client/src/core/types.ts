@@ -36,9 +36,10 @@ export type Credentials = {
 };
 
 export enum UserRole {
-  ADMIN = "Admin",
-  MODERATOR = "Moderator",
-  GUEST = "Guest",
+  ADMIN = "ROLE_ADMIN",
+  MODERATOR = "ROLE_MODERATOR",
+  CLIENT = "ROLE_CLIENT",
+  GUEST = "ROLE_GUEST",
 };
 
 export enum UserStatus {
