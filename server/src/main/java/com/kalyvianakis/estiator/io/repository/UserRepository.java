@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
-    List<User> findByUserRoleValueIn(List<Short> userRoles);
-    Optional<User> findByIdAndUserRoleValueIn(Long id, Collection<Short> userRoles);
+    List<User> findByUserRoleIn(List<String> userRoles);
+    Optional<User> findByIdAndUserRoleIn(Long id, Collection<String> userRoles);
     Optional<User> findByEmail(String email);
 }

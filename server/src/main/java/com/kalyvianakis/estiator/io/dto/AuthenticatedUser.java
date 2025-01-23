@@ -1,6 +1,5 @@
 package com.kalyvianakis.estiator.io.dto;
 
-import com.kalyvianakis.estiator.io.enums.UserRole;
 import com.kalyvianakis.estiator.io.enums.UserStatus;
 import com.kalyvianakis.estiator.io.model.User;
 
@@ -11,7 +10,7 @@ public class AuthenticatedUser {
     private final String name;
     private final String surname;
     private final String phone;
-    private final UserRole userRole;
+    private final String userRole;
     private final String position;
     private final Timestamp createdDate;
     private final String profileImage;
@@ -45,7 +44,7 @@ public class AuthenticatedUser {
         return phone;
     }
 
-    public UserRole getUserRole() {
+    public String getUserRole() {
         return userRole;
     }
 

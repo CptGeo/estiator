@@ -43,10 +43,6 @@ public class UserController {
             user.setStatusValue(user.getStatus().getLabel());
         }
 
-        if (user.getUserRole() != null) {
-            user.setUserRoleValue(user.getUserRole().getLabel());
-        }
-
         return ResponseEntity.ok().body(userService.save(user));
     }
 

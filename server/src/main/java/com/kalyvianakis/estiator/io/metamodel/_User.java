@@ -18,7 +18,7 @@ public class _User {
         public static volatile SingularAttribute<User, String> position;
         public static volatile SingularAttribute<User, String> profileImage;
         public static volatile SingularAttribute<User, Short> statusValue;
-        public static volatile SingularAttribute<User, Short> userRoleValue;
+        public static volatile SingularAttribute<User, String> userRole;
 
         public static final String ID = "id";
         public static final String CREATED_DATE = "createdDate";
@@ -30,6 +30,6 @@ public class _User {
         public static final String POSITION = "position";
         public static final String PROFILE_IMAGE = "profileImage";
         public static final String STATUS_VALUE = "statusValue";
-        public static final String USER_ROLE_VALUE = "userRoleValue";
+        public static final String USER_ROLE = "userRole";
 
 }
