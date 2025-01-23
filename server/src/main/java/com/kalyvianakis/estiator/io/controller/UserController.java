@@ -1,6 +1,7 @@
 package com.kalyvianakis.estiator.io.controller;
 
 import com.kalyvianakis.estiator.io.component.patcher.UserPatcher;
+import com.kalyvianakis.estiator.io.dto.SafeUserData;
 import com.kalyvianakis.estiator.io.enums.ScheduleStatus;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.MessageResponse;
@@ -150,6 +151,6 @@ public class UserController {
         userPatcher.patch(current, user);
         userService.save(current);
 
-        return ResponseEntity.ok().body(current);
+        return ResponseEntity.ok().body(new SafeUserData(current));
     }
 }

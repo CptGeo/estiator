@@ -157,11 +157,7 @@ public class User extends PropertyPrinter {
         this.schedules = schedules;
     }
 
-    public String getUserRole() {
-        return userRole;
-    }
+    public String getUserRole() { return userRole; }
 
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
-    }
+    public void setUserRole(String userRole) { this.userRole = userRole; }
 }
