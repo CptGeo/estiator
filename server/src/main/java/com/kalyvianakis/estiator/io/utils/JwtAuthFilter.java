@@ -26,6 +26,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private  JwtHelper jwtHelper;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
@@ -35,7 +38,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
                 token = authHeader.substring(7);
-                username = JwtHelper.extractUsername(token);
+                username = jwtHelper.extractUsername(token);
             }
 
             response.setHeader("Access-Control-Allow-Origin", "*");
@@ -59,7 +62,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails user = userService.loadUserByUsername(username);
 
-                if (JwtHelper.validateToken(token, user)) {
+                if (jwtHelper.validateToken(token, user)) {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, null);
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);

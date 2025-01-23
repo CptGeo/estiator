@@ -1,6 +1,5 @@
 package com.kalyvianakis.estiator.io.controller;
 
-import com.kalyvianakis.estiator.io.dto.AuthenticatedUser;
 import com.kalyvianakis.estiator.io.dto.LoginRequest;
 import com.kalyvianakis.estiator.io.dto.LoginResponse;
 import com.kalyvianakis.estiator.io.dto.SignupRequest;
@@ -23,13 +22,16 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired
-    AuthService authService;
+    private AuthService authService;
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    UserService userService;
+    private JwtHelper jwtHelper;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/signup")
     public ResponseEntity<Void> signup(@Valid @RequestBody SignupRequest requestDto) throws Exception {
@@ -41,8 +43,7 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) throws ResourceNotFoundException {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
         User user = userService.getOneByEmail(request.email());
-        String token = JwtHelper.generateToken(user);
-
+        String token = jwtHelper.generateToken(user);
         return ResponseEntity.ok(new LoginResponse(request.email(), token));
     }
 }

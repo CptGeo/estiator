@@ -6,20 +6,24 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.nio.file.AccessDeniedException;
-import java.security.Key;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
+@Component
 public class JwtHelper {
-    private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+    @Autowired
+    ApplicationProperties applicationProperties;
+
     private static final Integer MINUTES = 60;
 
-    public static String generateToken(User user) {
+    public String generateToken(User user) {
         Instant now = Instant.now();
         AuthenticatedUser authUser = new AuthenticatedUser(user);
         return Jwts.builder()
@@ -27,19 +31,19 @@ public class JwtHelper {
                 .claim("user", authUser)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(now.plus(MINUTES, ChronoUnit.MINUTES)))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS256, applicationProperties.getJwtSecret())
                 .compact();
     }
 
-    public static String extractUsername(String token) throws AccessDeniedException {
+    public String extractUsername(String token) throws AccessDeniedException {
         return getTokenBody(token).getSubject();
     }
 
-    private static Claims getTokenBody(String token) throws AccessDeniedException {
+    private Claims getTokenBody(String token) throws AccessDeniedException {
         try {
             return Jwts
                     .parser()
-                    .setSigningKey(SECRET_KEY)
+                    .setSigningKey(applicationProperties.getJwtSecret())
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
@@ -48,13 +52,13 @@ public class JwtHelper {
         }
     }
 
-    public static Boolean validateToken(String token, UserDetails userDetails) throws AccessDeniedException {
+    public Boolean validateToken(String token, UserDetails userDetails) throws AccessDeniedException {
         final String username = extractUsername(token);
         userDetails.getAuthorities();
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
-    private static Boolean isTokenExpired(String token) throws AccessDeniedException {
+    private Boolean isTokenExpired(String token) throws AccessDeniedException {
         Claims claims = getTokenBody(token);
         return claims.getExpiration().before(new Date());
     }
