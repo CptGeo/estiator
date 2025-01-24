@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "@nextui-org/react";
@@ -19,10 +19,6 @@ export default function LoginPage(): ReactElement {
   const methods = useForm({
     mode: "onSubmit",
   });
-
-  if (auth?.user && auth.token) {
-    return <Navigate to="/" replace />
-  }
 
   async function onSubmit(values: FieldValues) {
     const { password, email } = values;
