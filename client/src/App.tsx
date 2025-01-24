@@ -8,7 +8,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DashboardPage from "@pages/Dashboard/Dashboard";
 import PrivateLayout from "@layouts/Private/Private";
 import LoginPage from "@pages/Login/Login";
-import MainLayout from "@layouts/Main";
 import AuthLayout from "@layouts/Auth";
 import ReservationsManagementPage from "@pages/ReservationsManagement/ReservationsManagement";
 import TablesManagementPage from "@pages/TablesManagement/TablesManagement";
@@ -16,6 +15,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import EmployeesManagementPage from "@pages/EmployeesManagement/EmployeesManagement";
 import EmployeeDetails from "@pages/EmployeesManagement/EmployeeDetails/EmployeeDetails";
 import RegisterPage from "@pages/Register/Register";
+import Unauthorized from "@pages/Errors/Unauthorized";
+import UnauthorizedLayout from "@layouts/Unauthorized";
+import CommonLayout from "@layouts/Common";
 
 const router = createBrowserRouter([
   {
@@ -47,16 +49,25 @@ const router = createBrowserRouter([
         ],
       },
       {
-        element: <MainLayout />,
+        element: <UnauthorizedLayout />,
         children: [
           {
             path: "/login",
             element: <LoginPage />,
           },
           {
+            path: "/unauthorized",
+            element: <Unauthorized />
+          }
+        ]
+      },
+      {
+        element: <CommonLayout />,
+        children: [
+          {
             path: "/register",
             element: <RegisterPage />,
-          }
+          },
         ]
       }
     ]
