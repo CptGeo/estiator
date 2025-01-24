@@ -16,15 +16,16 @@ import EmployeesManagementPage from "@pages/EmployeesManagement/EmployeesManagem
 import EmployeeDetails from "@pages/EmployeesManagement/EmployeeDetails/EmployeeDetails";
 import RegisterPage from "@pages/Register/Register";
 import Unauthorized from "@pages/Errors/Unauthorized";
-import UnauthorizedLayout from "@layouts/Unauthorized";
+import UnauthorizedOnlyLayout from "@layouts/UnauthorizedOnly";
 import CommonLayout from "@layouts/Common";
+import { UserRole } from "@core/types";
 
 const router = createBrowserRouter([
   {
     element: <AuthLayout />,
     children: [
       {
-        element: <PrivateLayout />,
+        element: <PrivateLayout permissions={[UserRole.ADMIN, UserRole.MODERATOR]} />,
         children: [
           {
             path: "/",
@@ -37,7 +38,12 @@ const router = createBrowserRouter([
           {
             path: "tables-management",
             element: <TablesManagementPage />
-          },
+          }
+        ],
+      },
+      {
+        element: <PrivateLayout permissions={[UserRole.ADMIN]} />,
+        children: [
           {
             path: "employees-management",
             element: <EmployeesManagementPage />
@@ -46,18 +52,14 @@ const router = createBrowserRouter([
             path: "employees-management/:id",
             element: <EmployeeDetails />
           }
-        ],
+        ]
       },
       {
-        element: <UnauthorizedLayout />,
+        element: <UnauthorizedOnlyLayout />,
         children: [
           {
             path: "/login",
             element: <LoginPage />,
-          },
-          {
-            path: "/unauthorized",
-            element: <Unauthorized />
           }
         ]
       },
@@ -68,6 +70,10 @@ const router = createBrowserRouter([
             path: "/register",
             element: <RegisterPage />,
           },
+          {
+            path: "/unauthorized",
+            element: <Unauthorized />
+          }
         ]
       }
     ]
