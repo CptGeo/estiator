@@ -2,19 +2,22 @@ import type { PropsWithChildren } from "react";
 import { createContext, useContext, useState } from "react"
 import { client } from "@core/request";
 import { useNavigate } from "react-router-dom";
-import { decryptJwt, ensureErr, sleep } from "@core/utils";
+import { ensureErr } from "@core/utils";
 import { AxiosError } from "axios";
-import type { AuthValue, Credentials, UserData } from "@core/types";
+import type { AuthValue, Credentials } from "@core/types";
 import useLocalStorage from "@hooks/useLocalStorage";
+import { decryptJwt } from "@core/auth";
 
 const AuthContext = createContext<AuthValue | null>(null);
 
 export function AuthProvider( props: PropsWithChildren ) {
   const [token, setToken, removeToken] = useLocalStorage<string>("token");
-  const [user, setUser, removeUser] = useLocalStorage<UserData>("user");
+  const user = token ? decryptJwt(token).user : null;
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // verify user data with server
   async function loginAction(credentials: Credentials): Promise<void> {
     try {
       setLoading(true);
@@ -24,9 +27,6 @@ export function AuthProvider( props: PropsWithChildren ) {
         throw new Error("Invalid response from server");
       }
 
-      const claims = decryptJwt(response.data.token);
-
-      setUser(claims.user);
       setToken(response.data.token);
 
     } catch (err) {
@@ -46,15 +46,12 @@ export function AuthProvider( props: PropsWithChildren ) {
 
   async function logoutAction(): Promise<void> {
     try {
-      // remove all locally saved data
-      removeUser();
       removeToken();
 
       // go to login page
       navigate("/login", { replace: true });
     } catch (error) {
       console.error(error);
-      /** @todo Notify for failed logout */
     }
   }
 
