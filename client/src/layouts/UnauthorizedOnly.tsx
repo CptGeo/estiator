@@ -4,11 +4,11 @@ import Navigation from "@components/Navigation/Navigation";
 import Footer from "@components/Footer/Footer";
 import { useAuth } from "@context/Authentication";
 
-export default function UnauthorizedLayout(): ReactElement {
+export default function UnauthorizedOnlyLayout(): ReactElement {
   const auth = useAuth();
 
   if (auth?.user && auth.token) {
-    return <Navigate to="/" replace />
+    return <Navigate to="/" />
   }
 
   return (
