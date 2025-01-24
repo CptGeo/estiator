@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Navigation from "@components/Navigation/Navigation";
 import Footer from "@components/Footer/Footer";
 
-export default function MainLayout(): ReactElement {
+export default function CommonLayout(): ReactElement {
   return (
     <div className="main flex flex-col min-h-screen">
       <Navigation />
