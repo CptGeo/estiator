@@ -9,6 +9,7 @@ import NumberField from "@components/Fields/Number";
 import ColorPickerField, { ColorPickerOption } from "@components/Fields/ColorPicker";
 import GridTable from "@components/Grid/GridTable";
 import { deleteReq, patchReq } from "@core/utils";
+import AdminOnly from "@components/AuthorizationWrappers/AdminOnly";
 
 type Props = {
   table: TableData;
@@ -105,10 +106,12 @@ export default function EditTableModal(props: Props) {
               </div>
               </ModalBody>
               <ModalFooter className="flex flex-row justify-between">
-                <Button color="danger" variant="flat" onPress={handleDelete} isLoading={deleteLoading}>
-                  Delete table
-                </Button>
-                <div className="gap-2 flex">
+                <AdminOnly>
+                  <Button color="danger" variant="flat" onPress={handleDelete} isLoading={deleteLoading}>
+                    Delete table
+                  </Button>
+                </AdminOnly>
+                <div className="gap-2 flex ml-auto">
                   <Button color="default" variant="light" onPress={onClose}>
                     Cancel
                   </Button>
