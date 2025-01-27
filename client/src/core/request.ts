@@ -1,9 +1,18 @@
-import axios from "axios";
+import axios, { HttpStatusCode } from "axios";
 
 export const client = axios.create({
   baseURL: "http://localhost:8080",
   headers: {
     'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  }
+});
+
+/** Remove token as soon as a 401 Unauthorized response is received from the server */
+client.interceptors.response.use(value => value, error => {
+  if (error.status === HttpStatusCode.Unauthorized) {
+    localStorage.removeItem("token");
+    location.reload();
   }
 });
 
