@@ -41,11 +41,11 @@ public class TableController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) throws ResourceNotFoundException {
         if(tableService.notExists(id)) {
-            throw new ResourceNotFoundException("User not found for ID: " + id);
+            throw new ResourceNotFoundException("Table not found for ID: " + id);
         }
 
         tableService.delete(id);
-        MessageResponse response = new MessageResponse("User deleted for ID: " + id);
+        MessageResponse response = new MessageResponse("Table deleted for ID: " + id);
         return ResponseEntity.ok().body(response);
     }
     
