@@ -161,3 +161,8 @@ export type TokenClaims = {
   iat: number;
   user: UserData;
 }
+
+export type ErrorResponse = {
+  message: string;
+  detail: string;
+}

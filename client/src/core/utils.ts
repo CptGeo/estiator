@@ -1,10 +1,10 @@
 import type { FieldValues, FormState } from "react-hook-form";
+import type { ErrorResponse } from "@core/types";
 import { Day, type HasId, type Normalized, type UserData } from "@core/types";
 import type { CalendarDate } from "@internationalized/date";
 import { CalendarDateTime, parseTime } from "@internationalized/date";
 import { client } from "./request";
-import type { AxiosRequestConfig, AxiosResponse } from "axios";
-import { HttpStatusCode } from "axios";
+import type { AxiosRequestConfig } from "axios";
 
 /**
  * Checks if field has any errors
@@ -119,49 +119,31 @@ export function sortByTime<T extends { time: string }>(a: T, b: T, method: "asc"
 }
 
 /**
- * Performs HTTP GET request
+ * Retrieves data from endpoint using HTTP GET method
  */
-export async function getReq<T>(url: string, config?: AxiosRequestConfig): Promise<T | undefined> {
-    const response = await client.get<T>(url, config);
-    if (response.status == HttpStatusCode.Ok) {
-        return response.data;
-    }
-    throw new Error("No data");
+export async function getReq<T>(url: string, config?: AxiosRequestConfig): Promise<T | ErrorResponse> {
+    return (await client.get<T>(url, config)).data;
 };
 
 /**
  * Performs HTTP PUT request
  */
-export async function patchReq<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T | undefined> {
-    const response = await client.patch<T>(url, data, config);
-    if (response.status == HttpStatusCode.Ok) {
-        return response.data;
-    }
-    throw new Error("No data");
+export async function patchReq<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T | ErrorResponse> {
+    return (await client.patch<T>(url, data, config)).data;
 };
 
 /**
  * Performs HTTP PUT request
  */
-export async function postReq<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T | undefined> {
-    const response = await client.post<T>(url, data, config);
-    if ([HttpStatusCode.Ok, HttpStatusCode.Created].includes(response.status)) {
-        return response.data;
-    }
-
-    throw new Error("No data");
+export async function postReq<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T | ErrorResponse> {
+    return (await client.post<T>(url, data, config)).data;
 };
 
 /**
  * Performs HTTP DELETE request
  */
-export async function deleteReq<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
-    const response = await client.delete<T>(url, config);
-    if (response.status == HttpStatusCode.Ok) {
-        return response;
-    }
-
-    throw new Error("No data");
+export async function deleteReq<T>(url: string, config?: AxiosRequestConfig): Promise<T | ErrorResponse> {
+    return (await client.delete<T>(url, config)).data;
 };
 
 /**
