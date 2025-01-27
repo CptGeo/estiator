@@ -1,7 +1,7 @@
 import type { TokenClaims, UserData, UserRole } from "./types";
 
 /**
- * Encrypts the given object to a JWT token
+ * Decrypts the given token to receive the token claims
  * @ref https://stackoverflow.com/questions/20977968/javascript-jwt-with-public-and-private-key
  */
 export function decryptJwt(token: string): TokenClaims {
