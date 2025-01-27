@@ -27,6 +27,7 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-validation')
 	implementation 'org.apache.commons:commons-lang3:3.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test:6.4.2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	runtimeOnly "io.jsonwebtoken:jjwt-impl:${jwtVersion}"
 	runtimeOnly "io.jsonwebtoken:jjwt-jackson:${jwtVersion}"
