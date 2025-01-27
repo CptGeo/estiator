@@ -47,10 +47,20 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/auth/signup/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login/**").permitAll()
-                        .requestMatchers("/reservations/**").hasAnyAuthority( "ROLE_ADMIN", "ROLE_MODERATOR")
-                        .requestMatchers("/tables/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
+
+                        .requestMatchers(HttpMethod.GET, "/reservations/**").hasAnyAuthority( "ROLE_ADMIN", "ROLE_MODERATOR")
+                        .requestMatchers(HttpMethod.POST, "/reservations/**").hasAnyAuthority( "ROLE_ADMIN", "ROLE_MODERATOR")
+                        .requestMatchers(HttpMethod.PATCH, "/reservations/**").hasAnyAuthority( "ROLE_ADMIN", "ROLE_MODERATOR")
+
+                        .requestMatchers(HttpMethod.GET, "/tables/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
+                        .requestMatchers(HttpMethod.POST, "/tables/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
+                        .requestMatchers(HttpMethod.PATCH, "/tables/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
+
                         .requestMatchers("/users/**").hasAnyAuthority("ROLE_ADMIN")
-                        .requestMatchers("/schedules/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
+
+                        .requestMatchers("/schedules/**").hasAnyAuthority("ROLE_ADMIN")
+
+                        .requestMatchers(HttpMethod.DELETE).hasAuthority("ROLE_ADMIN")
                         .anyRequest().hasAuthority("ROLE_ADMIN"))
                 .authenticationManager(authenticationManager)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
