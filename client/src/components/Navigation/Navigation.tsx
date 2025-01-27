@@ -13,10 +13,10 @@ export default function Navigation() {
     return (
       <>
         <NavbarItem className="lg:flex">
-          <Button onClick={() => navigate("/login")} variant="light" color="primary">Login</Button>
+          <Button onPress={() => navigate("/login")} variant="light" color="primary">Login</Button>
         </NavbarItem>
         <NavbarItem>
-          <Button onClick={() => navigate("/register")} variant="solid" color="primary">Register</Button>
+          <Button onPress={() => navigate("/register")} variant="solid" color="primary">Register</Button>
         </NavbarItem>
       </>
     )
