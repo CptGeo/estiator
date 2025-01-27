@@ -4,13 +4,11 @@ import java.time.LocalDateTime;
 
 public class ErrorResponse {
     private String message;
-    private LocalDateTime date;
     private String details;
 
     public ErrorResponse(String message, String details) {
         this.message = message;
         this.details = details;
-        this.date = LocalDateTime.now();
     }
 
     public String getMessage() {
@@ -19,14 +17,6 @@ public class ErrorResponse {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
     }
 
     public String getDetails() {
