@@ -44,7 +44,7 @@ public class ScheduleController {
         }
 
         scheduleService.delete(id);
-        MessageResponse response = new MessageResponse("Resource deleted for ID: " + id);
+        MessageResponse response = new MessageResponse("Resource deleted for ID: " + id, "");
         return ResponseEntity.ok().body(response);
     }
     

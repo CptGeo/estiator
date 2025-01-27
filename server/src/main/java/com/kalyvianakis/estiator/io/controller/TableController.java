@@ -45,7 +45,7 @@ public class TableController {
         }
 
         tableService.delete(id);
-        MessageResponse response = new MessageResponse("Table deleted for ID: " + id);
+        MessageResponse response = new MessageResponse("Table deleted for ID: " + id, "");
         return ResponseEntity.ok().body(response);
     }
     

@@ -54,7 +54,7 @@ public class ReservationController {
       }
 
       reservationService.delete(id);
-      return ResponseEntity.ok().body(new MessageResponse("Reservation deleted for ID: " + id));
+      return ResponseEntity.ok().body(new MessageResponse("Reservation deleted for ID: " + id, ""));
   }
 
   @PatchMapping("/{id}")

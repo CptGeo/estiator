@@ -1,17 +1,7 @@
 package com.kalyvianakis.estiator.io.model;
 
-public class MessageResponse {
-    private String message;
-
-    public MessageResponse(String message) {
-        this.message = message;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+public class MessageResponse extends Response {
+    public MessageResponse(String message, String details) {
+        super(message, details);
     }
 }
