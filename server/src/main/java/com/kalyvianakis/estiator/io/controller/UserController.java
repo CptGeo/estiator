@@ -12,6 +12,7 @@ import com.kalyvianakis.estiator.io.service.ScheduleService;
 import com.kalyvianakis.estiator.io.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +45,7 @@ public class UserController {
             user.setStatusValue(user.getStatus().getLabel());
         }
 
-        return ResponseEntity.ok().body(userService.save(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
     }
 
     @GetMapping("/{id}")

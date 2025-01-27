@@ -6,6 +6,7 @@ import com.kalyvianakis.estiator.io.model.MessageResponse;
 import com.kalyvianakis.estiator.io.model.Schedule;
 import com.kalyvianakis.estiator.io.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class ScheduleController {
 
     @PostMapping
     public ResponseEntity<Schedule> add(@RequestBody Schedule schedule) {
-        return ResponseEntity.ok().body(scheduleService.save(schedule));
+        return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.save(schedule));
     }
 
     @GetMapping("/{id}")

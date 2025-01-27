@@ -6,6 +6,7 @@ import com.kalyvianakis.estiator.io.model.MessageResponse;
 import com.kalyvianakis.estiator.io.model.Table;
 import com.kalyvianakis.estiator.io.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class TableController {
 
     @PostMapping
     public ResponseEntity<Table> add(@RequestBody Table table) {
-        return ResponseEntity.ok().body(tableService.save(table));
+        return ResponseEntity.status(HttpStatus.CREATED).body(tableService.save(table));
     }
 
     @GetMapping("/{id}")
