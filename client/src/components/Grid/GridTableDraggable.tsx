@@ -9,9 +9,9 @@ import { gridSize, gridItemMultiplierHeight, gridItemMultiplierWidth, gridItemGa
 import type { Key } from "react";
 import { useEffect, useState } from "react";
 import type { Coordinates } from "@dnd-kit/core/dist/types";
-import { client } from "@core/request";
 import EditTableModal from "@components/Modal/EditTable";
 import { useDisclosure } from "@nextui-org/react";
+import { patchReq } from "@core/utils";
 
 type Props = {
   handle?: boolean;
@@ -45,7 +45,7 @@ export function GridTableDraggable({ handle, dragOverlay, id, value }: Props) {
   /** Updates the position of the item every time there is a change on the UI */
   async function updatePosition(id: Key, coords: Coordinates) : Promise<void> {
     try {
-      await client.patch(`/tables/${id}`, { ...coords });
+      await patchReq(`/tables/${id}`, { ...coords });
     } catch (error) {
       console.error(error);
     }

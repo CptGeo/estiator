@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { client } from "../../core/request";
 import TimeField from "../Fields/Time";
 import { DevTool } from "@hookform/devtools";
 import TablesSelect from "../Fields/Tables";
 import { ReservationStatus, type ReservationData } from "@core/types";
 import type { useDisclosure } from "@nextui-org/react";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
-import toParsedTimeString, { getFullName } from "@core/utils";
+import toParsedTimeString, { getFullName, patchReq } from "@core/utils";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import InputField from "@components/Fields/Input";
@@ -59,7 +58,7 @@ export default function EditReservationModal(props: Props) {
         status: values.status,
         inform: values.inform
       };
-      await client.patch(`/reservations/${reservation.id}`, { ...data });
+      await patchReq(`/reservations/${reservation.id}`, { ...data });
     } catch (error) {
       console.error(error);
     } finally {

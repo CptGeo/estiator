@@ -14,10 +14,10 @@ import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import InputField from "@components/Fields/Input";
 import NumberField from "@components/Fields/Number";
-import { client } from "@core/request";
 import ColorPickerField, { ColorPickerOption } from "@components/Fields/ColorPicker";
 import GridTable from "@components/Grid/GridTable";
 import type { Coordinates } from "@dnd-kit/core/dist/types";
+import { postReq } from "@core/utils";
 
 export default function AddTableModal(props: ReturnType<typeof useDisclosure> & { defaultCoordinates: Coordinates }) {
   const { isOpen, onOpenChange, onClose: close, defaultCoordinates } = props;
@@ -48,7 +48,7 @@ export default function AddTableModal(props: ReturnType<typeof useDisclosure> & 
           y: 100
         }
       };
-      await client.post("/tables", { ...data });
+      await postReq("/tables", { ...data });
     } catch (error) {
       console.error(error);
     } finally {
