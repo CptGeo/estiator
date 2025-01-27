@@ -4,14 +4,13 @@ import com.kalyvianakis.estiator.io.model.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Arrays;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalRestControllerExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnknownException(Exception e, HttpServletRequest httpServletRequest) {
         Arrays.stream(e.getStackTrace()).forEach(System.err::println);
