@@ -1,4 +1,4 @@
-import { TimeLimited } from "@components/TimeLimited/Timelimited";
+import { TimeLimited } from "@components/TimeLimited/TimeLimited";
 import type { Color } from "@core/types";
 import { Alert } from "@heroui/react";
 import type { PropsWithChildren } from "react";
