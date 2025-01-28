@@ -29,8 +29,6 @@ function NotificationProvider(props: PropsWithChildren) {
         ]);
     }
 
-    console.log(notifications);
-
     return <NotificationContext.Provider value={{ notify }}>
         {props.children}
 
