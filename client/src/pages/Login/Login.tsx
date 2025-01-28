@@ -32,7 +32,7 @@ export default function LoginPage(): ReactElement {
     <div className="py-20 max-w-[500px] mx-auto">
       <PageHeader heading="Login" subheading="You can enter your credentials to access the application, or register a new user." />
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full gap-2 flex flex-col">
+        <form onSubmit={methods.handleSubmit(onSubmit)} noValidate className="w-full gap-2 flex flex-col">
           <EmailField
             name="email"
             autoFocus
