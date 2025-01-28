@@ -12,7 +12,6 @@ export const client = axios.create({
 client.interceptors.response.use(value => value, error => {
   if (error.status === HttpStatusCode.Unauthorized) {
     localStorage.removeItem("token");
-    location.reload();
   }
 });
 
