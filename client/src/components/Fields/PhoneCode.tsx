@@ -43,12 +43,12 @@ export default function PhoneCodeField(props: Omit<ControlledSelectProps, "child
         {(phone) => {
           return (
             <SelectItem
-              key={phone[0]}
+              key={phone[1]?.extension}
               content={phone[1]?.country}
               textValue={phone[1]?.country}
               startContent={<Avatar alt={phone[1].country} title={phone[1].country} className="w-6 h-6" src={getAssetUrl(`images/flags/${phone[0]}.png`)} />}
             >
-            {phone[1].extension}
+            {phone[1].country}
           </SelectItem>
           );
         }}
