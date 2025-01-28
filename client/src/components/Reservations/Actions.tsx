@@ -62,7 +62,7 @@ export default function ReservationsActions(props: Props) {
           aria-label="Action event example"
           variant="solid"
           onAction={handleAction}>
-          <DropdownSection title="Manage" showDivider={reservation.status !== ReservationStatus.CANCELLED}>
+          <DropdownSection title="Manage">
             {(reservation.status === ReservationStatus.PENDING && (<DropdownItem key={Action.CONFIRM} color="success">Confirm reservation</DropdownItem>)) as ReactElement}
             <DropdownItem key={Action.EDIT}>Edit reservation</DropdownItem>
           </DropdownSection>

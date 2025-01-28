@@ -7,6 +7,7 @@ import { AxiosError } from "axios";
 import type { AuthValue, Credentials } from "@core/types";
 import useLocalStorage from "@hooks/useLocalStorage";
 import { decryptJwt } from "@core/auth";
+import { useNotification } from "./Notification";
 
 const AuthContext = createContext<AuthValue | null>(null);
 
@@ -16,6 +17,7 @@ export function AuthProvider( props: PropsWithChildren ) {
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { notify } = useNotification();
 
   // verify user data with server
   async function loginAction(credentials: Credentials): Promise<void> {
@@ -23,11 +25,12 @@ export function AuthProvider( props: PropsWithChildren ) {
       setLoading(true);
       const response = await client.post("/auth/login", credentials);
 
-      if (response.status !== 200) {
-        throw new Error("Invalid response from server");
+      if (response?.status !== 200) {
+        throw new Error("Invalid email or password");
       }
 
       setToken(response.data.token);
+      notify({ message: "You have logged in successfully!", type: "success" });
 
     } catch (err) {
       let message = "";
@@ -37,8 +40,12 @@ export function AuthProvider( props: PropsWithChildren ) {
         const error = ensureErr(err);
         message = error.message;
       }
-      console.error(err);
-      navigate("/login", { replace: true, state: message });
+      notify({
+        message: "Authentication has failed.",
+        description: "Please check your credentials and try again.",
+        type: "danger"
+      });
+      navigate("/login", { state: message });
     } finally {
       setLoading(false);
     }
@@ -47,10 +54,12 @@ export function AuthProvider( props: PropsWithChildren ) {
   async function logoutAction(): Promise<void> {
     try {
       removeToken();
+      notify({ message: "You have logged out successfully." });
 
       // go to login page
       navigate("/login", { replace: true });
     } catch (error) {
+      notify({ message: "Logout has failed", description: "Please check your network", type: "danger" });
       console.error(error);
     }
   }

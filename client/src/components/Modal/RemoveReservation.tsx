@@ -3,6 +3,7 @@ import ConfirmationModal from "@components/Modal/Confirmation";
 import type { ReservationData } from "@core/types";
 import { useState } from "react";
 import { deleteReq, getFullName } from "@core/utils";
+import { useNotification } from "@context/Notification";
 
 type Props = {
   reservation: ReservationData;
@@ -11,13 +12,16 @@ type Props = {
 export default function RemoveReservationModal(props: Props) {
   const { reservation, ...disclosureProps } = props;
   const [loading, setLoading] = useState(false);
+  const { notify } = useNotification();
 
   async function handleAction() {
     try {
       setLoading(true);
       await deleteReq(`/reservations/${reservation.id}`);
+      notify({ message: "Reservation has been deleted successfully!", type: "success" });
     } catch (error) {
       console.error(error);
+      notify({ message: "Reservation could not be deleted", type: "danger" });
     } finally {
       setLoading(false);
       disclosureProps.onClose();

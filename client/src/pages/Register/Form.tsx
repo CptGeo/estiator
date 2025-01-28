@@ -4,23 +4,26 @@ import PasswordField from "@components/Fields/Password";
 import PhoneCodeField from "@components/Fields/PhoneCode";
 import { useAuth } from "@context/Authentication";
 import { postReq } from "@core/utils";
-import { DevTool } from "@hookform/devtools";
 import { Button } from "@heroui/react";
 import { useMutation } from "@tanstack/react-query";
 import type { FieldValues, RegisterOptions } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNotification } from "@context/Notification";
 
 export default function RegisterForm() {
   const location = useLocation();
   const auth = useAuth();
   const navigate = useNavigate();
+  const { notify } = useNotification();
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (data: FieldValues) => postReq("auth/signup", data),
     onSuccess: () => {
+      notify({ message: "User has been created successfully!", type: "success" });
       navigate("/login");
-    }
+    },
+    onError: (() => notify({ message: "User could not be created", type: "danger" }))
   });
 
   const methods = useForm({
@@ -159,7 +162,6 @@ export default function RegisterForm() {
         {location.state && !auth?.loading && (
           <p className="text-xs text-danger">{location.state}</p>
         )}
-        <DevTool control={methods.control} />
       </form>
     </FormProvider>
   );

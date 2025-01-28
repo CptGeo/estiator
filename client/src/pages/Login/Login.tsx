@@ -4,7 +4,6 @@ import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "@heroui/react";
 import PasswordField from "@components/Fields/Password";
-import { DevTool } from "@hookform/devtools";
 import EmailField from "@components/Fields/Email";
 import { useAuth } from "@context/Authentication";
 import PageHeader from "@components/PageHeader/PageHeader";
@@ -32,7 +31,7 @@ export default function LoginPage(): ReactElement {
     <div className="py-20 max-w-[500px] mx-auto">
       <PageHeader heading="Login" subheading="You can enter your credentials to access the application, or register a new user." />
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full gap-2 flex flex-col">
+        <form onSubmit={methods.handleSubmit(onSubmit)} noValidate className="w-full gap-2 flex flex-col">
           <EmailField
             name="email"
             autoFocus
@@ -56,7 +55,6 @@ export default function LoginPage(): ReactElement {
           </div>
           <Button type="submit" color="primary" isLoading={auth?.loading}>Sign in</Button>
           {location.state && !auth?.loading && <p className="text-xs text-danger">{location.state}</p>}
-          <DevTool control={methods.control} />
         </form>
       </FormProvider>
     </div>

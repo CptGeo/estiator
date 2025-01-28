@@ -5,6 +5,7 @@ import { ReservationStatus } from "@core/types";
 import type { Key } from "react";
 import { getFullName, patchReq } from "@core/utils";
 import { useMutation } from "@tanstack/react-query";
+import { useNotification } from "@context/Notification";
 
 type Props = {
   reservation: ReservationData;
@@ -12,9 +13,13 @@ type Props = {
 
 export default function ConfirmReservationModal(props: Props) {
   const { reservation, ...disclosureProps } = props;
+  const { notify } = useNotification();
+
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (id: Key) => patchReq(`/reservations/${id}`, { status: ReservationStatus.CONFIRMED }),
-    onSettled: () => disclosureProps.onClose()
+    onSettled: () => disclosureProps.onClose(),
+    onSuccess: () => notify({ message: "Reservation has been confirmed!", type: "success" }),
+    onError: () => notify({ message: "Reservation could not be confirmed.", type: "danger" })
   })
 
   async function handleAction(id: Key) {

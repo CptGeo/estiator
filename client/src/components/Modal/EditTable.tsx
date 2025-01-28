@@ -10,6 +10,7 @@ import ColorPickerField, { ColorPickerOption } from "@components/Fields/ColorPic
 import GridTable from "@components/Grid/GridTable";
 import { deleteReq, patchReq } from "@core/utils";
 import AdminOnly from "@components/AuthorizationWrappers/AdminOnly";
+import { useNotification } from "@context/Notification";
 
 type Props = {
   table: TableData;
@@ -19,6 +20,7 @@ export default function EditTableModal(props: Props) {
   const { table, isOpen, onOpenChange, onClose: close } = props;
   const [submitLoading, setSubmitLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const { notify } = useNotification();
 
   const methods = useForm({
     mode: "onChange",
@@ -33,8 +35,10 @@ export default function EditTableModal(props: Props) {
     try {
       setDeleteLoading(true);
       await deleteReq(`/tables/${table.id}`);
+      notify({ message: `Table ${label} has been deleted successfully!`, type: "success" });
     } catch (error) {
       console.error(error);
+      notify({ message: `Table ${label} could not be deleted.`, type: "danger" });
     } finally {
       setDeleteLoading(false);
       methods.reset();
@@ -51,8 +55,10 @@ export default function EditTableModal(props: Props) {
         color: values.color
       };
       await patchReq(`/tables/${table.id}`, { ...data });
+      notify({ message: `Table ${label} has been updated successfully!`, type: "success" });
     } catch (error) {
       console.error(error);
+      notify({ message: `Table ${label} could not be updated.`, type: "danger" });
     } finally {
       setSubmitLoading(false);
       methods.reset();

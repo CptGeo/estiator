@@ -14,19 +14,22 @@ import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import ImageIcon from "@components/Icons/ImageIcon";
-import { DevTool } from "@hookform/devtools";
+import { useNotification } from "@context/Notification";
 
 export default function EmployeeInfo(props: {
   employee: UserData;
 }): ReactElement {
   const employee = props.employee;
 
+  const { notify } = useNotification();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const modal = useDisclosure();
 
   const { isPending: savePending, mutateAsync: usersMutateAsync } = useMutation({
     mutationFn: (data: UserData) => patchReq(`users/${data.id}`, data),
+    onSuccess: () => notify({ message: "Employee information has been updated successfully!", type: "success" }),
+    onError: () => notify({ message: "Employee information could not be updated.", type: "danger" })
   })
 
   const { isPending: deletePending, mutateAsync: deleteItem } = useMutation({
@@ -217,7 +220,6 @@ export default function EmployeeInfo(props: {
         title={`Remove employee ${employee.name} ${employee.surname}`}
         callback={handleDelete.bind(null, employee.id)}
       />
-      <DevTool control={methods.control} />
     </FormProvider>
   );
 }
