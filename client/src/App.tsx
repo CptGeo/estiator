@@ -19,6 +19,7 @@ import Unauthorized from "@pages/Errors/Unauthorized";
 import UnauthorizedOnlyLayout from "@layouts/UnauthorizedOnly";
 import CommonLayout from "@layouts/Common";
 import { UserRole } from "@core/types";
+import NotificationProvider from "@context/Notification";
 
 const router = createBrowserRouter([
   {
@@ -84,8 +85,10 @@ const queryClient = new QueryClient();
 
 export default function App(): ReactElement {
   return <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <NotificationProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </NotificationProvider>
   </StrictMode>
 }
