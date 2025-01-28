@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 
-import com.kalyvianakis.estiator.io.global.PropertyPrinter;
+import com.kalyvianakis.estiator.io.utils.PropertyPrinter;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.SourceType;

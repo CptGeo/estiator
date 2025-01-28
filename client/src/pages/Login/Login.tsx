@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "@nextui-org/react";
@@ -20,15 +20,11 @@ export default function LoginPage(): ReactElement {
     mode: "onSubmit",
   });
 
-  if (auth?.user && auth.token) {
-    return <Navigate to="/" replace />
-  }
-
   async function onSubmit(values: FieldValues) {
     const { password, email } = values;
 
     if (auth?.loginAction) {
-      await auth.loginAction({ password, username: email });
+      await auth.loginAction({ password, email });
     }
   }
 
@@ -42,14 +38,12 @@ export default function LoginPage(): ReactElement {
             autoFocus
             isRequired
             label="Email"
-            defaultValue="george@gmail.com"
             placeholder="Enter your email"
             variant="bordered"
             />
           <PasswordField
             name="password"
             label="Password"
-            defaultValue="1234"
             placeholder="Enter your password"
             isRequired
             variant="bordered"

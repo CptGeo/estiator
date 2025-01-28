@@ -1,21 +1,23 @@
 package com.kalyvianakis.estiator.io.service;
 
-import com.kalyvianakis.estiator.io.enums.UserRole;
-import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
+import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.Schedule;
 import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.repository.ScheduleRepository;
 import com.kalyvianakis.estiator.io.repository.UserRepository;
-import com.kalyvianakis.estiator.io.specifications.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
 
 @Service
-public class UserService implements IUserService {
+public class UserService implements IUserService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -43,27 +45,30 @@ public class UserService implements IUserService {
         if (email == null) {
             throw new IllegalArgumentException("Email must not be null");
         }
-        return userRepository.findOne(UserSpecification.emailEquals(email)).orElseThrow(() -> new ResourceNotFoundException("User not found with Email: " + email));
-    }
-
-    public List<User> getRegistered() {
-        List<Short> roleValues = new ArrayList<>();
-        roleValues.add(UserRole.Moderator.getLabel());
-        roleValues.add(UserRole.Admin.getLabel());
-        return userRepository.findByUserRoleValueIn(roleValues);
+        return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found with Email: " + email));
     }
 
     public User getRegistered(Long id) throws ResourceNotFoundException {
-        List<Short> roleValues = new ArrayList<>();
-        roleValues.add(UserRole.Moderator.getLabel());
-        roleValues.add(UserRole.Admin.getLabel());
-        return userRepository.findByIdAndUserRoleValueIn(id, roleValues).orElseThrow(() -> new ResourceNotFoundException("Registered user not found with ID: " + id));
+        List<String> roleValues = new ArrayList<>();
+        roleValues.add("ROLE_MODERATOR");
+        roleValues.add("ROLE_ADMIN");
+        return userRepository.findByIdAndUserRoleIn(id, roleValues).orElseThrow(() -> new ResourceNotFoundException("Registered user not found with ID: " + id));
+    }
+
+    public List<User> getRegistered() {
+        return this.getByRoles("ROLE_ADMIN", "ROLE_MODERATOR");
     }
 
     public List<User> getGuest() {
-        List<Short> roleValues = new ArrayList<>();
-        roleValues.add(UserRole.Guest.getLabel());
-        return userRepository.findByUserRoleValueIn(roleValues);
+        return this.getByRoles("ROLE_GUEST");
+    }
+
+    public List<User> getClient() {
+        return this.getByRoles("ROLE_CLIENT");
+    }
+
+    public List<User> getByRoles(String ...roles){
+        return userRepository.findByUserRoleIn(Arrays.asList(roles));
     }
 
     public List<Schedule> getSchedule(Long id) {
@@ -72,6 +77,17 @@ public class UserService implements IUserService {
 
     public Schedule getScheduleByDate(Long id, LocalDate date) {
         return scheduleRepository.findByUserIdAndDate(id, date);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User does not exist, email: %s", username)));
+
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getEmail())
+                .password(user.getPassword())
+                .authorities(user.getUserRole())
+                .build();
     }
 
     @Override

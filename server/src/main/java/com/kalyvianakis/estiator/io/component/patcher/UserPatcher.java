@@ -36,7 +36,6 @@ public class UserPatcher implements IPatcher<User>{
       existing.setStatus(incomplete.getStatus());
     }
     if (incomplete.getUserRole() != null) {
-      existing.setUserRoleValue(incomplete.getUserRole().getLabel());
       existing.setUserRole(incomplete.getUserRole());
     }
     if (incomplete.getProfileImage() != null) {

@@ -1,7 +1,7 @@
 package com.kalyvianakis.estiator.io.controller;
 
 import com.kalyvianakis.estiator.io.component.patcher.TablePatcher;
-import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
+import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.MessageResponse;
 import com.kalyvianakis.estiator.io.model.Table;
 import com.kalyvianakis.estiator.io.service.TableService;
@@ -25,7 +25,7 @@ public class TableController {
 
     @PostMapping
     public ResponseEntity<Table> add(@RequestBody Table table) {
-        return ResponseEntity.ok().body(tableService.save(table));
+        return ResponseEntity.status(HttpStatus.CREATED).body(tableService.save(table));
     }
 
     @GetMapping("/{id}")
@@ -41,11 +41,11 @@ public class TableController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) throws ResourceNotFoundException {
         if(tableService.notExists(id)) {
-            throw new ResourceNotFoundException("User not found for ID: " + id);
+            throw new ResourceNotFoundException("Table not found for ID: " + id);
         }
 
         tableService.delete(id);
-        MessageResponse response = new MessageResponse("User deleted for ID: " + id);
+        MessageResponse response = new MessageResponse("Table deleted for ID: " + id, "");
         return ResponseEntity.ok().body(response);
     }
     

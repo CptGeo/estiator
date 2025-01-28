@@ -11,6 +11,7 @@ import TableClockIcon from "@components/Icons/TableClockIcon";
 import TableIcon from "@components/Icons/TableIcon";
 import DashboardIcon from "@components/Icons/DashboardIcon";
 import PersonIcon from "@components/Icons/PersonIcon";
+import AdminOnly from "@components/AuthorizationWrappers/AdminOnly";
 
 export default function DrawerMenu(): ReactElement {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ export default function DrawerMenu(): ReactElement {
 
     return (
       <Button
-        onClick={() => navigate(to)}
+        onPress={() => navigate(to)}
         variant="light"
         className={`justify-start text-slate-300 ${isCurrent(location, to) ? "bg-slate-600" : ""}`}
         startContent={icon}>
@@ -54,14 +55,16 @@ export default function DrawerMenu(): ReactElement {
           <DrawerItem to="/" text="Dashboard" icon={<DashboardIcon className="text-xl" />} />
           <DrawerItem to="/reservations-management" text="Reservations Management" icon={<TableClockIcon className="text-xl" />} />
           <DrawerItem to="/tables-management" text="Tables Management" icon={<TableIcon className="text-xl" />} />
-          <DrawerItem to="/employees-management" text="Employees Management" icon={<PersonIcon className="text-xl" />} />
+          <AdminOnly>
+            <DrawerItem to="/employees-management" text="Employees Management" icon={<PersonIcon className="text-xl" />} />
+          </AdminOnly>
         </div>
 
         <div className="flex flex-col gap-2">
           <DrawerItem to="/settings" text="Settings" icon={<SettingsIcon className="text-xl" />} />
         </div>
       </div>
-      <Button onClick={toggleDrawer} className="shadow-md cursor-pointer absolute top-[18px] right-0 translate-x-full rounded-l-none p-0 text-sm" isIconOnly size="sm" variant="solid" color="warning">
+      <Button onPress={toggleDrawer} className="shadow-md cursor-pointer absolute top-[18px] right-0 translate-x-full rounded-l-none p-0 text-sm" isIconOnly size="sm" variant="solid" color="warning">
         {open ? <MenuCloseIcon /> : <MenuOpenIcon />}
       </Button>
     </div>

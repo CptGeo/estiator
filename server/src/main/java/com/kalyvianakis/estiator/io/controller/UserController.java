@@ -1,8 +1,9 @@
 package com.kalyvianakis.estiator.io.controller;
 
 import com.kalyvianakis.estiator.io.component.patcher.UserPatcher;
+import com.kalyvianakis.estiator.io.dto.SafeUserData;
 import com.kalyvianakis.estiator.io.enums.ScheduleStatus;
-import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
+import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.MessageResponse;
 import com.kalyvianakis.estiator.io.model.Schedule;
 import com.kalyvianakis.estiator.io.model.ScheduleRequest;
@@ -11,6 +12,7 @@ import com.kalyvianakis.estiator.io.service.ScheduleService;
 import com.kalyvianakis.estiator.io.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,11 +45,7 @@ public class UserController {
             user.setStatusValue(user.getStatus().getLabel());
         }
 
-        if (user.getUserRole() != null) {
-            user.setUserRoleValue(user.getUserRole().getLabel());
-        }
-
-        return ResponseEntity.ok().body(userService.save(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
     }
 
     @GetMapping("/{id}")
@@ -143,7 +141,7 @@ public class UserController {
         }
 
         userService.delete(id);
-        MessageResponse response = new MessageResponse("Resource deleted for ID: " + id);
+        MessageResponse response = new MessageResponse("Resource deleted for ID: " + id, "");
         return ResponseEntity.ok().body(response);
     }
     
@@ -154,6 +152,6 @@ public class UserController {
         userPatcher.patch(current, user);
         userService.save(current);
 
-        return ResponseEntity.ok().body(current);
+        return ResponseEntity.ok().body(new SafeUserData(current));
     }
 }

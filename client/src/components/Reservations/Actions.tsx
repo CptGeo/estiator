@@ -1,12 +1,14 @@
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, DropdownSection, useDisclosure } from "@nextui-org/react";
 import MenuDotsIcon from "@components/Icons/MenuDotsIcon";
 import type { ReservationData } from "@core/types";
-import { ReservationStatus } from "@core/types";
+import { ReservationStatus, UserRole } from "@core/types";
 import type { Key, ReactElement } from "react";
 import EditReservationModal from "@components/Modal/EditReservation";
 import RemoveReservationModal from "@components/Modal/RemoveReservation";
 import CancelReservationModal from "@components/Modal/CancelReservation";
 import ConfirmReservationModal from "@components/Modal/ConfirmReservation";
+import { userIsAllowed } from "@core/auth";
+import { useAuth } from "@context/Authentication";
 
 type Props = {
   reservation: ReservationData;
@@ -26,6 +28,10 @@ export default function ReservationsActions(props: Props) {
   const edit = useDisclosure();
   const confirm = useDisclosure();
   const remove = useDisclosure();
+
+  const auth = useAuth();
+  const user = auth?.user;
+  const isAllowed = userIsAllowed(user, [UserRole.ADMIN]);
 
   function handleAction(key: Key) {
     switch(key) {
@@ -60,15 +66,15 @@ export default function ReservationsActions(props: Props) {
             {(reservation.status === ReservationStatus.PENDING && (<DropdownItem key={Action.CONFIRM} color="success">Confirm reservation</DropdownItem>)) as ReactElement}
             <DropdownItem key={Action.EDIT}>Edit reservation</DropdownItem>
           </DropdownSection>
-          {(![ReservationStatus.CANCELLED, ReservationStatus.COMPLETED, ].includes(reservation.status) && (
+          {(![ReservationStatus.CANCELLED, ReservationStatus.COMPLETED ].includes(reservation.status) && (
           <DropdownSection title="Danger zone">
-          <DropdownItem key={Action.CANCEL} className="text-danger" color="danger" >
+          <DropdownItem key={Action.CANCEL} className="text-danger" color="danger">
               Cancel reservation
             </DropdownItem>
           </DropdownSection>)) as ReactElement}
-          <DropdownItem key={Action.REMOVE} className="text-danger" color="danger" >
-              Remove
-            </DropdownItem>
+          {isAllowed ? <DropdownItem key={Action.REMOVE} className="text-danger" color="danger">
+            Remove
+          </DropdownItem> : null}
         </DropdownMenu>
       </Dropdown>
       <ConfirmReservationModal reservation={reservation} {...confirm} />

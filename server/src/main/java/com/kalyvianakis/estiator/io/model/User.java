@@ -1,9 +1,8 @@
 package com.kalyvianakis.estiator.io.model;
 
 import com.fasterxml.jackson.annotation.*;
-import com.kalyvianakis.estiator.io.enums.UserRole;
 import com.kalyvianakis.estiator.io.enums.UserStatus;
-import com.kalyvianakis.estiator.io.global.PropertyPrinter;
+import com.kalyvianakis.estiator.io.utils.PropertyPrinter;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.SourceType;
@@ -40,27 +39,27 @@ public class User extends PropertyPrinter {
     @Transient
     private UserStatus status;
 
+    private String userRole;
+
     @Basic
     @Column(name = "status")
     @JsonIgnore
     private Short statusValue;
 
-    @Transient
-    private UserRole userRole;
-
-    @Basic
-    @Column(name = "user_role")
-    @JsonIgnore
-    private Short userRoleValue;
+    public User(String name, String surname, String email, String phone, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+    }
+    public User() {}
 
     @PostLoad
     @SuppressWarnings("unused")
     void fillTransientStatus() {
         if (this.getStatusValue() != null && statusValue >= 0) {
             this.status = UserStatus.of(statusValue);
-        }
-        if (this.getUserRoleValue() != null && userRoleValue >= 0) {
-            this.userRole = UserRole.of(userRoleValue);
         }
     }
 
@@ -72,13 +71,6 @@ public class User extends PropertyPrinter {
         } else {
             this.setStatusValue(UserStatus.Active.getLabel());
             this.setStatus(UserStatus.Active);
-        }
-
-        if (this.getUserRoleValue() != null && userRoleValue >= 0) {
-            userRoleValue = userRole.getLabel();
-        } else {
-            this.setUserRoleValue(UserRole.Guest.getLabel());
-            this.setUserRole(UserRole.Guest);
         }
     }
 
@@ -157,22 +149,6 @@ public class User extends PropertyPrinter {
 
     public void setReferredReservations(List<Reservation> referredReservations) { this.referredReservations = referredReservations; }
 
-    public UserRole getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
-    }
-
-    public Short getUserRoleValue() {
-        return userRoleValue;
-    }
-
-    public void setUserRoleValue(Short userRoleValue) {
-        this.userRoleValue = userRoleValue;
-    }
-
     public List<Schedule> getSchedules() {
         return schedules;
     }
@@ -180,4 +156,8 @@ public class User extends PropertyPrinter {
     public void setSchedules(List<Schedule> schedules) {
         this.schedules = schedules;
     }
+
+    public String getUserRole() { return userRole; }
+
+    public void setUserRole(String userRole) { this.userRole = userRole; }
 }

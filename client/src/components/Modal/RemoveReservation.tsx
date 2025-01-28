@@ -2,8 +2,7 @@ import type { useDisclosure } from "@nextui-org/react";
 import ConfirmationModal from "@components/Modal/Confirmation";
 import type { ReservationData } from "@core/types";
 import { useState } from "react";
-import { client } from "@core/request";
-import { getFullName } from "@core/utils";
+import { deleteReq, getFullName } from "@core/utils";
 
 type Props = {
   reservation: ReservationData;
@@ -16,7 +15,7 @@ export default function RemoveReservationModal(props: Props) {
   async function handleAction() {
     try {
       setLoading(true);
-      await client.delete(`/reservations/${reservation.id}`);
+      await deleteReq(`/reservations/${reservation.id}`);
     } catch (error) {
       console.error(error);
     } finally {

@@ -1,6 +1,5 @@
-package com.kalyvianakis.estiator.io.global;
+package com.kalyvianakis.estiator.io.utils;
 
-import java.lang.reflect.Field;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 

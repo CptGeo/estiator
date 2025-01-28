@@ -37,7 +37,7 @@ export default function ReservationsTable() {
     return (
       <div className="flex flex-row justify-between items-end">
         <p className="text-xs text-default-600">{count! > 0 && `Total reservations: ${reservations?.length}`}</p>
-        <Button color="primary" onClick={createDisclosure.onOpen}><AddIcon className="text-md" />Create reservation</Button>
+        <Button color="primary" onPress={createDisclosure.onOpen}><AddIcon className="text-md" />Create reservation</Button>
       </div>
     )
   }, [reservations?.length]);

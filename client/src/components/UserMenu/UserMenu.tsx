@@ -24,7 +24,7 @@ export default function UserMenu(props: Props): ReactElement {
             <p className="font-bold">Signed in as</p>
             <p className="font-bold">Administrator</p>
           </DropdownItem>
-          <DropdownItem onClick={handleLogout} key="logout" color="danger">
+          <DropdownItem onPress={handleLogout} key="logout" color="danger">
             Log Out
           </DropdownItem>
         </DropdownMenu>

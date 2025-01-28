@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function useLocalStorage<T>(key: string, defaultValue?: unknown): [ T | null | undefined, (value: unknown) => void ] {
+export default function useLocalStorage<T>(key: string, defaultValue?: unknown): [ T | null | undefined, (value: unknown) => void, () => void ] {
   const [storedValue, setStoredValue] = useState<T | undefined | null>(() => {
     try {
       const value = window.localStorage.getItem(key);
@@ -27,5 +27,14 @@ export default function useLocalStorage<T>(key: string, defaultValue?: unknown):
     setStoredValue(value as T);
   }
 
-  return [storedValue, setValue];
+  function removeItem(): void {
+    try {
+      window.localStorage.removeItem(key);
+      setStoredValue(null);
+    } catch(err) {
+      console.error(err);
+    }
+  }
+
+  return [storedValue, setValue, removeItem];
 }

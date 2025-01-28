@@ -8,7 +8,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import DashboardPage from "@pages/Dashboard/Dashboard";
 import PrivateLayout from "@layouts/Private/Private";
 import LoginPage from "@pages/Login/Login";
-import MainLayout from "@layouts/Main";
 import AuthLayout from "@layouts/Auth";
 import ReservationsManagementPage from "@pages/ReservationsManagement/ReservationsManagement";
 import TablesManagementPage from "@pages/TablesManagement/TablesManagement";
@@ -16,13 +15,17 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import EmployeesManagementPage from "@pages/EmployeesManagement/EmployeesManagement";
 import EmployeeDetails from "@pages/EmployeesManagement/EmployeeDetails/EmployeeDetails";
 import RegisterPage from "@pages/Register/Register";
+import Unauthorized from "@pages/Errors/Unauthorized";
+import UnauthorizedOnlyLayout from "@layouts/UnauthorizedOnly";
+import CommonLayout from "@layouts/Common";
+import { UserRole } from "@core/types";
 
 const router = createBrowserRouter([
   {
     element: <AuthLayout />,
     children: [
       {
-        element: <PrivateLayout />,
+        element: <PrivateLayout permissions={[UserRole.ADMIN, UserRole.MODERATOR]} />,
         children: [
           {
             path: "/",
@@ -35,7 +38,12 @@ const router = createBrowserRouter([
           {
             path: "tables-management",
             element: <TablesManagementPage />
-          },
+          }
+        ],
+      },
+      {
+        element: <PrivateLayout permissions={[UserRole.ADMIN]} />,
+        children: [
           {
             path: "employees-management",
             element: <EmployeesManagementPage />
@@ -44,18 +52,27 @@ const router = createBrowserRouter([
             path: "employees-management/:id",
             element: <EmployeeDetails />
           }
-        ],
+        ]
       },
       {
-        element: <MainLayout />,
+        element: <UnauthorizedOnlyLayout />,
         children: [
           {
             path: "/login",
             element: <LoginPage />,
-          },
+          }
+        ]
+      },
+      {
+        element: <CommonLayout />,
+        children: [
           {
             path: "/register",
             element: <RegisterPage />,
+          },
+          {
+            path: "/unauthorized",
+            element: <Unauthorized />
           }
         ]
       }

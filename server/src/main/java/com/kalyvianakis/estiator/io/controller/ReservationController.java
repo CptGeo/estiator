@@ -2,7 +2,7 @@ package com.kalyvianakis.estiator.io.controller;
 
 import java.util.List;
 
-import com.kalyvianakis.estiator.io.global.ResourceNotFoundException;
+import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +34,7 @@ public class ReservationController {
 
   @PostMapping
   public ResponseEntity<Reservation> add(@RequestBody Reservation reservation) {
-      return ResponseEntity.ok().body(reservationService.save(reservation));
+      return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.save(reservation));
   }
 
   @GetMapping("/{id}")
@@ -54,7 +54,7 @@ public class ReservationController {
       }
 
       reservationService.delete(id);
-      return ResponseEntity.ok().body(new MessageResponse("Reservation deleted for ID: " + id));
+      return ResponseEntity.ok().body(new MessageResponse("Reservation deleted for ID: " + id, ""));
   }
 
   @PatchMapping("/{id}")

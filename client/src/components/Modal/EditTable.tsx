@@ -6,9 +6,10 @@ import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import InputField from "@components/Fields/Input";
 import NumberField from "@components/Fields/Number";
-import { client } from "@core/request";
 import ColorPickerField, { ColorPickerOption } from "@components/Fields/ColorPicker";
 import GridTable from "@components/Grid/GridTable";
+import { deleteReq, patchReq } from "@core/utils";
+import AdminOnly from "@components/AuthorizationWrappers/AdminOnly";
 
 type Props = {
   table: TableData;
@@ -31,7 +32,7 @@ export default function EditTableModal(props: Props) {
   async function handleDelete() {
     try {
       setDeleteLoading(true);
-      await client.delete(`/tables/${table.id}`);
+      await deleteReq(`/tables/${table.id}`);
     } catch (error) {
       console.error(error);
     } finally {
@@ -49,7 +50,7 @@ export default function EditTableModal(props: Props) {
         capacity: values.capacity,
         color: values.color
       };
-      await client.patch(`/tables/${table.id}`, { ...data });
+      await patchReq(`/tables/${table.id}`, { ...data });
     } catch (error) {
       console.error(error);
     } finally {
@@ -105,10 +106,12 @@ export default function EditTableModal(props: Props) {
               </div>
               </ModalBody>
               <ModalFooter className="flex flex-row justify-between">
-                <Button color="danger" variant="flat" onPress={handleDelete} isLoading={deleteLoading}>
-                  Delete table
-                </Button>
-                <div className="gap-2 flex">
+                <AdminOnly>
+                  <Button color="danger" variant="flat" onPress={handleDelete} isLoading={deleteLoading}>
+                    Delete table
+                  </Button>
+                </AdminOnly>
+                <div className="gap-2 flex ml-auto">
                   <Button color="default" variant="light" onPress={onClose}>
                     Cancel
                   </Button>
