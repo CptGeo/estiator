@@ -9,15 +9,18 @@ import { Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, Table
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import { useNotification } from "@context/Notification";
 
 export default function ReservationWidget() {
   const { data: reservations } = useQueryReservations(5000);
   const queryClient = useQueryClient();
+  const { notify } = useNotification();
+
   const { mutate } = useMutation({
     mutationFn: (data: ReservationData) => patchReq(`reservations/${data.id}`, data),
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["reservations"] })
-    }
+    onSettled: () =>  queryClient.invalidateQueries({ queryKey: ["reservations"] }),
+    onSuccess: () => notify({ message: "Reservation has been completed!", type: "success" }),
+    onError: () => notify({ message: "Reservation could not be completed.", type: "danger" })
   });
 
   const filtered = useMemo(() => {
@@ -47,7 +50,7 @@ export default function ReservationWidget() {
           {reservation.time}
         </TableCell>
         <TableCell className="w-[10%]" textValue="Table">
-          {reservation.table.label}
+          {reservation?.table?.label ?? "-"}
         </TableCell>
         <TableCell className="w-[5%]" textValue="Time">
           <IconButton

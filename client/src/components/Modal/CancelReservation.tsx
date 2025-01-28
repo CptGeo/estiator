@@ -5,6 +5,7 @@ import { ReservationStatus } from "@core/types";
 import type { Key } from "react";
 import { getFullName, patchReq } from "@core/utils";
 import { useMutation } from "@tanstack/react-query";
+import { useNotification } from "@context/Notification";
 
 type Props = {
   reservation: ReservationData;
@@ -12,10 +13,13 @@ type Props = {
 
 export default function CancelReservationModal(props: Props) {
   const { reservation, ...disclosureProps } = props;
+  const { notify } = useNotification();
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (id: Key) => patchReq(`/reservations/${id}`, { status: ReservationStatus.CANCELLED }),
-    onSettled: () => disclosureProps.onClose()
+    onSettled: () => disclosureProps.onClose(),
+    onSuccess: () => notify({ message: "Reservation has been cancelled.", type: "success" }),
+    onError: () =>  notify({ message: "Reservation could not be cancelled.", type: "danger" })
   })
 
   async function handleAction(id: Key) {
@@ -31,7 +35,7 @@ export default function CancelReservationModal(props: Props) {
       confirmButtonProps={{ color: "danger", isLoading: isPending }}
       body={
         <p>
-          The reservation of customer
+          The reservation of customer 
           <strong>{getFullName(reservation.createdFor)}</strong> will be cancelled.
           <br />
           Are you sure you want to continue?

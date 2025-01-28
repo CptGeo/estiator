@@ -10,17 +10,23 @@ import { useMutation } from "@tanstack/react-query";
 import type { FieldValues, RegisterOptions } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNotification } from "@context/Notification";
 
 export default function RegisterForm() {
   const location = useLocation();
   const auth = useAuth();
   const navigate = useNavigate();
+  const { notify } = useNotification();
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (data: FieldValues) => postReq("auth/signup", data),
     onSuccess: () => {
+      notify({ message: "User has been created successfully!", type: "success" });
       navigate("/login");
-    }
+    },
+    onError: (error => {
+      notify({ message: "User could not be created", description: error.message, type: "danger" })
+    })
   });
 
   const methods = useForm({

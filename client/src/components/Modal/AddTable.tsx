@@ -18,10 +18,12 @@ import ColorPickerField, { ColorPickerOption } from "@components/Fields/ColorPic
 import GridTable from "@components/Grid/GridTable";
 import type { Coordinates } from "@dnd-kit/core/dist/types";
 import { postReq } from "@core/utils";
+import { useNotification } from "@context/Notification";
 
 export default function AddTableModal(props: ReturnType<typeof useDisclosure> & { defaultCoordinates: Coordinates }) {
   const { isOpen, onOpenChange, onClose: close, defaultCoordinates } = props;
   const [loading, setLoading] = useState(false);
+  const { notify } = useNotification();
 
   const methods = useForm<TableData>({
     mode: "onChange",
@@ -49,8 +51,11 @@ export default function AddTableModal(props: ReturnType<typeof useDisclosure> & 
         })
       };
       await postReq("/tables", { ...data });
+
+      notify({ message: `Table ${label} has been created succesfully!`, type: "success" });
     } catch (error) {
       console.error(error);
+      notify({ message: `Table could not be created.`, type: "danger" });
     } finally {
       setLoading(false);
       methods.reset();

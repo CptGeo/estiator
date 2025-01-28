@@ -18,6 +18,7 @@ import {
 } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { useNotification } from "@context/Notification";
 
 type Props = {
   user: UserData;
@@ -33,6 +34,8 @@ const columns = [
 export default function EmployeeCalendar({ user }: Props) {
   const [current, setCurrent] = useState(0);
   const date = today(getLocalTimeZone()).add({ days: current });
+  const { notify } = useNotification();
+
   const { data: schedule, isLoading } = useQueryUserScheduleByDate(
     user.id,
     date.toString()
@@ -44,9 +47,9 @@ export default function EmployeeCalendar({ user }: Props) {
     onMutate: (variables) => {
       return { schedule: variables }
     },
-    onSettled: (_, __, ___, context) => {
-      queryClient.refetchQueries( { queryKey: [`users/${user.id}/schedule/${context?.schedule.date}`] })
-    }
+    onSettled: (_, __, ___, context) => queryClient.refetchQueries( { queryKey: [`users/${user.id}/schedule/${context?.schedule.date}`] }),
+    onSuccess: () => notify({ message: "Employee schedule has been deleted successfully!", type: "success" }),
+    onError: () => notify({ message: "Employee schedule could not be deleted.", type: "danger" })
   })
 
   return (

@@ -10,6 +10,7 @@ import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
 import { Button, SelectItem } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
+import { useNotification } from "@context/Notification";
 
 type Props = {
   employee: UserData;
@@ -41,9 +42,13 @@ export default function EmployeeSchedule({ employee }: Props) {
     mode: "all"
   });
 
+  const { notify } = useNotification();
+
   const queryClient = useQueryClient();
   const { isPending, mutateAsync } = useMutation({
     mutationFn: (data: ScheduleRequest) => postReq(`users/${employee.id}/schedules`, data),
+    onSuccess: () => notify({ message: "Employee schedule has been updated successfully!", type: "success" }),
+    onError: () => notify({ message: "Employee schedule could not be updated.", type: "danger" }),
   })
 
   async function handleSubmit(values: FormValues) {

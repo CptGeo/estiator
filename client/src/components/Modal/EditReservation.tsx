@@ -16,6 +16,7 @@ import CheckboxField from "@components/Fields/Checkbox";
 import EmailField from "@components/Fields/Email";
 import { ReservationStatusOption } from "@components/Fields/ReservationStatus";
 import ReservationStatusField from "@components/Fields/ReservationStatus";
+import { useNotification } from "@context/Notification";
 
 type Props = {
   reservation: ReservationData;
@@ -24,6 +25,7 @@ type Props = {
 export default function EditReservationModal(props: Props) {
   const { reservation, isOpen, onOpenChange, onClose } = props;
   const [loading, setLoading] = useState(false);
+  const { notify } = useNotification();
 
   const methods = useForm({
     mode: "onChange",
@@ -59,8 +61,10 @@ export default function EditReservationModal(props: Props) {
         inform: values.inform
       };
       await patchReq(`/reservations/${reservation.id}`, { ...data });
+      notify({ message: "Reservation has been updated successfully!", type: "success" });
     } catch (error) {
       console.error(error);
+      notify({ message: "Reservation could not be updated.", type: "danger" });
     } finally {
       setLoading(false);
       onClose();
