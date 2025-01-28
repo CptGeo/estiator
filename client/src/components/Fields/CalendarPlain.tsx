@@ -1,5 +1,5 @@
-import type { CalendarProps } from "@nextui-org/react";
-import { Calendar } from "@nextui-org/react";
+import type { CalendarProps } from "@heroui/react";
+import { Calendar } from "@heroui/react";
 import { Controller } from "react-hook-form";
 
 type Props = {

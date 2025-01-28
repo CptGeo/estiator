@@ -5,7 +5,7 @@ import Status from "@components/Status/Employee/Status";
 import type { UserData } from "@core/types";
 import { formatDateTime, parseTimestamp } from "@core/utils";
 import useQueryEmployees from "@hooks/useQueryEmployees";
-import { Avatar, Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Avatar, Card, CardBody, CardHeader } from "@heroui/react";
 import { Link } from "react-router-dom";
 
 export default function EmployeesList() {

@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Spinner, Pagination, Button, useDisclosure } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Spinner, Pagination, Button, useDisclosure } from "@heroui/react";
 import { parseDate, parseTime } from "@internationalized/date";
 import Status from "@components/Status/Reservation/Status";
 import type { ReservationData } from "@core/types";

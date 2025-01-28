@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import { useState } from "react";
-import { Input } from "@nextui-org/react";
+import { Input } from "@heroui/react";
 import type { RegisterOptions } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
 import { getError, hasError } from "@core/utils";

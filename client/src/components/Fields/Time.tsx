@@ -1,7 +1,7 @@
 import { Time } from "@internationalized/date";
 import { AccessTime } from "@mui/icons-material";
-import type { SelectProps } from "@nextui-org/react";
-import { SelectItem } from "@nextui-org/react";
+import type { SelectProps } from "@heroui/react";
+import { SelectItem } from "@heroui/react";
 import { useMemo, type ReactElement } from "react";
 import SelectField from "@components/Fields/Select";
 import type { OperationalTime } from "@core/types";

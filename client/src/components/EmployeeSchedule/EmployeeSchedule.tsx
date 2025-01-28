@@ -7,7 +7,7 @@ import { ScheduleStatus } from "@core/types";
 import { formatDate, postReq } from "@core/utils";
 import type { CalendarDate } from "@internationalized/date";
 import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
-import { Button, SelectItem } from "@nextui-org/react";
+import { Button, SelectItem } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
 

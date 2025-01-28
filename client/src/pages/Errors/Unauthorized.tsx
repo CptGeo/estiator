@@ -1,5 +1,5 @@
 import { getAssetUrl } from "@core/utils";
-import { Image } from "@nextui-org/react";
+import { Image } from "@heroui/react";
 
 export default function Unauthorized() {
 

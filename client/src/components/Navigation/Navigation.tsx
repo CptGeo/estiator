@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Image } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Image } from "@heroui/react";
 import logo from "@assets/images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@context/Authentication";

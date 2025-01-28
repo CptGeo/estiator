@@ -1,5 +1,5 @@
-import type { DateValue } from "@nextui-org/react";
-import { Calendar } from "@nextui-org/react";
+import type { DateValue } from "@heroui/react";
+import { Calendar } from "@heroui/react";
 import { today, getLocalTimeZone, CalendarDate } from "@internationalized/date";
 import { Controller } from "react-hook-form";
 

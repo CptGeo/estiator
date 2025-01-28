@@ -1,5 +1,5 @@
-import type { CheckboxProps } from "@nextui-org/react";
-import { Checkbox } from "@nextui-org/react";
+import type { CheckboxProps } from "@heroui/react";
+import { Checkbox } from "@heroui/react";
 import { useFormContext } from "react-hook-form";
 
 type Props = {

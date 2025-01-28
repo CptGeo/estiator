@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Select } from "@nextui-org/react";
+import { Select } from "@heroui/react";
 import { Controller } from "react-hook-form";
 import type { ControlledSelectProps } from "@components/Fields/types";
 import { isUndefined } from "@core/utils";

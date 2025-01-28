@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 import { Link, useLocation } from "react-router-dom";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import PasswordField from "@components/Fields/Password";
 import { DevTool } from "@hookform/devtools";
 import EmailField from "@components/Fields/Email";

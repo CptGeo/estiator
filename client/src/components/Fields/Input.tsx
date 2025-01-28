@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Input } from "@nextui-org/react";
+import { Input } from "@heroui/react";
 import type { RegisterOptions } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
 import { getError, hasError } from "@core/utils";
@@ -13,14 +13,14 @@ export default function InputField(props: ControlledInputProps): ReactElement {
 
     const defaultRules: RegisterOptions = {
         ...restRules,
-        ...maxLength && !minLength && { maxLength: {
+        ...(maxLength && !minLength && { maxLength: {
             message: `${label} cannot exceed ${maxLength} characters.`,
             value: maxLength
-        } },
-        ...minLength && !maxLength && { minLength: {
+        } }),
+        ...(minLength && !maxLength && { minLength: {
             message: `${label} cannot be less than ${maxLength} characters.`,
             value: minLength
-        } },
+        } }),
 
         required: {
             message: "This field is required",
@@ -29,8 +29,8 @@ export default function InputField(props: ControlledInputProps): ReactElement {
 
         validate: {
             ...validate,
-            ...minLength && maxLength && {
-                range: (value: string) => value.length >= minLength && value.length <= maxLength ? true : `${label} length must be between ${minLength} and ${maxLength} characters.` }
+            ...(minLength && maxLength && {
+                range: (value: string) => value.length >= minLength && value.length <= maxLength ? true : `${label} length must be between ${minLength} and ${maxLength} characters.` })
         }
     }
 

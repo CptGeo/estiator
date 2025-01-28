@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { TableData } from "@core/types";
-import type { useDisclosure } from "@nextui-org/react";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
+import type { useDisclosure } from "@heroui/react";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import InputField from "@components/Fields/Input";

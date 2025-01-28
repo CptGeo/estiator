@@ -1,5 +1,5 @@
-import type { RangeCalendarProps } from "@nextui-org/react";
-import { RangeCalendar } from "@nextui-org/react";
+import type { RangeCalendarProps } from "@heroui/react";
+import { RangeCalendar } from "@heroui/react";
 import { Controller } from "react-hook-form";
 
 type Props = {

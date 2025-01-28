@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { TableData } from "@core/types";
 import type {
-  useDisclosure } from "@nextui-org/react";
+  useDisclosure } from "@heroui/react";
 import {
   Button,
   Modal,
@@ -9,7 +9,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader
-} from "@nextui-org/react";
+} from "@heroui/react";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import InputField from "@components/Fields/Input";
@@ -43,10 +43,10 @@ export default function AddTableModal(props: ReturnType<typeof useDisclosure> & 
         label: values.label,
         capacity: values.capacity,
         color: values.color,
-        ...defaultCoordinates ? defaultCoordinates : {
+        ...(defaultCoordinates ? defaultCoordinates : {
           x: 100,
           y: 100
-        }
+        })
       };
       await postReq("/tables", { ...data });
     } catch (error) {

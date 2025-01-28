@@ -1,6 +1,6 @@
 import WarningIcon from "@components/Icons/WarningIcon";
-import type { ButtonProps } from "@nextui-org/react";
-import { Button, Tooltip } from "@nextui-org/react";
+import type { ButtonProps } from "@heroui/react";
+import { Button, Tooltip } from "@heroui/react";
 import type { PressEvent } from "@react-types/shared";
 import type { ReactElement } from "react";
 import { useState } from "react";

@@ -1,4 +1,4 @@
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, DropdownSection, useDisclosure } from "@nextui-org/react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, DropdownSection, useDisclosure } from "@heroui/react";
 import MenuDotsIcon from "@components/Icons/MenuDotsIcon";
 import type { ReservationData } from "@core/types";
 import { ReservationStatus, UserRole } from "@core/types";

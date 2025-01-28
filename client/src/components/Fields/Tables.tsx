@@ -1,5 +1,5 @@
-import type { SelectProps } from "@nextui-org/react";
-import { SelectItem } from "@nextui-org/react";
+import type { SelectProps } from "@heroui/react";
+import { SelectItem } from "@heroui/react";
 import type { ReactElement } from "react";
 import useQueryTables from "@hooks/useQueryTables";
 import SelectField from "@components/Fields/Select";

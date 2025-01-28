@@ -5,7 +5,7 @@ import { ReservationStatus } from "@core/types";
 import { getFullName, patchReq, sortByTimeAscending } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
 import { getLocalTimeZone, isToday, parseDate } from "@internationalized/date";
-import { Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";

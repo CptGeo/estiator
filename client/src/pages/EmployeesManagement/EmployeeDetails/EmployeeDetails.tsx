@@ -1,7 +1,7 @@
 import EmployeeInfo from "@components/Employees/EmployeeInfo/EmployeeInfo";
 import EmployeeSchedule from "@components/EmployeeSchedule/EmployeeSchedule";
 import useQueryUser from "@hooks/useQueryUser";
-import { Skeleton } from "@nextui-org/react";
+import { Skeleton } from "@heroui/react";
 import NotFound from "@pages/Errors/ResourceNotFound";
 import { type ReactElement } from "react";
 import { useParams } from "react-router-dom";
