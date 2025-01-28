@@ -17,16 +17,17 @@ type NotificationValue = {
 const NotificationContext = createContext<NotificationValue>({ notify: () => {} });
 
 /** The amount of time for notifications to stay visible notification center */
-const NOTIFICATION_DELAY = 3000;
+const NOTIFICATION_DELAY = 5000;
 
 function NotificationProvider(props: PropsWithChildren) {
     const [notifications, setNotifications] = useState<Notification[]>([]);
 
     function notify(notification: Notification) {
-        setNotifications((oldNotifications) => [
+        setNotifications((oldNotifications) => {
+            return [
+            notification,
             ...oldNotifications,
-            notification
-        ]);
+        ]});
     }
 
     return <NotificationContext.Provider value={{ notify }}>
