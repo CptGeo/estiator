@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
  * Creates a wrapper that allows a component to be in the DOM only for a specified ammount of time.
  * Then, the child component is getting hidden from the DOM.
  */
-export function Timelimited(props: PropsWithChildren<{ delay: number }>): ReactNode {
+export function TimeLimited(props: PropsWithChildren<{ delay: number }>): ReactNode {
     const [hidden, setHidden] = useState(false);
 
     useEffect(() => {

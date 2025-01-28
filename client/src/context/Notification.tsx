@@ -1,4 +1,4 @@
-import { Timelimited } from "@components/Timelimited/Timelimited";
+import { TimeLimited } from "@components/TimeLimited/Timelimited";
 import type { Color } from "@core/types";
 import { Alert } from "@heroui/react";
 import type { PropsWithChildren } from "react";
@@ -35,9 +35,9 @@ function NotificationProvider(props: PropsWithChildren) {
         {notifications.length > 0 && <div key={"primary"} className="w-[450px] flex items-center fixed z-[99999] bottom-[15px] right-[15px]">
             <div className="w-full flex flex-col gap-2">
                 {notifications.map((item, index) => {
-                    return (<Timelimited key={index} delay={NOTIFICATION_DELAY}>
+                    return (<TimeLimited key={index} delay={NOTIFICATION_DELAY}>
                         <Alert color={item.type ?? "default"} description={item.description} title={item.message} variant="faded" />
-                    </Timelimited>
+                    </TimeLimited>
                 )
                 })}
             </div>
