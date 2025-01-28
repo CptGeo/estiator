@@ -24,9 +24,7 @@ export default function RegisterForm() {
       notify({ message: "User has been created successfully!", type: "success" });
       navigate("/login");
     },
-    onError: (error => {
-      notify({ message: "User could not be created", description: error.message, type: "danger" })
-    })
+    onError: (() => notify({ message: "User could not be created", type: "danger" }))
   });
 
   const methods = useForm({
