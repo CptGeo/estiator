@@ -4,7 +4,6 @@ import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "@heroui/react";
 import PasswordField from "@components/Fields/Password";
-import { DevTool } from "@hookform/devtools";
 import EmailField from "@components/Fields/Email";
 import { useAuth } from "@context/Authentication";
 import PageHeader from "@components/PageHeader/PageHeader";
@@ -56,7 +55,6 @@ export default function LoginPage(): ReactElement {
           </div>
           <Button type="submit" color="primary" isLoading={auth?.loading}>Sign in</Button>
           {location.state && !auth?.loading && <p className="text-xs text-danger">{location.state}</p>}
-          <DevTool control={methods.control} />
         </form>
       </FormProvider>
     </div>

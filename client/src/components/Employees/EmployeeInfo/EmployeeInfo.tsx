@@ -14,7 +14,6 @@ import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import ImageIcon from "@components/Icons/ImageIcon";
-import { DevTool } from "@hookform/devtools";
 import { useNotification } from "@context/Notification";
 
 export default function EmployeeInfo(props: {
@@ -221,7 +220,6 @@ export default function EmployeeInfo(props: {
         title={`Remove employee ${employee.name} ${employee.surname}`}
         callback={handleDelete.bind(null, employee.id)}
       />
-      <DevTool control={methods.control} />
     </FormProvider>
   );
 }

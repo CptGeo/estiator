@@ -1,6 +1,5 @@
 import { useState } from "react";
 import TimeField from "../Fields/Time";
-import { DevTool } from "@hookform/devtools";
 import TablesSelect from "../Fields/Tables";
 import { ReservationStatus, type ReservationData } from "@core/types";
 import type { useDisclosure } from "@heroui/react";
@@ -119,7 +118,6 @@ export default function EditReservationModal(props: Props) {
                 </Button>
               </ModalFooter>
               </form>
-              <DevTool control={methods.control} />
             </FormProvider>
           )}
         </ModalContent>

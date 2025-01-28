@@ -4,7 +4,6 @@ import PasswordField from "@components/Fields/Password";
 import PhoneCodeField from "@components/Fields/PhoneCode";
 import { useAuth } from "@context/Authentication";
 import { postReq } from "@core/utils";
-import { DevTool } from "@hookform/devtools";
 import { Button } from "@heroui/react";
 import { useMutation } from "@tanstack/react-query";
 import type { FieldValues, RegisterOptions } from "react-hook-form";
@@ -163,7 +162,6 @@ export default function RegisterForm() {
         {location.state && !auth?.loading && (
           <p className="text-xs text-danger">{location.state}</p>
         )}
-        <DevTool control={methods.control} />
       </form>
     </FormProvider>
   );
