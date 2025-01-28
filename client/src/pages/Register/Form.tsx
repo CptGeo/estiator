@@ -9,14 +9,18 @@ import { Button } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";
 import type { FieldValues, RegisterOptions } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
   const location = useLocation();
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (data: FieldValues) => postReq("users", data),
+    mutationFn: (data: FieldValues) => postReq("auth/signup", data),
+    onSuccess: () => {
+      navigate("/login");
+    }
   });
 
   const methods = useForm({
@@ -48,11 +52,13 @@ export default function RegisterForm() {
   };
 
   async function onSubmit(values: FieldValues) {
-    mutateAsync(values);
-  }
-
-  if (auth?.user && auth.token) {
-    return <Navigate to="/" replace />;
+    await mutateAsync({
+      password: values.password,
+      email: values.email,
+      name: values.name,
+      surname: values.surname,
+      phone: `${values.countryCode} ${values.phone}`
+    });
   }
 
   return (
@@ -122,7 +128,7 @@ export default function RegisterForm() {
             </div>
             <div className="flex flex-nowrap basis-full">
               <div className="basis-2/6 p-1">
-                <PhoneCodeField name="countryCode" label="Country code" defaultSelectedKeys={["gr"]} />
+                <PhoneCodeField name="countryCode" label="Country code" defaultSelectedKeys={["+30"]} />
               </div>
               <div className="basis-4/6 p-1">
                 <InputField
