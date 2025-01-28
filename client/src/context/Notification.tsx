@@ -23,18 +23,17 @@ function NotificationProvider(props: PropsWithChildren) {
     const [notifications, setNotifications] = useState<Notification[]>([]);
 
     function notify(notification: Notification) {
-        setNotifications((oldNotifications) => {
-            return [
-            notification,
+        setNotifications((oldNotifications) => [
             ...oldNotifications,
-        ]});
+            notification
+        ]);
     }
 
     return <NotificationContext.Provider value={{ notify }}>
         {props.children}
 
         {notifications.length > 0 && <div key={"primary"} className="w-[450px] flex items-center fixed z-[99999] bottom-[15px] right-[15px]">
-            <div className="w-full flex flex-col gap-2">
+            <div className="w-full flex flex-col-reverse gap-2">
                 {notifications.map((item, index) => {
                     return (<TimeLimited key={index} delay={NOTIFICATION_DELAY}>
                         <Alert color={item.type ?? "default"} description={item.description} title={item.message} variant="faded" />
