@@ -35,8 +35,7 @@ export default function CancelReservationModal(props: Props) {
       confirmButtonProps={{ color: "danger", isLoading: isPending }}
       body={
         <p>
-          The reservation of customer 
-          <strong>{getFullName(reservation.createdFor)}</strong> will be cancelled.
+          The reservation of customer <strong>{getFullName(reservation.createdFor)}</strong> will be cancelled.
           <br />
           Are you sure you want to continue?
       </p>
