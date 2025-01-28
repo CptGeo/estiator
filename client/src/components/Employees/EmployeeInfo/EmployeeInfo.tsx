@@ -7,7 +7,7 @@ import ConfirmationModal from "@components/Modal/Confirmation";
 import Status from "@components/Status/Employee/Status";
 import { UserRole, UserStatus, type UserData } from "@core/types";
 import { deleteReq, formatDateTime, parseTimestamp, patchReq } from "@core/utils";
-import { SelectItem, Button, Image, useDisclosure, Avatar } from "@nextui-org/react";
+import { SelectItem, Button, Image, useDisclosure, Avatar } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { type ReactElement } from "react";
 import type { FieldValues } from "react-hook-form";

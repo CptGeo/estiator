@@ -1,4 +1,4 @@
-import type { useDisclosure } from "@nextui-org/react";
+import type { useDisclosure } from "@heroui/react";
 import ConfirmationModal from "@components/Modal/Confirmation";
 import type { ReservationData } from "@core/types";
 import { useState } from "react";

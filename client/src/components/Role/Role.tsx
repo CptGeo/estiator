@@ -1,6 +1,6 @@
 import type { Color } from "@core/types";
 import { Role } from "@core/types";
-import { Chip } from "@nextui-org/react";
+import { Chip } from "@heroui/react";
 
 export default function RoleChip(props: { role?: Role }) {
   const role = props.role;

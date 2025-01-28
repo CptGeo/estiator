@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import type { ReactElement } from "react";
 import MenuCloseIcon from "@components/Icons/MenuCloseIcon";
 import MenuOpenIcon from "@components/Icons/MenuOpenIcon";

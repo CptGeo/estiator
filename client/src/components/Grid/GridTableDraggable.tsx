@@ -10,7 +10,7 @@ import type { Key } from "react";
 import { useEffect, useState } from "react";
 import type { Coordinates } from "@dnd-kit/core/dist/types";
 import EditTableModal from "@components/Modal/EditTable";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@heroui/react";
 import { patchReq } from "@core/utils";
 
 type Props = {

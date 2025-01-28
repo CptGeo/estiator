@@ -5,7 +5,7 @@ import PhoneCodeField from "@components/Fields/PhoneCode";
 import { useAuth } from "@context/Authentication";
 import { postReq } from "@core/utils";
 import { DevTool } from "@hookform/devtools";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { useMutation } from "@tanstack/react-query";
 import type { FieldValues, RegisterOptions } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";

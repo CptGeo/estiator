@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Chip } from "@nextui-org/react";
+import { Chip } from "@heroui/react";
 import type { Color } from "@core/types";
 import { ReservationStatus } from "@core/types";
 

@@ -1,4 +1,4 @@
-import { DropdownTrigger, User } from "@nextui-org/react";
+import { DropdownTrigger, User } from "@heroui/react";
 import type { UserData } from "@core/types";
 
 export default function UserAvatar(props: { user: UserData }) {

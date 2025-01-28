@@ -1,5 +1,5 @@
-import type { useDisclosure, ButtonProps } from "@nextui-org/react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
+import type { useDisclosure, ButtonProps } from "@heroui/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@heroui/react";
 import type { ReactElement } from "react";
 
 type Props = {

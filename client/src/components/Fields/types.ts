@@ -1,5 +1,5 @@
-import type { InputProps } from "@nextui-org/input";
-import type { SelectProps } from "@nextui-org/react";
+import type { InputProps } from "@heroui/input";
+import type { SelectProps } from "@heroui/react";
 import type { RegisterOptions } from "react-hook-form";
 
 export type ControlledInputProps = {

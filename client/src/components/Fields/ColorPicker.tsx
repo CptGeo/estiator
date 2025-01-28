@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import classNames from "classnames";
 import type { PropsWithChildren, ReactElement } from "react";
 import { createContext, useContext } from "react";

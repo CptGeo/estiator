@@ -4,7 +4,7 @@ import { createSnapModifier, restrictToFirstScrollableAncestor } from "@dnd-kit/
 import { GridDndContext } from "@components/Grid/GridDndContext";
 import useQueryTables from "@hooks/useQueryTables";
 import { isUndefined, normalize } from "@core/utils";
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner, useDisclosure } from "@nextui-org/react";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner, useDisclosure } from "@heroui/react";
 import type { TableData } from "@core/types";
 import AddIcon from "@components/Icons/AddIcon";
 import type { PointerActivationConstraint } from "@dnd-kit/core";

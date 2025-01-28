@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Image } from "@nextui-org/react";
+import { Image } from "@heroui/react";
 import logo from "@assets/images/logo.png";
 import { Link } from "react-router-dom";
 

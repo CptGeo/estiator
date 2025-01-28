@@ -1,5 +1,5 @@
-import type { useDisclosure } from "@nextui-org/react";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
+import type { useDisclosure } from "@heroui/react";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import InputField from "@components/Fields/Input";
@@ -38,7 +38,7 @@ export default function CreateReservationModal(props: Props) {
       persons: values.persons,
       createdBy: { id: user ? user.id : null },
       createdFor: { id: user ? user.id : null },
-      ...values.table && { table: { id: Number(values.table) } },
+      ...(values.table && { table: { id: Number(values.table) } }),
       time: parseTime(values.time).toString(),
       status: 0,
       statusValue: 0,

@@ -1,6 +1,6 @@
 import { Controller } from "react-hook-form";
-import type { TimeInputProps } from "@nextui-org/react";
-import { TimeInput } from "@nextui-org/react";
+import type { TimeInputProps } from "@heroui/react";
+import { TimeInput } from "@heroui/react";
 
 export default function TimeControlled(props: TimeInputProps & { name: string }) {
   const { children, name, defaultValue, ...rest } = props;

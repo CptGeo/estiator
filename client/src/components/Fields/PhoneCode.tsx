@@ -1,6 +1,6 @@
 import { type ReactElement } from "react";
 import phones from "../../../phones.json";
-import { Avatar, Select, SelectItem } from "@nextui-org/react";
+import { Avatar, Select, SelectItem } from "@heroui/react";
 import { Controller } from "react-hook-form";
 import type { ControlledSelectProps } from "./types";
 import { getAssetUrl } from "@core/utils";

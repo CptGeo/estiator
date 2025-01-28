@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Chip } from "@nextui-org/react";
+import { Chip } from "@heroui/react";
 import { UserStatus } from "@core/types";
 
 type Props = {
