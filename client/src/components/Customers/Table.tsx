@@ -1,8 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Spinner, Pagination, Button, useDisclosure, Chip, Input } from "@heroui/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Spinner, Pagination, Chip, Input } from "@heroui/react";
 import { UserRole, UserRoleName, type UserData } from "@core/types";
-import AddIcon from "@components/Icons/AddIcon";
-import CreateReservationModal from "@components/Modal/CreateReservation";
 import { getFullName, parseTimestamp } from "@core/utils";
 import useQueryCustomers from "@hooks/useQueryCustomers";
 import CustomersActions from "./Actions";
@@ -20,7 +18,6 @@ export default function CustomersTable() {
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
   const pages = customers ? Math.ceil(customers.length / rowsPerPage) : 0;
-  const createDisclosure = useDisclosure();
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -33,7 +30,6 @@ export default function CustomersTable() {
     return (
       <div className="flex flex-row justify-between items-end">
         <p className="text-xs text-default-600">{count! > 0 && `Total customers: ${customers?.length}`}</p>
-        <Button color="primary" onPress={createDisclosure.onOpen}><AddIcon className="text-md" />Add customer</Button>
       </div>
     )
   }, [customers?.length]);
@@ -98,34 +94,31 @@ export default function CustomersTable() {
   }, [customers]);
 
   return (
-    <>
-      <Table
-        topContentPlacement="outside"
-        topContent={topContent}
-        aria-label="Customers table"
-        bottomContent={bottomContent}
-        bottomContentPlacement="outside"
+    <Table
+      topContentPlacement="outside"
+      topContent={topContent}
+      aria-label="Customers table"
+      bottomContent={bottomContent}
+      bottomContentPlacement="outside"
+    >
+      <TableHeader columns={columns}>
+        {(column) => (
+          <TableColumn
+            key={column.uid}
+            align={column.uid === "actions" ? "center" : "start"}
+          >
+            {column.name}
+          </TableColumn>
+        )}
+      </TableHeader>
+      <TableBody
+          emptyContent={<p>No reservations to display</p>}
+          isLoading={!Array.isArray(customers)}
+          items={items || []}
+          loadingContent={<Spinner label="Loading..." />}
       >
-        <TableHeader columns={columns}>
-          {(column) => (
-            <TableColumn
-              key={column.uid}
-              align={column.uid === "actions" ? "center" : "start"}
-            >
-              {column.name}
-            </TableColumn>
-          )}
-        </TableHeader>
-        <TableBody
-            emptyContent={<p>No reservations to display</p>}
-            isLoading={!Array.isArray(customers)}
-            items={items || []}
-            loadingContent={<Spinner label="Loading..." />}
-        >
-          {(customer: UserData) => renderRow(customer)}
-        </TableBody>
-      </Table>
-      <CreateReservationModal {...createDisclosure} />
-    </>
+        {(customer: UserData) => renderRow(customer)}
+      </TableBody>
+    </Table>
   );
 }
