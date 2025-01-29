@@ -29,6 +29,10 @@ public class AuthService {
 
         String hashedPassword = passwordEncoder.encode(request.password());
         User user = new User(request.name(), request.surname(), email, request.phone(), hashedPassword);
+
+        // set default user role for each new user
+        user.setUserRole("ROLE_CLIENT");
+
         userRepository.save(user);
     }
 }
