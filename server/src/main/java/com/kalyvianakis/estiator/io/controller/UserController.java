@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -49,9 +50,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable Long id, @RequestParam(required = false, name = "registered") Boolean registered ) throws ResourceNotFoundException {
-        if (registered != null && registered) {
-            return ResponseEntity.ok().body(userService.getRegistered(id));
+    public ResponseEntity<?> getWithRoles(@PathVariable Long id, @RequestParam(required = false, name = "roles") Collection<String> roles) throws ResourceNotFoundException {
+        if (roles != null && roles.stream().count() > 0) {
+            return ResponseEntity.ok().body(userService.getWithRoles(id, roles));
         }
         return ResponseEntity.ok().body(userService.get(id));
     }
@@ -116,16 +117,11 @@ public class UserController {
         return ResponseEntity.ok().body(schedules);
     }
 
-    @GetMapping()
-    public ResponseEntity<List<User>> get(@RequestParam(required = false, name = "registered") Boolean registered) {
-        if (registered != null) {
-            if (registered) {
-                return ResponseEntity.ok().body(userService.getRegistered());
-            } else {
-                return ResponseEntity.ok().body(userService.getGuest());
-            }
+    @GetMapping
+    public ResponseEntity<List<User>> get(@RequestParam(required = false, name = "roles") Collection<String> roles) {
+        if (roles != null && roles.stream().count() > 0) {
+            return ResponseEntity.ok().body(userService.getByRoles(roles));
         }
-
         return ResponseEntity.ok().body(userService.get());
     }
 
