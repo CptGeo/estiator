@@ -42,6 +42,13 @@ export enum UserRole {
   GUEST = "ROLE_GUEST",
 };
 
+export const UserRoleName = {
+  [UserRole.ADMIN]: "Admin",
+  [UserRole.MODERATOR]: "Moderator",
+  [UserRole.CLIENT]: "Client",
+  [UserRole.GUEST]: "Guest"
+}
+
 export enum UserStatus {
   ACTIVE = "Active",
   ON_LEAVE = "On_Leave",
