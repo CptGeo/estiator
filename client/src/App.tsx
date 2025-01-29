@@ -20,6 +20,7 @@ import UnauthorizedOnlyLayout from "@layouts/UnauthorizedOnly";
 import CommonLayout from "@layouts/Common";
 import { UserRole } from "@core/types";
 import NotificationProvider from "@context/Notification";
+import CustomerManagementPage from "@pages/CustomerManagement/CustomerManagement";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
           {
             path: "tables-management",
             element: <TablesManagementPage />
+          },
+          {
+            path: "customers-management",
+            element: <CustomerManagementPage />
           }
         ],
       },

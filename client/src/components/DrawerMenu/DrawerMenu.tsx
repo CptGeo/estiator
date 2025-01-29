@@ -58,6 +58,7 @@ export default function DrawerMenu(): ReactElement {
           <AdminOnly>
             <DrawerItem to="/employees-management" text="Employees Management" icon={<PersonIcon className="text-xl" />} />
           </AdminOnly>
+          <DrawerItem to="/customers-management" text="Customers Management" icon={<PersonIcon className="text-xl" />} />
         </div>
 
         <div className="flex flex-col gap-2">
