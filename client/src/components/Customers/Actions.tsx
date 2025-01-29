@@ -56,13 +56,12 @@ export default function CustomersActions(props: Props) {
           {isAllowed ? <DropdownSection title="Danger zone">
             <DropdownItem key={Action.REMOVE} className="text-danger" color="danger">
               Remove
-            </DropdownItem> 
+            </DropdownItem>
           </DropdownSection> : null}
         </DropdownMenu>
       </Dropdown>
       <RemoveCustomerModal customer={customer} {...remove} />
       <EditCustomerModal customer={customer} {...edit} />
-      {/* <RemoveReservationModal customer={customer} {...remove} /> */}
     </>
   );
 }
