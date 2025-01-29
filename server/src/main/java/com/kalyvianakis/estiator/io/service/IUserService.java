@@ -10,7 +10,6 @@ public interface IUserService {
     public List<User> get();
     public User get(Long id) throws ResourceNotFoundException;
     public User getOneByEmail(String email) throws ResourceNotFoundException;
-    public List<User> getRegistered();
     public void delete(Long id);
     public Boolean exists(Long id);
     public Boolean notExists(Long id);
