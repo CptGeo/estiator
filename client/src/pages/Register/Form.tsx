@@ -156,7 +156,7 @@ export default function RegisterForm() {
           <p className="mb-1 text-xs italic">Permissions</p>
           <div className="flex flex-row flex-wrap mb-2">
             <div className="basis-full p-1">
-              <SelectField name="userRole" label="Role" variant="bordered">
+              <SelectField name="userRole" label="Role" variant="bordered" isRequired>
                 {Object.values(UserRole).map((item: UserRole) => {
                   return (
                     <SelectItem key={item} value={item}>
