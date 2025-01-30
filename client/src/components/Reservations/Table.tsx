@@ -74,8 +74,8 @@ export default function ReservationsTable() {
             classNames={{
               description: "text-default-500",
             }}
-            description={reservation.createdBy.email || reservation.createdBy.phone}
-            name={getFullName(reservation.createdBy)}
+            description={reservation.createdFor?.email || reservation.createdFor?.phone}
+            name={getFullName(reservation.createdFor)}
           />
         </TableCell>
         <TableCell className="w-[20%]" textValue="Date">
