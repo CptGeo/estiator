@@ -40,8 +40,10 @@ export default function CreateReservationModal(props: Props) {
     const data = {
       date: values.date.toString(),
       persons: values.persons,
-      createdBy: { id: user ? user.id : null },
-      createdFor: { id: user ? user.id : null },
+      email: values.email,
+      name: values.name,
+      phone: values.phone,
+      surname: values.surname,
       ...(values.table && { table: { id: Number(values.table) } }),
       time: parseTime(values.time).toString(),
       status: 0,
