@@ -31,6 +31,9 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
+    public User saveAndFlush(User user) { return userRepository.saveAndFlush(user); }
+
+    @Override
     public List<User> get() {
         return userRepository.findAll();
     }
@@ -46,6 +49,13 @@ public class UserService implements IUserService, UserDetailsService {
             throw new IllegalArgumentException("Email must not be null");
         }
         return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found with Email: " + email));
+    }
+
+    public boolean existsByEmail(String email) throws IllegalArgumentException {
+        if (email == null) {
+            throw new IllegalArgumentException("Email must not be null");
+        }
+        return userRepository.existsByEmail(email);
     }
 
     public User getWithRoles(Long id, Collection<String> roles) throws ResourceNotFoundException {

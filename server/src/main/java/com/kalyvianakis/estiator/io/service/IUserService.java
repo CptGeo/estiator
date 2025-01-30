@@ -6,11 +6,12 @@ import com.kalyvianakis.estiator.io.model.User;
 import java.util.List;
 
 public interface IUserService {
-    public User save(User user);
-    public List<User> get();
-    public User get(Long id) throws ResourceNotFoundException;
-    public User getOneByEmail(String email) throws ResourceNotFoundException;
-    public void delete(Long id);
-    public Boolean exists(Long id);
-    public Boolean notExists(Long id);
+    User save(User user);
+    User saveAndFlush(User user);
+    List<User> get();
+    User get(Long id) throws ResourceNotFoundException;
+    User getOneByEmail(String email) throws ResourceNotFoundException;
+    void delete(Long id);
+    Boolean exists(Long id);
+    Boolean notExists(Long id);
 }
