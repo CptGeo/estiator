@@ -44,8 +44,6 @@ export default function EditCustomerModal(props: Props) {
         userRole: values.userRole,
         inform: values.inform
       };
-      console.log(data);
-      return;
       await patchReq(`/users/${customer.id}`, { ...data });
       notify({ message: "Customer info have been updated successfully!", type: "success" });
     } catch (error) {
