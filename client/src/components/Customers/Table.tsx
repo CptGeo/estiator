@@ -1,9 +1,11 @@
 import { useCallback, useMemo, useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Spinner, Pagination, Chip, Input } from "@heroui/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Spinner, Pagination, Chip, Input, Button } from "@heroui/react";
 import { UserRole, UserRoleName, type UserData } from "@core/types";
 import { getFullName, parseTimestamp } from "@core/utils";
 import useQueryCustomers from "@hooks/useQueryCustomers";
 import CustomersActions from "./Actions";
+import AddIcon from "@components/Icons/AddIcon";
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   { name: "NAME", uid: "name" },
@@ -18,6 +20,7 @@ export default function CustomersTable() {
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
   const pages = customers ? Math.ceil(customers.length / rowsPerPage) : 0;
+  const navigate = useNavigate();
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -30,6 +33,7 @@ export default function CustomersTable() {
     return (
       <div className="flex flex-row justify-between items-end">
         <p className="text-xs text-default-600">{count! > 0 && `Total customers: ${customers?.length}`}</p>
+        <Button onPress={() => navigate("/register")} color="primary"><AddIcon className="text-md" />Register user</Button>
       </div>
     )
   }, [customers?.length]);
