@@ -14,4 +14,5 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     List<User> findByUserRoleIn(Collection<String> userRoles);
     Optional<User> findByIdAndUserRoleIn(Long id, Collection<String> userRoles);
     Optional<User> findByEmail(String email);
+    Boolean existsByEmail(String email);
 }
