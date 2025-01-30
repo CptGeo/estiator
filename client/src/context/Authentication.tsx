@@ -1,6 +1,5 @@
 import type { PropsWithChildren } from "react";
-import { createContext, useContext, useState } from "react"
-import { client } from "@core/request";
+import { createContext, useContext } from "react"
 import { useNavigate } from "react-router-dom";
 import { ensureErr, postReq } from "@core/utils";
 import { AxiosError } from "axios";
