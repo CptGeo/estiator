@@ -6,7 +6,7 @@ import { DeleteIcon } from "@components/Icons/DeleteIcon";
 import ConfirmationModal from "@components/Modal/Confirmation";
 import Status from "@components/Status/Employee/Status";
 import { UserRole, UserRoleName, UserStatus, type UserData } from "@core/types";
-import { deleteReq, formatDateTime, parseTimestamp, patchReq } from "@core/utils";
+import { deleteReq, formatDateTime, getInitials, parseTimestamp, patchReq } from "@core/utils";
 import { SelectItem, Button, Image, useDisclosure, Avatar } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { type ReactElement } from "react";
@@ -78,7 +78,7 @@ export default function EmployeeInfo(props: {
   }
 
   function getFallbackSrc(employee: UserData) {
-    return `https://ui-avatars.com/api/?size=300&name=${employee.name}+${employee.surname}`
+    return `https://ui-avatars.com/api/?size=300&name=${getInitials(employee)}`
   }
 
   return (
@@ -94,9 +94,7 @@ export default function EmployeeInfo(props: {
                   isBordered
                   src={employee.profileImage}
                   className="w-16 h-16 text-large mr-1"
-                  name={`${employee.name.charAt(0).toUpperCase()} ${employee.surname
-                    .charAt(0)
-                    .toUpperCase()}`}
+                  name={getInitials(employee)}
               />
               <div>
                 <h1 className="text-2xl">

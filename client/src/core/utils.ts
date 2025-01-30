@@ -35,6 +35,10 @@ export function getFullName(user: UserData): string {
     return `${user.name} ${user.surname}`;
 }
 
+export function getInitials(user: UserData): string {
+    return `${user.name.charAt(0).toUpperCase()}${user.surname.charAt(0).toUpperCase()}`;
+}
+
 /**
  * Ensures that the thrown value is indeed an Error. Converts it to Error if it is not.
  */
@@ -185,3 +189,4 @@ export function dayToString(day: number): string {
     }
     return Day[day];
 }
+
