@@ -40,6 +40,7 @@ export enum UserRole {
   MODERATOR = "ROLE_MODERATOR",
   CLIENT = "ROLE_CLIENT",
   GUEST = "ROLE_GUEST",
+  UNKNOWN = "ROLE_UNKNOWN"
 };
 
 export const UserRoleName = {
@@ -47,7 +48,7 @@ export const UserRoleName = {
   [UserRole.MODERATOR]: "Moderator",
   [UserRole.CLIENT]: "Client",
   [UserRole.GUEST]: "Guest",
-  "ROLE_UNKNOWN": "Unknown role"
+  [UserRole.UNKNOWN]: "Unknown"
 }
 
 export enum UserStatus {
