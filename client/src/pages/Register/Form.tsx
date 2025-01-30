@@ -4,21 +4,26 @@ import PasswordField from "@components/Fields/Password";
 import PhoneCodeField from "@components/Fields/PhoneCode";
 import { useAuth } from "@context/Authentication";
 import { postReq } from "@core/utils";
-import { Button } from "@heroui/react";
+import { Button, SelectItem } from "@heroui/react";
 import { useMutation } from "@tanstack/react-query";
 import type { FieldValues, RegisterOptions } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useNotification } from "@context/Notification";
+import SelectField from "@components/Fields/Select";
+import { UserRole, UserRoleName } from "@core/types";
+import { userIsAllowed } from "@core/auth";
 
 export default function RegisterForm() {
   const location = useLocation();
   const auth = useAuth();
   const navigate = useNavigate();
   const { notify } = useNotification();
+  const isAdmin = userIsAllowed(auth?.user, [UserRole.ADMIN]);
+  const postUrl = `auth/signup${isAdmin ? "/admin": ""}`;
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (data: FieldValues) => postReq("auth/signup", data),
+    mutationFn: (data: FieldValues) => postReq(postUrl, data),
     onSuccess: () => {
       notify({ message: "User has been created successfully!", type: "success" });
       navigate("/login");
@@ -60,7 +65,8 @@ export default function RegisterForm() {
       email: values.email,
       name: values.name,
       surname: values.surname,
-      phone: `${values.countryCode} ${values.phone}`
+      phone: `${values.countryCode} ${values.phone}`,
+      ...isAdmin && { userRole: values.userRole }
     });
   }
 
@@ -145,6 +151,23 @@ export default function RegisterForm() {
             </div>
           </div>
         </div>
+        {isAdmin &&
+        <div className="mb-4">
+          <p className="mb-1 text-xs italic">Permissions</p>
+          <div className="flex flex-row flex-wrap mb-2">
+            <div className="basis-full p-1">
+              <SelectField name="userRole" label="Role" variant="bordered">
+                {Object.values(UserRole).map((item: UserRole) => {
+                  return (
+                    <SelectItem key={item} value={item}>
+                      {UserRoleName[item]}
+                    </SelectItem>
+                  );
+                })}
+              </SelectField>
+            </div>
+          </div>
+        </div>}
         <div className="flex pb-2 px-1 gap-2">
           Are you a client?
           <Link className="text-blue-600" to="/register-client">
