@@ -1,9 +1,8 @@
 import BuildingIcon from "@components/Icons/BuildingIcon";
-import MailIcon from "@components/Icons/MailIcon";
 import IconSuitcase from "@components/Icons/SuitcaseIcon";
 import Status from "@components/Status/Employee/Status";
-import type { UserData } from "@core/types";
-import { formatDateTime, parseTimestamp } from "@core/utils";
+import { UserRoleName, type UserData } from "@core/types";
+import { formatDateTime, getInitials, parseTimestamp } from "@core/utils";
 import useQueryEmployees from "@hooks/useQueryEmployees";
 import { Avatar, Card, CardBody, CardHeader } from "@heroui/react";
 import { Link } from "react-router-dom";
@@ -29,19 +28,15 @@ export default function EmployeesList() {
                   isBordered
                   src={employee.profileImage}
                   className="w-20 h-20 text-large mb-3"
-                  name={`${employee.name.charAt(0).toUpperCase()} ${employee.surname
-                    .charAt(0)
-                    .toUpperCase()}`}
-                    />
+                  name={getInitials(employee)} />
                 <h4>{`${employee.name} ${employee.surname}`}</h4>
-                <p className="text-foreground-400 text-sm">{employee.userRole}</p>
+                <p className="text-foreground-400 text-sm"><a href={`mailto:${employee.email}`} className="break-all">{employee.email}</a></p>
                 <div className="bg-content2 rounded-lg p-3 mt-3 border-1 shadow-inner shadow-slate-100 border-slate-200 w-full">
                   <ul className="flex gap-2 flex-col">
                     <ul className="inline-flex items-center gap-2">
-                      <li className="inline-flex items-center text-xs gap-1"><IconSuitcase />{employee.userRole}</li>
-                      <li className="inline-flex items-center text-xs gap-1"><BuildingIcon />{employee.position}</li>
+                      <li className="inline-flex items-center text-xs gap-1"><BuildingIcon />{UserRoleName[employee.userRole]}</li>
+                      {employee.position && <li className="inline-flex items-center text-xs gap-1"><IconSuitcase />{employee.position}</li>}
                     </ul>
-                    <li className="inline-flex items-center text-xs gap-1"><MailIcon /><a href={`mailto:${employee.email}`} className="break-all">{employee.email}</a></li>
                   </ul>
                 </div>
                 <div className="flex text-xs flex-row justify-between w-full items-center mt-2">
