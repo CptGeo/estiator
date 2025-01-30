@@ -141,7 +141,7 @@ export default function ReservationsTable() {
       <Table
         topContentPlacement="outside"
         topContent={topContent}
-        aria-label="Example table with custom cells"
+        aria-label="Reservations table"
         bottomContent={bottomContent}
         bottomContentPlacement="outside"
       >

@@ -48,27 +48,12 @@ public class UserService implements IUserService, UserDetailsService {
         return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found with Email: " + email));
     }
 
-    public User getRegistered(Long id) throws ResourceNotFoundException {
-        List<String> roleValues = new ArrayList<>();
-        roleValues.add("ROLE_MODERATOR");
-        roleValues.add("ROLE_ADMIN");
-        return userRepository.findByIdAndUserRoleIn(id, roleValues).orElseThrow(() -> new ResourceNotFoundException("Registered user not found with ID: " + id));
+    public User getWithRoles(Long id, Collection<String> roles) throws ResourceNotFoundException {
+        return userRepository.findByIdAndUserRoleIn(id, roles).orElseThrow(() -> new ResourceNotFoundException("Registered user not found with ID: " + id));
     }
 
-    public List<User> getRegistered() {
-        return this.getByRoles("ROLE_ADMIN", "ROLE_MODERATOR");
-    }
-
-    public List<User> getGuest() {
-        return this.getByRoles("ROLE_GUEST");
-    }
-
-    public List<User> getClient() {
-        return this.getByRoles("ROLE_CLIENT");
-    }
-
-    public List<User> getByRoles(String ...roles){
-        return userRepository.findByUserRoleIn(Arrays.asList(roles));
+    public List<User> getByRoles(Collection<String> roles){
+        return userRepository.findByUserRoleIn(roles);
     }
 
     public List<Schedule> getSchedule(Long id) {

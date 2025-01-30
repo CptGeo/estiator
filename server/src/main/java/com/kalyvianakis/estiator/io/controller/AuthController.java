@@ -2,6 +2,7 @@ package com.kalyvianakis.estiator.io.controller;
 
 import com.kalyvianakis.estiator.io.dto.LoginRequest;
 import com.kalyvianakis.estiator.io.dto.LoginResponse;
+import com.kalyvianakis.estiator.io.dto.SignupAdminRequest;
 import com.kalyvianakis.estiator.io.dto.SignupRequest;
 import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.service.AuthService;
@@ -36,6 +37,12 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<Void> signup(@Valid @RequestBody SignupRequest requestDto) throws Exception {
         authService.signup(requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/signup/admin")
+    public ResponseEntity<Void> signupAdmin(@Valid @RequestBody SignupAdminRequest requestDto) throws Exception {
+        authService.signupAdmin(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

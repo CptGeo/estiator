@@ -27,6 +27,7 @@ public class User extends PropertyPrinter {
     @Column(unique = true)
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(unique = true)
@@ -53,6 +54,16 @@ public class User extends PropertyPrinter {
         this.phone = phone;
         this.password = password;
     }
+
+    public User(String name, String surname, String email, String phone, String password, String userRole) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.userRole = userRole;
+    }
+
     public User() {}
 
     @PostLoad

@@ -1,37 +1,32 @@
 import type { PropsWithChildren } from "react";
-import { createContext, useContext, useState } from "react"
-import { client } from "@core/request";
+import { createContext, useContext } from "react"
 import { useNavigate } from "react-router-dom";
-import { ensureErr } from "@core/utils";
+import { ensureErr, postReq } from "@core/utils";
 import { AxiosError } from "axios";
 import type { AuthValue, Credentials } from "@core/types";
 import useLocalStorage from "@hooks/useLocalStorage";
 import { decryptJwt } from "@core/auth";
 import { useNotification } from "./Notification";
+import { useMutation } from "@tanstack/react-query";
 
 const AuthContext = createContext<AuthValue | null>(null);
 
+type AuthResponse = { email: string, token: string };
+
 export function AuthProvider( props: PropsWithChildren ) {
   const [token, setToken, removeToken] = useLocalStorage<string>("token");
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (credentials: Credentials) => postReq<AuthResponse>("/auth/login", credentials),
+  })
   const user = token ? decryptJwt(token).user : null;
-
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { notify } = useNotification();
 
-  // verify user data with server
   async function loginAction(credentials: Credentials): Promise<void> {
     try {
-      setLoading(true);
-      const response = await client.post("/auth/login", credentials);
-
-      if (response?.status !== 200) {
-        throw new Error("Invalid email or password");
-      }
-
-      setToken(response.data.token);
+      const response = await mutateAsync(credentials);
+      setToken(response.token);
       notify({ message: "You have logged in successfully!", type: "success" });
-
     } catch (err) {
       let message = "";
       if (err instanceof AxiosError) {
@@ -46,8 +41,6 @@ export function AuthProvider( props: PropsWithChildren ) {
         type: "danger"
       });
       navigate("/login", { state: message });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -64,7 +57,7 @@ export function AuthProvider( props: PropsWithChildren ) {
     }
   }
 
-  return <AuthContext.Provider value={{ user, token, loading, loginAction, logoutAction }}>{props.children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ user, token, loading: isPending, loginAction, logoutAction }}>{props.children}</AuthContext.Provider>
 }
 
 export default AuthProvider;

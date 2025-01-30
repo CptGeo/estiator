@@ -36,7 +36,7 @@ function NotificationProvider(props: PropsWithChildren) {
             <div className="w-full flex flex-col-reverse gap-2">
                 {notifications.map((item, index) => {
                     return (<TimeLimited key={index} delay={NOTIFICATION_DELAY}>
-                        <Alert color={item.type ?? "default"} description={item.description} title={item.message} variant="faded" />
+                        <Alert color={item.type ?? "default"} description={item.description} title={item.message} className="shadow-xl" />
                     </TimeLimited>
                 )
                 })}

@@ -1,6 +1,5 @@
 package com.kalyvianakis.estiator.io.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kalyvianakis.estiator.io.model.ErrorResponse;
 import com.kalyvianakis.estiator.io.service.UserService;
 import io.jsonwebtoken.JwtException;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {

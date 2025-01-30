@@ -1,5 +1,6 @@
 import { DropdownTrigger, User } from "@heroui/react";
 import type { UserData } from "@core/types";
+import { getInitials } from "@core/utils";
 
 export default function UserAvatar(props: { user: UserData }) {
   const { name, surname, email } = props.user;
@@ -10,14 +11,12 @@ export default function UserAvatar(props: { user: UserData }) {
         as="button"
         avatarProps={{
           isBordered: true,
-          name: `${name.charAt(0).toUpperCase()} ${surname
-            .charAt(0)
-            .toUpperCase()}`,
-          }}
-          classNames={{ name: "max-md:hidden", description: "max-md:hidden" }}
-          className="transition-transform"
-          description={email}
-          name={`${name} ${surname}`}
+          name: getInitials(props.user)
+        }}
+        classNames={{ name: "max-md:hidden", description: "max-md:hidden" }}
+        className="transition-transform"
+        description={email}
+        name={`${name} ${surname}`}
       />
     </DropdownTrigger>
   );
