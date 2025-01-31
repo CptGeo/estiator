@@ -77,10 +77,9 @@ export default function ReservationWidget() {
       </CardHeader>
       <CardBody className="overflow-visible py-2">
         <Table
-          hideHeader={false}
           removeWrapper
           isStriped
-          {...filtered && { bottomContent: <small><Link className="text-primary" to={"reservations-management"}>View all reservations</Link></small> }}
+          {...filtered && { bottomContent: <small><Link className="text-primary px-1" to={"reservations-management"}>View all reservations</Link></small> }}
         >
           <TableHeader>
             <TableColumn>Name</TableColumn>
