@@ -13,7 +13,7 @@ export default function Minicard(props: Props) {
         <Card className="py-2 px-4 w-[280px] shrink-0" shadow="sm">
             <CardBody>
                 <div className="mb-1 flex flex-row flex-nowrap justify-between items-center">
-                    <h4 className="text-sm opacity-30 font-semibold">{props.headline ?? "-"}</h4>
+                    <h4 className="text-sm text-foreground-500 font-semibold">{props.headline ?? "-"}</h4>
                     <div className="rounded-full text-cyan-600 bg-slate-100 p-2 border-1 border-cyan-600 border-opacity-20">
                         {props.icon}
                     </div>
