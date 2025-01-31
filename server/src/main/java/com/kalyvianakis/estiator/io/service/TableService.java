@@ -62,4 +62,6 @@ public class TableService implements ITableService {
     public Boolean notExists(Long id) {
         return !this.exists(id);
     }
+
+    public Long count() { return tableRepository.count(); }
 }
