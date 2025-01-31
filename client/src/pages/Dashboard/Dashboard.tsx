@@ -3,6 +3,7 @@ import PageHeader from "@components/PageHeader/PageHeader";
 import ReservationWidget from "@components/Widget/Reservation";
 import MonthReservations from "@components/Minicard/MonthReservations";
 import TotalCapacity from "@components/Minicard/TotalCapacity";
+import TotalTables from "@components/Minicard/TotalTables";
 
 export default function DashboardPage(): ReactElement {
   return (
@@ -12,6 +13,7 @@ export default function DashboardPage(): ReactElement {
       />
       <div className="gap-7 flex flex-row flex-nowrap mb-5 w-full shrink-0 p-1 overflow-auto relative no-scrollbar">
         <MonthReservations />
+        <TotalTables />
         <TotalCapacity />
       </div>
       <div className="grid grid-cols-4 md:grid-cols-8 gap-4 p-1">
