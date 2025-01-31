@@ -13,8 +13,8 @@ export default function MonthReservations() {
     const prevMonthEnd = endOfMonth(t.subtract({ months: 1 }))
     const prevMonthStart = startOfMonth(t.subtract({ months: 1 }))
 
-    const { data: currentReservations } = useQueryReservations<number>(3000, { params: { count: true, dateFrom: currMonthStart, dateTo: currMonthEnd.toString() } });
-    const { data: lastMonthReservations } = useQueryReservations<number>(3000, { params: { count: true, dateFrom: prevMonthStart, dateTo: prevMonthEnd.toString() } });
+    const { data: currentReservations } = useQueryReservations<number>(3000, { count: true, dateFrom: currMonthStart.toString(), dateTo: currMonthEnd.toString() });
+    const { data: lastMonthReservations } = useQueryReservations<number>(3000, { count: true, dateFrom: prevMonthStart.toString(), dateTo: prevMonthEnd.toString() });
 
     const change = useMemo(() => {
         if (!isUndefined(currentReservations) && isInteger(currentReservations) && !isUndefined(lastMonthReservations) && isInteger(lastMonthReservations)) {
