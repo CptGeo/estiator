@@ -12,4 +12,5 @@ import java.time.LocalDate;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     Long countByDateLessThanEqual(LocalDate date);
+    Long countByDateBetween(LocalDate from, LocalDate to);
 }

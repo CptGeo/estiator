@@ -41,6 +41,10 @@ public class ReservationService implements IReservationService {
     return reservationRepository.countByDateLessThanEqual(date);
   }
 
+  public Long getCountByDateBetween(LocalDate from, LocalDate to) {
+    return reservationRepository.countByDateBetween(from, to);
+  }
+
   @Override
   public void delete(Long id) {
     reservationRepository.deleteById(id);

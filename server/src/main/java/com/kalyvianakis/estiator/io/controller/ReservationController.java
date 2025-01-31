@@ -81,9 +81,13 @@ public class ReservationController {
   }
 
   @GetMapping
-  public ResponseEntity<?> get(@RequestParam(name = "count", required = false) Boolean count, @RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-      if (date != null && count != null && count) {
-          return ResponseEntity.ok().body(reservationService.getCountByDateLessThanEqual(date));
+  public ResponseEntity<?> get(@RequestParam(name = "count", required = false) Boolean count, @RequestParam(name = "dateFrom", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,  @RequestParam(name = "dateTo", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
+      if (from != null && to != null && count != null && count) {
+          return ResponseEntity.ok().body(reservationService.getCountByDateBetween(from, to));
+      }
+
+      if (to != null && count != null && count) {
+          return ResponseEntity.ok().body(reservationService.getCountByDateLessThanEqual(to));
       }
 
       if (count != null && count) {
