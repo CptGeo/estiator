@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import { isInteger, isUndefined } from "@core/utils";
 import { Tooltip } from "@heroui/react";
 
-export default function MonthReservations() {
+export default function TotalReservations() {
     const currentMonth = endOfMonth(today("Europe/Athens"));
     const previousMonth = currentMonth.subtract({ months: 1 });
 
