@@ -9,5 +9,6 @@ export default function TotalCapacity() {
         headline="Total Capacity"
         description={tablesCount}
         icon={<TableIcon />}
+        indicator={<p className="text-xs text-foreground-400">persons</p>}
     />;
 }
