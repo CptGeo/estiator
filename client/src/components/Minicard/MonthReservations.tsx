@@ -24,8 +24,8 @@ export default function MonthReservations() {
         }
     }, [currentReservations, lastMonthReservations]);
 
-    const indicatorClass = isUndefined(change) || change === 0 ? "text-warning" : change > 0 ? "text-success" : "text-danger";
-    const indicatorPrepend = isUndefined(change) ? "" : change === 0 ? "~" : change > 0 ? "+" : "";
+    const indicatorClass = !change ? "text-warning" : change > 0 ? "text-success" : "text-danger";
+    const indicatorPrepend = !change ? "-" : change === 0 ? "~" : change > 0 ? "+" : "";
 
     return <Minicard
         description={currentReservations}
