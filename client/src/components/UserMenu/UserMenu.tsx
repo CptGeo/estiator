@@ -1,7 +1,7 @@
 import { Dropdown, DropdownItem, DropdownMenu } from "@heroui/react";
 import type { ReactElement } from "react";
 import { useAuth } from "@context/Authentication";
-import type { UserData } from "@core/types";
+import { UserRole, UserRoleName, type UserData } from "@core/types";
 import UserAvatar from "@components/Avatar/User";
 
 type Props = {
@@ -22,7 +22,7 @@ export default function UserMenu(props: Props): ReactElement {
         <DropdownMenu aria-label="User Actions" variant="flat">
           <DropdownItem key="profile" className="h-14 gap-2">
             <p className="font-bold">Signed in as</p>
-            <p className="font-bold">Administrator</p>
+            <p>{UserRoleName?.[auth?.user?.userRole || UserRole.UNKNOWN]}</p>
           </DropdownItem>
           <DropdownItem onPress={handleLogout} key="logout" color="danger">
             Log Out

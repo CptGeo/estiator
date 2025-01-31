@@ -10,7 +10,6 @@ import EmailField from "@components/Fields/Email";
 import TimeField from "@components/Fields/Time";
 import { parseTime, today } from "@internationalized/date";
 import TablesSelect from "../Fields/Tables";
-import { useAuth } from "@context/Authentication";
 import { useMutation } from "@tanstack/react-query";
 import { postReq } from "@core/utils";
 import { useNotification } from "@context/Notification";
@@ -20,8 +19,6 @@ type Props = ReturnType<typeof useDisclosure>;
 export default function CreateReservationModal(props: Props) {
   const { isOpen, onOpenChange, onClose } = props;
   const { notify } = useNotification();
-  const auth = useAuth();
-  const user = auth?.user;
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (data: unknown) => postReq("reservations", data),
     onSuccess: () => notify({ message: "Reservations has been created successfully!", type: "success" }),
@@ -40,8 +37,10 @@ export default function CreateReservationModal(props: Props) {
     const data = {
       date: values.date.toString(),
       persons: values.persons,
-      createdBy: { id: user ? user.id : null },
-      createdFor: { id: user ? user.id : null },
+      email: values.email,
+      name: values.name,
+      phone: values.phone,
+      surname: values.surname,
       ...(values.table && { table: { id: Number(values.table) } }),
       time: parseTime(values.time).toString(),
       status: 0,

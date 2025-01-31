@@ -47,25 +47,6 @@ public class User extends PropertyPrinter {
     @JsonIgnore
     private Short statusValue;
 
-    public User(String name, String surname, String email, String phone, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
-    }
-
-    public User(String name, String surname, String email, String phone, String password, String userRole) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
-        this.userRole = userRole;
-    }
-
-    public User() {}
-
     @PostLoad
     @SuppressWarnings("unused")
     void fillTransientStatus() {
@@ -89,11 +70,11 @@ public class User extends PropertyPrinter {
     @JsonIgnoreProperties(value = { "user" })
     private List<Table> tables;
 
-    @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = { "table", "user" })
     private List<Reservation> createdReservations;
 
-    @OneToMany(mappedBy = "createdFor", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "createdFor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnoreProperties(value = { "table", "user" })
     private List<Reservation> referredReservations;
 
@@ -101,6 +82,25 @@ public class User extends PropertyPrinter {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
     @JsonIgnoreProperties(value = { "user" })
     private List<Schedule> schedules;
+
+    public User(String name, String surname, String email, String phone, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+    }
+
+    public User(String name, String surname, String email, String phone, String password, String userRole) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.userRole = userRole;
+    }
+
+    public User() {}
 
     private Long getId() {
         return id;

@@ -42,16 +42,28 @@ public class Reservation extends PropertyPrinter {
   private Timestamp createdDate;
 
   @ManyToOne
-  @JoinColumn(name = "created_by_user_id", referencedColumnName = "id", nullable = true)
+  @JoinColumn(name = "created_by_user_id", referencedColumnName = "id")
   @JsonIgnoreProperties(value = { "tables", "reservations", "createdReservations", "referredReservations" })
   @JsonProperty(value = "createdBy")
   private User createdBy;
 
   @ManyToOne
-  @JoinColumn(name = "created_for_user_id", referencedColumnName = "id", nullable = true)
+  @JoinColumn(name = "created_for_user_id", referencedColumnName = "id")
   @JsonIgnoreProperties(value = { "tables", "reservations", "createdReservations", "referredReservations" })
   @JsonProperty(value = "createdFor")
   private User createdFor;
+
+
+  public Reservation(Date date, Time time, ReservationStatus status, Table table, User createdBy, User createdFor) {
+    this.date = date;
+    this.time = time;
+    this.status = status;
+    this.table = table;
+    this.createdBy = createdBy;
+    this.createdFor = createdFor;
+  }
+
+  public Reservation() {}
 
   @PostLoad
   @SuppressWarnings("unused")

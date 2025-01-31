@@ -1,25 +1,24 @@
 package com.kalyvianakis.estiator.io.controller;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
+import com.kalyvianakis.estiator.io.dto.ReservationRequest;
+import com.kalyvianakis.estiator.io.enums.ReservationStatus;
+import com.kalyvianakis.estiator.io.enums.UserStatus;
+import com.kalyvianakis.estiator.io.model.User;
+import com.kalyvianakis.estiator.io.service.UserService;
+import com.kalyvianakis.estiator.io.utils.JwtHelper;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.kalyvianakis.estiator.io.component.patcher.ReservationPatcher;
 import com.kalyvianakis.estiator.io.model.Reservation;
 import com.kalyvianakis.estiator.io.service.ReservationService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @CrossOrigin
@@ -32,8 +31,44 @@ public class ReservationController {
   @Autowired
   ReservationPatcher reservationPatcher;
 
+  @Autowired
+  JwtHelper jwtHelper;
+
+  @Autowired
+  UserService userService;
+
   @PostMapping
-  public ResponseEntity<Reservation> add(@RequestBody Reservation reservation) {
+  public ResponseEntity<Reservation> add(@RequestBody ReservationRequest request, @RequestHeader(name = "Authorization") String token) throws ResourceNotFoundException, AccessDeniedException {
+      Reservation reservation = new Reservation();
+      String createdByEmail = jwtHelper.extractUsername(token.substring(7));
+      User createdBy = userService.getOneByEmail(createdByEmail);
+      reservation.setCreatedBy(createdBy);
+
+      if (userService.existsByEmail(request.getEmail())) {
+          // assign existing user to reservation, if email exists
+          reservation.setCreatedFor(userService.getOneByEmail(request.getEmail()));
+      } else {
+          // create a new guest user and assign to reservation
+          User user = new User();
+          user.setName(request.getName());
+          user.setSurname(request.getSurname());
+          user.setEmail(request.getEmail());
+          if (request.getPhone() != null) {
+              user.setPhone(request.getPhone());
+          }
+          user.setUserRole("ROLE_GUEST");
+          user.setStatus(UserStatus.Active);
+          user.setStatusValue(UserStatus.Active.getLabel());
+          reservation.setCreatedFor(userService.saveAndFlush(user));
+      }
+
+      reservation.setDate(request.getDate());
+      reservation.setPersons(request.getPersons());
+      reservation.setStatus(request.getStatus());
+      reservation.setStatusValue(request.getStatus().getLabel());
+      reservation.setTable(request.getTable());
+      reservation.setTime(request.getTime());
+
       return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.save(reservation));
   }
 

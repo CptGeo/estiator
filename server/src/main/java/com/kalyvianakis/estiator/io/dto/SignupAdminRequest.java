@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public class SignupAdminRequest extends SignupRequest {
     @NotBlank(message = "User role cannot be blank")
-    String userRole;
+    private String userRole;
 
     public String getUserRole() {
         return userRole;
