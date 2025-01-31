@@ -34,7 +34,10 @@ public class TableController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Table>> get() {
+    public ResponseEntity<?> get(@RequestParam(name = "capacity", required = false) Boolean count) {
+        if (count != null && count) {
+            return ResponseEntity.ok().body(tableService.getTotalCapacity());
+        }
         return ResponseEntity.ok().body(tableService.get());
     }
 
