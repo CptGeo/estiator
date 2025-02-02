@@ -1,65 +1,153 @@
-<em>Work in progress...</em>
+> [!CAUTION]  
+> This repository is a work in progress and is not yet stable. Do not use it in any production system.
+&nbsp;
+
+
+<div style="display:flex; gap: 5px; margin-bottom:55px;" align="center">
+  <img src="https://img.shields.io/badge/v5.6-%233178c6?style=for-the-badge&label=typescript">
+  <img src="https://img.shields.io/badge/v5.4-%23ffd747?style=for-the-badge&label=vite">
+  <img src="https://img.shields.io/badge/v18.3-%23007fa2?style=for-the-badge&label=react">
+  <img src="https://img.shields.io/badge/v2.6-%23d03bf3?style=for-the-badge&label=heroui"/>
+  <img src="https://img.shields.io/badge/v3.4-%23a1f4fb?style=for-the-badge&label=tailwindcss">
+</div>
+&nbsp;
 
 <p align="center">
    <a href="https://estiator.io" target="_blank">
-      <img src="https://github.com/user-attachments/assets/acf1e356-fa42-4743-a637-76100558da7d" width="300" />
+      <img src=".assets/logo.png" width="250" />
    </a>
 </p>
-<p align="center">
+<h6 align="center">
   The <strong>open source</strong> platform for managing <strong>Restaurants</strong> and other <strong>Food & Beverage</strong> businesses. 
-</p>
+</h6>
 
----
+&nbsp;
 
-<p align="center">
-<img src="https://img.shields.io/badge/v5.6-%233178c6?style=for-the-badge&label=typescript">
-<img src="https://img.shields.io/badge/v5.4-%23ffd747?style=for-the-badge&label=vite">
-<img src="https://img.shields.io/badge/v18.3-%23007fa2?style=for-the-badge&label=react">
-<img src="https://img.shields.io/badge/v2.4-%23d03bf3?style=for-the-badge&label=nextui"/>
-<img src="https://img.shields.io/badge/v3.4-%23a1f4fb?style=for-the-badge&label=tailwindcss">
+## About the project
 
-</p>
+##### General 
+[Estiator.io](https://estiator.io) is a full-stack web application that will be submitted as part of a master thesis. The intention of the creation of this piece of software is to offer a complete management solution for businesses related to the F&B (Food & Beverage) industry. 
 
-<p align="center">
-  <a href="https://estiator.io" target="_blank">Estiator.io</a> is the <strong>open source</strong> solution when it comes to managing an FnB business! You can install it on your infrastracture and start managing reservations, tables and more! (not really right now, but let's stay positive :v:)
-</p>
+[See screenshots](#screenshots)
 
-![alt text](.assets/demo.gif)
+##### Tech
+The project uses [**ReactJS 18**](https://react.dev/) with [**HeroUI 2**](https://www.heroui.com/) components library for the client. The server side is implemented using [**Java 22**](https://www.java.com/en/) with [**Spring Boot 3.3** ](https://spring.io/projects/spring-boot). For the persistence, [**MySQL 8**](https://www.mysql.com/) is chosen.
 
-## :rocket: Quickstart
+
+## Development Setup
+You can follow steps below to install the dependencies on your system and run the application.
 
 ### Prerequisites 
 In order to start this application, you will need the following: 
 
-- **Node.js** runtime v &ge; 20 (download [here](https://nodejs.org/en))
+- **NodeJS** runtime v &ge; 20 (download [here](https://nodejs.org/en))
 - **Git** (download [here](https://git-scm.com/downloads))
-- **Mockoon** (download [here](https://mockoon.com/))
+- **Java 22** (download [here](https://www.oracle.com/java/technologies/javase/jdk22-archive-downloads.html))
+- **MySQL 8** (download [here](https://dev.mysql.com/downloads/installer/))
 
-To run the application, follow these steps: 
+
+### Client
+
+Make sure you have **NodeJS** and **Git** installed on your machine. Start a command line on any directory and execute the commands below.
+
 ```shell
-
-# Open a terminal (Command prompt or PowerShell for Windows, Terminal for MacOS or Linux)
-
-# Clone the repository
+# 1. Clone the repository
 git clone https://github.com/CptGeo/estiator
-
-# Navigate to the project directory (note: currently only client is supported)
-cd estiator.io/client
-
-# Install client dependencies
-npm i
-
-# Run application
-npm run dev
-
-# Congrats! The application is running!
 ```
 
-Last step, is to start the mock server.
+```shell
+# 2. Navigate to the project directory
+cd estiator.io/client
+```
 
-- Start **Mockoon**
-- Click on `File->Open local environment`
-- Select the `mockoon.json` from the `client` folder of the project directory 
-- Hit the ![alt text](.assets/play-button.png) button and start the mock server
+```shell
+# 3. Install client dependencies
+npm i
+```
+```shell
+# 4. Run the application
+npm run dev
+```
 
-Done!
+### Server
+
+Make sure you have **Java 22** and **MySQL 8** are installed correctly on your machine.
+
+#### Create Database (todo: Add script to create database automatically)
+
+Connect to your database (or use a Database Management System tool) and execute the following query:
+
+```sql
+CREATE DATABASE `estiator` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+```
+
+#### Populate Database
+
+Go to the project root directory. The file `db.sql` contains the main structure and also some dummy data to begin with. Import `db.sql` to the created database.
+
+#### Setup Spring Boot
+**Spring Boot** requires some information before you can start the server. Go to `server` directory of the project and then open `src\main\resources\application.properties` file. You will need to provide information for the database **username** and **password**: 
+
+```properties
+# Provide database information (replace given values with your own)
+spring.datasource.url=jdbc:mysql://localhost:3306/estiator 
+spring.datasource.username=root
+spring.datasource.password=root
+```
+
+```properties
+# Provide a base64 encoded string to be used as the secret key for the JWT signature.
+app.jwt-secret=
+```
+
+#### Run server
+
+After installing the necessary dependencies and setting up the server with all necessary information, you can now run the app by following the below steps (being in the project root): 
+
+```shell
+# 1. Navigate to the server directory
+cd estiator.io/server
+```
+
+```shell
+# 2. Run using gradlew
+./gradlew bootRun
+```
+
+
+## Manual testing
+
+Below there are credentials for the default created users of the application. You can use either of them to test the client functionality. 
+
+Note that `Admin` role has access to every possible API and function, while `Moderator` is a limited role and does not have access to certain functions:
+
+| email                 | password | role      |
+|-----------------------|----------|-----------|
+| admin@estiator.io     | 12341234 | Admin     |
+| moderator@estiator.io | 12341234 | Moderator |
+
+
+## Screenshots
+
+To provide a glimpse of the app's functionality, here are some images from the admin `Dashboard`.
+
+**Login page**
+<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo login page" src=".assets/demo_login_page.png" />
+
+**Register page**
+<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo register page" src=".assets/demo_register_page.png" />
+
+**Dashboard page**
+<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo dashboard" src=".assets/demo_dashboard.png" />
+
+**Reservations Management page**
+<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Reservations Management" src=".assets/demo_reservations_management.png" />
+
+**Tables Management page**
+<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Tables Management" src=".assets/demo_tables_management.png" />
+
+**Employees Management page**
+<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Employees Management" src=".assets/demo_employees_management.png" />
+
+**Customers Management page**
+<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Customers Management" src=".assets/demo_customers_management.png" />
