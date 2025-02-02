@@ -1,6 +1,7 @@
-<em>Work in progress...</em>
+> [!CAUTION]  
+> This repository is a work in progress and is not yet stable. Do not use it in any production system.
+&nbsp;
 
----
 
 <div style="display:flex; gap: 5px; margin-bottom:55px;" align="center">
   <img src="https://img.shields.io/badge/v5.6-%233178c6?style=for-the-badge&label=typescript">
@@ -72,7 +73,7 @@ npm run dev
 
 Make sure you have **Java 22** and **MySQL 8** are installed correctly on your machine.
 
-##### Create Database (todo: Add script to create database automatically)
+#### Create Database (todo: Add script to create database automatically)
 
 Connect to your database (or use a Database Management System tool) and execute the following query:
 
@@ -80,11 +81,11 @@ Connect to your database (or use a Database Management System tool) and execute 
 CREATE DATABASE `estiator` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 ```
 
-##### Populate Database
+#### Populate Database
 
 Go to the project root directory. The file `db.sql` contains the main structure and also some dummy data to begin with. Import `db.sql` to the created database.
 
-##### Setup Spring Boot
+#### Setup Spring Boot
 **Spring Boot** requires some information before you can start the server. Go to `server` directory of the project and then open `src\main\resources\application.properties` file. You will need to provide information for the database **username** and **password**: 
 
 ```properties
@@ -99,7 +100,7 @@ spring.datasource.password=root
 app.jwt-secret=
 ```
 
-##### Run server
+#### Run server
 
 After installing the necessary dependencies and setting up the server with all necessary information, you can now run the app by following the below steps (being in the project root): 
 
