@@ -5,10 +5,15 @@ import { getReq } from "@core/utils";
 
 const queryKey = "tables";
 
-export default function useQueryTables(interval?: number): UseQueryResult<TableData[] | undefined> {
+type Params = {
+  count?: boolean;
+  capacity?: boolean;
+}
+
+export default function useQueryTables<T = TableData[]>(interval?: number, params?: Params): UseQueryResult<T | undefined> {
   const query = useQuery({
-    queryKey: [queryKey],
-    queryFn: () => getReq<TableData[]>(queryKey),
+    queryKey: [queryKey, params],
+    queryFn: () => getReq<T>(queryKey, { params }),
     // stop refetching after encountering error
     refetchInterval: (query) => query.state.fetchFailureCount > 0 ? false : interval
   });

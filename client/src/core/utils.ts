@@ -69,6 +69,14 @@ export function isUndefined(value: unknown): value is undefined {
     return typeof value === "undefined";
 }
 
+export function isInteger(value: unknown): value is number {
+    return Number(value) === value && value % 1 === 0;
+}
+
+export function isFloat(value: unknown): value is number {
+    return Number(value) === value && value % 1 !== 0;
+}
+
 /**
  * Converts a time string into a formatted time string with hours and minutes.
  *

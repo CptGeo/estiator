@@ -2,7 +2,7 @@ import IconButton from "@components/IconButton/IconButton";
 import TickIcon from "@components/Icons/TickIcon";
 import type { ReservationData } from "@core/types";
 import { ReservationStatus } from "@core/types";
-import { getFullName, patchReq, sortByTimeAscending } from "@core/utils";
+import toParsedTimeString, { getFullName, patchReq, sortByTimeAscending } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
 import { getLocalTimeZone, isToday, parseDate } from "@internationalized/date";
 import { Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
@@ -43,11 +43,8 @@ export default function ReservationWidget() {
         <TableCell className="w-[35%]" textValue="Name">
           {getFullName(reservation.createdFor)}
         </TableCell>
-        <TableCell className="w-[30%]" textValue="Date">
-          {reservation.date}
-        </TableCell>
         <TableCell className="w-[25%]" textValue="Time">
-          {reservation.time}
+          {toParsedTimeString(reservation.time)}
         </TableCell>
         <TableCell className="w-[10%]" textValue="Table">
           {reservation?.table?.label ?? "-"}
@@ -74,21 +71,18 @@ export default function ReservationWidget() {
   }
 
   return (
-    <Card className="py-4">
+    <Card className="py-2" shadow="sm">
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-        <p className="text-tiny uppercase font-bold">status</p>
-        <small className="text-default-500"></small>
-        <h4>Upcoming reservations</h4>
+        <h4 className="text-foreground-600">Current reservations</h4>
       </CardHeader>
       <CardBody className="overflow-visible py-2">
         <Table
-          hideHeader={false}
+          removeWrapper
           isStriped
-          {...filtered && { bottomContent: <small><Link className="text-primary" to={"reservations-management"}>View all reservations</Link></small> }}
+          {...filtered && { bottomContent: <small><Link className="text-primary px-1" to={"reservations-management"}>View all reservations</Link></small> }}
         >
           <TableHeader>
             <TableColumn>Name</TableColumn>
-            <TableColumn>Date</TableColumn>
             <TableColumn>Time</TableColumn>
             <TableColumn>Table</TableColumn>
             <TableColumn>Actions</TableColumn>

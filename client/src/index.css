@@ -35,6 +35,15 @@ body {
   .navigation-link.active {
     @apply border-inherit;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 }
 
 .grid-outer-bg {

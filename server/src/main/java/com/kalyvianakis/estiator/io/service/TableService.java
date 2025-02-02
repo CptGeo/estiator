@@ -49,6 +49,10 @@ public class TableService implements ITableService {
         tableRepository.deleteById(id);
     }
 
+    public Long getTotalCapacity() {
+        return tableRepository.getTotalCapacity();
+    }
+
     @Override
     public Boolean exists(Long id) {
         return tableRepository.existsById(id);
@@ -58,4 +62,6 @@ public class TableService implements ITableService {
     public Boolean notExists(Long id) {
         return !this.exists(id);
     }
+
+    public Long count() { return tableRepository.count(); }
 }

@@ -9,8 +9,8 @@ export default function PageHeader(props: Props): ReactElement {
   const { heading, subheading } = props;
 
   return (
-    <div className="mb-5">
-      <h1 className="text-3xl tracking-wide drop-shadow-md font-light mb-0">{heading}</h1>
+    <div className="mb-5 bg-content1 p-3 rounded-lg">
+      <h1 className="text-lg tracking-wide drop-shadow-md mb-0">{heading}</h1>
       {subheading && <p className="mt-0 text-xs text-slate-400">{subheading}</p>}
     </div>
   );

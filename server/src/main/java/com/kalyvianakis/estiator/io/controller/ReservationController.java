@@ -1,6 +1,8 @@
 package com.kalyvianakis.estiator.io.controller;
 
 import java.nio.file.AccessDeniedException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.kalyvianakis.estiator.io.dto.ReservationRequest;
@@ -12,6 +14,7 @@ import com.kalyvianakis.estiator.io.utils.JwtHelper;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,9 +80,21 @@ public class ReservationController {
       return ResponseEntity.ok().body(reservationService.get(id));
   }
 
-  @GetMapping()
-  public ResponseEntity<List<Reservation>> get() {
-    return ResponseEntity.ok().body(reservationService.get());
+  @GetMapping
+  public ResponseEntity<?> get(@RequestParam(name = "count", required = false) Boolean count, @RequestParam(name = "dateFrom", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,  @RequestParam(name = "dateTo", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
+      if (from != null && to != null && count != null && count) {
+          return ResponseEntity.ok().body(reservationService.getCountByDateBetween(from, to));
+      }
+
+      if (to != null && count != null && count) {
+          return ResponseEntity.ok().body(reservationService.getCountByDateLessThanEqual(to));
+      }
+
+      if (count != null && count) {
+          return ResponseEntity.ok().body(reservationService.getCount());
+      }
+
+      return ResponseEntity.ok().body(reservationService.get());
   }
 
   @DeleteMapping("/{id}")
