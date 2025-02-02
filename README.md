@@ -2,29 +2,25 @@
 
 ---
 
-<div style="display:flex; gap: 5px; margin-bottom: 30px;" align="center">
-<img src="https://img.shields.io/badge/v5.6-%233178c6?style=for-the-badge&label=typescript">
-<img src="https://img.shields.io/badge/v5.4-%23ffd747?style=for-the-badge&label=vite">
-<img src="https://img.shields.io/badge/v18.3-%23007fa2?style=for-the-badge&label=react">
-<img src="https://img.shields.io/badge/v2.6-%23d03bf3?style=for-the-badge&label=heroui"/>
-<img src="https://img.shields.io/badge/v3.4-%23a1f4fb?style=for-the-badge&label=tailwindcss">
-
+<div style="display:flex; gap: 5px; margin-bottom:55px;" align="center">
+  <img src="https://img.shields.io/badge/v5.6-%233178c6?style=for-the-badge&label=typescript">
+  <img src="https://img.shields.io/badge/v5.4-%23ffd747?style=for-the-badge&label=vite">
+  <img src="https://img.shields.io/badge/v18.3-%23007fa2?style=for-the-badge&label=react">
+  <img src="https://img.shields.io/badge/v2.6-%23d03bf3?style=for-the-badge&label=heroui"/>
+  <img src="https://img.shields.io/badge/v3.4-%23a1f4fb?style=for-the-badge&label=tailwindcss">
 </div>
+&nbsp;
 
 <p align="center">
    <a href="https://estiator.io" target="_blank">
-      <img src="https://github.com/user-attachments/assets/acf1e356-fa42-4743-a637-76100558da7d" width="250" />
+      <img src=".assets/logo.png" width="250" />
    </a>
 </p>
 <h6 align="center">
   The <strong>open source</strong> platform for managing <strong>Restaurants</strong> and other <strong>Food & Beverage</strong> businesses. 
 </h6>
 
-<!-- <p align="center">
-  <a href="https://estiator.io" target="_blank">Estiator.io</a> is the <strong>open source</strong> solution when it comes to managing an FnB business! You can install it on your infrastracture and start managing reservations, tables and more! (not really right now, but let's stay positive :v:)
-</p> -->
-
-<!-- ![alt text](.assets/demo.gif) -->
+&nbsp;
 
 ## About the project
 
