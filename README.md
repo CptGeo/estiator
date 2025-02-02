@@ -25,7 +25,7 @@
 ## About the project
 
 ##### General 
-[Estiator.io](https://estiator.io) is a full-stack web application that will be submitted as part of a master thesis. The intention of the creation of this piece of software is to offer a complete management solution for businesses related to the F&B (Food & Beverage) industry. [See screenshots](#screenshots)
+[Estiator.io](https://estiator.io) is a full-stack web application that will be submitted as part of a master thesis. The intention of the creation of this piece of software is to offer a complete management solution for businesses related to the F&B (Food & Beverage) industry. [See screenshots.](#screenshots)
 
 ##### Tech
 The project uses [**ReactJS 18**](https://react.dev/) with [**HeroUI 2**](https://www.heroui.com/) components library for the client. The server side is implemented using [**Java 22**](https://www.java.com/en/) with [**Spring Boot 3.3** ](https://spring.io/projects/spring-boot). For the persistence, [**MySQL 8**](https://www.mysql.com/) is chosen.
