@@ -2,7 +2,7 @@
 
 ---
 
-<div style="display:flex; gap: 5px; margin-bottom: 30px; justify-content:center">
+<div style="display:flex; gap: 5px; margin-bottom: 30px;" align="center">
 <img src="https://img.shields.io/badge/v5.6-%233178c6?style=for-the-badge&label=typescript">
 <img src="https://img.shields.io/badge/v5.4-%23ffd747?style=for-the-badge&label=vite">
 <img src="https://img.shields.io/badge/v18.3-%23007fa2?style=for-the-badge&label=react">
