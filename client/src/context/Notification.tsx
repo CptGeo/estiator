@@ -14,7 +14,7 @@ type NotificationValue = {
     notify: (notification: Notification) => void;
 }
 
-const NotificationContext = createContext<NotificationValue>({ notify: () => {} });
+const NotificationContext = createContext<NotificationValue>({ notify: () => { } });
 
 /** The amount of time for notifications to stay visible notification center */
 const NOTIFICATION_DELAY = 5000;
@@ -32,13 +32,13 @@ function NotificationProvider(props: PropsWithChildren) {
     return <NotificationContext.Provider value={{ notify }}>
         {props.children}
 
-        {notifications.length > 0 && <div key={"primary"} className="w-[450px] flex items-center fixed z-[99999] bottom-[15px] right-[15px]">
+        {notifications.length > 0 && <div key={"primary"} className="w-150px sm:w-[450px] flex items-center fixed z-[99999] bottom-[15px] right-[15px]">
             <div className="w-full flex flex-col-reverse gap-2">
                 {notifications.map((item, index) => {
                     return (<TimeLimited key={index} delay={NOTIFICATION_DELAY}>
-                        <Alert color={item.type ?? "default"} description={item.description} title={item.message} className="shadow-xl" />
+                        <Alert key={index} color={item.type ?? "default"} classNames={{ title: "text-tiny sm:text-sm" }} description={item.description} title={item.message} className="shadow-xl" />
                     </TimeLimited>
-                )
+                    )
                 })}
             </div>
         </div>}
