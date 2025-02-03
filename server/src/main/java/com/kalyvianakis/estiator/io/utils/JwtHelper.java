@@ -21,7 +21,7 @@ public class JwtHelper {
     @Autowired
     ApplicationProperties applicationProperties;
 
-    private static final Integer MINUTES = 60;
+    private static final Integer DAYS = 3;
 
     public String generateToken(User user) {
         Instant now = Instant.now();
@@ -30,7 +30,7 @@ public class JwtHelper {
                 .subject(authUser.getEmail())
                 .claim("user", authUser)
                 .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plus(MINUTES, ChronoUnit.MINUTES)))
+                .expiration(Date.from(now.plus(DAYS, ChronoUnit.DAYS)))
                 .signWith(SignatureAlgorithm.HS256, applicationProperties.getJwtSecret())
                 .compact();
     }
