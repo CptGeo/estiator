@@ -7,7 +7,6 @@ import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from
 import toParsedTimeString, { getFullName, patchReq } from "@core/utils";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
-import InputField from "@components/Fields/Input";
 import NumberField from "@components/Fields/Number";
 import CalendarPlainField from "@components/Fields/CalendarPlain";
 import { parseDate, parseTime } from "@internationalized/date";
@@ -16,6 +15,7 @@ import EmailField from "@components/Fields/Email";
 import { ReservationStatusOption } from "@components/Fields/ReservationStatus";
 import ReservationStatusField from "@components/Fields/ReservationStatus";
 import { useNotification } from "@context/Notification";
+import InputField from "@components/Fields/Input";
 
 type Props = {
   reservation: ReservationData;
@@ -34,6 +34,10 @@ export default function EditReservationModal(props: Props) {
       persons: reservation.persons.toString(),
       table: String(reservation?.table?.id),
       status: reservation.status,
+      name: reservation.createdFor.name,
+      surname: reservation.createdFor.surname,
+      phone: reservation.createdFor.phone,
+      email: reservation.createdFor.email,
       inform: false
     }
   });
@@ -85,7 +89,7 @@ export default function EditReservationModal(props: Props) {
                 <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                   <NumberField isRequired label="Persons" name="persons" />
                   <TablesSelect label="Select table" name="table" />
-                  <InputField isReadOnly isDisabled label="Name" name="name"  />
+                  <InputField isReadOnly isDisabled label="Name" name="name" />
                   <InputField isReadOnly isDisabled label="Surname" name="surname" />
                   <EmailField isReadOnly isDisabled label="Email" name="email" />
                   <InputField isReadOnly isDisabled label="Phone" name="phone" />
