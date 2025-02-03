@@ -1,7 +1,6 @@
 import TextareaField from "@components/Fields/Textarea";
 import type { SettingsData } from "@core/types";
 import { Tabs, Tab, Button } from "@heroui/react";
-import { DevTool } from "@hookform/devtools";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import SettingsListItem from "./Item";
@@ -62,7 +61,6 @@ export default function SettingsList(props: { settings: SettingsData }) {
                 <Button color="default" onPress={handleReset} isDisabled={!isDirty}>Reset</Button>
               </div>
             </form>
-            <DevTool control={methods.control} />
           </FormProvider>
         </Tab>
       </Tabs>
