@@ -126,7 +126,12 @@ export type CompanyData = {
   description: string;
 };
 
-export type SettingsData = Record<string, string>;
+export enum AppSetting {
+  BusinessName = "businessName",
+  BusinessDescription = "businessDescription"
+}
+
+export type SettingsData = Record<AppSetting, string>;
 
 /** Represents statuses of reservations */
 export enum ReservationStatus {
