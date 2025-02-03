@@ -1,10 +1,10 @@
 import type { ReactElement } from "react";
-import { Input } from "@heroui/react";
+import { Textarea } from "@heroui/react";
 import type { RegisterOptions } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 import type { ControlledInputProps } from "@components/Fields/types";
 
-export default function InputField(props: ControlledInputProps): ReactElement {
+export default function TextareaField(props: ControlledInputProps): ReactElement {
     const { name, defaultValue, isRequired, rules, maxLength, minLength, label, ...otherProps } = props;
     const methods = useFormContext();
 
@@ -38,21 +38,20 @@ export default function InputField(props: ControlledInputProps): ReactElement {
             control={methods.control}
             name={name}
             rules={defaultRules}
-            defaultValue={defaultValue}
-            render={({ field: { onChange, onBlur, value, ref }, fieldState: { error, invalid } }) => (
-                <Input
+            render={({ field: { onChange, onBlur, value, ref }, fieldState: { error, invalid } }) => {
+                return <Textarea
                     {...otherProps}
                     onChange={onChange}
                     onBlur={onBlur}
                     ref={ref}
-                    defaultValue={value}
+                    defaultValue={defaultValue}
                     value={value}
                     errorMessage={error?.message}
                     isInvalid={invalid}
                     isRequired={isRequired}
                     label={label}
                 />
-            )}
+            }}
         />
     );
 }

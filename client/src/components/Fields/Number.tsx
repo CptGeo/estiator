@@ -18,7 +18,7 @@ export default function NumberField(props: Omit<ControlledInputProps, "type">): 
         } },
         validate: {
             isNumeric: (value: unknown) => {
-                return Number.isNaN(value) ? "Please provide a valid numeric value" : true;
+                return isNaN(Number(value)) ? "Please provide a valid numeric value" : true;
             }
         }
     }
