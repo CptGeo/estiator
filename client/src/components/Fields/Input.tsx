@@ -1,13 +1,12 @@
 import type { ReactElement } from "react";
 import { Input } from "@heroui/react";
 import type { RegisterOptions } from "react-hook-form";
-import { useFormContext } from "react-hook-form";
-import { getError, hasError } from "@core/utils";
+import { Controller, useFormContext } from "react-hook-form";
 import type { ControlledInputProps } from "@components/Fields/types";
 
 export default function InputField(props: ControlledInputProps): ReactElement {
-    const { name, isRequired, rules, maxLength, minLength, label, ...otherProps } = props;
-    const { register, formState } = useFormContext();
+    const { name, defaultValue, isRequired, rules, maxLength, minLength, label, ...otherProps } = props;
+    const methods = useFormContext();
 
     const { validate, ...restRules } = rules || {};
 
@@ -35,13 +34,25 @@ export default function InputField(props: ControlledInputProps): ReactElement {
     }
 
     return (
-        <Input
-            {...otherProps}
-            {...register(name, defaultRules)}
-            label={label}
-            isRequired={isRequired}
-            isInvalid={hasError(formState, name)}
-            errorMessage={getError(formState, name)}
+        <Controller
+            control={methods.control}
+            name={name}
+            rules={defaultRules}
+            defaultValue={defaultValue}
+            render={({ field: { onChange, onBlur, value, ref }, fieldState: { error, invalid } }) => (
+                <Input
+                    {...otherProps}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    ref={ref}
+                    defaultValue={value}
+                    value={value}
+                    errorMessage={error?.message}
+                    isInvalid={invalid}
+                    isRequired={isRequired}
+                    label={label}
+                />
+            )}
         />
     );
 }
