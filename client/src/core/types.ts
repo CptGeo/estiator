@@ -126,6 +126,8 @@ export type CompanyData = {
   description: string;
 };
 
+export type SettingsData = Record<string, string>;
+
 /** Represents statuses of reservations */
 export enum ReservationStatus {
   CANCELLED = "Cancelled",
