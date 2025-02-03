@@ -21,6 +21,7 @@ import CommonLayout from "@layouts/Common";
 import { UserRole } from "@core/types";
 import NotificationProvider from "@context/Notification";
 import CustomerManagementPage from "@pages/CustomerManagement/CustomerManagement";
+import SettingsPage from "@pages/Settings/Settings";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
           {
             path: "employees-management/:id",
             element: <EmployeeDetails />
+          },
+          {
+            path: "settings",
+            element: <SettingsPage />
           }
         ]
       },
