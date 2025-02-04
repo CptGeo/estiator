@@ -2,7 +2,7 @@ import IconButton from "@components/IconButton/IconButton";
 import TickIcon from "@components/Icons/TickIcon";
 import type { ReservationData } from "@core/types";
 import { ReservationStatus } from "@core/types";
-import toParsedTimeString, { getFullName, patchReq, sortByTimeAscending } from "@core/utils";
+import { getFullName, patchReq, sortByTimeAscending, toParsedTimeString } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
 import { getLocalTimeZone, isToday, parseDate } from "@internationalized/date";
 import { Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
@@ -73,7 +73,7 @@ export default function ReservationWidget() {
   return (
     <Card className="py-2" shadow="sm">
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-        <h4 className="text-foreground-600">Current reservations</h4>
+        <h4 className="text-foreground-600">Current daily reservations</h4>
       </CardHeader>
       <CardBody className="overflow-visible py-2">
         <Table
