@@ -71,6 +71,7 @@ public class ReservationController {
       reservation.setStatusValue(request.getStatus().getLabel());
       reservation.setTable(request.getTable());
       reservation.setTime(request.getTime());
+      reservation.setDuration(request.getDuration());
 
       return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.save(reservation));
   }

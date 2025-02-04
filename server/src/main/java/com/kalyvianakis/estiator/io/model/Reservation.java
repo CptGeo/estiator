@@ -33,6 +33,8 @@ public class Reservation extends PropertyPrinter {
 
   private Integer persons;
 
+  private Integer duration;
+
   @ManyToOne
   @JoinColumn(name = "table_id", referencedColumnName = "id", nullable = true)
   @JsonIgnoreProperties(value = { "user", "reservations" })
@@ -160,5 +162,13 @@ public class Reservation extends PropertyPrinter {
 
   public void setCreatedFor(User user) {
     this.createdFor = user;
+  }
+
+  public Integer getDuration() {
+    return duration;
+  }
+
+  public void setDuration(Integer duration) {
+    this.duration = duration;
   }
 }

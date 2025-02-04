@@ -26,6 +26,8 @@ public class ReservationRequest {
 
     private String phone;
 
+    private Integer duration;
+
     private ReservationStatus status;
 
     public Date getDate() {
@@ -106,5 +108,13 @@ public class ReservationRequest {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 }
