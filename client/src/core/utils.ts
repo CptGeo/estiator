@@ -83,8 +83,14 @@ export function isFloat(value: unknown): value is number {
  * @param time - The time string to be parsed, expected in a format that can be parsed by `parseTime`.
  * @returns A string representing the parsed time in "HH:MM" format.
  */
-export default function toParsedTimeString(time: string): string {
+export function toParsedTimeString(time: string): string {
     return `${parseTime(time).hour.toString().padStart(2, "0")}:${parseTime(time).minute.toString().padStart(2, "0")}`;
+}
+
+export function toDurationString(duration: number): string {
+    const hours = Math.floor(duration / 60);
+    const minutes = Math.floor(duration % 60);
+    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
 }
 
 /**

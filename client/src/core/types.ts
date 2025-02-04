@@ -146,6 +146,7 @@ export interface ReservationData extends HasId {
   date: string, // "YYYY-MM-DD"
   time: string,
   status: ReservationStatus,
+  duration: number,
   createdBy: UserData,
   createdFor: UserData,
   persons: number,
