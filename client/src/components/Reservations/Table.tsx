@@ -7,12 +7,13 @@ import ReservationsActions from "@components/Reservations/Actions";
 import useQueryReservations from "@hooks/useQueryReservations";
 import AddIcon from "@components/Icons/AddIcon";
 import CreateReservationModal from "@components/Modal/CreateReservation";
-import { getFullName } from "@core/utils";
+import { getFullName, toDurationString } from "@core/utils";
 
 const columns = [
   { name: "NAME", uid: "name" },
   { name: "DATE", uid: "date" },
   { name: "TIME", uid: "time" },
+  { name: "DURATION", uid: "duration" },
   { name: "TABLE", uid: "table" },
   { name: "PERSONS", uid: "persons" },
   { name: "STATUS", uid: "status" },
@@ -92,6 +93,14 @@ export default function ReservationsTable() {
             className="min-w-20"
             value={time.toString().slice(0, -3)}
             aria-label="Time"
+            isReadOnly
+          />
+        </TableCell>
+        <TableCell className="w-1/12" textValue="Duration">
+          <Input
+            className="min-w-20"
+            value={toDurationString(reservation.duration)}
+            aria-label="Duration"
             isReadOnly
           />
         </TableCell>
