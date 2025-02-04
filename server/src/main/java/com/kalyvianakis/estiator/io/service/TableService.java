@@ -1,5 +1,6 @@
 package com.kalyvianakis.estiator.io.service;
 
+import com.kalyvianakis.estiator.io.dto.TableIDResponse;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.Reservation;
 import com.kalyvianakis.estiator.io.model.Table;
@@ -8,7 +9,10 @@ import com.kalyvianakis.estiator.io.repository.TableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TableService implements ITableService {
@@ -64,4 +68,15 @@ public class TableService implements ITableService {
     }
 
     public Long count() { return tableRepository.count(); }
+
+    public List<TableIDResponse> getIdsFreeByDateAndTimeAndDuration(LocalDate date, LocalTime time, Integer duration) {
+        List<Table> tables = tableRepository.getIdsFreeByDateAndTimeAndDuration(date, time, duration);
+        return tables.stream().map(this::convertToTableIDResponse).collect(Collectors.toList());
+    }
+
+    public TableIDResponse convertToTableIDResponse(Table table) {
+        TableIDResponse t = new TableIDResponse();
+        t.setId(table.getId());
+        return t;
+    }
 }

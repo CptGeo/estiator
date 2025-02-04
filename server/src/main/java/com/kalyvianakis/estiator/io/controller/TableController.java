@@ -6,10 +6,14 @@ import com.kalyvianakis.estiator.io.model.MessageResponse;
 import com.kalyvianakis.estiator.io.model.Table;
 import com.kalyvianakis.estiator.io.service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -34,7 +38,13 @@ public class TableController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> get(@RequestParam(name = "count", required = false) Boolean count, @RequestParam(name = "capacity", required = false) Boolean capacity) {
+    public ResponseEntity<?> get(
+            @RequestParam(name = "count", required = false) Boolean count,
+            @RequestParam(name = "capacity", required = false) Boolean capacity,
+            @RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam(name = "time", required = false) @DateTimeFormat(pattern = "HH:mm", iso = DateTimeFormat.ISO.TIME) LocalTime time,
+            @RequestParam(name = "duration", required = false) Integer duration
+    ) {
         if (count != null && count) {
             return ResponseEntity.ok().body(tableService.count());
         }
@@ -42,6 +52,11 @@ public class TableController {
         if (capacity != null && capacity) {
             return ResponseEntity.ok().body(tableService.getTotalCapacity());
         }
+
+        if (date != null && time != null && duration != null) {
+            return ResponseEntity.ok().body(tableService.getIdsFreeByDateAndTimeAndDuration(date, time, duration));
+        }
+
         return ResponseEntity.ok().body(tableService.get());
     }
 
