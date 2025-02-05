@@ -43,7 +43,8 @@ public class TableController {
             @RequestParam(name = "capacity", required = false) Boolean capacity,
             @RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam(name = "time", required = false) @DateTimeFormat(pattern = "HH:mm", iso = DateTimeFormat.ISO.TIME) LocalTime time,
-            @RequestParam(name = "duration", required = false) Integer duration
+            @RequestParam(name = "duration", required = false) Integer duration,
+            @RequestParam(name = "available", required = false) Boolean available
     ) {
         if (count != null && count) {
             return ResponseEntity.ok().body(tableService.count());
@@ -53,8 +54,12 @@ public class TableController {
             return ResponseEntity.ok().body(tableService.getTotalCapacity());
         }
 
+        if (date != null && time != null && duration != null && available != null && available) {
+            return ResponseEntity.ok().body(tableService.getFreeAndAvailableByDateAndTimeAndDuration(date, time, duration));
+        }
+
         if (date != null && time != null && duration != null) {
-            return ResponseEntity.ok().body(tableService.getIdsFreeByDateAndTimeAndDuration(date, time, duration));
+            return ResponseEntity.ok().body(tableService.getFreeByDateAndTimeAndDuration(date, time, duration));
         }
 
         return ResponseEntity.ok().body(tableService.get());
