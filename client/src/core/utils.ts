@@ -82,15 +82,26 @@ export function isFloat(value: unknown): value is number {
  *
  * @param time - The time string to be parsed, expected in a format that can be parsed by `parseTime`.
  * @returns A string representing the parsed time in "HH:MM" format.
+ * @deprecated Will be renamedto `formatTime`
  */
-export function toParsedTimeString(time: string): string {
+export function toParsedTimeString(time?: string): string {
+    if (!time) { return "00:00" }
     return `${parseTime(time).hour.toString().padStart(2, "0")}:${parseTime(time).minute.toString().padStart(2, "0")}`;
 }
 
 export function toDurationString(duration: number): string {
-    const hours = Math.floor(duration / 60);
-    const minutes = Math.floor(duration % 60);
+    const hours = Math.floor(duration / 3600);
+    const minutes = Math.floor((duration % 3600) / 60);
     return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+}
+
+export function parseDurationToSeconds(duration: string): number {
+    if (!duration) { return 0; }
+
+    const t = parseTime(duration);
+    const SECONDS = 60;
+    const MINUTES = 60;
+    return (t.hour * MINUTES * SECONDS) + (t.minute * SECONDS) + t.second;
 }
 
 /**
@@ -187,7 +198,7 @@ export function formatDateTime(date: CalendarDateTime): string {
 }
 
 /**
- * Formats CalendarDateTime to `dd/mm/yyyy hh:ss` style
+ * Formats CalendarDate to `dd/mm/yyyy` style
  */
 export function formatDate(date: CalendarDate): string {
     const year = date.year;
