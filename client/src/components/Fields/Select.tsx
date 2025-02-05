@@ -5,7 +5,7 @@ import type { ControlledSelectProps } from "@components/Fields/types";
 import { isUndefined } from "@core/utils";
 
 export default function SelectField(props: ControlledSelectProps): ReactElement {
-  const { children, defaultSelectedKeys, name, ...rest } = props;
+  const { children, defaultSelectedKeys, onChange: onChangeCustom, name, ...rest } = props;
 
   return (
     <Controller defaultValue={defaultSelectedKeys} name={name} render={({ field: { onChange, onBlur, value, ref } }) => {
@@ -14,7 +14,12 @@ export default function SelectField(props: ControlledSelectProps): ReactElement 
         <Select
           {...rest}
           name={name}
-          onChange={onChange}
+          onChange={(e) => {
+            onChange(e);
+            if (onChangeCustom) {
+              onChangeCustom(e);
+            }
+          }}
           onBlur={onBlur}
           ref={ref}
           selectedKeys={val}
