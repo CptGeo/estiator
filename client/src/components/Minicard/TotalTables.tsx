@@ -3,7 +3,7 @@ import TableIcon from "@components/Icons/TableIcon";
 import useQueryTables from "@hooks/useQueryTables";
 
 export default function TotalTables() {
-    const { data: count } = useQueryTables<number>(3000, { count: true } );
+    const { data: count } = useQueryTables<number>(3000, {}, { count: true } );
 
     return <Minicard
         headline="Total Tables"
