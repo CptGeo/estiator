@@ -19,6 +19,7 @@ export default function Status(props: Props): ReactElement {
         [ReservationStatus.COMPLETED]: "primary",
         [ReservationStatus.PENDING]: "warning",
         [ReservationStatus.CONFIRMED]: "success",
+        [ReservationStatus.BOOKED]: "secondary"
     }
 
     return <Chip color={Color[status]} variant="flat">{status}</Chip>
