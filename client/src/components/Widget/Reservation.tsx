@@ -4,8 +4,8 @@ import type { ReservationData } from "@core/types";
 import { ReservationStatus } from "@core/types";
 import { getFullName, postReq, sortByTimeAscending, toParsedTimeString } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
-import { getLocalTimeZone, isToday, parseDate } from "@internationalized/date";
-import { Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
+import { getLocalTimeZone, isToday, parseDate, parseTime } from "@internationalized/date";
+import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ import { useNotification } from "@context/Notification";
 import Status from "@components/Status/Reservation/Status";
 
 export default function ReservationWidget() {
-  const { data: reservations } = useQueryReservations(5000);
+  const { data: reservations } = useQueryReservations(3000);
   const queryClient = useQueryClient();
   const { notify } = useNotification();
 
@@ -48,14 +48,20 @@ export default function ReservationWidget() {
   function renderRow(reservation: ReservationData) {
     return (
       <TableRow>
-        <TableCell className="w-[35%]" textValue="Name">
+        <TableCell className="w-[20%]" textValue="Name">
           {getFullName(reservation.createdFor)}
         </TableCell>
-        <TableCell className="w-[25%]" textValue="Time">
+        <TableCell className="w-[5%]" textValue="Start Time">
           {toParsedTimeString(reservation.time)}
+        </TableCell>
+        <TableCell className="w-[5%]" textValue="End Time">
+          {parseTime(reservation.endTime).toString().slice(0, -3)}
         </TableCell>
         <TableCell className="w-[10%]" textValue="Table">
           {reservation?.table?.label ?? "-"}
+        </TableCell>
+        <TableCell className="w-[5%]" textValue="Persons">
+          {reservation.persons}
         </TableCell>
         <TableCell className="w-[5%]" textValue="Status">
           <Status status={reservation.status} />
@@ -94,33 +100,28 @@ export default function ReservationWidget() {
   }
 
   return (
-    <Card className="py-2" shadow="sm">
-      <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-        <h4 className="text-foreground-600">Current daily reservations</h4>
-      </CardHeader>
-      <CardBody className="overflow-visible py-2">
-        <Table
-          removeWrapper
-          isStriped
-          {...filtered && { bottomContent: <small><Link className="text-primary px-1" to={"reservations-management"}>View all reservations</Link></small> }}
-        >
-          <TableHeader>
-            <TableColumn>Name</TableColumn>
-            <TableColumn>Time</TableColumn>
-            <TableColumn>Table</TableColumn>
-            <TableColumn>Status</TableColumn>
-            <TableColumn>Actions</TableColumn>
-          </TableHeader>
-          <TableBody
-            items={filtered || []}
-            isLoading={typeof filtered === "undefined"}
-            loadingContent={<Spinner label="Loading..." />}
-            emptyContent={<p>No reservations to display</p>}
-          >
-            {(item) => renderRow(item)}
-          </TableBody>
-        </Table>
-      </CardBody>
-    </Card>
+    <Table
+      topContent={<h4 className="text-foreground-600">Current daily reservations</h4>}
+      isStriped
+      {...filtered && { bottomContent: <small><Link className="text-primary px-1" to={"reservations-management"}>View all reservations</Link></small> }}
+    >
+      <TableHeader>
+        <TableColumn>Name</TableColumn>
+        <TableColumn>Start Time</TableColumn>
+        <TableColumn>End time</TableColumn>
+        <TableColumn>Table</TableColumn>
+        <TableColumn>Persons</TableColumn>
+        <TableColumn>Status</TableColumn>
+        <TableColumn>Actions</TableColumn>
+      </TableHeader>
+      <TableBody
+        items={filtered || []}
+        isLoading={typeof filtered === "undefined"}
+        loadingContent={<Spinner label="Loading..." />}
+        emptyContent={<p>No reservations to display</p>}
+      >
+        {(item) => renderRow(item)}
+      </TableBody>
+    </Table>
   );
 }
