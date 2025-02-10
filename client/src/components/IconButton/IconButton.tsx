@@ -3,7 +3,7 @@ import type { ButtonProps } from "@heroui/react";
 import { Button, Tooltip } from "@heroui/react";
 import type { PressEvent } from "@react-types/shared";
 import type { ReactElement } from "react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type Props = ButtonProps & {
   withConfirmation?: boolean;
@@ -15,6 +15,7 @@ type Props = ButtonProps & {
 export default function IconButton(props: Props): ReactElement {
   const { withConfirmation, children, onPress, confirmationTooltip, confirmationDelay = 3000, tooltip, ...otherProps } = props;
   const [confirmed, setConfirmed] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout>();
 
   function handlePress(event: PressEvent): void {
     if (!onPress) {
@@ -28,9 +29,13 @@ export default function IconButton(props: Props): ReactElement {
 
     if (confirmed) {
       onPress(event);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        setConfirmed(false);
+      }
     } else {
       setConfirmed(true);
-      setTimeout(() => {
+      timeoutRef.current = setTimeout(() => {
         setConfirmed(false);
       }, confirmationDelay);
     }
