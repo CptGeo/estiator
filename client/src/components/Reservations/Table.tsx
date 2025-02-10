@@ -1,27 +1,29 @@
 import { useCallback, useMemo, useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Spinner, Pagination, Button, useDisclosure } from "@heroui/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Spinner, Pagination, Button, useDisclosure, Tooltip } from "@heroui/react";
 import { parseDate, parseTime } from "@internationalized/date";
 import Status from "@components/Status/Reservation/Status";
-import type { ReservationData } from "@core/types";
+import { ReservationStatus, type ReservationData } from "@core/types";
 import ReservationsActions from "@components/Reservations/Actions";
 import useQueryReservations from "@hooks/useQueryReservations";
 import AddIcon from "@components/Icons/AddIcon";
 import CreateReservationModal from "@components/Modal/CreateReservation";
-import { getFullName, toDurationString } from "@core/utils";
+import { getFullName } from "@core/utils";
+import WarningIcon from "@components/Icons/WarningIcon";
 
 const columns = [
   { name: "NAME", uid: "name" },
   { name: "DATE", uid: "date" },
-  { name: "TIME", uid: "time" },
-  { name: "DURATION", uid: "duration" },
+  { name: "START TIME", uid: "startTime" },
+  { name: "END TIME", uid: "endTime" },
   { name: "TABLE", uid: "table" },
   { name: "PERSONS", uid: "persons" },
   { name: "STATUS", uid: "status" },
-  { name: "ACTIONS", uid: "actions" },
+  { name: "ALERT", uid: "alert" },
+  { name: "ACTIONS", uid: "actions" }
 ];
 
 export default function ReservationsTable() {
-  const { data: reservations } = useQueryReservations(500);
+  const { data: reservations } = useQueryReservations(1000);
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
   const pages = reservations ? Math.ceil(reservations.length / rowsPerPage) : 0;
@@ -66,65 +68,59 @@ export default function ReservationsTable() {
   const renderRow = useCallback((reservation: ReservationData) => {
     const date = parseDate(reservation.date);
     const time = parseTime(reservation.time);
+    const endTime = parseTime(reservation.endTime);
+    const hasConflicts = reservation.conflicts > 0;
+    const isPending = reservation.status === ReservationStatus.PENDING;
 
     return (
-      <TableRow>
-        <TableCell className="w-[25%]" textValue="Date">
+      <TableRow key={reservation.id.toString()}>
+        <TableCell className="w-4/12" textValue="Date">
           <User
             avatarProps={{ radius: "full", size: "sm" }}
             classNames={{
-              description: "text-default-500",
+              description: "text-default-500"
             }}
             description={reservation.createdFor?.email || reservation.createdFor?.phone}
             name={getFullName(reservation.createdFor)}
           />
         </TableCell>
-        <TableCell className="w-[20%]" textValue="Date">
+        <TableCell className="w-2/12" textValue="Date">
           <DatePicker
             isReadOnly
             aria-label="Date"
-            className="max-w-xs"
+            className={`max-w-xs`}
+            isInvalid={hasConflicts && isPending}
             granularity="day"
             value={date}
           />
         </TableCell>
         <TableCell className="w-1/12" textValue="Time">
           <Input
-            className="min-w-20"
-            value={time.toString().slice(0, -3)}
-            aria-label="Time"
-            isReadOnly
+              className="min-w-20"
+              value={time.toString().slice(0, -3)}
+              aria-label="Time"
+              isReadOnly
+              isInvalid={hasConflicts && isPending}
           />
         </TableCell>
-        <TableCell className="w-1/12" textValue="Duration">
+        <TableCell className="w-1/12" textValue="End Time">
           <Input
             className="min-w-20"
-            value={toDurationString(reservation.duration)}
-            aria-label="Duration"
+            value={endTime.toString().slice(0, -3)}
+            aria-label="End time"
             isReadOnly
+            isInvalid={hasConflicts && isPending}
           />
         </TableCell>
-        {reservation?.table !== null ? (
-          <TableCell className="w-1/12" textValue="Table">
-            <Input
-              className="min-w-16"
-              value={`${reservation.table.label.toString()} (${
-                reservation.table.capacity
-              })`}
-              aria-label="Table"
-              isReadOnly
-            />
-          </TableCell>
-        ) : (
-          <TableCell className="w-1/12">
-            <Input
-              className="min-w-16"
-              value="-"
-              aria-label="Table"
-              isReadOnly
-            />
-          </TableCell>
-        )}
+        <TableCell className="w-1/12" textValue="Table">
+          <Input
+            className="min-w-16"
+            value={`${reservation.table ? reservation.table.label.toString() : "-"} ${ reservation.table ? `(${reservation.table.capacity})` : ""}`}
+            aria-label="Table"
+            isReadOnly
+            isInvalid={hasConflicts && isPending}
+          />
+        </TableCell>
         <TableCell className="w-[5%]" textValue="Persons">
           <Input
             className="min-w-10"
@@ -136,8 +132,16 @@ export default function ReservationsTable() {
         <TableCell className="w-1/12" textValue="Status">
           <Status status={reservation.status} />
         </TableCell>
+        <TableCell  className="w-1/12 text-center" textValue="Alert">
+          {hasConflicts && isPending && <Tooltip closeDelay={0} color="danger" content="Reservation overlaps with an active or pending reservation on the same date, time, and table.">
+            <Button isIconOnly variant="flat" color="danger" className="p-1"><WarningIcon className="text-xl" /></Button>
+          </Tooltip>}
+          {hasConflicts && !isPending && <Tooltip closeDelay={0} color="warning" content="Reservation overlaps with a pending reservation on the same date, time, and table.">
+            <Button isIconOnly variant="flat" color="warning" className="p-1"><WarningIcon className="text-xl" /></Button>
+          </Tooltip>}
+        </TableCell>
         <TableCell className="w-1/12" textValue="Actions">
-          <div>
+          <div className="relative">
             <ReservationsActions reservation={reservation} />
           </div>
         </TableCell>
@@ -158,7 +162,7 @@ export default function ReservationsTable() {
           {(column) => (
             <TableColumn
               key={column.uid}
-              align={column.uid === "actions" ? "center" : "start"}
+              align={["actions", "alert"].includes(column.uid) ? "center" : "start"}
             >
               {column.name}
             </TableColumn>
