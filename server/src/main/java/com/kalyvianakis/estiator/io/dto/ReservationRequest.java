@@ -6,11 +6,13 @@ import com.kalyvianakis.estiator.io.model.User;
 
 import java.sql.Time;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class ReservationRequest {
-    private Date date;
+    private LocalDate date;
 
-    private Time time;
+    private LocalTime time;
 
     private Integer persons;
 
@@ -30,19 +32,19 @@ public class ReservationRequest {
 
     private ReservationStatus status;
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public Time getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 

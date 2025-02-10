@@ -3,15 +3,22 @@ package com.kalyvianakis.estiator.io.model;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 
+import com.kalyvianakis.estiator.io.repository.ReservationRepository;
 import com.kalyvianakis.estiator.io.utils.PropertyPrinter;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.SourceType;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @jakarta.persistence.Table(name = "reservations")
@@ -20,9 +27,9 @@ public class Reservation extends PropertyPrinter {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Date date;
+  private LocalDate date;
 
-  private Time time;
+  private LocalTime time;
 
   @Basic
   @Column(name = "status")
@@ -34,6 +41,9 @@ public class Reservation extends PropertyPrinter {
   private Integer persons;
 
   private Integer duration;
+
+  @Transient
+  private Integer conflicts;
 
   @ManyToOne
   @JoinColumn(name = "table_id", referencedColumnName = "id", nullable = true)
@@ -55,8 +65,11 @@ public class Reservation extends PropertyPrinter {
   @JsonProperty(value = "createdFor")
   private User createdFor;
 
+  @Transient
+  private LocalTime endTime;
 
-  public Reservation(Date date, Time time, ReservationStatus status, Table table, User createdBy, User createdFor) {
+
+  public Reservation(LocalDate date, LocalTime time, ReservationStatus status, Table table, User createdBy, User createdFor) {
     this.date = date;
     this.time = time;
     this.status = status;
@@ -73,6 +86,7 @@ public class Reservation extends PropertyPrinter {
       if (statusValue >= 0) {
           this.status = ReservationStatus.of(statusValue);
       }
+      endTime = this.time.plusSeconds(duration);
   }
 
   @PrePersist
@@ -92,19 +106,19 @@ public class Reservation extends PropertyPrinter {
     this.id = id;
   }
 
-  public Date getDate() {
+  public LocalDate getDate() {
     return date;
   }
 
-  public void setDate(Date date) {
+  public void setDate(LocalDate date) {
     this.date = date;
   }
 
-  public Time getTime() {
+  public LocalTime getTime() {
     return time;
   }
 
-  public void setTime(Time time) {
+  public void setTime(LocalTime time) {
     this.time = time;
   }
 
@@ -170,5 +184,20 @@ public class Reservation extends PropertyPrinter {
 
   public void setDuration(Integer duration) {
     this.duration = duration;
+  }
+
+  public Integer getConflicts() {
+    return conflicts;
+  }
+  public void setConflicts(Integer conflicts) {
+    this.conflicts = conflicts;
+  }
+
+  public LocalTime getEndTime() {
+    return endTime;
+  }
+
+  public void setEndTime(LocalTime endTime) {
+    this.endTime = endTime;
   }
 }
