@@ -1,9 +1,8 @@
 import type { useDisclosure } from "@heroui/react";
 import ConfirmationModal from "@components/Modal/Confirmation";
 import type { ReservationData } from "@core/types";
-import { ReservationStatus } from "@core/types";
 import type { Key } from "react";
-import { getFullName, patchReq } from "@core/utils";
+import { getFullName, postReq } from "@core/utils";
 import { useMutation } from "@tanstack/react-query";
 import { useNotification } from "@context/Notification";
 
@@ -16,7 +15,7 @@ export default function ConfirmReservationModal(props: Props) {
   const { notify } = useNotification();
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (id: Key) => patchReq(`/reservations/${id}`, { status: ReservationStatus.CONFIRMED }),
+    mutationFn: (id: Key) => postReq(`/reservations/${id}/confirm`),
     onSettled: () => disclosureProps.onClose(),
     onSuccess: () => notify({ message: "Reservation has been confirmed!", type: "success" }),
     onError: () => notify({ message: "Reservation could not be confirmed.", type: "danger" })
