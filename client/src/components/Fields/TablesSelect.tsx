@@ -1,6 +1,6 @@
 import type { SelectProps } from "@heroui/react";
 import { SelectItem } from "@heroui/react";
-import { useMemo, type ReactElement } from "react";
+import { type ReactElement } from "react";
 import useQueryTables from "@hooks/useQueryTables";
 import SelectField from "@components/Fields/Select";
 import type { TableData } from "@core/types";
@@ -28,7 +28,6 @@ export default function TablesSelectField(props: Props): ReactElement {
   return (
     <SelectField
       {...restProps}
-      isRequired
       isLoading={isLoading}>
       {tables ? tables.map((table: TableData) => {
         const label = `${table.label} (${table.capacity}) `
