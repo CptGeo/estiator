@@ -75,10 +75,9 @@ public class TableService implements ITableService {
     }
 
     public List<Table> getFreeAndAvailableByDateAndTimeAndDuration(LocalDate date, LocalTime time, Integer duration) {
-        List<ReservationStatus> statuses = List.of(ReservationStatus.Confirmed);
-        return tableRepository.getFreeByDateAndTimeAndDurationInStatus(date, time, duration, statuses);
+        List<Short> excludeStatuses = List.of(ReservationStatus.Confirmed.getLabel(), ReservationStatus.Booked.getLabel());
+        return tableRepository.getFreeByDateAndTimeAndDurationExcludeStatus(date, time, duration, excludeStatuses);
     }
-
 
     public TableIDResponse convertToTableIDResponse(Table table) {
         TableIDResponse t = new TableIDResponse();
