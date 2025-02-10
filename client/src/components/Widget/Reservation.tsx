@@ -2,7 +2,7 @@ import IconButton from "@components/IconButton/IconButton";
 import TickIcon from "@components/Icons/TickIcon";
 import type { ReservationData } from "@core/types";
 import { ReservationStatus } from "@core/types";
-import { getFullName, patchReq, sortByTimeAscending, toParsedTimeString } from "@core/utils";
+import { getFullName, postReq, sortByTimeAscending, toParsedTimeString } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
 import { getLocalTimeZone, isToday, parseDate } from "@internationalized/date";
 import { Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
@@ -10,15 +10,23 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useNotification } from "@context/Notification";
+import Status from "@components/Status/Reservation/Status";
 
 export default function ReservationWidget() {
   const { data: reservations } = useQueryReservations(5000);
   const queryClient = useQueryClient();
   const { notify } = useNotification();
 
-  const { mutate } = useMutation({
-    mutationFn: (data: ReservationData) => patchReq(`reservations/${data.id}`, data),
-    onSettled: () =>  queryClient.invalidateQueries({ queryKey: ["reservations"] }),
+  const { mutate: book } = useMutation({
+    mutationFn: (data: ReservationData) => postReq(`reservations/${data.id}/book`),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["reservations"] }),
+    onSuccess: () => notify({ message: "Reservation has been booked!", type: "success" }),
+    onError: () => notify({ message: "Reservation could not be booked.", type: "danger" })
+  });
+
+  const { mutate: complete } = useMutation({
+    mutationFn: (data: ReservationData) => postReq(`reservations/${data.id}/complete`),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["reservations"] }),
     onSuccess: () => notify({ message: "Reservation has been completed!", type: "success" }),
     onError: () => notify({ message: "Reservation could not be completed.", type: "danger" })
   });
@@ -34,7 +42,7 @@ export default function ReservationWidget() {
     const parsed = parseDate(reservation.date);
 
     /** TODO: Change GMT with local time */
-    return isToday(parsed, getLocalTimeZone()) && reservation.status === ReservationStatus.CONFIRMED;
+    return isToday(parsed, getLocalTimeZone()) && [ReservationStatus.CONFIRMED, ReservationStatus.BOOKED].includes(reservation.status);
   }
 
   function renderRow(reservation: ReservationData) {
@@ -49,22 +57,37 @@ export default function ReservationWidget() {
         <TableCell className="w-[10%]" textValue="Table">
           {reservation?.table?.label ?? "-"}
         </TableCell>
-        <TableCell className="w-[5%]" textValue="Time">
-          <IconButton
-            withConfirmation
-            confirmationTooltip="Confirm action"
-            tooltip="Set as completed"
-            onPress={() => mutate({
-              ...reservation,
-              status: ReservationStatus.COMPLETED,
-            })}
-            isIconOnly
-            size="sm"
-            color="success"
-            variant="solid"
-          >
-            <TickIcon className="text-lg text-content1" />
-          </IconButton>
+        <TableCell className="w-[5%]" textValue="Status">
+          <Status status={reservation.status} />
+        </TableCell>
+        <TableCell className="w-[5%]" textValue="Actions">
+          {reservation.status === ReservationStatus.CONFIRMED ?
+            <IconButton
+              withConfirmation
+              confirmationTooltip="Confirm action"
+              tooltip="Reservation has arrived?"
+              onPress={() => book(reservation)}
+              isIconOnly
+              size="sm"
+              color="success"
+              variant="solid"
+            >
+              <TickIcon className="text-lg text-content1" />
+            </IconButton>
+            : <IconButton
+              withConfirmation
+              confirmationTooltip="Confirm action"
+              tooltip="Reservation completed?"
+              onPress={() => complete(reservation)}
+              isIconOnly
+              size="sm"
+              color="success"
+              variant="solid"
+            >
+              <TickIcon className="text-lg text-content1" />
+            </IconButton>
+
+          }
         </TableCell>
       </TableRow>
     );
@@ -85,6 +108,7 @@ export default function ReservationWidget() {
             <TableColumn>Name</TableColumn>
             <TableColumn>Time</TableColumn>
             <TableColumn>Table</TableColumn>
+            <TableColumn>Status</TableColumn>
             <TableColumn>Actions</TableColumn>
           </TableHeader>
           <TableBody
