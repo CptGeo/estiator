@@ -1,5 +1,5 @@
-import type { useDisclosure } from "@heroui/react";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
+import type { CalendarDate, useDisclosure } from "@heroui/react";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SelectItem } from "@heroui/react";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import InputField from "@components/Fields/Input";
@@ -9,12 +9,28 @@ import CheckboxField from "@components/Fields/Checkbox";
 import EmailField from "@components/Fields/Email";
 import TimeField from "@components/Fields/Time";
 import { parseTime, today } from "@internationalized/date";
-import TablesSelect from "../Fields/Tables";
+import TablesSelectField from "../Fields/TablesSelect";
 import { useMutation } from "@tanstack/react-query";
-import { postReq } from "@core/utils";
+import { parseDurationToSeconds, postReq } from "@core/utils";
 import { useNotification } from "@context/Notification";
+import SelectField from "@components/Fields/Select";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 type Props = ReturnType<typeof useDisclosure>;
+
+type FormValues = {
+  date: CalendarDate;
+  persons: number;
+  email: string;
+  name: string;
+  phone: string;
+  surname: string;
+  duration: string;
+  table?: { id: number }
+  time: string;
+  status: number;
+  statusValue: number;
+}
 
 export default function CreateReservationModal(props: Props) {
   const { isOpen, onOpenChange, onClose } = props;
@@ -25,7 +41,7 @@ export default function CreateReservationModal(props: Props) {
     onError: () => notify({ message: "Reservations could not be created.", type: "danger" })
   })
 
-  const methods = useForm({
+  const methods = useForm<FormValues>({
     mode: "all",
     defaultValues: {
       date: today("GMT").add({ days: 1 }),
@@ -41,13 +57,13 @@ export default function CreateReservationModal(props: Props) {
       name: values.name,
       phone: values.phone,
       surname: values.surname,
+      duration: parseDurationToSeconds(values.duration),
       ...(values.table && { table: { id: Number(values.table) } }),
       time: parseTime(values.time).toString(),
       status: 0,
       statusValue: 0,
     };
     await mutateAsync(data);
-
     methods.reset();
     onClose();
   }
@@ -70,13 +86,23 @@ export default function CreateReservationModal(props: Props) {
               </ModalHeader>
               <ModalBody>
               <div className="gap-4 md:flex">
-                <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2">
+                <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2 flex flex-col gap-2">
                   <CalendarPlainField name="date" showMonthAndYearPickers />
                   <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
+                  <SelectField name="duration" label="Duration" isRequired>
+                    <SelectItem key="00:30">00:30</SelectItem>
+                    <SelectItem key="01:00">01:00</SelectItem>
+                    <SelectItem key="01:30">01:30</SelectItem>
+                    <SelectItem key="02:00">02:00</SelectItem>
+                    <SelectItem key="02:30">02:30</SelectItem>
+                    <SelectItem key="03:00">03:00</SelectItem>
+                    <SelectItem key="03:30">03:30</SelectItem>
+                    <SelectItem key="04:00">04:00</SelectItem>
+                  </SelectField>
                 </div>
                 <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                   <NumberField isRequired label="Persons" name="persons" />
-                  <TablesSelect label="Select table" name="table" />
+                  <TablesSelectField label="Select table" name="table" />
                   <InputField isRequired label="Name" name="name" />
                   <InputField isRequired label="Surname" name="surname" />
                   <EmailField isRequired label="Email" name="email" />
@@ -95,6 +121,7 @@ export default function CreateReservationModal(props: Props) {
                 </Button>
               </ModalFooter>
               </form>
+              <ReactQueryDevtools buttonPosition="top-right" />
             </FormProvider>
           )}
         </ModalContent>
