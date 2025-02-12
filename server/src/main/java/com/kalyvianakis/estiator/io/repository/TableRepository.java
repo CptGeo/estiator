@@ -59,4 +59,20 @@ public interface TableRepository extends JpaRepository<Table, Long> {
             @Param(value = "duration") Integer duration,
             @Param(value= "statuses") List<Short> status
     );
+
+    /*
+    * The following method will check the real time status of the table.
+    * Returns `true` if it is currently occupied, `false` otherwise.
+    * */
+    @Query(
+            value = "SELECT \n"
+                + "   CASE \n"
+                + "       WHEN r.table_id IS NULL THEN FALSE\n"
+                + "       ELSE TRUE\n"
+                + "   END AS occupied\n"
+                + "FROM tables AS t\n"
+                + "LEFT JOIN reservations r \n"
+                + "   ON t.id = r.table_id AND r.status = 3\n"
+                + "WHERE t.id = :id", nativeQuery = true)
+    Long isOccupied(@Param(value = "id") Long id);
 }
