@@ -163,6 +163,7 @@ export interface TableData extends HasId {
   x: number,
   y: number,
   color: string,
+  occupied?: boolean,
   user?: Partial<UserData>
 };
 
