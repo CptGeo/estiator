@@ -101,7 +101,10 @@ export default function ReservationWidget() {
 
   return (
     <Table
-      topContent={<h4 className="text-foreground-600">Current daily reservations</h4>}
+      topContent={<div>
+        <h4 className="text-foreground-600">Current daily reservations</h4>
+        <p className="mt-0 text-xs text-slate-400">View the upcoming and active reservations in real time.</p>
+      </div>}
       isStriped
       {...filtered && { bottomContent: <small><Link className="text-primary px-1" to={"reservations-management"}>View all reservations</Link></small> }}
     >
