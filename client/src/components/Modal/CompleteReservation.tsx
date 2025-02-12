@@ -10,15 +10,15 @@ type Props = {
   reservation: ReservationData;
 } & ReturnType<typeof useDisclosure>;
 
-export default function CancelReservationModal(props: Props) {
+export default function CompleteReservationModal(props: Props) {
   const { reservation, ...disclosureProps } = props;
   const { notify } = useNotification();
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (id: Key) => postReq(`/reservations/${id}/cancel`),
+    mutationFn: (id: Key) => postReq(`/reservations/${id}/complete`),
     onSettled: () => disclosureProps.onClose(),
-    onSuccess: () => notify({ message: "Reservation has been cancelled.", type: "success" }),
-    onError: () =>  notify({ message: "Reservation could not be cancelled.", type: "danger" })
+    onSuccess: () => notify({ message: "Reservation has been completed!", type: "success" }),
+    onError: () => notify({ message: "Reservation could not be completed.", type: "danger" })
   })
 
   async function handleAction(id: Key) {
@@ -28,17 +28,10 @@ export default function CancelReservationModal(props: Props) {
   return (
     <ConfirmationModal
       {...disclosureProps}
-      title="Cancel reservation"
-      cancelText="Abort"
-      confirmText="Cancel reservation"
-      confirmButtonProps={{ color: "danger", isLoading: isPending }}
-      body={
-        <p>
-          The reservation of customer <strong>{getFullName(reservation.createdFor)}</strong> will be cancelled.
-          <br />
-          Are you sure you want to continue?
-      </p>
-      }
+      title="Book reservation"
+      confirmText="Book reservation"
+      confirmButtonProps={{ isLoading: isPending }}
+      body={<p>The reservation of customer <strong>{getFullName(reservation.createdFor)}</strong> will be completed.<br />Are you sure you want to continue?</p>}
       callback={handleAction.bind(null, reservation.id)}
     />
   );

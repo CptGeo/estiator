@@ -7,6 +7,8 @@ type Props = {
     status: ReservationStatus | undefined;
 }
 
+type ChipVariant = "dot" | "solid" | "bordered" | "light" | "flat" | "faded" | "shadow" | undefined;
+
 export default function Status(props: Props): ReactElement {
     const { status } = props;
 
@@ -14,12 +16,13 @@ export default function Status(props: Props): ReactElement {
         return <Chip color="danger" variant="flat">Unknown</Chip>
     }
 
-    const Color: Record<ReservationStatus, Color> = {
-        [ReservationStatus.CANCELLED]: "default",
-        [ReservationStatus.COMPLETED]: "primary",
-        [ReservationStatus.PENDING]: "warning",
-        [ReservationStatus.CONFIRMED]: "success",
+    const chipProps: Record<ReservationStatus, { color: Color, variant?: ChipVariant }> = {
+        [ReservationStatus.CANCELLED]: { color: "default", variant: "flat" },
+        [ReservationStatus.COMPLETED]: { color: "primary", variant: "flat" },
+        [ReservationStatus.PENDING]: { color: "warning", variant: "flat" },
+        [ReservationStatus.CONFIRMED]: { color: "success", variant: "flat" },
+        [ReservationStatus.BOOKED]: { color: "secondary", variant: "flat" }
     }
 
-    return <Chip color={Color[status]} variant="flat">{status}</Chip>
+    return <Chip{...chipProps[status]}>{status}</Chip>
 }

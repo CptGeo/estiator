@@ -1,10 +1,10 @@
 import { useState } from "react";
 import TimeField from "../Fields/Time";
-import TablesSelect from "../Fields/Tables";
+import TablesSelectField from "../Fields/TablesSelect";
 import { ReservationStatus, type ReservationData } from "@core/types";
 import type { useDisclosure } from "@heroui/react";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
-import toParsedTimeString, { getFullName, patchReq } from "@core/utils";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SelectItem } from "@heroui/react";
+import { getFullName, parseDurationToSeconds, patchReq, toDurationString, toParsedTimeString } from "@core/utils";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import NumberField from "@components/Fields/Number";
@@ -16,6 +16,7 @@ import { ReservationStatusOption } from "@components/Fields/ReservationStatus";
 import ReservationStatusField from "@components/Fields/ReservationStatus";
 import { useNotification } from "@context/Notification";
 import InputField from "@components/Fields/Input";
+import SelectField from "@components/Fields/Select";
 
 type Props = {
   reservation: ReservationData;
@@ -35,6 +36,7 @@ export default function EditReservationModal(props: Props) {
       table: String(reservation?.table?.id),
       status: reservation.status,
       name: reservation.createdFor.name,
+      duration: toDurationString(reservation.duration),
       surname: reservation.createdFor.surname,
       phone: reservation.createdFor.phone,
       email: reservation.createdFor.email,
@@ -51,16 +53,17 @@ export default function EditReservationModal(props: Props) {
         table: { id: values.table != "" ? Number(values.table) : null },
         time: parseTime(values.time).toString(),
         status: values.status,
+        duration: parseDurationToSeconds(values.duration),
         inform: values.inform
       };
       await patchReq(`/reservations/${reservation.id}`, { ...data });
       notify({ message: "Reservation has been updated successfully!", type: "success" });
+      onClose();
     } catch (error) {
       console.error(error);
       notify({ message: "Reservation could not be updated.", type: "danger" });
     } finally {
       setLoading(false);
-      onClose();
     }
   }
 
@@ -82,13 +85,23 @@ export default function EditReservationModal(props: Props) {
               </ModalHeader>
               <ModalBody>
               <div className="gap-4 md:flex">
-                <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2">
+                <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2 flex flex-col gap-2">
                   <CalendarPlainField name="date" showMonthAndYearPickers />
                   <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
+                  <SelectField name="duration" label="Duration">
+                    <SelectItem key="00:30">00:30</SelectItem>
+                    <SelectItem key="01:00">01:00</SelectItem>
+                    <SelectItem key="01:30">01:30</SelectItem>
+                    <SelectItem key="02:00">02:00</SelectItem>
+                    <SelectItem key="02:30">02:30</SelectItem>
+                    <SelectItem key="03:00">03:00</SelectItem>
+                    <SelectItem key="03:30">03:30</SelectItem>
+                    <SelectItem key="04:00">04:00</SelectItem>
+                  </SelectField>
                 </div>
                 <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                   <NumberField isRequired label="Persons" name="persons" />
-                  <TablesSelect label="Select table" name="table" />
+                  <TablesSelectField label="Select table" name="table" />
                   <InputField isReadOnly isDisabled label="Name" name="name" />
                   <InputField isReadOnly isDisabled label="Surname" name="surname" />
                   <EmailField isReadOnly isDisabled label="Email" name="email" />
@@ -100,6 +113,7 @@ export default function EditReservationModal(props: Props) {
                 <ReservationStatusOption status={ReservationStatus.PENDING} />
                 <ReservationStatusOption status={ReservationStatus.COMPLETED} />
                 <ReservationStatusOption status={ReservationStatus.CONFIRMED} />
+                <ReservationStatusOption status={ReservationStatus.BOOKED} />
               </ReservationStatusField>
               <CheckboxField label="Inform client about the changes (requires user email)" name="inform" />
               </ModalBody>

@@ -16,11 +16,9 @@ export default function DashboardPage(): ReactElement {
         <TotalTables />
         <TotalCapacity />
       </div>
-      <div className="grid grid-cols-4 md:grid-cols-8 gap-4 p-1">
-        <div className="grid gap-4 col-span-full sm:col-span-6 lg:col-span-4 xl:col-span-3">
-          <div className="h-auto max-w-full rounded-lg">
-            <ReservationWidget />
-          </div>
+      <div className="grid grid-cols-4 md:grid-cols-12 gap-4 p-1">
+        <div className="gap-4 col-span-full sm:col-span-12 md:col-span-12 lg:col-span-10 xl:col-span-6">
+          <ReservationWidget />
         </div>
       </div>
     </>

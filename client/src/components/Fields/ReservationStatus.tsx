@@ -44,6 +44,7 @@ export function ReservationStatusOption({ status } : { status: ReservationStatus
     [ReservationStatus.COMPLETED]: "primary",
     [ReservationStatus.CANCELLED]: "default",
     [ReservationStatus.CONFIRMED]: "success",
+    [ReservationStatus.BOOKED]: "secondary",
     [ReservationStatus.PENDING]: "warning"
   }
 

@@ -6,7 +6,8 @@ public enum ReservationStatus {
   Pending((short) 0), 
   Cancelled((short) 1),
   Confirmed((short) 2),
-  Completed((short) 3);
+  Booked((short) 3),
+  Completed((short) 4);
 
   final private Short label;
 

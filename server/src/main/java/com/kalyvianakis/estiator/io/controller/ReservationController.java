@@ -3,6 +3,8 @@ package com.kalyvianakis.estiator.io.controller;
 import java.nio.file.AccessDeniedException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.kalyvianakis.estiator.io.dto.ReservationRequest;
@@ -71,6 +73,15 @@ public class ReservationController {
       reservation.setStatusValue(request.getStatus().getLabel());
       reservation.setTable(request.getTable());
       reservation.setTime(request.getTime());
+      reservation.setDuration(request.getDuration());
+
+      List<Short> statuses = List.of(ReservationStatus.Confirmed.getLabel());
+
+      Integer conflictsCount = reservationService.countConflictsIncludeStatuses(reservation, statuses);
+      if (conflictsCount > 0) {
+          // @todo: Improve this
+          throw new IllegalArgumentException("Reservation exists for given date, time and table.");
+      }
 
       return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.save(reservation));
   }
@@ -94,7 +105,7 @@ public class ReservationController {
           return ResponseEntity.ok().body(reservationService.getCount());
       }
 
-      return ResponseEntity.ok().body(reservationService.get());
+      return ResponseEntity.ok().body(reservationService.getWithConflicts());
   }
 
   @DeleteMapping("/{id}")
@@ -108,13 +119,67 @@ public class ReservationController {
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<?> patch(@PathVariable Long id, @RequestBody Reservation reservation) throws ResourceNotFoundException {
+  public ResponseEntity<?> patch(@PathVariable Long id, @RequestBody Reservation reservation) throws Exception {
       Reservation current = reservationService.get(id);
 
       reservationPatcher.patch(current, reservation);
       reservationService.save(current);
 
+      // change status if specified on request; Doing after patch and save so that the latest reservation data can be used.
+      // @todo: Check for possibility to implement such functionality straight inside the entity
+      if (reservation.getStatus() != null) {
+          // check the status that the request is assigning to this reservation; Call respective method to change status.
+          switch (reservation.getStatus()) {
+              case ReservationStatus.Pending:
+                  reservationService.pend(current);
+                  break;
+              case ReservationStatus.Cancelled:
+                  reservationService.cancel(current);
+                  break;
+              case ReservationStatus.Booked:
+                  reservationService.book(current);
+                  break;
+              case ReservationStatus.Completed:
+                  reservationService.complete(current);
+                  break;
+              case ReservationStatus.Confirmed:
+                  reservationService.confirm(current);
+                  break;
+              default:
+                  // @todo: Improve this
+                  throw new Exception("Reservation status not acceptable");
+          }
+      }
+
       return ResponseEntity.ok().body(current);
   }
+
+  @PostMapping("/{id}/confirm")
+  public ResponseEntity<?> confirm(@PathVariable Long id) throws Exception {
+      Reservation reservation = reservationService.get(id);
+      reservationService.confirm(reservation);
+      return ResponseEntity.ok().build();
+  }
+
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<?> cancel(@PathVariable Long id) throws ResourceNotFoundException {
+        Reservation reservation = reservationService.get(id);
+        reservationService.cancel(reservation);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/book")
+    public ResponseEntity<?> book(@PathVariable Long id) throws Exception {
+        Reservation reservation = reservationService.get(id);
+        reservationService.book(reservation);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/complete")
+    public ResponseEntity<?> complete(@PathVariable Long id) throws Exception {
+        Reservation reservation = reservationService.get(id);
+        reservationService.complete(reservation);
+        return ResponseEntity.ok().build();
+    }
   
 }

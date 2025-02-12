@@ -136,19 +136,23 @@ export type SettingsData = Record<AppSetting, string>;
 /** Represents statuses of reservations */
 export enum ReservationStatus {
   CANCELLED = "Cancelled",
-  COMPLETED = "Completed",
   PENDING = "Pending",
-  CONFIRMED = "Confirmed"
+  CONFIRMED = "Confirmed",
+  BOOKED = "Booked",
+  COMPLETED = "Completed"
 };
 
 /** Represents reservation data */
 export interface ReservationData extends HasId {
   date: string, // "YYYY-MM-DD"
   time: string,
+  endTime: string,
   status: ReservationStatus,
+  duration: number,
   createdBy: UserData,
   createdFor: UserData,
   persons: number,
+  conflicts: number,
   table: TableData
 };
 
@@ -159,6 +163,7 @@ export interface TableData extends HasId {
   x: number,
   y: number,
   color: string,
+  occupied?: boolean,
   user?: Partial<UserData>
 };
 

@@ -1,5 +1,7 @@
 package com.kalyvianakis.estiator.io.service;
 
+import com.kalyvianakis.estiator.io.dto.TableIDResponse;
+import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.Reservation;
 import com.kalyvianakis.estiator.io.model.Table;
@@ -8,7 +10,10 @@ import com.kalyvianakis.estiator.io.repository.TableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TableService implements ITableService {
@@ -49,6 +54,10 @@ public class TableService implements ITableService {
         tableRepository.deleteById(id);
     }
 
+    public Long isOccupied(Table table) {
+        return tableRepository.isOccupied(table.getId());
+    }
+
     public Long getTotalCapacity() {
         return tableRepository.getTotalCapacity();
     }
@@ -64,4 +73,19 @@ public class TableService implements ITableService {
     }
 
     public Long count() { return tableRepository.count(); }
+
+    public List<Table> getFreeByDateAndTimeAndDuration(LocalDate date, LocalTime time, Integer duration) {
+        return tableRepository.getFreeByDateAndTimeAndDuration(date, time, duration);
+    }
+
+    public List<Table> getFreeAndAvailableByDateAndTimeAndDuration(LocalDate date, LocalTime time, Integer duration) {
+        List<Short> excludeStatuses = List.of(ReservationStatus.Confirmed.getLabel(), ReservationStatus.Booked.getLabel());
+        return tableRepository.getFreeByDateAndTimeAndDurationExcludeStatus(date, time, duration, excludeStatuses);
+    }
+
+    public TableIDResponse convertToTableIDResponse(Table table) {
+        TableIDResponse t = new TableIDResponse();
+        t.setId(table.getId());
+        return t;
+    }
 }

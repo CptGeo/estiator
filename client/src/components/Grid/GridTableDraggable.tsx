@@ -10,7 +10,7 @@ import type { Key } from "react";
 import { useEffect, useState } from "react";
 import type { Coordinates } from "@dnd-kit/core/dist/types";
 import EditTableModal from "@components/Modal/EditTable";
-import { useDisclosure } from "@heroui/react";
+import { Chip, useDisclosure } from "@heroui/react";
 import { patchReq } from "@core/utils";
 
 type Props = {
@@ -23,7 +23,7 @@ type Props = {
 export function GridTableDraggable({ handle, dragOverlay, id, value }: Props) {
   const { attributes, isDragging, listeners, setNodeRef, transform } = useDraggable({ id });
   const [data, setData] = useState<TableData>(value);
-  const { label, capacity, x, y, color } = data;
+  const { label, capacity, x, y, color, occupied } = data;
   const modal = useDisclosure();
   useDndMonitor({ onDragEnd: handleDragEnd });
 
@@ -92,17 +92,20 @@ export function GridTableDraggable({ handle, dragOverlay, id, value }: Props) {
           } as React.CSSProperties }
       >
         <button
-            className={classNames("select-none text-default-50 z-auto group absolute", color ?? "bg-default-800")}
+            className={classNames("select-none text-default-50 z-auto group absolute", color ?? "bg-default-800", occupied === true ? "before:bg-opacity-40 before:z-20 before:bg-black before:w-full before:h-full before:rounded-md" : "")}
             ref={setNodeRef}
             style={buttonStyle}
             aria-label={label}
             {...(handle ? {} : listeners)}>
-            <p className="text-xs absolute top-1">Τραπέζι</p>
+            <p className="text-xs absolute top-1">Table</p>
             <p className="text-xl absolute top-[50%] translate-y-[-50%] font-bold drop-shadow-lg">{label}</p>
             <Link onClick={modal.onOpen} to="" color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
               <EditIcon className="text-sm" />
             </Link>
-            <p className="text-[12px] w-full text-right inline-block drop-shadow-lg absolute right-0 bottom-0 pr-1">Άτομα: {capacity}</p>
+            <div className="absolute right-0 bottom-0 w-full justify-between items-end flex pl-1">
+              <p className="text-[12px] text-left inline-block drop-shadow-lg pr-1">Capacity: {capacity}</p>
+              <Chip size="sm" color={`${occupied === true ? "danger" : "success"}`} variant="shadow" className="z-30 absolute right-0 bottom-0 translate-x-1/3 border-1 border-background translate-y-1/3">{occupied === true ? "Occupied" : "Free"}</Chip>
+            </div>
         </button>
         <EditTableModal {...modal} table={value}/>
       </div>

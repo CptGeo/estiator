@@ -3,7 +3,7 @@ import TableIcon from "@components/Icons/TableIcon";
 import useQueryTables from "@hooks/useQueryTables";
 
 export default function TotalCapacity() {
-    const { data: tablesCount } = useQueryTables<number>(3000, { capacity: true });
+    const { data: tablesCount } = useQueryTables<number>(3000, {}, { capacity: true });
 
     return <Minicard
         headline="Max occupancy"

@@ -11,7 +11,8 @@
       "build": "tsc -b && vite build",
       "lint": "eslint .",
       "lint:fix": "eslint . --fix",
-      "preview": "vite preview"
+      "preview": "vite preview",
+      "preview:host": "vite preview --host"
    },
    "dependencies": {
       "@dnd-kit/core": "^6.1.0",

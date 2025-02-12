@@ -2,23 +2,31 @@ import IconButton from "@components/IconButton/IconButton";
 import TickIcon from "@components/Icons/TickIcon";
 import type { ReservationData } from "@core/types";
 import { ReservationStatus } from "@core/types";
-import toParsedTimeString, { getFullName, patchReq, sortByTimeAscending } from "@core/utils";
+import { getFullName, postReq, sortByTimeAscending, toParsedTimeString } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
-import { getLocalTimeZone, isToday, parseDate } from "@internationalized/date";
-import { Card, CardBody, CardHeader, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
+import { getLocalTimeZone, isToday, parseDate, parseTime } from "@internationalized/date";
+import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useNotification } from "@context/Notification";
+import Status from "@components/Status/Reservation/Status";
 
 export default function ReservationWidget() {
-  const { data: reservations } = useQueryReservations(5000);
+  const { data: reservations } = useQueryReservations(3000);
   const queryClient = useQueryClient();
   const { notify } = useNotification();
 
-  const { mutate } = useMutation({
-    mutationFn: (data: ReservationData) => patchReq(`reservations/${data.id}`, data),
-    onSettled: () =>  queryClient.invalidateQueries({ queryKey: ["reservations"] }),
+  const { mutate: book } = useMutation({
+    mutationFn: (data: ReservationData) => postReq(`reservations/${data.id}/book`),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["reservations"] }),
+    onSuccess: () => notify({ message: "Reservation has been booked!", type: "success" }),
+    onError: () => notify({ message: "Reservation could not be booked.", type: "danger" })
+  });
+
+  const { mutate: complete } = useMutation({
+    mutationFn: (data: ReservationData) => postReq(`reservations/${data.id}/complete`),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ["reservations"] }),
     onSuccess: () => notify({ message: "Reservation has been completed!", type: "success" }),
     onError: () => notify({ message: "Reservation could not be completed.", type: "danger" })
   });
@@ -34,69 +42,86 @@ export default function ReservationWidget() {
     const parsed = parseDate(reservation.date);
 
     /** TODO: Change GMT with local time */
-    return isToday(parsed, getLocalTimeZone()) && reservation.status === ReservationStatus.CONFIRMED;
+    return isToday(parsed, getLocalTimeZone()) && [ReservationStatus.CONFIRMED, ReservationStatus.BOOKED].includes(reservation.status);
   }
 
   function renderRow(reservation: ReservationData) {
     return (
       <TableRow>
-        <TableCell className="w-[35%]" textValue="Name">
+        <TableCell className="w-[20%]" textValue="Name">
           {getFullName(reservation.createdFor)}
         </TableCell>
-        <TableCell className="w-[25%]" textValue="Time">
+        <TableCell className="w-[5%]" textValue="Start Time">
           {toParsedTimeString(reservation.time)}
+        </TableCell>
+        <TableCell className="w-[5%]" textValue="End Time">
+          {parseTime(reservation.endTime).toString().slice(0, -3)}
         </TableCell>
         <TableCell className="w-[10%]" textValue="Table">
           {reservation?.table?.label ?? "-"}
         </TableCell>
-        <TableCell className="w-[5%]" textValue="Time">
-          <IconButton
-            withConfirmation
-            confirmationTooltip="Confirm action"
-            tooltip="Set as completed"
-            onPress={() => mutate({
-              ...reservation,
-              status: ReservationStatus.COMPLETED,
-            })}
-            isIconOnly
-            size="sm"
-            color="success"
-            variant="solid"
-          >
-            <TickIcon className="text-lg text-content1" />
-          </IconButton>
+        <TableCell className="w-[5%]" textValue="Persons">
+          {reservation.persons}
+        </TableCell>
+        <TableCell className="w-[5%]" textValue="Status">
+          <Status status={reservation.status} />
+        </TableCell>
+        <TableCell className="w-[5%]" textValue="Actions">
+          {reservation.status === ReservationStatus.CONFIRMED ?
+            <IconButton
+              withConfirmation
+              confirmationTooltip="Confirm action"
+              tooltip="Reservation has arrived?"
+              onPress={() => book(reservation)}
+              isIconOnly
+              size="sm"
+              color="success"
+              variant="solid"
+            >
+              <TickIcon className="text-lg text-content1" />
+            </IconButton>
+            : <IconButton
+              withConfirmation
+              confirmationTooltip="Confirm action"
+              tooltip="Reservation completed?"
+              onPress={() => complete(reservation)}
+              isIconOnly
+              size="sm"
+              color="success"
+              variant="solid"
+            >
+              <TickIcon className="text-lg text-content1" />
+            </IconButton>
+
+          }
         </TableCell>
       </TableRow>
     );
   }
 
   return (
-    <Card className="py-2" shadow="sm">
-      <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-        <h4 className="text-foreground-600">Current reservations</h4>
-      </CardHeader>
-      <CardBody className="overflow-visible py-2">
-        <Table
-          removeWrapper
-          isStriped
-          {...filtered && { bottomContent: <small><Link className="text-primary px-1" to={"reservations-management"}>View all reservations</Link></small> }}
-        >
-          <TableHeader>
-            <TableColumn>Name</TableColumn>
-            <TableColumn>Time</TableColumn>
-            <TableColumn>Table</TableColumn>
-            <TableColumn>Actions</TableColumn>
-          </TableHeader>
-          <TableBody
-            items={filtered || []}
-            isLoading={typeof filtered === "undefined"}
-            loadingContent={<Spinner label="Loading..." />}
-            emptyContent={<p>No reservations to display</p>}
-          >
-            {(item) => renderRow(item)}
-          </TableBody>
-        </Table>
-      </CardBody>
-    </Card>
+    <Table
+      topContent={<h4 className="text-foreground-600">Current daily reservations</h4>}
+      isStriped
+      {...filtered && { bottomContent: <small><Link className="text-primary px-1" to={"reservations-management"}>View all reservations</Link></small> }}
+    >
+      <TableHeader>
+        <TableColumn>Name</TableColumn>
+        <TableColumn>Start Time</TableColumn>
+        <TableColumn>End time</TableColumn>
+        <TableColumn>Table</TableColumn>
+        <TableColumn>Persons</TableColumn>
+        <TableColumn>Status</TableColumn>
+        <TableColumn>Actions</TableColumn>
+      </TableHeader>
+      <TableBody
+        items={filtered || []}
+        isLoading={typeof filtered === "undefined"}
+        loadingContent={<Spinner label="Loading..." />}
+        emptyContent={<p>No reservations to display</p>}
+      >
+        {(item) => renderRow(item)}
+      </TableBody>
+    </Table>
   );
 }
