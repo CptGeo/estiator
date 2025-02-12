@@ -8,6 +8,11 @@ import { Link } from "react-router-dom"
 type ChartType = {
   name: string,
   amount: string | number,
+  /**
+   * @tutorial
+   * Color[0] is `Chip` compatible
+   * Color[1] is `Tremor Chart` compatible
+   */
   colors: [Color, TremorColor];
 };
 
