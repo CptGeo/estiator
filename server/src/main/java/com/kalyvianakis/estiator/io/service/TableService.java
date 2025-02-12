@@ -54,6 +54,10 @@ public class TableService implements ITableService {
         tableRepository.deleteById(id);
     }
 
+    public Long isOccupied(Table table) {
+        return tableRepository.isOccupied(table.getId());
+    }
+
     public Long getTotalCapacity() {
         return tableRepository.getTotalCapacity();
     }

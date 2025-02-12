@@ -23,6 +23,9 @@ public class Table extends PropertyPrinter {
 
     private String color;
 
+    @Transient
+    private Boolean occupied;
+
     @ManyToOne(optional = true)
     @JoinColumn(name = "user_id", nullable = true)
     @JsonIgnoreProperties(value = { "reservations", "tables" })
@@ -87,4 +90,12 @@ public class Table extends PropertyPrinter {
     public List<Reservation> getReservations() { return reservations; }
 
     public void setReservations(List<Reservation> reservations) { this.reservations = reservations; }
+
+    public Boolean getOccupied() {
+        return occupied;
+    }
+
+    public void setOccupied(Boolean occupied) {
+        this.occupied = occupied;
+    }
 }
