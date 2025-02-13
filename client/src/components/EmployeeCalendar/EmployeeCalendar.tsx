@@ -1,6 +1,6 @@
 import IconButton from "@components/IconButton/IconButton";
 import { DeleteIcon } from "@components/Icons/DeleteIcon";
-import { ScheduleStatus, type Schedule, type UserData } from "@core/types";
+import { ScheduleStatus, ScheduleStatuses, type Schedule, type UserData } from "@core/types";
 import { dayToString, deleteReq, toParsedTimeString } from "@core/utils";
 import useQueryUserScheduleByDate from "@hooks/useQueryUserScheduleByDate";
 import { getDayOfWeek, getLocalTimeZone, today } from "@internationalized/date";
@@ -106,7 +106,9 @@ export default function EmployeeCalendar({ user }: Props) {
                   </Chip>
                 </TableCell>
                 <TableCell className="w-[40%]" textValue="Status">
-                  <Chip variant="dot" color={schedule.status == ScheduleStatus.Working ? "success" : schedule.status == ScheduleStatus.Sick ? "warning" : "primary"}>{schedule.status}</Chip>
+                  <Chip variant="dot" color={schedule.status == ScheduleStatus.WORKING ? "success" : schedule.status == ScheduleStatus.SICK ? "warning" : "primary"}>
+                    {ScheduleStatuses[schedule.status]}
+                    </Chip>
                 </TableCell>
                 <TableCell className="w-[40%]" textValue="Actions">
                   <IconButton
