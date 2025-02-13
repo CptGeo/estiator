@@ -1,0 +1,22 @@
+import type { TableData } from "@core/types";
+import type { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { getReq } from "@core/utils";
+
+const queryKey = "schedules";
+
+type Params = {
+  date?: string;
+}
+
+export default function useQuerySchedules<T = TableData[]>(interval?: number, options?: Omit<UseQueryOptions<T>, "queryKey" | "queryFn">, params?: Params): UseQueryResult<T | undefined> {
+  const query = useQuery({
+    ...options,
+    queryKey: [queryKey, params],
+    queryFn: () => getReq<T>(queryKey, { params }),
+    // stop refetching after encountering error
+    refetchInterval: (query) => query.state.fetchFailureCount > 0 ? false : interval,
+  });
+
+  return query;
+}
