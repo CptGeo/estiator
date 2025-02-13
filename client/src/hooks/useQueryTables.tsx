@@ -20,7 +20,6 @@ type Params = {
 }
 
 export default function useQueryTables<T = TableData[]>(interval?: number, options?: Omit<UseQueryOptions<T>, "queryKey" | "queryFn">, params?: Params): UseQueryResult<T | undefined> {
-// export default function useQueryTables<T = TableData[]>(interval?: number, params?: Params): UseQueryResult<T | undefined> {
   const query = useQuery({
     ...options,
     queryKey: [queryKey, params],
