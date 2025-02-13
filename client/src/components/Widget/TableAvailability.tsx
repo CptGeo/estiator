@@ -35,7 +35,7 @@ export default function TableAvailabilityWidget() {
 
   return <Card shadow="sm">
     <CardHeader className="flex flex-col items-start">
-      <h4 className="text-foreground-600">Table availability</h4>
+      <h4 className="text-foreground-500 font-bold">Table availability</h4>
       <p className="mt-0 text-xs text-slate-400">View the real-time occupied and available tables.</p>
     </CardHeader>
     <CardBody className="py-8 flex gap-5">
