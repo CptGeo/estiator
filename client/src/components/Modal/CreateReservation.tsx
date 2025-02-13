@@ -14,7 +14,6 @@ import { useMutation } from "@tanstack/react-query";
 import { parseDurationToSeconds, postReq } from "@core/utils";
 import { useNotification } from "@context/Notification";
 import SelectField from "@components/Fields/Select";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 type Props = ReturnType<typeof useDisclosure>;
 
@@ -121,7 +120,6 @@ export default function CreateReservationModal(props: Props) {
                 </Button>
               </ModalFooter>
               </form>
-              <ReactQueryDevtools buttonPosition="top-right" />
             </FormProvider>
           )}
         </ModalContent>

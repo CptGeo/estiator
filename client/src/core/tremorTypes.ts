@@ -1,0 +1,1 @@
+export type TremorColor = "blue" | "emerald" | "violet" | "amber" | "gray" | "cyan" | "pink" | "lime" | "fuchsia";
