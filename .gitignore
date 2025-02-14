@@ -2,3 +2,7 @@ node_modules
 client/tsconfig.node.tsbuildinfo
 client/tsconfig.app.tsbuildinfo
 local_specs.md
+
+# Do not commit env files
+database.env
+server.env
