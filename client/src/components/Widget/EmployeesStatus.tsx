@@ -119,7 +119,6 @@ export default function EmployeesStatusWidget() {
       classNames={{ emptyWrapper: "h-16" }}
       aria-label="Example table with custom cells"
       topContent={<TopContent />}
-      bottomContentPlacement="outside"
       bottomContent={<small><Link className="text-primary px-1" to={"/employees-management"}>View employees management</Link></small>}
     >
       <TableHeader columns={columns}>
