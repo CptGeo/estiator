@@ -21,11 +21,11 @@ import { ResetIcon } from "@components/Icons/ResetIcon";
 import { Link } from "react-router-dom";
 
 const columns = [
-  { name: "EMPLOYEE", uid: "employee" },
-  { name: "ROLE", uid: "role" },
-  { name: "START TIME", uid: "startTime" },
-  { name: "END TIME", uid: "endTime" },
-  { name: "STATUS", uid: "status" },
+  { name: "Employee", uid: "employee" },
+  { name: "Role", uid: "role" },
+  { name: "Start Time", uid: "startTime" },
+  { name: "End Time", uid: "endTime" },
+  { name: "Status", uid: "status" },
 ];
 
 export default function EmployeesStatusWidget() {
@@ -104,8 +104,8 @@ export default function EmployeesStatusWidget() {
               </div>
             </Button>
             <Tooltip content="Reset to current date" showArrow placement="right">
-              <Button isIconOnly color="warning" onPress={() => setCurrent(0)}>
-                <ResetIcon />
+              <Button isIconOnly color="warning" className="text-background" onPress={() => setCurrent(0)}>
+                <ResetIcon className="text-lg" />
               </Button>
             </Tooltip>
           </ButtonGroup>
