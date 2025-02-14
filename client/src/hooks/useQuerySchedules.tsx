@@ -3,23 +3,13 @@ import type { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { getReq } from "@core/utils";
 
-const queryKey = "tables";
+const queryKey = "schedules";
 
 type Params = {
-  count?: boolean;
-  capacity?: boolean;
-
-  /** @format yyyy-MM-dd */
   date?: string;
-
-  /** @format HH:mm */
-  time?: string;
-
-  /** @format in seconds */
-  duration?: number;
 }
 
-export default function useQueryTables<T = TableData[]>(interval?: number, options?: Omit<UseQueryOptions<T>, "queryKey" | "queryFn">, params?: Params): UseQueryResult<T | undefined> {
+export default function useQuerySchedules<T = TableData[]>(interval?: number, options?: Omit<UseQueryOptions<T>, "queryKey" | "queryFn">, params?: Params): UseQueryResult<T | undefined> {
   const query = useQuery({
     ...options,
     queryKey: [queryKey, params],

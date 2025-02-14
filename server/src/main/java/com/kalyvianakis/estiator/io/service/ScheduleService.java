@@ -51,4 +51,8 @@ public class ScheduleService implements IScheduleService {
     return !this.exists(id);
   }
 
+  public List<Schedule> getAllByDate(LocalDate date) {
+    List<String> roles = List.of("ROLE_ADMIN", "ROLE_MODERATOR");
+    return scheduleRepository.findAllByUserRoleAndDate(roles, date);
+  }
 }

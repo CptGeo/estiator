@@ -72,16 +72,23 @@ export interface UserData extends HasId {
 };
 
 export enum ScheduleStatus {
-  Working = "Working",
-  OnLeave = "On_Leave",
-  Sick = "Sick"
+  WORKING = "Working",
+  ON_LEAVE = "On_Leave",
+  SICK = "Sick"
+};
+
+export const ScheduleStatuses = {
+  [ScheduleStatus.WORKING]: "Working",
+  [ScheduleStatus.ON_LEAVE]: "On Leave",
+  [ScheduleStatus.SICK]: "Sick"
 };
 
 export interface Schedule extends HasId {
   date: string;
   startTime: string;
   endTime: string;
-  status: ScheduleStatus
+  status: ScheduleStatus;
+  user: UserData;
 }
 
 export interface EmployeeData extends HasId {
@@ -99,7 +106,7 @@ export interface EmployeeData extends HasId {
 
 export enum EmployeeStatus {
   ACTIVE = "Active",
-  ON_LEAVE = "On_leave",
+  ON_LEAVE = "On_Leave",
   TERMINATED = "Terminated"
 };
 

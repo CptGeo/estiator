@@ -23,7 +23,7 @@ public class Schedule extends PropertyPrinter {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @JsonIgnoreProperties(value = { "tables", "reservations", "createdReservations", "referredReservations", "schedules" })
-    @JsonProperty(value = "user", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "user")
     private User user;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

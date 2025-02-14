@@ -101,8 +101,9 @@ export default function ReservationWidget() {
 
   return (
     <Table
+      isCompact
       topContent={<div>
-        <h4 className="text-foreground-600">Current daily reservations</h4>
+        <h4 className="text-foreground-500 font-bold">Current daily reservations</h4>
         <p className="mt-0 text-xs text-slate-400">View the upcoming and active reservations in real time.</p>
       </div>}
       isStriped

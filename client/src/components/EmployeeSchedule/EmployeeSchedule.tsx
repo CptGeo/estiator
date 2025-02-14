@@ -103,9 +103,9 @@ export default function EmployeeSchedule({ employee }: Props) {
             <div className="w-full p-1">
               <div className="w-full flex-nowrap flex gap-2 mb-3">
                 <SelectField name="scheduleStatus" label="Schedule status" isRequired>
-                  <SelectItem key={ScheduleStatus.Working}>Working</SelectItem>
-                  <SelectItem key={ScheduleStatus.OnLeave}>On Leave</SelectItem>
-                  <SelectItem key={ScheduleStatus.Sick}>Sick</SelectItem>
+                  <SelectItem key={ScheduleStatus.WORKING}>Working</SelectItem>
+                  <SelectItem key={ScheduleStatus.ON_LEAVE}>On Leave</SelectItem>
+                  <SelectItem key={ScheduleStatus.SICK}>Sick</SelectItem>
                 </SelectField>
               </div>
             </div>

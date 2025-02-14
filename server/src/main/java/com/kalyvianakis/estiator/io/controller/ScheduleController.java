@@ -6,10 +6,12 @@ import com.kalyvianakis.estiator.io.model.MessageResponse;
 import com.kalyvianakis.estiator.io.model.Schedule;
 import com.kalyvianakis.estiator.io.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -34,9 +36,13 @@ public class ScheduleController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Schedule>> get() {
+    public ResponseEntity<List<Schedule>> get(@RequestParam(name = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        if (date != null) {
+            return ResponseEntity.ok().body(scheduleService.getAllByDate(date));
+        }
         return ResponseEntity.ok().body(scheduleService.get());
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) throws ResourceNotFoundException, IllegalArgumentException {
         if(scheduleService.notExists(id)) {

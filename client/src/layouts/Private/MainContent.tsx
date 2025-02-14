@@ -11,7 +11,7 @@ export default function MainContent() {
     <div className={`main min-h-screen flex flex-col transition-all ${open ? "pl-[300px]" : ""}`}>
       <Navigation />
       <DrawerMenu />
-      <div className="container max-w-[1400px] mx-auto px-5 mt-7 flex-grow">
+      <div className="container max-w-[1540px] mx-auto px-5 mt-7 flex-grow">
         <Outlet />
       </div>
       <Footer />
