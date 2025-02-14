@@ -36,7 +36,7 @@ function NotificationProvider(props: PropsWithChildren) {
             <div className="w-full flex flex-col-reverse gap-2">
                 {notifications.map((item, index) => {
                     return (<TimeLimited key={index} delay={NOTIFICATION_DELAY}>
-                        <Alert key={index} color={item.type ?? "default"} classNames={{ title: "text-tiny sm:text-sm" }} description={item.description} title={item.message} className="shadow-xl" />
+                        <Alert isClosable key={index} color={item.type ?? "default"} classNames={{ title: "text-tiny sm:text-sm" }} description={item.description} title={item.message} className="shadow-xl" />
                     </TimeLimited>
                     )
                 })}
