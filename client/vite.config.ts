@@ -4,13 +4,14 @@ import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/",
   plugins: [react()],
   server: {
     port: 3000
   },
+  assetsInclude: ['**/*.jpg', '**/*.png'],
   resolve: {
     alias: {
-      "@assets": resolve(__dirname, "./src/assets"),
       "@components": resolve(__dirname, "./src/components"),
       "@context": resolve(__dirname, "./src/context"),
       "@core": resolve(__dirname, "./src/core"),
