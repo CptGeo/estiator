@@ -61,6 +61,9 @@ jobs:
   build-server:
     runs-on: ubuntu-latest
     name: Build, package and upload .jar artifact
+    defaults:
+      run:
+        working-directory: ./server
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 22
