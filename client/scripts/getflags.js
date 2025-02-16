@@ -6,7 +6,7 @@ import fs from "fs";
 import https from "https";
 import process from "process";
 
-const PATH = "./src/assets/images/flags";
+const PATH = "./public/flags";
 const CODES_PATH = "https://flagcdn.com/en/codes.json";
 const IMAGE_SIZE = "w80";
 // Delay between requests in order to prevent remote server from rejecting them. In milliseconds (ms).
