@@ -78,9 +78,9 @@ jobs:
     - name: Show contents of the current working directory
       run: ls -la
     - name: Show contents of the target directory
-      run: ls -la build
+      run: ls -la build/libs
     - name: Upload Gradle build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: artifact
+        name: estiator.io-1.0.0
         path: server/build/libs/estiator.io-1.0.0.jar
