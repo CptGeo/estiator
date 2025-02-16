@@ -69,7 +69,7 @@ jobs:
         java-version: 21
         distribution: temurin
     - name: Build and package project
-      run: ./gradlew clean bootJar
+      run: gradle clean bootJar
     - name: Show contents of the current working directory
       run: ls -la
     - name: Show contents of the target directory
