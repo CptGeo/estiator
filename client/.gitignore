@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 build
-src/assets/images/flags
+public/flags
