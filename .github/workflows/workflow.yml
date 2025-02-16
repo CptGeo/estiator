@@ -66,7 +66,8 @@ jobs:
     - name: Set up JDK 22
       uses: actions/setup-java@v4
       with:
-        java-version: 22
+        java-version: 21
+        distribution: temurin
     - name: Build and package project
       run: ./gradlew clean bootJar
     - name: Show contents of the current working directory
