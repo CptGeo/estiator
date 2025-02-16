@@ -58,23 +58,23 @@ jobs:
         with:
           name: estiator.io_build_${{ github.run_id }}
           path: ./client/dist/
-    build-server:
-      runs-on: ubuntu-latest
-      name: Build, package and upload .jar artifact
-      steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 22
-        uses: actions/setup-java@v4
-        with:
-          java-version: 22
-      - name: Build and package project
-        run: ./gradlew clean bootJar
-      - name: Show contents of the current working directory
-        run: ls -la
-      - name: Show contents of the target directory
-        run: ls -la build
-      - name: Upload Gradle build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifact
-          path: ./build/libs/estiator.io-1.0.0.jar
+  build-server:
+    runs-on: ubuntu-latest
+    name: Build, package and upload .jar artifact
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 22
+      uses: actions/setup-java@v4
+      with:
+        java-version: 22
+    - name: Build and package project
+      run: ./gradlew clean bootJar
+    - name: Show contents of the current working directory
+      run: ls -la
+    - name: Show contents of the target directory
+      run: ls -la build
+    - name: Upload Gradle build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: artifact
+        path: ./build/libs/estiator.io-1.0.0.jar
