@@ -81,4 +81,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: artifact
-        path: ./build/libs/estiator.io-1.0.0.jar
+        path: build/libs/estiator.io-1.0.0.jar
