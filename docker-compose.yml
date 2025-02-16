@@ -19,6 +19,7 @@ services:
       SERVER_HOST: 0.0.0.0
     networks:
       - spring-mysql
+
   app-database:
     build: ./database
     restart: always
@@ -27,6 +28,18 @@ services:
     env_file: "database.env"
     ports:
       - 3310:3306
+    networks:
+      - spring-mysql
+
+  app-client:
+    container_name: app-client
+    build: ./client
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - app-server
+      - app-database
     networks:
       - spring-mysql
 networks:
