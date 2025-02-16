@@ -30,7 +30,7 @@ export default function PhoneCodeField(props: Omit<ControlledSelectProps, "child
             <div className="flex flex-wrap gap-2">
               {items.map((item) => (
                 <div className="flex flex-row gap-2 items-center" key={item.key}>
-                  <Avatar alt={item.data?.[1].country} title={item.data?.[1].country} className="w-5 h-5 shrink-0" src={getAssetUrl(`images/flags/${item.data?.[0]}.png`)} />
+                  <Avatar alt={item.data?.[1].country} title={item.data?.[1].country} className="w-5 h-5 shrink-0" src={getAssetUrl(`/flags/${item.data?.[0]}.png`)} />
                   <span className="text-md text-default-400 shrink-0">{item.data?.[1].extension}</span>
                 </div>
               ))}
@@ -46,7 +46,7 @@ export default function PhoneCodeField(props: Omit<ControlledSelectProps, "child
               key={phone[1]?.extension}
               content={phone[1]?.country}
               textValue={phone[1]?.country}
-              startContent={<Avatar alt={phone[1].country} title={phone[1].country} className="w-6 h-6" src={getAssetUrl(`images/flags/${phone[0]}.png`)} />}
+              startContent={<Avatar alt={phone[1].country} title={phone[1].country} className="w-6 h-6" src={getAssetUrl(`/flags/${phone[0]}.png`)} />}
             >
             {phone[1].country}
           </SelectItem>

@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import PageHeader from "@components/PageHeader/PageHeader";
-import registerImage from "@assets/images/register_image.jpg";
+import registerImage from "/register_image.jpg";
 import RegisterForm from "./Form";
 
 export default function RegisterPage(): ReactElement {
