@@ -22,7 +22,6 @@
     
     /* Path aliases */
     "paths": {
-      "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
       "@context/*": ["./src/context/*"],
       "@core/*": ["./src/core/*"],
