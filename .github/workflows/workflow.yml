@@ -16,7 +16,7 @@ on:
       - '*'
 jobs:
   lint:
-    name: Lint client side code
+    name: Lint Client
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v4
@@ -34,7 +34,7 @@ jobs:
         working-directory: ./client
         run: npm ci --ignore-scripts
   build-client:
-    name: Build client and upload artifacts
+    name: Build Client, Upload Artifacts
     runs-on: ubuntu-latest
     needs: lint
     steps:
@@ -62,7 +62,7 @@ jobs:
           path: ./client/dist/
   build-server:
     runs-on: ubuntu-latest
-    name: Build, package and upload .jar artifact
+    name: Build & Package Server, Upload artifact
     defaults:
       run:
         working-directory: ./server
