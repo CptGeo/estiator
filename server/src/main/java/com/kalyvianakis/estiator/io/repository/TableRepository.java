@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface TableRepository extends JpaRepository<Table, Long> {
-    @Query(value = "SELECT SUM(capacity) FROM Tables", nativeQuery = true)
+    @Query(value = "SELECT SUM(capacity) FROM tables", nativeQuery = true)
     Long getTotalCapacity();
 
     @Query(

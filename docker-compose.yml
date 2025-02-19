@@ -1,0 +1,49 @@
+services:
+  app-server:
+    container_name: app-server
+    build: ./server
+    restart: always
+    ports:
+      - 8888:8888
+    depends_on:
+      - app-database
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    env_file: "server.env"
+    environment:
+      MYSQL_HOST: app-database
+      SERVER_HOST: 0.0.0.0
+    networks:
+      - spring-mysql
+
+  app-database:
+    build: ./database
+    restart: always
+    volumes: 
+      - db-volume:/var/lib/mysql
+    env_file: "database.env"
+    ports:
+      - 3310:3306
+    networks:
+      - spring-mysql
+
+  app-client:
+    container_name: app-client
+    build: ./client
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - app-server
+      - app-database
+    networks:
+      - spring-mysql
+networks:
+  spring-mysql:
+    driver: bridge
+volumes:
+  db-volume:

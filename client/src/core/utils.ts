@@ -111,7 +111,7 @@ export function parseDurationToSeconds(duration: string): number {
  * @returns The full URL of the asset.
  */
 export function getAssetUrl(asset: string): string {
-    return new URL(`../assets${asset.startsWith("/") ? asset : `/${asset}`}`, import.meta.url).href;
+    return new URL(`${asset.startsWith("/") ? asset : `/${asset}`}`, import.meta.url).href;
 }
 
 /**

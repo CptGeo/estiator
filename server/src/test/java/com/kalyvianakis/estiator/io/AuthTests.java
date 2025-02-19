@@ -21,7 +21,7 @@ public class AuthTests {
 
     @Test
     public void whenUserAccessLogin_shouldSucceedAndShouldIncludeEmailAndToken() throws Exception {
-        String userJson = "{\"email\":\"george.kalyvianakis@gmail.com\",\"password\":\"12341234\"}";
+        String userJson = "{\"email\":\"admin@estiator.io\",\"password\":\"12341234\"}";
         ResultActions result = mvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON).content(userJson));
         result.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -31,7 +31,7 @@ public class AuthTests {
 
     @Test
     public void whenUserAccessWithWrongCredentials_statusShouldBeUnauthorizedAndContentShouldBeCorrect() throws Exception {
-        String userJson = "{\"email\":\"george.kalyvianakis@gmail.com\",\"password\":\"wrongPassword\"}";
+        String userJson = "{\"email\":\"admin@estiator.io\",\"password\":\"wrongPassword\"}";
         ResultActions result = mvc.perform(post("/auth/login").contentType(MediaType.APPLICATION_JSON).content(userJson));
         result.andExpect(status().isUnauthorized())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

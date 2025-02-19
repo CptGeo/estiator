@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import { Image } from "@heroui/react";
-import logo from "@assets/images/logo.png";
+import logo from "/logo.png";
 import { Link } from "react-router-dom";
 
 export default function Footer(): ReactElement {
