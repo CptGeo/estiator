@@ -30,7 +30,12 @@ export default function DataVisualizationSettings(props: { settings: SettingsDat
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (data: FieldValues) => patchReq("settings", data),
-    onSettled: () => { queryClient.refetchQueries( { queryKey: ["settings"] }) },
+    onSettled: () => {
+      queryClient.invalidateQueries( { queryKey: ["settings"] });
+      queryClient.refetchQueries( { queryKey: ["settings"] });
+      queryClient.invalidateQueries( { queryKey: ["setting"] });
+      queryClient.refetchQueries( { queryKey: ["setting"] });
+    },
     onSuccess: () => notify({ message: "Settings were saved successfully.", type: "success" }),
     onError: () => notify({ message: "Settings could not be saved.", type: "danger" })
   });
@@ -47,12 +52,12 @@ export default function DataVisualizationSettings(props: { settings: SettingsDat
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(handleSubmit)} className="my-3">
         <SettingsListItem headline="Default Rows per Page" description="Specify the default items per page for data lists like tables.">
-          <SelectField name="defaultPerPage" className="max-w-[100px]" >
-            <SelectItem value="5">10</SelectItem>
-            <SelectItem value="15">15</SelectItem>
-            <SelectItem value="20">20</SelectItem>
-            <SelectItem value="30">30</SelectItem>
-            <SelectItem value="50">50</SelectItem>
+          <SelectField name="defaultRowsPerPage" label="Default Rows per Page">
+            <SelectItem key="10">10</SelectItem>
+            <SelectItem key="15">15</SelectItem>
+            <SelectItem key="20">20</SelectItem>
+            <SelectItem key="30">30</SelectItem>
+            <SelectItem key="50">50</SelectItem>
           </SelectField>
         </SettingsListItem>
         <div className="py-10 flex gap-3 justify-end">
