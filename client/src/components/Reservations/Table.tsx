@@ -3,7 +3,7 @@ import type { SortDescriptor } from "@heroui/react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Pagination, Button, useDisclosure, Tooltip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Spinner } from "@heroui/react";
 import { parseDate, parseTime } from "@internationalized/date";
 import Status from "@components/Status/Reservation/Status";
-import type { Key, SettingsData } from "@core/types";
+import type { Key, SettingData } from "@core/types";
 import { ReservationStatus, ReservationStatuses, type ReservationData } from "@core/types";
 import ReservationsActions from "@components/Reservations/Actions";
 import useQueryReservations from "@hooks/useQueryReservations";
@@ -32,7 +32,7 @@ const columns: Column[] = [
   { name: "Actions", uid: "actions" }
 ];
 
-export default function ReservationsTable(props: { defaultRowsPerPage: SettingsData }) {
+export default function ReservationsTable(props: { defaultRowsPerPage: SettingData }) {
   const defaultRowsPerPage = props.defaultRowsPerPage;
 
   const { data: reservations } = useQueryReservations(1000);
