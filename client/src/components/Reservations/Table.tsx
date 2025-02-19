@@ -3,7 +3,7 @@ import type { SortDescriptor } from "@heroui/react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Pagination, Button, useDisclosure, Tooltip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Spinner } from "@heroui/react";
 import { parseDate, parseTime } from "@internationalized/date";
 import Status from "@components/Status/Reservation/Status";
-import type { Key } from "@core/types";
+import type { Key, SettingsData } from "@core/types";
 import { ReservationStatus, ReservationStatuses, type ReservationData } from "@core/types";
 import ReservationsActions from "@components/Reservations/Actions";
 import useQueryReservations from "@hooks/useQueryReservations";
@@ -32,12 +32,14 @@ const columns: Column[] = [
   { name: "Actions", uid: "actions" }
 ];
 
-export default function ReservationsTable() {
+export default function ReservationsTable(props: { defaultRowsPerPage: SettingsData }) {
+  const defaultRowsPerPage = props.defaultRowsPerPage;
+
   const { data: reservations } = useQueryReservations(1000);
   const [filterValue, setFilterValue] = useState("");
   const [visibleColumns, setVisibleColumns] = useState<Iterable<Key> | "all" | undefined>("all");
   const [statusFilter, setStatusFilter] = useState<Iterable<Key> | "all">("all");
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(Number(defaultRowsPerPage.value));
 
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "date",
@@ -202,9 +204,11 @@ export default function ReservationsTable() {
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
             >
-              <option value="5">5</option>
               <option value="10">10</option>
               <option value="15">15</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
             </select>
           </label>
         </div>
