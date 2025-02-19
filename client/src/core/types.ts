@@ -149,6 +149,14 @@ export enum ReservationStatus {
   COMPLETED = "Completed"
 };
 
+export const ReservationStatuses: Record<ReservationStatus, string> = {
+  [ReservationStatus.CANCELLED]: "Cancelled",
+  [ReservationStatus.PENDING]: "Pending",
+  [ReservationStatus.CONFIRMED]: "Confirmed",
+  [ReservationStatus.BOOKED]: "Booked",
+  [ReservationStatus.COMPLETED]: "Completed",
+}
+
 /** Represents reservation data */
 export interface ReservationData extends HasId {
   date: string, // "YYYY-MM-DD"
