@@ -24,23 +24,47 @@
 &nbsp;
 
 ## Table of Contents
-1. [About](#about)  
-   i. [General](#about-general)  
-   ii. [Tech](#about-tech)  
 
-2. [Running in Docker](#running-in-docker)  
-   i. [Prerequisites](#running-in-docker-prerequisites)  
-   ii. [Build the Server](#running-in-docker-build-the-server)  
-   iii. [Run the Container](#running-in-docker-run-the-container)  
+<details>
+  <summary>About</summary>
 
-3. [Development Setup (Without Docker)](#development-setup-without-docker)  
-   i. [Prerequisites](#development-setup-prerequisites)  
-   ii. [Client](#development-setup-client)  
-   iii. [Server](#development-setup-server)  
+  - [General](#about-general)  
+  - [Tech](#about-tech)  
+</details>
+<details>
+  <summary>Running in Docker</summary>
 
-4. [Testing](#testing)  
+  - [Intro](#running-in-docker-intro)
+  - [Prerequisites](#running-in-docker-prerequisites)  
+  - [Build the Server](#running-in-docker-build-the-server)  
+  - [Run the Container](#running-in-docker-run-the-container)  
+</details>
+<details>
+  <summary>Development Setup (Without Docker)</summary>
 
-5. [Screenshots](#screenshots)  
+  - [Intro](#development-setup-intro)  
+  - [Prerequisites](#development-setup-prerequisites)  
+  - [Client](#development-setup-client)  
+  - [Server](#development-setup-server)  
+</details>
+<details>
+  <summary>Testing</summary>
+
+  - [Manual](#testing-manual)
+</details>
+<details>
+  <summary>Screenshots</summary>
+
+  - [Intro](#screenshots-intro)
+    - [Login page](#login-page)
+    - [Register page](#register-page)
+    - [Dashboard page](#dashboard-page)
+    - [Reservations Management page](#reservations-management-page)
+    - [Tables Management page](#tables-management-page)
+    - [Employees Management page](#employees-management-page)
+    - [Customers Management page](#customers-management-page)
+</details>
+
 
 ## About
 
@@ -54,6 +78,8 @@ The project uses [**ReactJS 18**](https://react.dev/) with [**HeroUI 2**](https:
 
 
 ## Running in Docker
+
+#### Running in Docker: Intro
 The application is fully containerized and therefore you can run it in production mode using `Docker`. 
 
 #### Running in Docker: Prerequisites
@@ -105,6 +131,8 @@ This command will perform the following actions:
 
 
 ## Development Setup (Without Docker)
+
+#### Development Setup: Intro
 You can follow steps below to install the dependencies on your system and run the application.
 
 #### Development Setup: Prerequisites 
@@ -187,6 +215,8 @@ cd estiator.io/server
 
 ## Testing
 
+#### Testing: Manual
+
 Below there are credentials for the default created users of the application. You can use either of them to test the client functionality. 
 
 Note that `Admin` role has access to every possible API and function, while `Moderator` is a limited role and does not have access to certain functions:
@@ -199,25 +229,26 @@ Note that `Admin` role has access to every possible API and function, while `Mod
 
 ## Screenshots
 
+#### Screenshots: Intro
 To provide a glimpse of the app's functionality, here are some images from the admin `Dashboard`.
 
-**Login page**
+##### **Login page**
 <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo login page" src=".assets/demo_login_page.png" />
 
-**Register page**
+##### **Register page**
 <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo register page" src=".assets/demo_register_page.png" />
 
-**Dashboard page**
+##### **Dashboard page**
 <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo dashboard" src=".assets/demo_dashboard.png" />
 
-**Reservations Management page**
+##### **Reservations Management page**
 <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Reservations Management" src=".assets/demo_reservations_management.png" />
 
-**Tables Management page**
+##### **Tables Management page**
 <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Tables Management" src=".assets/demo_tables_management.png" />
 
-**Employees Management page**
+##### **Employees Management page**
 <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Employees Management" src=".assets/demo_employees_management.png" />
 
-**Customers Management page**
+##### **Customers Management page**
 <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Customers Management" src=".assets/demo_customers_management.png" />
