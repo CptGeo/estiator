@@ -37,7 +37,7 @@
   ii. [Client](#development-setup-client)
   iii. [Server](#development-setup-Server)
 4. [Testing](#testing)
-4. [Screenshots](#screenshots)
+5. [Screenshots](#screenshots)
 
 ## About
 
