@@ -23,21 +23,24 @@
 
 &nbsp;
 
-
 ## Table of Contents
-1. [About](#about)
-  i. [General](#about-general)
-  ii. [Tech](#about-tech)
-2. [Running in Docker](#running-in-docker)
-  i. [Prerequisites](#running-in-docker-prerequisites)
-  ii. [Build the Server](#running-in-docker-build-the-server)
-  iii. [Run the Container](#running-in-docker-run-the-container)
-3. [Development Setup (Without Docker)](#development-setup-without-docker)
-  i. [Prerequisites](#development-setup-prerequisites)
-  ii. [Client](#development-setup-client)
-  iii. [Server](#development-setup-Server)
-4. [Testing](#testing)
-5. [Screenshots](#screenshots)
+1. [About](#about)  
+   i. [General](#about-general)  
+   ii. [Tech](#about-tech)  
+
+2. [Running in Docker](#running-in-docker)  
+   i. [Prerequisites](#running-in-docker-prerequisites)  
+   ii. [Build the Server](#running-in-docker-build-the-server)  
+   iii. [Run the Container](#running-in-docker-run-the-container)  
+
+3. [Development Setup (Without Docker)](#development-setup-without-docker)  
+   i. [Prerequisites](#development-setup-prerequisites)  
+   ii. [Client](#development-setup-client)  
+   iii. [Server](#development-setup-server)  
+
+4. [Testing](#testing)  
+
+5. [Screenshots](#screenshots)  
 
 ## About
 
