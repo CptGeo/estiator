@@ -23,28 +23,44 @@
 
 &nbsp;
 
-## About the project
 
-##### General 
+## Table of Contents
+1. [About](#about)
+  i. [General](#about-general)
+  ii. [Tech](#about-tech)
+2. [Running in Docker](#running-in-docker)
+  i. [Prerequisites](#running-in-docker-prerequisites)
+  ii. [Build the Server](#running-in-docker-build-the-server)
+  iii. [Run the Container](#running-in-docker-run-the-container)
+3. [Development Setup (Without Docker)](#development-setup-without-docker)
+  i. [Prerequisites](#development-setup-prerequisites)
+  ii. [Client](#development-setup-client)
+  iii. [Server](#development-setup-Server)
+4. [Testing](#testing)
+4. [Screenshots](#screenshots)
+
+## About
+
+#### About: General 
 [Estiator.io](https://estiator.io) is a full-stack web application that will be submitted as part of a master thesis. The intention of the creation of this piece of software is to offer a complete management solution for businesses related to the F&B (Food & Beverage) industry. 
 
 [See screenshots](#screenshots)
 
-##### Tech
+#### About: Tech
 The project uses [**ReactJS 18**](https://react.dev/) with [**HeroUI 2**](https://www.heroui.com/) components library for the client. The server side is implemented using [**Java 22**](https://www.java.com/en/) with [**Spring Boot 3.3** ](https://spring.io/projects/spring-boot). For the persistence, [**MySQL 8**](https://www.mysql.com/) is chosen.
 
 
 ## Running in Docker
 The application is fully containerized and therefore you can run it in production mode using `Docker`. 
 
-### Prerequisites
+#### Running in Docker: Prerequisites
 - **Docker** (download [here](https://www.docker.com/products/docker-desktop/))
 - **JDK 21** (download [here](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html))
 - **Gradle v ≥ 8.1** (optional) (download [here](https://gradle.org/install/))
 
 We only require `Docker` to be able to build and run the container, but we will also require `JDK 21` because the building of the application server will be a separate step, outside of the `Docker` scope.
 
-### Running in Docker: Build the server
+#### Running in Docker: Build the Server
 
 Once everything is installed, you will need to start a command line on any directory and execute the commands below.
 
@@ -68,7 +84,7 @@ cd estiator.io/server
 
 The `.jar` file is now built and it should be located in `/build/libs/` directory with a name similar to `estiator.io-[VERSION]`. This file will be necessary for the next step.
 
-### Running in Docker: Run the Container
+#### Running in Docker: Run the Container
 
 Let's suppose you are currently in root directory of the project. Run the following commands: 
 
@@ -85,10 +101,10 @@ This command will perform the following actions:
  You should now be able to visit [http://localhost:8080](http://localhost:8080) to use the app.
 
 
-## Development Setup
+## Development Setup (Without Docker)
 You can follow steps below to install the dependencies on your system and run the application.
 
-### Prerequisites 
+#### Development Setup: Prerequisites 
 In order to start this application, you will need the following: 
 
 - **NodeJS** runtime v &ge; 20 (download [here](https://nodejs.org/en))
@@ -97,7 +113,7 @@ In order to start this application, you will need the following:
 - **MySQL 8** (download [here](https://dev.mysql.com/downloads/installer/))
 
 
-### Client
+#### Development Setup: Client
 
 Make sure you have **NodeJS** and **Git** installed on your machine. Start a command line on any directory and execute the commands below.
 
@@ -120,11 +136,11 @@ npm i
 npm run dev
 ```
 
-### Server
+#### Development Setup: Server
 
 Make sure you have **Java 22** and **MySQL 8** are installed correctly on your machine.
 
-#### Create Database (todo: Add script to create database automatically)
+##### Create Database
 
 Connect to your database (or use a Database Management System tool) and execute the following query:
 
@@ -132,11 +148,11 @@ Connect to your database (or use a Database Management System tool) and execute 
 CREATE DATABASE `estiator` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 ```
 
-#### Populate Database
+##### Populate Database
 
 Go to the project root directory. The file `db.sql` contains the main structure and also some dummy data to begin with. Import `db.sql` to the created database.
 
-#### Setup Spring Boot
+##### Setup Spring Boot
 **Spring Boot** requires some information before you can start the server. Go to `server` directory of the project and then open `src\main\resources\application.properties` file. You will need to provide information for the database **username** and **password**: 
 
 ```properties
@@ -166,7 +182,7 @@ cd estiator.io/server
 ```
 
 
-## Manual testing
+## Testing
 
 Below there are credentials for the default created users of the application. You can use either of them to test the client functionality. 
 
