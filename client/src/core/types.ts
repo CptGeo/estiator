@@ -135,10 +135,13 @@ export type CompanyData = {
 
 export enum AppSetting {
   BusinessName = "businessName",
-  BusinessDescription = "businessDescription"
+  BusinessDescription = "businessDescription",
+  DefaultRowsPerPage = "defaultRowsPerPage"
 }
 
-export type SettingsData = Record<AppSetting, string>;
+export interface SettingsData extends HasId {
+  value: string;
+}
 
 /** Represents statuses of reservations */
 export enum ReservationStatus {
