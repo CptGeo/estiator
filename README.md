@@ -34,6 +34,57 @@
 The project uses [**ReactJS 18**](https://react.dev/) with [**HeroUI 2**](https://www.heroui.com/) components library for the client. The server side is implemented using [**Java 22**](https://www.java.com/en/) with [**Spring Boot 3.3** ](https://spring.io/projects/spring-boot). For the persistence, [**MySQL 8**](https://www.mysql.com/) is chosen.
 
 
+## Running in Docker
+The application is fully containerized and therefore you can run it in production mode using `Docker`. 
+
+### Prerequisites
+- **Docker** (download [here](https://www.docker.com/products/docker-desktop/))
+- **JDK 21** (download [here](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html))
+- **Gradle v ≥ 8.1** (optional) (download [here](https://gradle.org/install/))
+
+We only require `Docker` to be able to build and run the container, but we will also require `JDK 21` because the building of the application server will be a separate step, outside of the `Docker` scope.
+
+### Running in Docker: Build the server
+
+Once everything is installed, you will need to start a command line on any directory and execute the commands below.
+
+```shell
+# 1. Clone the repository
+git clone https://github.com/CptGeo/estiator
+```
+
+```shell
+# 2. Navigate to the project directory
+cd estiator.io/server
+```
+
+```shell
+# 3. Execute build script using gradlew file
+./gradlew clean bootJar
+```
+
+> [!TIP]
+> You can also install `Gradle` and run `gradle clean bootJar` instead, which will give you effectively the same results. Here, `./gradlew` is being used so that you don't need to care about `Gradle` version, as it is specified in the project's `gradle-wrapper.properties` file.
+
+The `.jar` file is now built and it should be located in `/build/libs/` directory with a name similar to `estiator.io-[VERSION]`. This file will be necessary for the next step.
+
+### Running in Docker: Run the Container
+
+Let's suppose you are currently in root directory of the project. Run the following commands: 
+
+```shell
+# Build Docker container using docker-compose
+docker-compose up --build
+```
+
+This command will perform the following actions: 
+- Setup `app-database` container and prepopulate the database with `db-init.sql` data.
+- Setup `app-server` and expose to loopback (localhost) and local network.
+- Setup `app-client` by fetching its dependencies and then building.
+
+ You should now be able to visit [http://localhost:8080](http://localhost:8080) to use the app.
+
+
 ## Development Setup
 You can follow steps below to install the dependencies on your system and run the application.
 
@@ -42,7 +93,7 @@ In order to start this application, you will need the following:
 
 - **NodeJS** runtime v &ge; 20 (download [here](https://nodejs.org/en))
 - **Git** (download [here](https://git-scm.com/downloads))
-- **Java 22** (download [here](https://www.oracle.com/java/technologies/javase/jdk22-archive-downloads.html))
+- **JDK 21** (download [here](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html))
 - **MySQL 8** (download [here](https://dev.mysql.com/downloads/installer/))
 
 
