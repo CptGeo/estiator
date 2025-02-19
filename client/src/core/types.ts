@@ -139,7 +139,8 @@ export enum AppSetting {
   DefaultRowsPerPage = "defaultRowsPerPage"
 }
 
-export interface SettingsData extends HasId {
+export type SettingsData = Record<AppSetting, string>;
+export interface SettingData extends HasId {
   value: string;
 }
 
