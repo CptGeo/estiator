@@ -58,7 +58,7 @@ jobs:
       - name: Create and upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: estiator.io_build_${{ github.run_id }}
+          name: estiator_io-0.1.0-alpha_build_${{ github.run_id }}
           path: ./client/dist/
   build-server:
     runs-on: ubuntu-latest
