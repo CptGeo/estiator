@@ -43,10 +43,10 @@ export default function TablesGrid(props: Props): ReactElement {
   function topContent(): ReactElement {
     return (
       <div className="flex flex-row justify-between items-end">
-        <p className="text-xs text-default-600">
+        <p className="text-default-400 text-tiny">
           {count! > 0 && `Total capacity: ${count} seats`}
         </p>
-        <Button color="primary" onPress={handleAddTable}><AddIcon className="text-md" />Add table</Button>
+        <Button color="primary" onPress={handleAddTable}>Add table <AddIcon className="text-md" /></Button>
       </div>
     )
   }
