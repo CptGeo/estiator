@@ -37,7 +37,7 @@ public class SettingController {
         List<Setting> settings = new ArrayList<>();
         for(Map.Entry<String, String> entry: data.entrySet()) {
             if (!settingService.exists(entry.getKey())) {
-                throw new ResourceNotFoundException("User not found for ID: " + entry.getKey());
+                throw new ResourceNotFoundException("Setting not found for ID: " + entry.getKey());
             }
             Setting setting = new Setting();
             setting.setId(entry.getKey());
