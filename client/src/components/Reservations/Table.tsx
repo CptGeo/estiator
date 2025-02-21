@@ -8,7 +8,7 @@ import { ReservationStatus, ReservationStatuses, type ReservationData } from "@c
 import ReservationsActions from "@components/Reservations/Actions";
 import useQueryReservations from "@hooks/useQueryReservations";
 import CreateReservationModal from "@components/Modal/CreateReservation";
-import { getFullName } from "@core/utils";
+import { getFullName, sortByDate, sortByHasReservationConflict, sortByTime, sortByUserAlpha } from "@core/utils";
 import WarningIcon from "@components/Icons/WarningIcon";
 import AddIcon from "@components/Icons/AddIcon";
 import { ChevronDownIcon } from "@components/Icons/ChevronDownIcon";
@@ -28,7 +28,7 @@ const columns: Column[] = [
   { name: "Table", uid: "table" },
   { name: "Persons", uid: "persons", sortable: true },
   { name: "Status", uid: "status" },
-  { name: "Alert", uid: "alert" },
+  { name: "Alert", uid: "alert", sortable: true },
   { name: "Actions", uid: "actions" }
 ];
 
@@ -86,21 +86,36 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
 
   const createDisclosure = useDisclosure();
 
+  function sortDefault(a: ReservationData, b: ReservationData) {
+    const first = a[sortDescriptor.column as keyof ReservationData] as number;
+    const second = b[sortDescriptor.column as keyof ReservationData] as number;
+    return first < second ? -1 : first > second ? 1 : 0;
+  }
+
   const sortedItems = useMemo(() => {
     if (!filteredItems) { return []; }
     return [...filteredItems].sort((a: ReservationData, b: ReservationData) => {
 
       let cmp = 0;
 
-      if (sortDescriptor.column === "name") {
-        const aFullNameAndEmail = getFullName(a.createdFor) + " " + a.createdFor.email;
-        const bFullNameAndEmail = getFullName(b.createdFor) + " " + b.createdFor.email;
-        cmp = aFullNameAndEmail.toLowerCase().localeCompare(bFullNameAndEmail.toLowerCase());
-
-      } else {
-        const first = a[sortDescriptor.column as keyof ReservationData] as number;
-        const second = b[sortDescriptor.column as keyof ReservationData] as number;
-        cmp = first < second ? -1 : first > second ? 1 : 0;
+      switch(sortDescriptor.column) {
+        case "alert":
+          cmp = sortByHasReservationConflict(a, b);
+          break;
+        case "name":
+          cmp = sortByUserAlpha(a.createdFor, b.createdFor);
+          break;
+        case "startTime":
+          cmp = sortByTime(a, b);
+          break;
+        case "endTime":
+          cmp = sortByTime(a, b);
+          break;
+        case "date":
+          cmp = sortByDate(a.date, b.date);
+          break;
+        default:
+          cmp = sortDefault(a, b);
       }
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
@@ -189,7 +204,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
               </DropdownMenu>
             </Dropdown>
             <Button color="primary" onPress={createDisclosure.onOpen}>
-              <AddIcon className="text-md" />Create reservation
+              Create reservation <AddIcon className="text-md" />
             </Button>
           </div>
         </div>
