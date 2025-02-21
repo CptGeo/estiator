@@ -58,7 +58,7 @@ jobs:
       - name: Create and upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: estiator.io_build_${{ github.run_id }}
+          name: estiator_io-0.1.0-alpha_build_${{ github.run_id }}
           path: ./client/dist/
   build-server:
     runs-on: ubuntu-latest
@@ -82,5 +82,5 @@ jobs:
     - name: Upload Gradle build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: estiator.io-1.0.0
-        path: server/build/libs/estiator.io-1.0.0.jar
+        name: estiator_io-0.1.0-alpha
+        path: server/build/libs/estiator_io-0.1.0-alpha.jar
