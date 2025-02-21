@@ -5,7 +5,7 @@ import BackIcon from "@components/Icons/BackIcon";
 import { DeleteIcon } from "@components/Icons/DeleteIcon";
 import ConfirmationModal from "@components/Modal/Confirmation";
 import Status from "@components/Status/Employee/Status";
-import { UserRole, UserRoleName, UserStatus, type UserData } from "@core/types";
+import { UserRole, UserRoleName, UserStatus, UserStatuses, type UserData } from "@core/types";
 import { deleteReq, formatDateTime, getInitials, parseTimestamp, patchReq } from "@core/utils";
 import { SelectItem, Button, Image, useDisclosure, Avatar } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -182,7 +182,7 @@ export default function EmployeeInfo(props: {
                   {Object.values(UserStatus).map((item: UserStatus) => {
                     return (
                       <SelectItem key={item} value={item}>
-                        {item}
+                        {UserStatuses[item]}
                       </SelectItem>
                     );
                   })}

@@ -57,6 +57,12 @@ export enum UserStatus {
   TERMINATED = "Terminated"
 }
 
+export const UserStatuses: Record<UserStatus, string> = {
+  [UserStatus.ACTIVE]: "Active",
+  [UserStatus.ON_LEAVE]: "On Leave",
+  [UserStatus.TERMINATED]: "Terminated",
+}
+
 /** Represent the returned user data after a user has logged in */
 export interface UserData extends HasId {
   name: string;
