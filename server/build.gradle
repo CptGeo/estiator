@@ -7,6 +7,9 @@ plugins {
 group = 'com.kalyvianakis'
 version = '1.0.0'
 
+archivesBaseName = 'estiator_io'
+version = '0.1.0-alpha'
+
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
