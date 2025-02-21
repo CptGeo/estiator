@@ -16,7 +16,7 @@ export default function DataVisualizationSettings(props: { settings: SettingsDat
   const { notify } = useNotification();
 
   const methods = useForm({
-    defaultValues: settings,
+    defaultValues: { defaultRowsPerPage: settings.defaultRowsPerPage },
     mode: "onChange"
   });
 
