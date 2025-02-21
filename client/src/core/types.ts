@@ -57,6 +57,12 @@ export enum UserStatus {
   TERMINATED = "Terminated"
 }
 
+export const UserStatuses: Record<UserStatus, string> = {
+  [UserStatus.ACTIVE]: "Active",
+  [UserStatus.ON_LEAVE]: "On Leave",
+  [UserStatus.TERMINATED]: "Terminated",
+}
+
 /** Represent the returned user data after a user has logged in */
 export interface UserData extends HasId {
   name: string;
@@ -135,10 +141,14 @@ export type CompanyData = {
 
 export enum AppSetting {
   BusinessName = "businessName",
-  BusinessDescription = "businessDescription"
+  BusinessDescription = "businessDescription",
+  DefaultRowsPerPage = "defaultRowsPerPage"
 }
 
 export type SettingsData = Record<AppSetting, string>;
+export interface SettingData extends HasId {
+  value: string;
+}
 
 /** Represents statuses of reservations */
 export enum ReservationStatus {
@@ -148,6 +158,14 @@ export enum ReservationStatus {
   BOOKED = "Booked",
   COMPLETED = "Completed"
 };
+
+export const ReservationStatuses: Record<ReservationStatus, string> = {
+  [ReservationStatus.CANCELLED]: "Cancelled",
+  [ReservationStatus.PENDING]: "Pending",
+  [ReservationStatus.CONFIRMED]: "Confirmed",
+  [ReservationStatus.BOOKED]: "Booked",
+  [ReservationStatus.COMPLETED]: "Completed",
+}
 
 /** Represents reservation data */
 export interface ReservationData extends HasId {

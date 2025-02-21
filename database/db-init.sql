@@ -148,4 +148,5 @@ VALUES(0, CURRENT_DATE, 'admin@estiator.io', 'George', '$2a$10$evZ7mfbux9.tKHWtS
 # Insert statement for `settings` table
 INSERT INTO estiator.settings (id,value) VALUES
 	 ('businessDescription','The best F&B management platform'),
-	 ('businessName','Estiator.io');
+	 ('businessName','Estiator.io'),
+   ('defaultRowsPerPage', '20');

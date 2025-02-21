@@ -32,8 +32,8 @@ export default function CustomersTable() {
     const count = customers?.length;
     return (
       <div className="flex flex-row justify-between items-end">
-        <p className="text-xs text-default-600">{count! > 0 && `Total customers: ${customers?.length}`}</p>
-        <Button onPress={() => navigate("/register")} color="primary"><AddIcon className="text-md" />Register user</Button>
+        <p className="text-default-400 text-tiny">{count! > 0 && `Total customers: ${customers?.length}`}</p>
+        <Button onPress={() => navigate("/register")} color="primary">Register user <AddIcon className="text-md" /></Button>
       </div>
     )
   }, [customers?.length]);
