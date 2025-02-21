@@ -2,7 +2,7 @@ import IconButton from "@components/IconButton/IconButton";
 import TickIcon from "@components/Icons/TickIcon";
 import type { ReservationData } from "@core/types";
 import { ReservationStatus } from "@core/types";
-import { getFullName, postReq, sortByTimeAscending, toParsedTimeString } from "@core/utils";
+import { getFullName, postReq, sortByTime, toParsedTimeString } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
 import { getLocalTimeZone, isToday, parseDate, parseTime } from "@internationalized/date";
 import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
@@ -32,7 +32,7 @@ export default function ReservationWidget() {
   });
 
   const filtered = useMemo(() => {
-    return reservations?.filter(filter).sort(sortByTimeAscending) as ReservationData[];
+    return reservations?.filter(filter).sort((a, b) => sortByTime(a, b, "asc")) as ReservationData[];
   }, [reservations]);
 
   /**

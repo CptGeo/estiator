@@ -1,7 +1,8 @@
 import type { FieldValues, FormState } from "react-hook-form";
+import type { ReservationData } from "@core/types";
 import { Day, type HasId, type Normalized, type UserData } from "@core/types";
 import type { CalendarDate } from "@internationalized/date";
-import { CalendarDateTime, parseTime } from "@internationalized/date";
+import { CalendarDateTime, parseDate, parseTime } from "@internationalized/date";
 import { client } from "./request";
 import type { AxiosRequestConfig } from "axios";
 
@@ -130,19 +131,32 @@ export function normalize<T extends HasId>(data: T[] | null | undefined) {
     return coords;
 }
 
-export function sortByTimeAscending<T extends { time: string }>(a: T, b: T): number {
-    return sortByTime(a, b, "asc");
+export function sortByDate(a: string, b: string, method: "asc" | "desc" = "asc"): number {
+    const aParsed = parseDate(a);
+    const bParsed = parseDate(b);
+    const result = aParsed.compare(bParsed);
+    return method === "asc" ? result : -result;
 }
 
-export function sortByTimeDescending<T extends { time: string }>(a: T, b: T): number {
-    return sortByTime(a, b, "desc");
-}
-
-export function sortByTime<T extends { time: string }>(a: T, b: T, method: "asc" | "desc"): number {
+export function sortByTime<T extends { time: string }>(a: T, b: T, method: "asc" | "desc" = "asc"): number {
     const aParsed = parseTime(a.time);
     const bParsed = parseTime(b.time);
     const result = aParsed.compare(bParsed);
 
+    return method === "asc" ? result : -result;
+}
+
+export function sortByUserAlpha(a: UserData, b: UserData, method: "asc" | "desc" = "asc") {
+    const aFullNameAndEmail = getFullName(a) + " " + a.email;
+    const bFullNameAndEmail = getFullName(b) + " " + b.email;
+    const result = aFullNameAndEmail.toLowerCase().localeCompare(bFullNameAndEmail.toLowerCase());
+    return method === "asc" ? result : -result;
+}
+
+export function sortByHasReservationConflict(a: ReservationData, b: ReservationData, method: "asc" | "desc" = "asc") {
+    let result = 0;
+    if (a.conflicts && !b.conflicts) { result = -1 }
+    if (!a.conflicts && b.conflicts) { result = 1 }
     return method === "asc" ? result : -result;
 }
 
