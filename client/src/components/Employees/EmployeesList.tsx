@@ -4,10 +4,12 @@ import Status from "@components/Status/Employee/Status";
 import { UserRoleName, type UserData } from "@core/types";
 import { formatDateTime, getInitials, parseTimestamp } from "@core/utils";
 import useQueryEmployees from "@hooks/useQueryEmployees";
-import { Avatar, Card, CardBody, CardHeader } from "@heroui/react";
-import { Link } from "react-router-dom";
+import { Avatar, Button, Card, CardBody, CardHeader } from "@heroui/react";
+import { Link, useNavigate } from "react-router-dom";
+import AddIcon from "@components/Icons/AddIcon";
 
 export default function EmployeesList() {
+  const navigate = useNavigate();
   const { data: employees } = useQueryEmployees(500);
 
   function EmployeeCard(props: { employee: UserData } ) {
@@ -53,7 +55,13 @@ export default function EmployeesList() {
     );
   }
 
-  return <div className="flex flex-wrap">
-    {employees?.map(employee => <EmployeeCard key={employee.id} employee={employee} />)}
+  return <div className="flex flex-col">
+    <div className="flex flex-row justify-between items-end pb-5">
+      <p className="text-default-400 text-tiny">{employees && employees.length > 0 && `Total employees: ${employees?.length}`}</p>
+      <Button onPress={() => navigate("/register")} color="primary">Register user <AddIcon className="text-md" /></Button>
+    </div>
+    <div className="flex flex-wrap">
+      {employees?.map(employee => <EmployeeCard key={employee.id} employee={employee} />)}
+    </div>
   </div>
 }
