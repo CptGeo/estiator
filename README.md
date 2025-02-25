@@ -10,6 +10,11 @@
   <img src="https://img.shields.io/badge/v2.6-%23d03bf3?style=for-the-badge&label=heroui"/>
   <img src="https://img.shields.io/badge/v3.4-%23a1f4fb?style=for-the-badge&label=tailwindcss">
 </div>
+<div style="display:flex; gap: 5px; margin-bottom:55px;" align="center">
+  <img src="https://img.shields.io/badge/v21-c0392b?style=for-the-badge&label=java">
+  <img src="https://img.shields.io/badge/v3.3-6db33f?style=for-the-badge&label=spring-boot">
+  <img src="https://img.shields.io/badge/v8-3e6e93?style=for-the-badge&label=mysql">
+</div>
 &nbsp;
 
 <p align="center">
