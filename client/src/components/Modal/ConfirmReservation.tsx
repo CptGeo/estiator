@@ -15,7 +15,7 @@ export default function ConfirmReservationModal(props: Props) {
   const { notify } = useNotification();
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (id: Key) => postReq(`/reservations/${id}/confirm`),
+    mutationFn: (id: Key) => postReq(`/reservations/${id}/confirm`, {}, { params: { inform: true } }),
     onSettled: () => disclosureProps.onClose(),
     onSuccess: () => notify({ message: "Reservation has been confirmed!", type: "success" }),
     onError: () => notify({ message: "Reservation could not be confirmed.", type: "danger" })
