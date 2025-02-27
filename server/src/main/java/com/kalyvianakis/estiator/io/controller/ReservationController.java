@@ -1,16 +1,15 @@
 package com.kalyvianakis.estiator.io.controller;
 
 import java.nio.file.AccessDeniedException;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.kalyvianakis.estiator.io.dto.ReservationRequest;
 import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 import com.kalyvianakis.estiator.io.enums.UserStatus;
 import com.kalyvianakis.estiator.io.model.User;
+import com.kalyvianakis.estiator.io.service.EmailSenderService;
+import com.kalyvianakis.estiator.io.service.TableService;
 import com.kalyvianakis.estiator.io.service.UserService;
 import com.kalyvianakis.estiator.io.utils.JwtHelper;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
@@ -42,8 +41,18 @@ public class ReservationController {
   @Autowired
   UserService userService;
 
+  @Autowired
+  public TableService tableService;
+
+  @Autowired
+  EmailSenderService senderService;
+
   @PostMapping
-  public ResponseEntity<Reservation> add(@RequestBody ReservationRequest request, @RequestHeader(name = "Authorization") String token) throws ResourceNotFoundException, AccessDeniedException {
+  public ResponseEntity<Reservation> add(
+          @RequestBody ReservationRequest request,
+          @RequestHeader(name = "Authorization") String token,
+          @RequestParam(required = false) Boolean inform
+  ) throws ResourceNotFoundException, AccessDeniedException {
       Reservation reservation = new Reservation();
       String createdByEmail = jwtHelper.extractUsername(token.substring(7));
       User createdBy = userService.getOneByEmail(createdByEmail);
@@ -83,6 +92,10 @@ public class ReservationController {
           throw new IllegalArgumentException("Reservation exists for given date, time and table.");
       }
 
+      if (inform == null || inform) {
+        senderService.sendReservationCreated(reservation);
+      }
+
       return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.save(reservation));
   }
 
@@ -119,9 +132,8 @@ public class ReservationController {
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<?> patch(@PathVariable Long id, @RequestBody Reservation reservation) throws Exception {
+  public ResponseEntity<?> patch(@PathVariable Long id, @RequestBody Reservation reservation, @RequestParam(required = false) Boolean inform) throws Exception {
       Reservation current = reservationService.get(id);
-
       reservationPatcher.patch(current, reservation);
       reservationService.save(current);
 
@@ -151,34 +163,51 @@ public class ReservationController {
           }
       }
 
+      if (inform == null || inform) {
+          senderService.sendReservationEdited(current);
+      }
+
       return ResponseEntity.ok().body(current);
   }
 
   @PostMapping("/{id}/confirm")
-  public ResponseEntity<?> confirm(@PathVariable Long id) throws Exception {
+  public ResponseEntity<?> confirm(@PathVariable Long id, @RequestParam(required = false) Boolean inform) throws Exception {
       Reservation reservation = reservationService.get(id);
       reservationService.confirm(reservation);
+
+      if (inform == null || inform) {
+        senderService.sendReservationConfirmed(reservation);
+      }
       return ResponseEntity.ok().build();
   }
 
     @PostMapping("/{id}/cancel")
-    public ResponseEntity<?> cancel(@PathVariable Long id) throws ResourceNotFoundException {
+    public ResponseEntity<?> cancel(@PathVariable Long id, @RequestParam(required = false) Boolean inform) throws ResourceNotFoundException {
         Reservation reservation = reservationService.get(id);
         reservationService.cancel(reservation);
+
+        if (inform == null || inform) {
+            // @todo: Add reason form in client
+            senderService.sendReservationCancelled(reservation, "Cancelled after customer request.");
+        }
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{id}/book")
-    public ResponseEntity<?> book(@PathVariable Long id) throws Exception {
+    public ResponseEntity<?> book(@PathVariable Long id, @RequestParam(required = false) Boolean inform) throws Exception {
         Reservation reservation = reservationService.get(id);
-        reservationService.book(reservation);
+        if (inform == null || inform) {
+            reservationService.book(reservation);
+        }
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{id}/complete")
-    public ResponseEntity<?> complete(@PathVariable Long id) throws Exception {
+    public ResponseEntity<?> complete(@PathVariable Long id, @RequestParam(required = false) Boolean inform) throws Exception {
         Reservation reservation = reservationService.get(id);
-        reservationService.complete(reservation);
+        if (inform == null || inform) {
+            reservationService.complete(reservation);
+        }
         return ResponseEntity.ok().build();
     }
   
