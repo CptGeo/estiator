@@ -5,4 +5,7 @@ local_specs.md
 
 # Do not commit env files
 database.env
-server.env
+server/.env
+
+# Ignore SSL Private Key
+server/src/main/resources/keystore/*.p12
