@@ -4,7 +4,7 @@ services:
     build: ./server
     restart: always
     ports:
-      - 8888:8888
+      - 8443:8443
     depends_on:
       - app-database
     healthcheck:
@@ -13,7 +13,7 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
-    env_file: "server.env"
+    env_file: server/.env
     environment:
       MYSQL_HOST: app-database
       SERVER_HOST: 0.0.0.0

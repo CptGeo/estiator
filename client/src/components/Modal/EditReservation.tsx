@@ -54,9 +54,8 @@ export default function EditReservationModal(props: Props) {
         time: parseTime(values.time).toString(),
         status: values.status,
         duration: parseDurationToSeconds(values.duration),
-        inform: values.inform
       };
-      await patchReq(`/reservations/${reservation.id}`, { ...data });
+      await patchReq(`/reservations/${reservation.id}`, { ...data }, { params: { inform: values.inform } });
       notify({ message: "Reservation has been updated successfully!", type: "success" });
       onClose();
     } catch (error) {

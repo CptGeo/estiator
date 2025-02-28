@@ -15,7 +15,7 @@ export default function CancelReservationModal(props: Props) {
   const { notify } = useNotification();
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (id: Key) => postReq(`/reservations/${id}/cancel`),
+    mutationFn: (id: Key) => postReq(`/reservations/${id}/cancel`, {}, { params: { inform: true } }),
     onSettled: () => disclosureProps.onClose(),
     onSuccess: () => notify({ message: "Reservation has been cancelled.", type: "success" }),
     onError: () =>  notify({ message: "Reservation could not be cancelled.", type: "danger" })

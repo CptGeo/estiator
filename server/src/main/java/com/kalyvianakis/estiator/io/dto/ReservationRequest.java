@@ -4,8 +4,6 @@ import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 import com.kalyvianakis.estiator.io.model.Table;
 import com.kalyvianakis.estiator.io.model.User;
 
-import java.sql.Time;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -31,6 +29,8 @@ public class ReservationRequest {
     private Integer duration;
 
     private ReservationStatus status;
+
+    private Boolean inform;
 
     public LocalDate getDate() {
         return date;
@@ -118,5 +118,13 @@ public class ReservationRequest {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    public Boolean getInform() {
+        return inform;
+    }
+
+    public void setInform(Boolean inform) {
+        this.inform = inform;
     }
 }

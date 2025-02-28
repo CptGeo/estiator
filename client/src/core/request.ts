@@ -1,7 +1,7 @@
 import axios, { HttpStatusCode } from "axios";
 
 export const client = axios.create({
-baseURL: "http://192.168.1.194:8888",
+baseURL: "https://192.168.1.194:8443",
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json'

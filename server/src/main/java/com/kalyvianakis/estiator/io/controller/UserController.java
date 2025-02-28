@@ -3,6 +3,7 @@ package com.kalyvianakis.estiator.io.controller;
 import com.kalyvianakis.estiator.io.component.patcher.UserPatcher;
 import com.kalyvianakis.estiator.io.dto.SafeUserData;
 import com.kalyvianakis.estiator.io.enums.ScheduleStatus;
+import com.kalyvianakis.estiator.io.service.EmailSenderService;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.MessageResponse;
 import com.kalyvianakis.estiator.io.model.Schedule;
@@ -38,6 +39,9 @@ public class UserController {
 
     @Autowired
     private UserPatcher userPatcher;
+
+    @Autowired
+    private EmailSenderService senderService;
 
     @PostMapping
     // @todo - Fix issue with entity creation. Instead of 400 - Bad Request, I get 500 - Internal Server Error after data validation with 'false' result
