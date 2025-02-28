@@ -15,11 +15,14 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     Long countByDateLessThanEqual(LocalDate date);
     Long countByDateBetween(LocalDate from, LocalDate to);
+    Boolean existsByCancellationUUID(String cancellationUUID);
+    Reservation findByCancellationUUID(String cancellationUUID);
 
     @Query(
             value = "SELECT\n" +

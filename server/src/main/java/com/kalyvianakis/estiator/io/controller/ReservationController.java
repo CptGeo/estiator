@@ -3,10 +3,12 @@ package com.kalyvianakis.estiator.io.controller;
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import com.kalyvianakis.estiator.io.dto.ReservationRequest;
 import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 import com.kalyvianakis.estiator.io.enums.UserStatus;
+import com.kalyvianakis.estiator.io.model.Response;
 import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.service.EmailSenderService;
 import com.kalyvianakis.estiator.io.service.TableService;
@@ -83,6 +85,9 @@ public class ReservationController {
       reservation.setTable(request.getTable());
       reservation.setTime(request.getTime());
       reservation.setDuration(request.getDuration());
+
+      UUID cancellationUUID = UUID.randomUUID();
+      reservation.setCancellationUUID(cancellationUUID.toString());
 
       List<Short> statuses = List.of(ReservationStatus.Confirmed.getLabel());
 
@@ -210,5 +215,4 @@ public class ReservationController {
         }
         return ResponseEntity.ok().build();
     }
-  
 }

@@ -1,5 +1,7 @@
 package com.kalyvianakis.estiator.io.utils.config;
 
+import com.kalyvianakis.estiator.io.utils.ApplicationProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +12,9 @@ import java.util.Properties;
 
 @Component
 public class SimpleMailMessageExt extends SimpleMailMessage {
+
+    @Autowired
+    ApplicationProperties applicationProperties;
 
     @Bean
     public JavaMailSender getJavaMailSender() {
@@ -35,12 +40,13 @@ public class SimpleMailMessageExt extends SimpleMailMessage {
     @Bean
     public SimpleMailMessage templateCreateReservation() {
         SimpleMailMessage message = new SimpleMailMessage();
+        String cancellationUrl = applicationProperties.getClientUrl("cancelReservation?uuid=%s");
 
         message.setText("Hello %s,\n\nA new reservation in %s has been created for you!\n\n" +
                 "Below you can find more details about your reservation: \n\nDate: %s\nFrom: %s\nUntil: %s\nTable preference: %s\nPersons: %d\n\n" +
                 "Please note that the reservation is not yet finalized. Our staff will soon confirm it, so please wait.\n\n\n" +
                 "If you would like to cancel this reservation, you can click the link below:\n" +
-                "http://estiator.io");
+                cancellationUrl);
 
         return message;
     }
@@ -48,11 +54,12 @@ public class SimpleMailMessageExt extends SimpleMailMessage {
     @Bean
     public SimpleMailMessage templateConfirmReservation() {
         SimpleMailMessage message = new SimpleMailMessage();
+        String cancellationUrl = applicationProperties.getClientUrl("cancelReservation?uuid=%s");
 
         message.setText("Hello %s,\n\nYour reservation in %s has be confirmed!\n\n" +
                 "Below you can find the final details of your reservation: \n\nDate: %s\nFrom: %s\nUntil: %s\nTable preference: %s\nPersons: %d\n\n\n" +
                 "If you would like to cancel this reservation, you can click the link below:\n" +
-                "http://estiator.io");
+                cancellationUrl);
 
         return message;
     }
@@ -71,11 +78,12 @@ public class SimpleMailMessageExt extends SimpleMailMessage {
     @Bean
     public SimpleMailMessage templateEditReservation() {
         SimpleMailMessage message = new SimpleMailMessage();
+        String cancellationUrl = applicationProperties.getClientUrl("cancelReservation?uuid=%s");
 
         message.setText("Hello %s,\n\nYour reservation info in %s have been updated.\n\n" +
                 "Some information regarding your reservation have been changed. Below you can find the updated reservation details: \n\nStatus: %s\nDate: %s\nFrom: %s\nUntil: %s\nTable preference: %s\nPersons: %d\n\n\n" +
                 "If you would like to cancel this reservation, you can click the link below:\n" +
-                "http://estiator.io");
+                cancellationUrl);
 
         return message;
     }

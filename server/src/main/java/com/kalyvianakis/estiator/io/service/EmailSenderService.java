@@ -53,7 +53,8 @@ public class EmailSenderService {
                 reservation.getTime().toString(),
                 reservation.getTime().plusSeconds(reservation.getDuration()).toString(),
                 tableLabel,
-                reservation.getPersons()
+                reservation.getPersons(),
+                reservation.getCancellationUUID()
         );
 
         this.sendMessage(
@@ -75,7 +76,8 @@ public class EmailSenderService {
                 reservation.getTime().toString(),
                 reservation.getTime().plusSeconds(reservation.getDuration()).toString(),
                 tableLabel,
-                reservation.getPersons()
+                reservation.getPersons(),
+                reservation.getCancellationUUID()
         );
 
         this.sendMessage(
@@ -121,7 +123,8 @@ public class EmailSenderService {
                 reservation.getTime().toString(),
                 reservation.getTime().plusSeconds(reservation.getDuration()).toString(),
                 tableLabel,
-                reservation.getPersons()
+                reservation.getPersons(),
+                reservation.getCancellationUUID()
         );
 
         this.sendMessage(

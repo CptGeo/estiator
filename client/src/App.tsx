@@ -22,6 +22,7 @@ import { UserRole } from "@core/types";
 import NotificationProvider from "@context/Notification";
 import CustomerManagementPage from "@pages/CustomerManagement/CustomerManagement";
 import SettingsPage from "@pages/Settings/Settings";
+import CancellationPage from "@pages/Cancellation/Cancellation";
 
 const router = createBrowserRouter([
   {
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
           {
             path: "/unauthorized",
             element: <Unauthorized />
+          },
+          {
+            path: "/cancelReservation",
+            element: <CancellationPage />
           }
         ]
       }

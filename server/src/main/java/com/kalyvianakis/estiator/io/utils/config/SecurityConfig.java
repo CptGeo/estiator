@@ -59,6 +59,9 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.GET ,"/users/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
                         .requestMatchers(HttpMethod.PATCH ,"/users/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
+
+                        .requestMatchers(HttpMethod.POST, "/cancelReservation/**").permitAll()
+
                         .requestMatchers("/users/**").hasAuthority("ROLE_ADMIN")
 
                         .requestMatchers("/schedules/**").hasAuthority("ROLE_ADMIN")

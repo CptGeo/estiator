@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -42,6 +43,8 @@ public class Reservation extends PropertyPrinter {
 
   private Integer duration;
 
+  private String cancellationUUID;
+
   @Transient
   private Integer conflicts;
 
@@ -67,7 +70,6 @@ public class Reservation extends PropertyPrinter {
 
   @Transient
   private LocalTime endTime;
-
 
   public Reservation(LocalDate date, LocalTime time, ReservationStatus status, Table table, User createdBy, User createdFor) {
     this.date = date;
@@ -199,5 +201,13 @@ public class Reservation extends PropertyPrinter {
 
   public void setEndTime(LocalTime endTime) {
     this.endTime = endTime;
+  }
+
+  public String getCancellationUUID() {
+    return cancellationUUID;
+  }
+
+  public void setCancellationUUID(String cancellationUUID) {
+    this.cancellationUUID = cancellationUUID;
   }
 }
