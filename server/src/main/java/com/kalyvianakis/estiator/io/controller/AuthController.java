@@ -6,6 +6,7 @@ import com.kalyvianakis.estiator.io.dto.SignupAdminRequest;
 import com.kalyvianakis.estiator.io.dto.SignupRequest;
 import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.service.AuthService;
+import com.kalyvianakis.estiator.io.service.EmailSenderService;
 import com.kalyvianakis.estiator.io.service.UserService;
 import com.kalyvianakis.estiator.io.utils.JwtHelper;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
@@ -34,15 +35,28 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EmailSenderService senderService;
+
     @PostMapping("/signup")
-    public ResponseEntity<Void> signup(@Valid @RequestBody SignupRequest requestDto) throws Exception {
-        authService.signup(requestDto);
+    public ResponseEntity<Void> signup(@Valid @RequestBody SignupRequest signupRequest, @RequestParam(required = false) Boolean inform) throws Exception {
+        authService.signup(signupRequest);
+
+        if (inform == null || inform) {
+            senderService.sendUserCreated(signupRequest);
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/signup/admin")
-    public ResponseEntity<Void> signupAdmin(@Valid @RequestBody SignupAdminRequest requestDto) throws Exception {
-        authService.signupAdmin(requestDto);
+    public ResponseEntity<Void> signupAdmin(@Valid @RequestBody SignupAdminRequest signupRequest, @RequestParam(required = false) Boolean inform) throws Exception {
+        authService.signupAdmin(signupRequest);
+
+        if (inform == null || inform) {
+            senderService.sendUserCreated(signupRequest);
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

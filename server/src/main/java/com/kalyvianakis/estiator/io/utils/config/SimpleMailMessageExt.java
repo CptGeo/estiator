@@ -79,4 +79,13 @@ public class SimpleMailMessageExt extends SimpleMailMessage {
 
         return message;
     }
+
+    @Bean
+    public SimpleMailMessage templateCreateUser() {
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        message.setText("Hello %s,\n\nWelcome to %s!\nYour account has been created successfully.");
+
+        return message;
+    }
 }

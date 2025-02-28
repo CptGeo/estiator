@@ -1,6 +1,8 @@
 package com.kalyvianakis.estiator.io.service;
 
+import com.kalyvianakis.estiator.io.dto.SignupRequest;
 import com.kalyvianakis.estiator.io.model.Reservation;
+import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.utils.config.SimpleMailMessageExt;
 import jakarta.mail.MessagingException;
@@ -126,6 +128,21 @@ public class EmailSenderService {
                 reservation.getCreatedFor().getEmail(),
                 "Estiator.io",
                 "Estiator.io - Your reservation info have been updated.",
+                text
+        );
+    }
+
+    public void sendUserCreated(SignupRequest signupRequest) {
+        String text = String.format(
+                simpleMailMessage.templateCreateUser().getText(),
+                signupRequest.getName() + " " + signupRequest.getSurname(),
+                "Estiator.io"
+        );
+
+        this.sendMessage(
+                signupRequest.getEmail(),
+                "Estiator.io",
+                "Estiator.io - Your user account has been created successfully",
                 text
         );
     }
