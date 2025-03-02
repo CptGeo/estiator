@@ -8,7 +8,7 @@ import { Button, SelectItem } from "@heroui/react";
 import { useMutation } from "@tanstack/react-query";
 import type { FieldValues, RegisterOptions } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useNotification } from "@context/Notification";
 import SelectField from "@components/Fields/Select";
 import { UserRole, UserRoleName } from "@core/types";
