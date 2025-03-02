@@ -23,6 +23,7 @@ import NotificationProvider from "@context/Notification";
 import CustomerManagementPage from "@pages/CustomerManagement/CustomerManagement";
 import SettingsPage from "@pages/Settings/Settings";
 import CancellationPage from "@pages/Cancellation/Cancellation";
+import CreateReservationPage from "@pages/CreateReservation/CreateReservation";
 
 const router = createBrowserRouter([
   {
@@ -89,6 +90,10 @@ const router = createBrowserRouter([
           {
             path: "/cancelReservation",
             element: <CancellationPage />
+          },
+          {
+            path: "/create-reservation",
+            element: <CreateReservationPage />
           }
         ]
       }
