@@ -1,6 +1,5 @@
 package com.kalyvianakis.estiator.io.repository;
 
-import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 import com.kalyvianakis.estiator.io.model.Table;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +14,36 @@ import java.util.List;
 public interface TableRepository extends JpaRepository<Table, Long> {
     @Query(value = "SELECT SUM(capacity) FROM tables", nativeQuery = true)
     Long getTotalCapacity();
+
+    @Query(
+            value = "SELECT\n" +
+                    "    t.id, t.label, t.capacity, t.x, t.y, t.color,\n" +
+                    "    CASE\n" +
+                    "        WHEN r.id IS NOT NULL THEN TRUE\n" +
+                    "        ELSE FALSE\n" +
+                    "    END AS occupied\n" +
+                    "FROM tables AS t\n" +
+                    "LEFT JOIN reservations AS r\n" +
+                    "    ON r.table_id = t.id\n" +
+                    "    AND r.`date` = :date\n" +
+                    "    AND r.status IN (:statuses)\n" +
+                    "    AND (\n" +
+                    "        -- Case 1: New reservation fully overlaps an existing one\n" +
+                    "        (TIME(:time) <= r.time\n" +
+                    "        AND ADDTIME(TIME(:time), SEC_TO_TIME(:duration)) >= ADDTIME(r.time, SEC_TO_TIME(r.duration)))\n" +
+                    "        -- Case 2: New reservation ends inside an existing one\n" +
+                    "        OR (ADDTIME(TIME(:time), SEC_TO_TIME(:duration)) > r.time\n" +
+                    "        AND ADDTIME(TIME(:time), SEC_TO_TIME(:duration)) <= ADDTIME(r.time, SEC_TO_TIME(r.duration)))\n" +
+                    "        -- Case 3: New reservation starts inside an existing one\n" +
+                    "        OR (TIME(:time) >= r.time\n" +
+                    "        AND TIME(:time) < ADDTIME(r.time, SEC_TO_TIME(r.duration)))\n" +
+                    "    );", nativeQuery = true)
+    List<Object[]> getAllWithAvailability (
+            @Param(value = "date") LocalDate date,
+            @Param(value = "time") LocalTime time,
+            @Param(value = "duration") Integer duration,
+            @Param(value= "statuses") List<Short> status
+    );
 
     @Query(
             value = "SELECT DISTINCT tab.* FROM tables AS tab EXCEPT\n"
