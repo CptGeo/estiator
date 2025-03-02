@@ -109,8 +109,8 @@ export default function CreateReservationPage(): ReactElement {
   return (
     <div className="max-w-[900px] mx-auto mt-10">
       <PageHeader
-        heading="Reservations management"
-        subheading="Here you can manage existing or create new reservations for your business."
+        heading="Create a new reservation"
+        subheading="Here you can create a new reservation. Add your information and then select a table to proceed."
       />
 
       <FormProvider {...methods}>
@@ -192,7 +192,7 @@ export default function CreateReservationPage(): ReactElement {
                 </Card>
                 <CheckboxField label="Receive reservation information on email" defaultSelected name="inform" />
                 <Button
-                  className="bg-gradient-to-tr from-yellow-400 to-primary-400 text-white shadow-lg text-lg ml-auto"
+                  className="bg-gradient-to-tr from-success-400 to-primary-400 text-white shadow-lg text-lg ml-auto"
                   size="lg"
                   isDisabled={tableInvalid() || infoInvalid()}
                   isLoading={isPending}
