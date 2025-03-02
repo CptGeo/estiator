@@ -180,19 +180,19 @@ export default function CreateReservationPage(): ReactElement {
               <div className="flex flex-col justify-between mt-5 gap-5">
                 <Card>
                   <CardBody>
-                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-foreground-600">Name:</span><span className="col-span-9">{methods.watch("name")}</span></div>
-                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-foreground-600">Surname:</span><span className="col-span-9">{methods.watch("surname") || "-"}</span></div>
-                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-foreground-600">Email:</span><span className="col-span-9">{methods.watch("email")}</span></div>
-                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-foreground-600">Date:</span><span className="col-span-9">{watch("date") ? formatDate(watch("date")).toString() : "-"}</span></div>
-                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-foreground-600">Time:</span><span className="col-span-9">{methods.watch("time")}</span></div>
-                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-foreground-600">Duration:</span><span className="col-span-9">{methods.watch("duration")}</span></div>
-                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-foreground-600">Table:</span><span className="col-span-9">{findTable(methods.watch("table"))?.label}</span></div>
-                    <div className="grid grid-cols-12 py-3"><span className="col-span-3 text-foreground-600">Phone:</span><span className="col-span-9">{methods.watch("countryCode") && methods.watch("phone") ? methods.watch("countryCode") + methods.watch("phone") : "-"}</span></div>
+                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-sm text-foreground-500">Name:</span><span className="col-span-9">{methods.watch("name")}</span></div>
+                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-sm text-foreground-500">Surname:</span><span className="col-span-9">{methods.watch("surname") || "-"}</span></div>
+                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-sm text-foreground-500">Email:</span><span className="col-span-9">{methods.watch("email")}</span></div>
+                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-sm text-foreground-500">Date:</span><span className="col-span-9">{watch("date") ? formatDate(watch("date")).toString() : "-"}</span></div>
+                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-sm text-foreground-500">Time:</span><span className="col-span-9">{methods.watch("time")}</span></div>
+                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-sm text-foreground-500">Duration:</span><span className="col-span-9">{methods.watch("duration")}</span></div>
+                    <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-sm text-foreground-500">Table:</span><span className="col-span-9">{findTable(methods.watch("table"))?.label ?? "-"}</span></div>
+                    <div className="grid grid-cols-12 py-3"><span className="col-span-3 text-sm text-foreground-500">Phone:</span><span className="col-span-9">{methods.watch("countryCode") && methods.watch("phone") ? methods.watch("countryCode") + methods.watch("phone") : "-"}</span></div>
                   </CardBody>
                 </Card>
                 <CheckboxField label="Receive reservation information on email" defaultSelected name="inform" />
                 <Button
-                  className="bg-gradient-to-tr from-pink-500 to-primary-400 text-white shadow-lg"
+                  className="bg-gradient-to-tr from-yellow-400 to-primary-400 text-white shadow-lg text-lg ml-auto"
                   size="lg"
                   isDisabled={tableInvalid() || infoInvalid()}
                   isLoading={isPending}
