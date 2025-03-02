@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import type { SortDescriptor } from "@heroui/react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Pagination, Button, useDisclosure, Tooltip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Spinner } from "@heroui/react";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Pagination, Button, useDisclosure, Tooltip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Spinner, ButtonGroup } from "@heroui/react";
 import { parseDate, parseTime } from "@internationalized/date";
 import Status from "@components/Status/Reservation/Status";
 import type { Key, SettingData } from "@core/types";
@@ -13,6 +13,8 @@ import WarningIcon from "@components/Icons/WarningIcon";
 import AddIcon from "@components/Icons/AddIcon";
 import { ChevronDownIcon } from "@components/Icons/ChevronDownIcon";
 import { SearchIcon } from "@components/Icons/SearchIcon";
+import { useNavigate } from "react-router-dom";
+import { ThurderIcon } from "@components/Icons/ThunderIcon";
 
 type Column = {
   name: string;
@@ -35,6 +37,8 @@ const columns: Column[] = [
 export default function ReservationsTable(props: { defaultRowsPerPage: SettingData }) {
   const defaultRowsPerPage = props.defaultRowsPerPage;
 
+  const navigate = useNavigate();
+
   const { data: reservations } = useQueryReservations(1000);
   const [filterValue, setFilterValue] = useState("");
   const [visibleColumns, setVisibleColumns] = useState<Iterable<Key> | "all" | undefined>("all");
@@ -45,6 +49,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
     column: "date",
     direction: "descending",
   });
+
   const [page, setPage] = useState(1);
 
   const hasSearchFilter = Boolean(filterValue);
@@ -203,9 +208,12 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" onPress={createDisclosure.onOpen}>
-              Create reservation <AddIcon className="text-md" />
-            </Button>
+            <ButtonGroup>
+              <Button color="primary" onPress={() => navigate("/create-reservation")}>Create reservation <AddIcon className="text-md" /></Button>
+              <Button color="primary" variant="flat" onPress={createDisclosure.onOpen}>
+                Quick reservation <ThurderIcon />
+              </Button>
+            </ButtonGroup>
           </div>
         </div>
         <div className="flex justify-between items-center">
