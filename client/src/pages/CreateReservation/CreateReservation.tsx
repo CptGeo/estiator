@@ -114,7 +114,7 @@ export default function CreateReservationPage(): ReactElement {
       />
 
       <FormProvider {...methods}>
-        <form ref={formRef} onSubmit={methods.handleSubmit(onSubmit)} noValidate onKeyDown={(e) => checkKeyDown(e)}>
+        <form ref={formRef} onSubmit={methods.handleSubmit(onSubmit)} noValidate onKeyDown={(e) => checkKeyDown(e)} className="flex w-full flex-col">
           <Tabs aria-label="Reservation Steps" variant="solid" color="primary">
             <Tab tabRef={step1Button} key="reservationInfo" title="1. Reservation Info">
               <div className="gap-10 md:flex">
@@ -138,10 +138,10 @@ export default function CreateReservationPage(): ReactElement {
                   <InputField label="Surname" name="surname" />
                   <EmailField isRequired label="Email" name="email" />
                   <div className="flex flex-nowrap basis-full gap-4">
-                    <div className="basis-2/6">
+                    <div className="basis-3/6 sm:basis-2/6">
                       <PhoneCodeField name="countryCode" label="Country code" />
                     </div>
-                    <div className="basis-4/6">
+                    <div className="basis-3/6 sm:basis-4/6">
                       <InputField
                         name="phone"
                         label="Phone number"
