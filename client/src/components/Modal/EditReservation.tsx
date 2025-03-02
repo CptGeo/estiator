@@ -40,7 +40,6 @@ export default function EditReservationModal(props: Props) {
       surname: reservation.createdFor.surname,
       phone: reservation.createdFor.phone,
       email: reservation.createdFor.email,
-      inform: false
     }
   });
 
