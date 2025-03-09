@@ -1,5 +1,4 @@
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, DropdownSection, useDisclosure } from "@heroui/react";
-import MenuDotsIcon from "@components/Icons/MenuDotsIcon";
 import type { ReservationData } from "@core/types";
 import { ReservationStatus, UserRole } from "@core/types";
 import type { Key, ReactElement } from "react";
@@ -11,6 +10,7 @@ import { userIsAllowed } from "@core/auth";
 import { useAuth } from "@context/Authentication";
 import BookReservationModal from "@components/Modal/BookReservation";
 import CompleteReservationModal from "@components/Modal/CompleteReservation";
+import { MoreHorizTwoTone } from "@mui/icons-material";
 
 type Props = {
   reservation: ReservationData;
@@ -67,7 +67,7 @@ export default function ReservationsActions(props: Props) {
       <Dropdown>
         <DropdownTrigger>
           <Button isIconOnly variant="light">
-            <MenuDotsIcon className="text-2xl" />
+            <MoreHorizTwoTone />
           </Button>
         </DropdownTrigger>
         <DropdownMenu

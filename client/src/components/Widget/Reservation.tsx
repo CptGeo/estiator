@@ -1,5 +1,4 @@
 import IconButton from "@components/IconButton/IconButton";
-import TickIcon from "@components/Icons/TickIcon";
 import type { ReservationData } from "@core/types";
 import { ReservationStatus } from "@core/types";
 import { getFullName, postReq, sortByTime, toParsedTimeString } from "@core/utils";
@@ -11,6 +10,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useNotification } from "@context/Notification";
 import Status from "@components/Status/Reservation/Status";
+import { DoneTwoTone } from "@mui/icons-material";
 
 export default function ReservationWidget() {
   const { data: reservations } = useQueryReservations(3000);
@@ -78,7 +78,7 @@ export default function ReservationWidget() {
               color="success"
               variant="solid"
             >
-              <TickIcon className="text-lg text-content1" />
+              <DoneTwoTone className="text-lg text-content1" />
             </IconButton>
             : <IconButton
               withConfirmation
@@ -90,7 +90,7 @@ export default function ReservationWidget() {
               color="success"
               variant="solid"
             >
-              <TickIcon className="text-lg text-content1" />
+              <DoneTwoTone className="text-lg text-content1" />
             </IconButton>
 
           }

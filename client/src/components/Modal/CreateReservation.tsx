@@ -8,7 +8,7 @@ import CalendarPlainField from "@components/Fields/CalendarPlain";
 import CheckboxField from "@components/Fields/Checkbox";
 import EmailField from "@components/Fields/Email";
 import TimeField from "@components/Fields/Time";
-import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
+import { parseTime, today } from "@internationalized/date";
 import TablesSelectField from "../Fields/TablesSelect";
 import { useMutation } from "@tanstack/react-query";
 import { parseDurationToSeconds, postReq } from "@core/utils";

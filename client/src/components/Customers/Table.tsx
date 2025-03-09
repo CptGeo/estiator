@@ -4,8 +4,8 @@ import { UserRole, UserRoleName, type UserData } from "@core/types";
 import { getFullName, parseTimestamp } from "@core/utils";
 import useQueryCustomers from "@hooks/useQueryCustomers";
 import CustomersActions from "./Actions";
-import AddIcon from "@components/Icons/AddIcon";
 import { useNavigate } from "react-router-dom";
+import { AddCircleTwoTone } from "@mui/icons-material";
 
 const columns = [
   { name: "NAME", uid: "name" },
@@ -33,7 +33,7 @@ export default function CustomersTable() {
     return (
       <div className="flex flex-row justify-between items-end">
         <p className="text-default-400 text-tiny">{count! > 0 && `Total customers: ${customers?.length}`}</p>
-        <Button onPress={() => navigate("/register")} color="primary">Register user <AddIcon className="text-md" /></Button>
+        <Button onPress={() => navigate("/register")} color="primary">Register user  <AddCircleTwoTone fontSize="small" /></Button>
       </div>
     )
   }, [customers?.length]);

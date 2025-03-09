@@ -4,7 +4,6 @@ import type { TableData } from "@core/types";
 import classNames from "classnames";
 import styles from '@components/DragNDrop/TableDraggable/TableDraggable.module.css';
 import { Link } from "react-router-dom";
-import { EditIcon } from "@components/Icons/EditIcon";
 import { gridSize, gridItemMultiplierHeight, gridItemMultiplierWidth, gridItemGap } from "@settings";
 import type { Key } from "react";
 import { useEffect, useState } from "react";
@@ -12,6 +11,7 @@ import type { Coordinates } from "@dnd-kit/core/dist/types";
 import EditTableModal from "@components/Modal/EditTable";
 import { Chip, useDisclosure } from "@heroui/react";
 import { patchReq } from "@core/utils";
+import { EditTwoTone } from "@mui/icons-material";
 
 type Props = {
   handle?: boolean;
@@ -99,8 +99,8 @@ export function GridTableDraggable({ handle, dragOverlay, id, value }: Props) {
             {...(handle ? {} : listeners)}>
             <p className="text-xs absolute top-1">Table</p>
             <p className="text-xl absolute top-[50%] translate-y-[-50%] font-bold drop-shadow-lg">{label}</p>
-            <Link onClick={modal.onOpen} to="" color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2">
-              <EditIcon className="text-sm" />
+            <Link onClick={modal.onOpen} to="" color="primary" className="z-[9999999] bg-primary p-2 rounded-full text-default-50 hover:shadow-md transition-opacity opacity-0 group-hover:opacity-100 absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+              <EditTwoTone className="text-[10px]" fontSize="inherit" />
             </Link>
             <div className="absolute right-0 bottom-0 w-full justify-between items-end flex pl-1">
               <p className="text-[12px] text-left inline-block drop-shadow-lg pr-1">Capacity: {capacity}</p>

@@ -26,7 +26,7 @@ export default function TablesGridSelect(props: Props): ReactElement {
 
   return (
     <Controller
-    rules={{ required: isRequired}}
+    rules={{ required: isRequired }}
     name={name}
     render={({ field: { onChange, value } }) => (
         <div className="flex flex-col gap-4">

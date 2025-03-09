@@ -17,8 +17,8 @@ import {
 } from "@heroui/react";
 import { useCallback, useState } from "react";
 import useQuerySchedules from "@hooks/useQuerySchedules";
-import { ResetIcon } from "@components/Icons/ResetIcon";
 import { Link } from "react-router-dom";
+import { HistoryTwoTone } from "@mui/icons-material";
 
 const columns = [
   { name: "Employee", uid: "employee" },
@@ -105,7 +105,7 @@ export default function EmployeesStatusWidget() {
             </Button>
             <Tooltip content="Reset to current date" showArrow placement="right">
               <Button isIconOnly color="warning" className="text-background" onPress={() => setCurrent(0)}>
-                <ResetIcon className="text-lg" />
+                <HistoryTwoTone className="text-lg" />
               </Button>
             </Tooltip>
           </ButtonGroup>

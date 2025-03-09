@@ -1,6 +1,6 @@
 import Minicard from "./Minicard";
-import TableIcon from "@components/Icons/TableIcon";
 import useQueryTables from "@hooks/useQueryTables";
+import { PeopleOutlineTwoTone } from "@mui/icons-material";
 
 export default function TotalCapacity() {
     const { data: tablesCount } = useQueryTables<number>(3000, {}, { capacity: true });
@@ -8,7 +8,7 @@ export default function TotalCapacity() {
     return <Minicard
         headline="Max occupancy"
         description={tablesCount}
-        icon={<TableIcon />}
+        icon={<PeopleOutlineTwoTone fontSize="small" />}
         indicator={<p className="text-xs text-foreground-400">persons</p>}
     />;
 }

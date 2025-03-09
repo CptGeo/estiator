@@ -1,18 +1,12 @@
 import { Button } from "@heroui/react";
 import type { ReactElement } from "react";
-import MenuCloseIcon from "@components/Icons/MenuCloseIcon";
-import MenuOpenIcon from "@components/Icons/MenuOpenIcon";
 import type { Location, To } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
-import SettingsIcon from "@components/Icons/SettingsIcon";
 import CompanyAvatar from "@components/Avatar/Company";
 import { useDrawer } from "@context/Drawer";
-import TableClockIcon from "@components/Icons/TableClockIcon";
-import TableIcon from "@components/Icons/TableIcon";
-import DashboardIcon from "@components/Icons/DashboardIcon";
-import PersonIcon from "@components/Icons/PersonIcon";
 import AdminOnly from "@components/AuthorizationWrappers/AdminOnly";
 import useQuerySettings from "@hooks/useQuerySettings";
+import { BadgeTwoTone, CalendarMonthTwoTone, DashboardTwoTone, MenuOpenTwoTone, MenuTwoTone, PersonTwoTone, SettingsTwoTone, TableRestaurantTwoTone } from "@mui/icons-material";
 
 export default function DrawerMenu(): ReactElement {
   const navigate = useNavigate();
@@ -54,21 +48,22 @@ export default function DrawerMenu(): ReactElement {
       </div>
       <div className="flex flex-col justify-between h-full">
         <div className="flex flex-col gap-2">
-          <DrawerItem to="/" text="Dashboard" icon={<DashboardIcon className="text-xl" />} />
-          <DrawerItem to="/reservations-management" text="Reservations Management" icon={<TableClockIcon className="text-xl" />} />
-          <DrawerItem to="/tables-management" text="Tables Management" icon={<TableIcon className="text-xl" />} />
+          <DrawerItem to="/" text="Dashboard" icon={<DashboardTwoTone className="text-xl" />} />
+          <DrawerItem to="/reservations-management" text="Reservations Management" icon={<CalendarMonthTwoTone className="text-xl" />} />
+          <DrawerItem to="/tables-management" text="Tables Management" icon={<TableRestaurantTwoTone className="text-xl" />} />
           <AdminOnly>
-            <DrawerItem to="/employees-management" text="Employees Management" icon={<PersonIcon className="text-xl" />} />
+            <DrawerItem to="/employees-management" text="Employees Management" icon={<BadgeTwoTone className="text-xl" />} />
           </AdminOnly>
-          <DrawerItem to="/customers-management" text="Customers Management" icon={<PersonIcon className="text-xl" />} />
+          <DrawerItem to="/customers-management" text="Customers Management" icon={<PersonTwoTone className="text-xl" />} />
         </div>
 
         <div className="flex flex-col gap-2">
-          <DrawerItem to="/settings" text="Settings" icon={<SettingsIcon className="text-xl" />} />
+          <DrawerItem to="/settings" text="Settings" icon={<SettingsTwoTone className="text-xl" />} />
+          <div className="text-background text-opacity-30 border-t-1 border-background border-opacity-20 pt-2 text-center text-tiny">Estiator.io — v0.2.0_alpha</div>
         </div>
       </div>
       <Button onPress={toggleDrawer} className="shadow-md cursor-pointer absolute top-[18px] right-0 translate-x-full rounded-l-none p-0 text-sm" isIconOnly size="sm" variant="solid" color="warning">
-        {open ? <MenuCloseIcon /> : <MenuOpenIcon />}
+        {open ? <MenuOpenTwoTone /> : <MenuTwoTone />}
       </Button>
     </div>
   )

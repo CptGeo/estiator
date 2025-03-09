@@ -1,6 +1,6 @@
-import WarningIcon from "@components/Icons/WarningIcon";
 import type { ButtonProps } from "@heroui/react";
 import { Button, Tooltip } from "@heroui/react";
+import { ErrorTwoTone } from "@mui/icons-material";
 import type { PressEvent } from "@react-types/shared";
 import type { ReactElement } from "react";
 import { useRef, useState } from "react";
@@ -44,7 +44,7 @@ export default function IconButton(props: Props): ReactElement {
   return (
     <Tooltip content={confirmed ? confirmationTooltip : tooltip} closeDelay={100}>
       <Button onPress={handlePress} {...otherProps} {...confirmed && { color: "warning"  }}>
-        {confirmed && withConfirmation ? <WarningIcon className="text-lg text-content1"/> : children}
+        {confirmed && withConfirmation ? <ErrorTwoTone className="text-lg text-content1"/> : children}
       </Button>
     </Tooltip>
   )

@@ -9,12 +9,8 @@ import ReservationsActions from "@components/Reservations/Actions";
 import useQueryReservations from "@hooks/useQueryReservations";
 import CreateReservationModal from "@components/Modal/CreateReservation";
 import { getFullName, sortByDate, sortByHasReservationConflict, sortByTime, sortByUserAlpha } from "@core/utils";
-import WarningIcon from "@components/Icons/WarningIcon";
-import AddIcon from "@components/Icons/AddIcon";
-import { ChevronDownIcon } from "@components/Icons/ChevronDownIcon";
-import { SearchIcon } from "@components/Icons/SearchIcon";
 import { useNavigate } from "react-router-dom";
-import { ThurderIcon } from "@components/Icons/ThunderIcon";
+import { AddCircleTwoTone, ErrorTwoTone, KeyboardArrowDownTwoTone, SearchTwoTone, WysiwygTwoTone } from "@mui/icons-material";
 
 type Column = {
   name: string;
@@ -160,7 +156,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
             isClearable
             className="w-full sm:max-w-[44%]"
             placeholder="Search by name, surname and email..."
-            startContent={<SearchIcon />}
+            startContent={<SearchTwoTone />}
             value={filterValue}
             onClear={onClear}
             onValueChange={onSearchChange}
@@ -168,7 +164,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
           <div className="flex gap-3">
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
-                <Button variant="flat" endContent={<ChevronDownIcon className="text-small" />}>
+                <Button variant="flat" endContent={<KeyboardArrowDownTwoTone className="text-small" />}>
                   Status
                 </Button>
               </DropdownTrigger>
@@ -189,7 +185,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
             </Dropdown>
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
-                <Button variant="flat" endContent={<ChevronDownIcon className="text-small" />}>
+                <Button variant="flat" endContent={<KeyboardArrowDownTwoTone className="text-small" />}>
                   Columns
                 </Button>
               </DropdownTrigger>
@@ -209,9 +205,9 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
               </DropdownMenu>
             </Dropdown>
             <ButtonGroup>
-              <Button color="primary" onPress={() => navigate("/create-reservation")}>Create reservation <AddIcon className="text-md" /></Button>
+              <Button color="primary" onPress={() => navigate("/create-reservation")}>Create reservation <AddCircleTwoTone fontSize="small" /></Button>
               <Button color="primary" variant="flat" onPress={createDisclosure.onOpen}>
-                Quick reservation <ThurderIcon />
+                Quick reservation < WysiwygTwoTone fontSize="small"/>
               </Button>
             </ButtonGroup>
           </div>
@@ -336,10 +332,10 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
       case "alert":
         return <>
           {hasConflicts && isPending && <Tooltip closeDelay={0} color="danger" content="Reservation overlaps with an active or pending reservation on the same date, time, and table.">
-            <Button isIconOnly variant="flat" color="danger" className="p-1"><WarningIcon className="text-xl" /></Button>
+            <Button isIconOnly variant="flat" color="danger" className="p-1"><ErrorTwoTone className="text-xl" /></Button>
           </Tooltip>}
           {hasConflicts && !isPending && <Tooltip closeDelay={0} color="warning" content="Reservation overlaps with a pending reservation on the same date, time, and table.">
-            <Button isIconOnly variant="flat" color="warning" className="p-1"><WarningIcon className="text-xl" /></Button>
+            <Button isIconOnly variant="flat" color="warning" className="p-1"><ErrorTwoTone className="text-xl" /></Button>
           </Tooltip>}
         </>
       case "actions":

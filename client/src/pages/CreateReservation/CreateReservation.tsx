@@ -1,4 +1,4 @@
-import type { KeyboardEvent} from "react";
+import type { KeyboardEvent } from "react";
 import { useCallback, useEffect, useRef, type ReactElement } from "react";
 import PageHeader from "@components/PageHeader/PageHeader";
 import CalendarPlainField from "@components/Fields/CalendarPlain";

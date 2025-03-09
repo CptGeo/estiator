@@ -1,5 +1,4 @@
 import IconButton from "@components/IconButton/IconButton";
-import { DeleteIcon } from "@components/Icons/DeleteIcon";
 import { ScheduleStatus, ScheduleStatuses, type Schedule, type UserData } from "@core/types";
 import { dayToString, deleteReq, toParsedTimeString } from "@core/utils";
 import useQueryUserScheduleByDate from "@hooks/useQueryUserScheduleByDate";
@@ -19,6 +18,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNotification } from "@context/Notification";
+import { DeleteTwoTone } from "@mui/icons-material";
 
 type Props = {
   user: UserData;
@@ -121,7 +121,7 @@ export default function EmployeeCalendar({ user }: Props) {
                     variant="solid"
                     onPress={() => deleteSchedule(schedule)}
                   >
-                    <DeleteIcon className="text-lg text-content1" />
+                    <DeleteTwoTone className="text-lg text-content1" />
                   </IconButton>
                 </TableCell>
               </TableRow>
