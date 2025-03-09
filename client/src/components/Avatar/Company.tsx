@@ -10,11 +10,13 @@ export default function CompanyAvatar(props: { company: CompanyData }) {
       as="button"
       avatarProps={{
         radius: "none",
-        size: "sm",
+        className: "shrink-0 mt-1",
+        size: "md",
         name: `${name.charAt(0)}${name.charAt(1)}`.toUpperCase(),
       }}
       description={description}
-      className="transition-transform text-slate-300"
+      className="transition-transform text-slate-300 items-start"
+      classNames={{ description: "text-left" }}
     />
   );
 }
