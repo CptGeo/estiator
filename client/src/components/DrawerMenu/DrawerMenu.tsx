@@ -49,7 +49,7 @@ export default function DrawerMenu(): ReactElement {
 
   return (
     <div className={classNames([
-      "flex flex-col h-full fixed left-0 top-0 w-full z-50 bg-slate-800 shadow-2xl pt-5 pb-2",
+      "flex flex-col h-full fixed left-0 top-0 z-50 bg-slate-800 shadow-2xl pt-3 pb-2",
       !open ? "px-1 w-[50px]" : "px-5 w-[250px]"
     ])}>
       <div className={classNames([
