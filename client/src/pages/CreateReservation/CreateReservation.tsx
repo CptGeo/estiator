@@ -16,7 +16,7 @@ import TablesGridSelect from "@components/Fields/TablesGridSelect";
 import { ChevronRight } from "@mui/icons-material";
 import useQueryTables from "@hooks/useQueryTables";
 import { formatDate, parseDurationToSeconds, postReq } from "@core/utils";
-import { parseTime } from "@internationalized/date";
+import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
 import { useMutation } from "@tanstack/react-query";
 import { useNotification } from "@context/Notification";
 import CheckboxField from "@components/Fields/Checkbox";
@@ -89,7 +89,7 @@ export default function CreateReservationPage(): ReactElement {
       persons: values.persons,
       email: values.email,
       name: values.name,
-      phone: values.phone,
+      phone: `${values.countryCode} ${values.phone}`,
       surname: values.surname,
       duration: parseDurationToSeconds(values.duration),
       ...(values.table && { table: { id: Number(values.table) } }),
@@ -119,7 +119,12 @@ export default function CreateReservationPage(): ReactElement {
             <Tab tabRef={step1Button} key="reservationInfo" title="1. Reservation Info">
               <div className="gap-10 md:flex">
                 <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2 flex flex-col gap-4">
-                  <CalendarPlainField name="date" showMonthAndYearPickers />
+                  <CalendarPlainField
+                    name="date"
+                    showMonthAndYearPickers
+                    defaultValue={today(getLocalTimeZone())}
+                    minValue={today(getLocalTimeZone())}
+                  />
                   <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
                   <SelectField name="duration" label="Duration" isRequired >
                     <SelectItem key="00:30">00:30</SelectItem>
@@ -187,7 +192,9 @@ export default function CreateReservationPage(): ReactElement {
                     <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-sm text-foreground-500">Time:</span><span className="col-span-9">{methods.watch("time")}</span></div>
                     <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-sm text-foreground-500">Duration:</span><span className="col-span-9">{methods.watch("duration")}</span></div>
                     <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-sm text-foreground-500">Table:</span><span className="col-span-9">{findTable(methods.watch("table"))?.label ?? "-"}</span></div>
-                    <div className="grid grid-cols-12 py-3"><span className="col-span-3 text-sm text-foreground-500">Phone:</span><span className="col-span-9">{methods.watch("countryCode") && methods.watch("phone") ? methods.watch("countryCode") + methods.watch("phone") : "-"}</span></div>
+                    <div className="grid grid-cols-12 py-3"><span className="col-span-3 text-sm text-foreground-500">Phone:</span>
+                      <span className="col-span-9">{methods.watch("countryCode") && methods.watch("phone") ? `${methods.watch("countryCode")} ${methods.watch("phone")}` : "-"}</span>
+                    </div>
                   </CardBody>
                 </Card>
                 <CheckboxField label="Receive reservation information on email" defaultSelected name="inform" />
