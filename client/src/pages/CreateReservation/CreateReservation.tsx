@@ -65,7 +65,7 @@ export default function CreateReservationPage(): ReactElement {
   }, [formState.errors, formState.dirtyFields]);
 
   const { data } = useQueryTables(
-    undefined,
+    3000,
     { enabled: !infoInvalid() },
     { date, time, duration: parseDurationToSeconds(duration) },
   );
