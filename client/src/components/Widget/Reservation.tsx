@@ -4,7 +4,7 @@ import type { ReservationData } from "@core/types";
 import { ReservationStatus } from "@core/types";
 import { getFullName, postReq, sortByTime, toParsedTimeString } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
-import { getLocalTimeZone, isToday, parseDate, parseTime } from "@internationalized/date";
+import { isToday, parseDate, parseTime } from "@internationalized/date";
 import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
@@ -42,7 +42,7 @@ export default function ReservationWidget() {
     const parsed = parseDate(reservation.date);
 
     /** TODO: Change GMT with local time */
-    return isToday(parsed, getLocalTimeZone()) && [ReservationStatus.CONFIRMED, ReservationStatus.BOOKED].includes(reservation.status);
+    return isToday(parsed, "Europe/Athens") && [ReservationStatus.CONFIRMED, ReservationStatus.BOOKED].includes(reservation.status);
   }
 
   function renderRow(reservation: ReservationData) {

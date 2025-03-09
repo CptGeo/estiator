@@ -1,6 +1,6 @@
 import type { DateValue } from "@heroui/react";
 import { Calendar } from "@heroui/react";
-import { today, getLocalTimeZone, CalendarDate } from "@internationalized/date";
+import { today, CalendarDate } from "@internationalized/date";
 import { Controller } from "react-hook-form";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 export default function CalendarField(props: Props) {
     const { name } = props;
-    const tomorrow = today(getLocalTimeZone()).add({ days: 1 });
+    const tomorrow = today("Europe/Athens").add({ days: 1 });
 
     /**
      * Example structure to create availabily dates

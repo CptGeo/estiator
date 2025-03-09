@@ -8,7 +8,7 @@ import CalendarPlainField from "@components/Fields/CalendarPlain";
 import CheckboxField from "@components/Fields/Checkbox";
 import EmailField from "@components/Fields/Email";
 import TimeField from "@components/Fields/Time";
-import { parseTime, today } from "@internationalized/date";
+import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
 import TablesSelectField from "../Fields/TablesSelect";
 import { useMutation } from "@tanstack/react-query";
 import { parseDurationToSeconds, postReq } from "@core/utils";
@@ -43,7 +43,7 @@ export default function CreateReservationModal(props: Props) {
   const methods = useForm<FormValues>({
     mode: "all",
     defaultValues: {
-      date: today("GMT").add({ days: 1 }),
+      date: today("Europe/Athens").add({ days: 1 }),
       persons: 1
     }
   });
@@ -86,7 +86,12 @@ export default function CreateReservationModal(props: Props) {
               <ModalBody>
               <div className="gap-4 md:flex">
                 <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2 flex flex-col gap-2">
-                  <CalendarPlainField name="date" showMonthAndYearPickers />
+                  <CalendarPlainField
+                    name="date"
+                    showMonthAndYearPickers
+                    defaultValue={today("Europe/Athens")}
+                    minValue={today("Europe/Athens")}
+                  />
                   <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
                   <SelectField name="duration" label="Duration" isRequired>
                     <SelectItem key="00:30">00:30</SelectItem>

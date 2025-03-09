@@ -6,7 +6,7 @@ import type { Schedule, UserData } from "@core/types";
 import { ScheduleStatus } from "@core/types";
 import { formatDate, postReq } from "@core/utils";
 import type { CalendarDate } from "@internationalized/date";
-import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
+import { parseTime, today } from "@internationalized/date";
 import { Button, SelectItem } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
@@ -37,7 +37,7 @@ type ScheduleRequest = {
 export default function EmployeeSchedule({ employee }: Props) {
   const methods = useForm<FormValues>({
     defaultValues: {
-      schedules: { start: today(getLocalTimeZone()), end: today(getLocalTimeZone()) }
+      schedules: { start: today("Europe/Athens"), end: today("Europe/Athens") }
     },
     mode: "all"
   });

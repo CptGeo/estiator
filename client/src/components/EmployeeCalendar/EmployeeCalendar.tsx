@@ -3,7 +3,7 @@ import { DeleteIcon } from "@components/Icons/DeleteIcon";
 import { ScheduleStatus, ScheduleStatuses, type Schedule, type UserData } from "@core/types";
 import { dayToString, deleteReq, toParsedTimeString } from "@core/utils";
 import useQueryUserScheduleByDate from "@hooks/useQueryUserScheduleByDate";
-import { getDayOfWeek, getLocalTimeZone, today } from "@internationalized/date";
+import { getDayOfWeek, today } from "@internationalized/date";
 import {
   Button,
   ButtonGroup,
@@ -33,7 +33,7 @@ const columns = [
 
 export default function EmployeeCalendar({ user }: Props) {
   const [current, setCurrent] = useState(0);
-  const date = today(getLocalTimeZone()).add({ days: current });
+  const date = today("Europe/Athens").add({ days: current });
   const { notify } = useNotification();
 
   const { data: schedule, isLoading } = useQueryUserScheduleByDate(
