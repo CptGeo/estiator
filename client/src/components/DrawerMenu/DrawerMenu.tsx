@@ -7,6 +7,7 @@ import { useDrawer } from "@context/Drawer";
 import AdminOnly from "@components/AuthorizationWrappers/AdminOnly";
 import useQuerySettings from "@hooks/useQuerySettings";
 import { BadgeTwoTone, CalendarMonthTwoTone, DashboardTwoTone, MenuOpenTwoTone, MenuTwoTone, PersonTwoTone, SettingsTwoTone, TableRestaurantTwoTone } from "@mui/icons-material";
+import classNames from "classnames";
 
 export default function DrawerMenu(): ReactElement {
   const navigate = useNavigate();
@@ -15,8 +16,8 @@ export default function DrawerMenu(): ReactElement {
 
   const { open, toggleDrawer } = useDrawer();
 
-  function DrawerItem(props:  { to: string, icon: ReactElement, text: string } ): ReactElement {
-    const { to, icon, text } = props;
+  function DrawerItem(props:  { to: string, icon: ReactElement, text: string, isIconOnly?: boolean } ): ReactElement {
+    const { to, icon, text, isIconOnly = false } = props;
 
     function isCurrent(location: Location, to: To) {
       const tokens = location.pathname.split("/").splice(1);
@@ -34,32 +35,52 @@ export default function DrawerMenu(): ReactElement {
       <Button
         onPress={() => navigate(to)}
         variant="light"
-        className={`justify-start text-slate-300 ${isCurrent(location, to) ? "bg-slate-600" : ""}`}
+        isIconOnly={isIconOnly}
+        className={classNames([
+          " text-slate-300",
+          isCurrent(location, to) ? "bg-slate-600" : "",
+          !isIconOnly && "justify-start"
+        ])}
         startContent={icon}>
-        {text}
+        {!isIconOnly && text}
       </Button>
     );
   }
 
   return (
-    <div className={`transition-transform flex flex-col h-full fixed left-0 top-0 max-w-[250px] w-full z-50 bg-slate-800 shadow-2xl px-5 pt-5 pb-2 ${!open ? "translate-x-[-100%]" : ""}`}>
-      <div className="mb-5">
-        {settings && <CompanyAvatar company={ { name: settings.businessName, description: settings.businessDescription }} />}
+    <div className={classNames([
+      "flex flex-col h-full fixed left-0 top-0 w-full z-50 bg-slate-800 shadow-2xl pt-5 pb-2",
+      !open ? "px-1 w-[50px]" : "px-5 w-[250px]"
+    ])}>
+      <div className={classNames([
+          "mb-5",
+          !open && "justify-center"
+      ])}>
+        {settings && <CompanyAvatar menuOpen={open} company={ { name: settings.businessName, description: settings.businessDescription }} />}
       </div>
       <div className="flex flex-col justify-between h-full">
-        <div className="flex flex-col gap-2">
-          <DrawerItem to="/" text="Dashboard" icon={<DashboardTwoTone className="text-xl" />} />
-          <DrawerItem to="/reservations-management" text="Reservations" icon={<CalendarMonthTwoTone className="text-xl" />} />
-          <DrawerItem to="/tables-management" text="Tables" icon={<TableRestaurantTwoTone className="text-xl" />} />
+        <div className={classNames([
+          "flex flex-col gap-2 justify-center",
+          !open && "items-center"
+        ])}>
+          <DrawerItem to="/" text="Dashboard" isIconOnly={!open} icon={<DashboardTwoTone className="text-xl" />} />
+          <DrawerItem to="/reservations-management" isIconOnly={!open} text="Reservations" icon={<CalendarMonthTwoTone className="text-xl" />} />
+          <DrawerItem to="/tables-management" isIconOnly={!open} text="Tables" icon={<TableRestaurantTwoTone className="text-xl" />} />
           <AdminOnly>
-            <DrawerItem to="/employees-management" text="Employees" icon={<BadgeTwoTone className="text-xl" />} />
+            <DrawerItem to="/employees-management" isIconOnly={!open} text="Employees" icon={<BadgeTwoTone className="text-xl" />} />
           </AdminOnly>
-          <DrawerItem to="/customers-management" text="Customers" icon={<PersonTwoTone className="text-xl" />} />
+          <DrawerItem to="/customers-management" isIconOnly={!open} text="Customers" icon={<PersonTwoTone className="text-xl" />} />
         </div>
 
-        <div className="flex flex-col gap-2">
-          <DrawerItem to="/settings" text="Settings" icon={<SettingsTwoTone className="text-xl" />} />
-          <div className="text-background text-opacity-30 border-t-1 border-background border-opacity-20 pt-2 text-center text-tiny">Estiator.io — v0.2.0_alpha</div>
+        <div className={classNames([
+          "flex flex-col gap-2 justify-center overflow-hidden",
+          !open && "items-center"
+        ])}>
+          <DrawerItem to="/settings" text="Settings" isIconOnly={!open} icon={<SettingsTwoTone className="text-xl" />} />
+          <div className={classNames([
+            "text-background border-t-1 border-background border-opacity-20 pt-2 text-center text-tiny text-nowrap",
+            !open ? "text-opacity-0" : "text-opacity-30"
+          ])}>Estiator.io — v0.2.0_alpha</div>
         </div>
       </div>
       <Button onPress={toggleDrawer} className="shadow-md cursor-pointer absolute top-[18px] right-0 translate-x-full rounded-l-none p-0 text-sm" isIconOnly size="sm" variant="solid" color="warning">
