@@ -1,7 +1,7 @@
 {
    "name": "estiator.io",
    "private": true,
-   "version": "0.0.0",
+   "version": "0.2.0-alpha",
    "type": "module",
    "scripts": {
       "postinstall": "node scripts/getflags.js",

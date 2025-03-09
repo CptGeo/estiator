@@ -15,7 +15,6 @@
     flex-shrink: 1;
     appearance: none;
     outline: none;
-    border: 0;
     border-radius: 5px;
     box-shadow: var(--box-shadow);
     transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0)
@@ -24,7 +23,7 @@
   }
 
   &:not(.handle) {
-    > button {
+    > button:not(".readonly") {
       touch-action: none;
       cursor: grab;
 

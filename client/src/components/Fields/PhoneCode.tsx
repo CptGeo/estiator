@@ -6,12 +6,13 @@ import type { ControlledSelectProps } from "./types";
 import { getAssetUrl } from "@core/utils";
 
 export default function PhoneCodeField(props: Omit<ControlledSelectProps, "children">): ReactElement {
-  const { name, defaultSelectedKeys, ...rest } = props;
+  const { name, defaultSelectedKeys, isRequired = false, ...rest } = props;
 
   return (
-    <Controller defaultValue={defaultSelectedKeys} name={name} render={({ field: { onChange, onBlur, value, ref } }) => {
+    <Controller rules={ { required: isRequired } } defaultValue={defaultSelectedKeys} name={name} render={({ field: { onChange, onBlur, value, ref } }) => {
       return (<Select
         {...rest}
+        isRequired={isRequired}
         onChange={onChange}
         onBlur={onBlur}
         value={value}
@@ -38,7 +39,6 @@ export default function PhoneCodeField(props: Omit<ControlledSelectProps, "child
           );
         }}
         selectionMode="single"
-        variant="bordered"
       >
         {(phone) => {
           return (

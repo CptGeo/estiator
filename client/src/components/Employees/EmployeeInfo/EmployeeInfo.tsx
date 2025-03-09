@@ -1,8 +1,6 @@
 import EmailField from "@components/Fields/Email";
 import InputField from "@components/Fields/Input";
 import SelectField from "@components/Fields/Select";
-import BackIcon from "@components/Icons/BackIcon";
-import { DeleteIcon } from "@components/Icons/DeleteIcon";
 import ConfirmationModal from "@components/Modal/Confirmation";
 import Status from "@components/Status/Employee/Status";
 import { UserRole, UserRoleName, UserStatus, UserStatuses, type UserData } from "@core/types";
@@ -13,8 +11,8 @@ import { type ReactElement } from "react";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import ImageIcon from "@components/Icons/ImageIcon";
 import { useNotification } from "@context/Notification";
+import { ArrowBackTwoTone, DeleteOutlineTwoTone } from "@mui/icons-material";
 
 export default function EmployeeInfo(props: {
   employee: UserData;
@@ -88,7 +86,7 @@ export default function EmployeeInfo(props: {
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-center gap-2">
               <Link to="/employees-management">
-                <BackIcon className="text-3xl hover:bg-slate-300 rounded-full" />
+                <ArrowBackTwoTone className="text-3xl hover:bg-slate-300 rounded-full" />
               </Link>
               <Avatar
                   isBordered
@@ -114,7 +112,7 @@ export default function EmployeeInfo(props: {
                 isLoading={deletePending}
                 onPress={modal.onOpen}
               >
-                <DeleteIcon className="text-lg" /> Delete Employee
+                <DeleteOutlineTwoTone className="text-lg" /> Delete Employee
               </Button>
             </div>
           </div>
@@ -133,7 +131,7 @@ export default function EmployeeInfo(props: {
                   loading="eager"
                   className="w-full mb-3 object-cover"
                 />
-                <Button className="text-blue-600 text-sm" variant="light"><ImageIcon /> Change profile image</Button>
+                {/* <Button className="text-blue-600 text-sm" variant="light"><InsertPhotoTwoTone /> Change profile image</Button> */}
               </div>
             </div>
             <div className="w-full lg:w-1/4 p-1">

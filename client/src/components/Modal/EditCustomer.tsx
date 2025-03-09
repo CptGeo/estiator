@@ -41,10 +41,9 @@ export default function EditCustomerModal(props: Props) {
         surname: values.surname,
         email: values.email,
         phone: `${values.countryCode} ${values.phone}`,
-        userRole: values.userRole,
-        inform: values.inform
+        userRole: values.userRole
       };
-      await patchReq(`/users/${customer.id}`, { ...data });
+      await patchReq(`/users/${customer.id}`, { ...data }, { params: { inform: values.inform } });
       notify({ message: "Customer info have been updated successfully!", type: "success" });
     } catch (error) {
       console.error(error);
@@ -81,11 +80,11 @@ export default function EditCustomerModal(props: Props) {
                     <SelectItem key={UserRole.CLIENT} value={UserRole.CLIENT}>{UserRoleName[UserRole.CLIENT]}</SelectItem>
                     <SelectItem key={UserRole.GUEST} value={UserRole.GUEST}>{UserRoleName[UserRole.GUEST]}</SelectItem>
                   </SelectField>
-                  <div className="flex flex-nowrap basis-full">
-                    <div className="basis-2/6 p-1">
+                  <div className="flex flex-nowrap basis-full gap-2">
+                    <div className="basis-2/6">
                       <PhoneCodeField name="countryCode" label="Country code" />
                     </div>
-                    <div className="basis-4/6 p-1">
+                    <div className="basis-4/6">
                       <InputField
                         name="phone"
                         label="Phone number"

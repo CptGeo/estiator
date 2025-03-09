@@ -8,7 +8,7 @@ LABEL maintainer="george.kalyvianakis@gmail.com"
 EXPOSE 8443
 
 # Specify the .jar file path
-ARG JAR_FILE=build/libs/estiator_io-0.1.0-alpha.jar
+ARG JAR_FILE=build/libs/estiator_io-0.2.0-alpha.jar
 
 # Include .jar file in the container
 ADD ${JAR_FILE} app.jar

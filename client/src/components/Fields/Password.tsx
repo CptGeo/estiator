@@ -5,8 +5,7 @@ import type { RegisterOptions } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
 import { getError, hasError } from "@core/utils";
 import type { ControlledInputProps } from "@components/Fields/types";
-import { EyeSlashFilledIcon } from "@components/Icons/EyeSlashFilledIcon";
-import { EyeFilledIcon } from "@components/Icons/EyeFilledIcon";
+import { VisibilityOffTwoTone, VisibilityTwoTone } from "@mui/icons-material";
 
 /**
  * @todo Implement password validation
@@ -39,9 +38,9 @@ export default function PasswordField(props: Omit<ControlledInputProps, "type">)
             endContent={
                 <button className="focus:outline-none cursor-pointer" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
                   {isVisible ? (
-                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                    <VisibilityOffTwoTone className="text-2xl text-default-400 pointer-events-none" />
                   ) : (
-                    <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                    <VisibilityTwoTone className="text-2xl text-default-400 pointer-events-none" />
                   )}
                 </button>
               }

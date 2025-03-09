@@ -1,5 +1,4 @@
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, DropdownSection, useDisclosure } from "@heroui/react";
-import MenuDotsIcon from "@components/Icons/MenuDotsIcon";
 import type { UserData } from "@core/types";
 import { UserRole } from "@core/types";
 import type { Key } from "react";
@@ -7,6 +6,7 @@ import { userIsAllowed } from "@core/auth";
 import { useAuth } from "@context/Authentication";
 import RemoveCustomerModal from "@components/Modal/RemoveCustomer";
 import EditCustomerModal from "@components/Modal/EditCustomer";
+import { MoreHorizTwoTone } from "@mui/icons-material";
 
 type Props = {
   customer: UserData;
@@ -43,7 +43,7 @@ export default function CustomersActions(props: Props) {
       <Dropdown>
         <DropdownTrigger>
           <Button isIconOnly variant="light">
-            <MenuDotsIcon className="text-2xl" />
+            <MoreHorizTwoTone className="text-2xl" />
           </Button>
         </DropdownTrigger>
         <DropdownMenu

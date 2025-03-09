@@ -1,6 +1,6 @@
 import { ScheduleStatus, ScheduleStatuses, type Schedule } from "@core/types";
 import { dayToString, getFullName, toParsedTimeString } from "@core/utils";
-import { getDayOfWeek, getLocalTimeZone, today } from "@internationalized/date";
+import { getDayOfWeek, today } from "@internationalized/date";
 import {
   Button,
   ButtonGroup,
@@ -17,8 +17,8 @@ import {
 } from "@heroui/react";
 import { useCallback, useState } from "react";
 import useQuerySchedules from "@hooks/useQuerySchedules";
-import { ResetIcon } from "@components/Icons/ResetIcon";
 import { Link } from "react-router-dom";
+import { HistoryTwoTone } from "@mui/icons-material";
 
 const columns = [
   { name: "Employee", uid: "employee" },
@@ -30,7 +30,7 @@ const columns = [
 
 export default function EmployeesStatusWidget() {
   const [current, setCurrent] = useState(0);
-  const currentDate = today(getLocalTimeZone()).add({ days: current });
+  const currentDate = today("Europe/Athens").add({ days: current });
   const previousDate = currentDate.subtract({ days: 1 });
   const nextDate = currentDate.add({ days: 1 });
 
@@ -105,7 +105,7 @@ export default function EmployeesStatusWidget() {
             </Button>
             <Tooltip content="Reset to current date" showArrow placement="right">
               <Button isIconOnly color="warning" className="text-background" onPress={() => setCurrent(0)}>
-                <ResetIcon className="text-lg" />
+                <HistoryTwoTone className="text-lg" />
               </Button>
             </Tooltip>
           </ButtonGroup>

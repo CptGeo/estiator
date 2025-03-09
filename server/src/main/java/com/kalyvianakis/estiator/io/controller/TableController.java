@@ -54,14 +54,11 @@ public class TableController {
             return ResponseEntity.ok().body(tableService.getTotalCapacity());
         }
 
-        List<Table> tables;
-        if (date != null && time != null && duration != null && available != null && available) {
-            tables = tableService.getFreeAndAvailableByDateAndTimeAndDuration(date, time, duration);
-        } else if (date != null && time != null && duration != null) {
-            tables = tableService.getFreeByDateAndTimeAndDuration(date, time, duration);
-        } else {
-            tables = tableService.get();
+        if (date != null && time != null && duration != null) {
+            return ResponseEntity.ok().body(tableService.getAllWithAvailability(date, time, duration));
         }
+
+        List<Table> tables = tableService.get();
 
         // add `occupied` property on tables
         tables.forEach(t -> {

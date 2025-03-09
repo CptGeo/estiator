@@ -1,10 +1,10 @@
 import useQueryReservations from "@hooks/useQueryReservations"
 import Minicard from "./Minicard";
-import TableClockIcon from "@components/Icons/TableClockIcon";
 import { endOfMonth, startOfMonth, today } from "@internationalized/date";
 import { useMemo } from "react";
 import { isInteger, isUndefined } from "@core/utils";
 import { Tooltip } from "@heroui/react";
+import { EventTwoTone } from "@mui/icons-material";
 
 export default function MonthReservations() {
     const t = today("Europe/Athens");
@@ -40,6 +40,6 @@ export default function MonthReservations() {
                 <p className={`${indicatorClass} text-xs cursor-default`}>{indicatorPrepend}{change}%</p>
             </Tooltip>
         </div>}
-        icon={<TableClockIcon />}
+        icon={<EventTwoTone fontSize="small" />}
     />;
 }

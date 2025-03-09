@@ -9,7 +9,7 @@ import { userIsAllowed } from "@core/auth";
 export default function PrivateLayout({ permissions }: { permissions: UserRole[] }): ReactElement {
   const auth = useAuth();
   if (!auth?.token || !auth.user) {
-    return <Navigate to="/login" state="User not authenticated" replace={false} />
+    return <Navigate to="/create-reservation" replace={false} />
   }
 
   if (!userIsAllowed(auth?.user, permissions)) {

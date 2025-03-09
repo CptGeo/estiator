@@ -6,9 +6,9 @@ import useQueryTables from "@hooks/useQueryTables";
 import { isUndefined, normalize } from "@core/utils";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner, useDisclosure } from "@heroui/react";
 import type { TableData } from "@core/types";
-import AddIcon from "@components/Icons/AddIcon";
 import type { PointerActivationConstraint } from "@dnd-kit/core";
 import AddTableModal from "@components/Modal/AddTable";
+import { AddCircleTwoTone } from "@mui/icons-material";
 
 type Props = {
   size: number;
@@ -46,7 +46,7 @@ export default function TablesGrid(props: Props): ReactElement {
         <p className="text-default-400 text-tiny">
           {count! > 0 && `Total capacity: ${count} seats`}
         </p>
-        <Button color="primary" onPress={handleAddTable}>Add table <AddIcon className="text-md" /></Button>
+        <Button color="primary" onPress={handleAddTable}>Add table  <AddCircleTwoTone fontSize="small" /></Button>
       </div>
     )
   }

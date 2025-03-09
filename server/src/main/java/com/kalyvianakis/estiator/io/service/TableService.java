@@ -1,5 +1,6 @@
 package com.kalyvianakis.estiator.io.service;
 
+import com.kalyvianakis.estiator.io.dto.TableAvailability;
 import com.kalyvianakis.estiator.io.dto.TableIDResponse;
 import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
@@ -87,5 +88,22 @@ public class TableService implements ITableService {
         TableIDResponse t = new TableIDResponse();
         t.setId(table.getId());
         return t;
+    }
+
+    public List<TableAvailability> getAllWithAvailability(LocalDate date, LocalTime time, int duration) {
+        List<Short> statuses = List.of(ReservationStatus.Confirmed.getLabel(), ReservationStatus.Booked.getLabel());
+        List<Object[]> results = tableRepository.getAllWithAvailability(date, time, duration, statuses);
+
+        return results.stream()
+                .map(obj -> new TableAvailability(
+                        ((Number) obj[0]).longValue(),
+                        (String) obj[1],
+                        ((Number) obj[2]).intValue(),
+                        ((Number) obj[3]).intValue(),
+                        ((Number) obj[4]).intValue(),
+                        (String) obj[5],
+                        ((Number) obj[6]).longValue() != 0
+                ))
+                .collect(Collectors.toList());
     }
 }

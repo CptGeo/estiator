@@ -52,13 +52,10 @@ public class ReservationController {
   @PostMapping
   public ResponseEntity<Reservation> add(
           @RequestBody ReservationRequest request,
-          @RequestHeader(name = "Authorization") String token,
+          @RequestHeader(required = false, name = "Authorization") String token,
           @RequestParam(required = false) Boolean inform
   ) throws ResourceNotFoundException, AccessDeniedException {
       Reservation reservation = new Reservation();
-      String createdByEmail = jwtHelper.extractUsername(token.substring(7));
-      User createdBy = userService.getOneByEmail(createdByEmail);
-      reservation.setCreatedBy(createdBy);
 
       if (userService.existsByEmail(request.getEmail())) {
           // assign existing user to reservation, if email exists
@@ -76,6 +73,16 @@ public class ReservationController {
           user.setStatus(UserStatus.Active);
           user.setStatusValue(UserStatus.Active.getLabel());
           reservation.setCreatedFor(userService.saveAndFlush(user));
+      }
+
+      if (token != null) {
+          // authenticated user; set as the creator
+          String createdByEmail = jwtHelper.extractUsername(token.substring(7));
+          User createdBy = userService.getOneByEmail(createdByEmail);
+          reservation.setCreatedBy(createdBy);
+      } else {
+          // not authenticated user; set creator to be the reservation owner
+          reservation.setCreatedBy(reservation.getCreatedFor());
       }
 
       reservation.setDate(request.getDate());

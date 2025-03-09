@@ -49,16 +49,17 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/signup/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login/**").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/reservations/**").hasAnyAuthority( "ROLE_ADMIN", "ROLE_MODERATOR")
-                        .requestMatchers(HttpMethod.POST, "/reservations/**").hasAnyAuthority( "ROLE_ADMIN", "ROLE_MODERATOR")
-                        .requestMatchers(HttpMethod.PATCH, "/reservations/**").hasAnyAuthority( "ROLE_ADMIN", "ROLE_MODERATOR")
+                        .requestMatchers(HttpMethod.POST, "/reservations").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/reservations/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
+                        .requestMatchers(HttpMethod.POST, "/reservations/{id}/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
+                        .requestMatchers(HttpMethod.PATCH, "/reservations/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
 
-                        .requestMatchers(HttpMethod.GET, "/tables/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
+                        .requestMatchers(HttpMethod.GET, "/tables").permitAll()
                         .requestMatchers(HttpMethod.POST, "/tables/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
                         .requestMatchers(HttpMethod.PATCH, "/tables/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
 
-                        .requestMatchers(HttpMethod.GET ,"/users/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
-                        .requestMatchers(HttpMethod.PATCH ,"/users/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
+                        .requestMatchers(HttpMethod.GET,"/users/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
+                        .requestMatchers(HttpMethod.PATCH,"/users/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
 
                         .requestMatchers(HttpMethod.POST, "/cancelReservation/**").permitAll()
 

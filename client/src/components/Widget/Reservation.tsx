@@ -1,16 +1,16 @@
 import IconButton from "@components/IconButton/IconButton";
-import TickIcon from "@components/Icons/TickIcon";
 import type { ReservationData } from "@core/types";
 import { ReservationStatus } from "@core/types";
 import { getFullName, postReq, sortByTime, toParsedTimeString } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
-import { getLocalTimeZone, isToday, parseDate, parseTime } from "@internationalized/date";
+import { isToday, parseDate, parseTime } from "@internationalized/date";
 import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useNotification } from "@context/Notification";
 import Status from "@components/Status/Reservation/Status";
+import { DoneTwoTone } from "@mui/icons-material";
 
 export default function ReservationWidget() {
   const { data: reservations } = useQueryReservations(3000);
@@ -42,7 +42,7 @@ export default function ReservationWidget() {
     const parsed = parseDate(reservation.date);
 
     /** TODO: Change GMT with local time */
-    return isToday(parsed, getLocalTimeZone()) && [ReservationStatus.CONFIRMED, ReservationStatus.BOOKED].includes(reservation.status);
+    return isToday(parsed, "Europe/Athens") && [ReservationStatus.CONFIRMED, ReservationStatus.BOOKED].includes(reservation.status);
   }
 
   function renderRow(reservation: ReservationData) {
@@ -78,7 +78,7 @@ export default function ReservationWidget() {
               color="success"
               variant="solid"
             >
-              <TickIcon className="text-lg text-content1" />
+              <DoneTwoTone className="text-lg text-content1" />
             </IconButton>
             : <IconButton
               withConfirmation
@@ -90,7 +90,7 @@ export default function ReservationWidget() {
               color="success"
               variant="solid"
             >
-              <TickIcon className="text-lg text-content1" />
+              <DoneTwoTone className="text-lg text-content1" />
             </IconButton>
 
           }
