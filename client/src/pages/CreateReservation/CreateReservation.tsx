@@ -122,7 +122,6 @@ export default function CreateReservationPage(): ReactElement {
                   <CalendarPlainField
                     name="date"
                     showMonthAndYearPickers
-                    defaultValue={today("Europe/Athens")}
                     minValue={today("Europe/Athens")}
                   />
                   <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
