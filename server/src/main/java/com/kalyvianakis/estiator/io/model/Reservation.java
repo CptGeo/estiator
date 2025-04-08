@@ -45,6 +45,8 @@ public class Reservation extends PropertyPrinter {
 
   private String cancellationUUID;
 
+  private Boolean isArchived;
+
   @Transient
   private Integer conflicts;
 
@@ -58,13 +60,13 @@ public class Reservation extends PropertyPrinter {
 
   @ManyToOne
   @JoinColumn(name = "created_by_user_id", referencedColumnName = "id")
-  @JsonIgnoreProperties(value = { "tables", "reservations", "createdReservations", "referredReservations" })
+  @JsonIgnoreProperties(value = { "tables", "reservations", "createdReservations", "referredReservations", "dietaryPreferences" })
   @JsonProperty(value = "createdBy")
   private User createdBy;
 
   @ManyToOne
   @JoinColumn(name = "created_for_user_id", referencedColumnName = "id")
-  @JsonIgnoreProperties(value = { "tables", "reservations", "createdReservations", "referredReservations" })
+  @JsonIgnoreProperties(value = { "tables", "reservations", "createdReservations", "referredReservations", "dietaryPreferences" })
   @JsonProperty(value = "createdFor")
   private User createdFor;
 
@@ -209,5 +211,13 @@ public class Reservation extends PropertyPrinter {
 
   public void setCancellationUUID(String cancellationUUID) {
     this.cancellationUUID = cancellationUUID;
+  }
+
+  public Boolean getArchived() {
+    return isArchived;
+  }
+
+  public void setArchived(Boolean archived) {
+    isArchived = archived;
   }
 }

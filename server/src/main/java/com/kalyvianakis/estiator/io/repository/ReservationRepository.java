@@ -33,6 +33,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
                     "    (ISNULL (:id) OR (:id != r2.id))\n" +
                     "    AND :date = r2.date\n" +
                     "    AND :tableId = r2.table_id\n" +
+                    "    AND r2.is_archived = false\n" +
                     "    AND (\n" +
                     "        -- Case 1: New reservation fully overlaps an existing one\n" +
                     "        (\n" +
@@ -66,6 +67,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
                     "    AND :date = r2.date" +
                     "    AND r2.status IN (:includeStatuses)\n" +
                     "    AND :tableId = r2.table_id\n" +
+                    "    AND r2.is_archived = false\n" +
                     "    AND (\n" +
                     "        -- Case 1: New reservation fully overlaps an existing one\n" +
                     "        (\n" +
