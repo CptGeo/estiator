@@ -111,7 +111,7 @@ public class User extends PropertyPrinter {
 
     public User() {}
 
-    private Long getId() {
+    public Long getId() {
         return id;
     }
 

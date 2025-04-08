@@ -53,6 +53,10 @@ public class AuthenticatedUser implements UserDetails {
         return user.getStatus();
     }
 
+    public Long getId() {
+        return user.getId();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of((GrantedAuthority) user::getUserRole);
