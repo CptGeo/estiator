@@ -69,7 +69,7 @@ public class ReservationController {
           if (request.getPhone() != null) {
               user.setPhone(request.getPhone());
           }
-          user.setUserRole("ROLE_GUEST");
+          user.setUserRole("ROLE_CLIENT");
           user.setStatus(UserStatus.Active);
           user.setStatusValue(UserStatus.Active.getLabel());
           reservation.setCreatedFor(userService.saveAndFlush(user));

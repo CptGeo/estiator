@@ -2,65 +2,81 @@ package com.kalyvianakis.estiator.io.dto;
 
 import com.kalyvianakis.estiator.io.enums.UserStatus;
 import com.kalyvianakis.estiator.io.model.User;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 
-public class AuthenticatedUser {
-    private final String email;
-    private final String name;
-    private final String surname;
-    private final String phone;
-    private final String userRole;
-    private final String position;
-    private final Timestamp createdDate;
-    private final String profileImage;
-    private final UserStatus status;
+public class AuthenticatedUser implements UserDetails {
+
+    private final User user;
 
     public AuthenticatedUser(User user) {
-        this.email = user.getEmail();
-        this.name = user.getName();
-        this.surname = user.getSurname();
-        this.phone = user.getPhone();
-        this.userRole = user.getUserRole();
-        this.position = user.getPosition();
-        this.createdDate = user.getCreatedDate();
-        this.profileImage = user.getProfileImage();
-        this.status = user.getStatus();
+        this.user = user;
     }
 
     public String getEmail() {
-        return email;
+        return user.getEmail();
     }
 
     public String getName() {
-        return name;
+        return user.getName();
     }
 
     public String getSurname() {
-        return surname;
+        return user.getSurname();
     }
 
     public String getPhone() {
-        return phone;
+        return user.getPhone();
     }
 
     public String getUserRole() {
-        return userRole;
+        return user.getUserRole();
     }
 
     public String getPosition() {
-        return position;
+        return user.getPosition();
     }
 
     public Timestamp getCreatedDate() {
-        return createdDate;
+        return user.getCreatedDate();
     }
 
     public String getProfileImage() {
-        return profileImage;
+        return user.getProfileImage();
     }
 
     public UserStatus getStatus() {
-        return status;
+        return user.getStatus();
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of((GrantedAuthority) user::getUserRole);
+    }
+
+    @Override
+    public String getPassword() {
+        return user.getPassword();
+    }
+
+    @Override
+    public String getUsername() {
+        return user.getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+
+    @Override
+    public boolean isAccountNonLocked() { return true; }
+
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+
+    @Override
+    public boolean isEnabled() { return true; }
 }
