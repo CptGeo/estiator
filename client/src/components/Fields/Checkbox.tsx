@@ -8,8 +8,14 @@ type Props = {
 } & CheckboxProps;
 
 export default function CheckboxField(props: Props) {
-  const { name, label, ...otherProps } = props;
-  const { register } = useFormContext();
+  const { name, label, value, ...otherProps } = props;
+  const { register, getValues, formState: { defaultValues } } = useFormContext();
 
-  return <Checkbox {...otherProps} {...register(name)}>{label}</Checkbox>
+  const options = register(name);
+  return <Checkbox
+    {...otherProps}
+    {...options}
+    value={value}
+    defaultSelected={defaultValues?.[name].includes(value)}
+    checked={getValues()?.[name].includes(value)}>{label}</Checkbox>
 }
