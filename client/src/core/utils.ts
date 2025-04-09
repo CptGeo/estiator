@@ -229,3 +229,7 @@ export function dayToString(day: number): string {
     return Day[day];
 }
 
+export function getPhoneData(phone?: string): { countryCode: string, phoneNumber: string } {
+    const [ countryCode, phoneNumber ] = phone?.split(" ") || [];
+    return { countryCode, phoneNumber };
+}
