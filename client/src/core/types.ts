@@ -75,6 +75,12 @@ export interface UserData extends HasId {
   userRole: UserRole;
   createdDate: string;
   tables?: TableData[];
+  dietaryPreferences: DietaryPreference[];
+};
+
+export interface DietaryPreference extends HasId {
+  name: string,
+  description: string
 };
 
 export enum ScheduleStatus {
