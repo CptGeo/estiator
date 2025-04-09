@@ -16,7 +16,7 @@ export default function Navigation() {
           <Button onPress={() => navigate("/login")} variant="light" color="primary">Login</Button>
         </NavbarItem>
         <NavbarItem>
-          <Button onPress={() => navigate("/register")} variant="solid" color="primary">Register</Button>
+          <Button onPress={() => navigate("/create-reservation")} variant="solid" color="primary">Reserve a table</Button>
         </NavbarItem>
       </>
     )
