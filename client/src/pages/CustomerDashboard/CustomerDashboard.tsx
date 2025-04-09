@@ -8,7 +8,7 @@ import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import useQueryMe from "@hooks/useQueryMe";
 import { getPhoneData, patchReq } from "@core/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNotification } from "@context/Notification";
 import type { UserData } from "@core/types";
 import CheckboxField from "@components/Fields/Checkbox";
@@ -18,6 +18,7 @@ export default function ClientDashboard(): ReactElement {
   const { data: customer, isLoading, refetch } = useQueryMe(undefined, { enabled: false });
   const { data: dietaryPreferences } = useQueryDietaryPreferences();
   const { notify } = useNotification();
+  const queryClient = useQueryClient();
   const methods = useForm({
     defaultValues: async () => {
       const { data } = await refetch();
@@ -36,13 +37,15 @@ export default function ClientDashboard(): ReactElement {
   const { isPending, mutateAsync } = useMutation({
     mutationFn: (data: UserData) => patchReq(`users/me`, data),
     onSuccess: () => notify({ message: "Employee information has been updated successfully!", type: "success" }),
-    onError: () => notify({ message: "Employee information could not be updated.", type: "danger" })
+    onError: () => notify({ message: "Employee information could not be updated.", type: "danger" }),
+    onSettled: () => {
+      queryClient.refetchQueries({ queryKey: ["users/me"] })
+    }
   })
 
   const { isDirty, isValid } = methods.formState;
 
   async function onSubmit(values: FieldValues) {
-    console.log(values);
     await mutateAsync({
       name: values?.name,
       surname: values?.surname,
@@ -50,6 +53,7 @@ export default function ClientDashboard(): ReactElement {
       dietaryPreferences: values?.dietaryPreferences.map((item: string) => { return { id: item } }),
       id: customer?.id
     } as UserData);
+    methods.reset(values);
   }
 
   if (isLoading) {
