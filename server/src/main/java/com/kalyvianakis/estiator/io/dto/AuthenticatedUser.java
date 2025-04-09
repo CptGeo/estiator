@@ -83,4 +83,5 @@ public class AuthenticatedUser implements UserDetails {
 
     @Override
     public boolean isEnabled() { return true; }
+
 }
