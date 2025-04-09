@@ -8,6 +8,8 @@ import AdminOnly from "@components/AuthorizationWrappers/AdminOnly";
 import useQuerySettings from "@hooks/useQuerySettings";
 import { BadgeTwoTone, CalendarMonthTwoTone, DashboardTwoTone, MenuOpenTwoTone, MenuTwoTone, PersonTwoTone, SettingsTwoTone, TableRestaurantTwoTone } from "@mui/icons-material";
 import classNames from "classnames";
+import ModeratorOnly from "@components/AuthorizationWrappers/ModeratorOnly";
+import ClientOnly from "@components/AuthorizationWrappers/ClientOnly";
 
 export default function DrawerMenu(): ReactElement {
   const navigate = useNavigate();
@@ -53,30 +55,38 @@ export default function DrawerMenu(): ReactElement {
       !open ? "px-1 w-[50px]" : "px-5 w-[250px]"
     ])}>
       <div className={classNames([
-          "mb-5",
           !open && "justify-center"
       ])}>
-        {settings && <CompanyAvatar menuOpen={open} company={ { name: settings.businessName, description: settings.businessDescription }} />}
+        <ModeratorOnly>
+          {settings && <CompanyAvatar menuOpen={open} company={ { name: settings.businessName, description: settings.businessDescription }} />}
+        </ModeratorOnly>
       </div>
-      <div className="flex flex-col justify-between h-full">
+      <div className="flex flex-col justify-between h-full pt-5">
         <div className={classNames([
           "flex flex-col gap-2 justify-center",
           !open && "items-center"
         ])}>
-          <DrawerItem to="/" text="Dashboard" isIconOnly={!open} icon={<DashboardTwoTone className="text-xl" />} />
-          <DrawerItem to="/reservations-management" isIconOnly={!open} text="Reservations" icon={<CalendarMonthTwoTone className="text-xl" />} />
-          <DrawerItem to="/tables-management" isIconOnly={!open} text="Tables" icon={<TableRestaurantTwoTone className="text-xl" />} />
-          <AdminOnly>
-            <DrawerItem to="/employees-management" isIconOnly={!open} text="Employees" icon={<BadgeTwoTone className="text-xl" />} />
-          </AdminOnly>
-          <DrawerItem to="/customers-management" isIconOnly={!open} text="Customers" icon={<PersonTwoTone className="text-xl" />} />
+          <ClientOnly>
+            <DrawerItem to="/client-dashboard" text="Dashboard" isIconOnly={!open} icon={<DashboardTwoTone className="text-xl" />} />
+          </ClientOnly>
+          <ModeratorOnly>
+            <DrawerItem to="/" text="Dashboard" isIconOnly={!open} icon={<DashboardTwoTone className="text-xl" />} />
+            <DrawerItem to="/reservations-management" isIconOnly={!open} text="Reservations" icon={<CalendarMonthTwoTone className="text-xl" />} />
+            <DrawerItem to="/tables-management" isIconOnly={!open} text="Tables" icon={<TableRestaurantTwoTone className="text-xl" />} />
+            <AdminOnly>
+              <DrawerItem to="/employees-management" isIconOnly={!open} text="Employees" icon={<BadgeTwoTone className="text-xl" />} />
+            </AdminOnly>
+            <DrawerItem to="/customers-management" isIconOnly={!open} text="Customers" icon={<PersonTwoTone className="text-xl" />} />
+          </ModeratorOnly>
         </div>
 
         <div className={classNames([
           "flex flex-col gap-2 justify-center overflow-hidden",
           !open && "items-center"
         ])}>
-          <DrawerItem to="/settings" text="Settings" isIconOnly={!open} icon={<SettingsTwoTone className="text-xl" />} />
+          <ModeratorOnly>
+            <DrawerItem to="/settings" text="Settings" isIconOnly={!open} icon={<SettingsTwoTone className="text-xl" />} />
+          </ModeratorOnly>
           <div className={classNames([
             "text-background border-t-1 border-background border-opacity-20 pt-2 text-center text-tiny text-nowrap",
             !open ? "text-opacity-0" : "text-opacity-30"
