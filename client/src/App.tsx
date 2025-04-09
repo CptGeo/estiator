@@ -24,6 +24,7 @@ import CustomerManagementPage from "@pages/CustomerManagement/CustomerManagement
 import SettingsPage from "@pages/Settings/Settings";
 import CancellationPage from "@pages/Cancellation/Cancellation";
 import CreateReservationPage from "@pages/CreateReservation/CreateReservation";
+import ClientDashboard from "@pages/CustomerDashboard/CustomerDashboard";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,15 @@ const router = createBrowserRouter([
             path: "settings",
             element: <SettingsPage />
           }
+        ]
+      },
+      {
+        element: <PrivateLayout permissions={[UserRole.CLIENT]} />,
+        children: [
+          {
+            path: "client-dashboard",
+            element: <ClientDashboard />
+          },
         ]
       },
       {
