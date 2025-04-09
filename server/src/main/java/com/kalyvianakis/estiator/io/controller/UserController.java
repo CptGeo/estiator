@@ -65,6 +65,20 @@ public class UserController {
         return ResponseEntity.ok().body(userService.get(user.getId()));
     }
 
+    @PatchMapping("/me")
+    public ResponseEntity<AuthenticatedUser> patchMe(@AuthenticationPrincipal AuthenticatedUser authUser, @RequestBody(required = true) User user) throws Exception {
+        if (authUser == null || (authUser.getId() != user.getId())) {
+            throw new Exception("User is not authenticated");
+        }
+
+        User current = userService.get(user.getId());
+
+        userPatcher.patch(current, user);
+        userService.save(current);
+
+        return ResponseEntity.ok().body(new SafeUserData(current));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getWithRoles(@PathVariable Long id, @RequestParam(required = false, name = "roles") Collection<String> roles) throws ResourceNotFoundException {
         if (roles != null && roles.stream().count() > 0) {

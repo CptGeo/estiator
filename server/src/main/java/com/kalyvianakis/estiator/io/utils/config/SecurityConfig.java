@@ -42,7 +42,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/users/me/**").permitAll()
+                        .requestMatchers( "/users/me/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_MODERATOR", "ROLE_ADMIN")
+                        .requestMatchers( "/dietaryPreferences/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_MODERATOR", "ROLE_ADMIN")
                         .requestMatchers("/auth/signup/admin/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers(HttpMethod.POST, "/auth/signup/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login/**").permitAll()
