@@ -185,6 +185,7 @@ export interface ReservationData extends HasId {
   persons: number,
   conflicts: number,
   table: TableData
+  archived: boolean;
 };
 
 /** Represents table data */
