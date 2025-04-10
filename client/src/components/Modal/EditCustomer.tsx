@@ -82,7 +82,7 @@ export default function EditCustomerModal(props: Props) {
                   </SelectField>
                   <div className="flex flex-nowrap basis-full gap-2">
                     <div className="basis-2/6">
-                      <PhoneCodeField name="countryCode" label="Country code" />
+                      <PhoneCodeField name="countryCode" label="Country code" isRequired />
                     </div>
                     <div className="basis-4/6">
                       <InputField
