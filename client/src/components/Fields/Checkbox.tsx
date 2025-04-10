@@ -16,6 +16,6 @@ export default function CheckboxField(props: Props) {
     {...otherProps}
     {...options}
     value={value}
-    defaultSelected={defaultValues?.[name].includes(value)}
-    checked={getValues()?.[name].includes(value)}>{label}</Checkbox>
+    defaultSelected={defaultValues?.[name] && defaultValues?.[name].includes(value)}
+    checked={getValues()?.[name] && getValues()?.[name].includes(value)}>{label}</Checkbox>
 }
