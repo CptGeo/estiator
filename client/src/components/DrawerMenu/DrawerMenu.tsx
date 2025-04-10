@@ -67,7 +67,8 @@ export default function DrawerMenu(): ReactElement {
           !open && "items-center"
         ])}>
           <ClientOnly>
-            <DrawerItem to="/client-dashboard" text="Dashboard" isIconOnly={!open} icon={<DashboardTwoTone className="text-xl" />} />
+            <DrawerItem to="/client-reservations" text="Reservations" isIconOnly={!open} icon={<CalendarMonthTwoTone className="text-xl" />} />
+            <DrawerItem to="/client-settings" text="Settings" isIconOnly={!open} icon={<SettingsTwoTone className="text-xl" />} />
           </ClientOnly>
           <ModeratorOnly>
             <DrawerItem to="/" text="Dashboard" isIconOnly={!open} icon={<DashboardTwoTone className="text-xl" />} />
@@ -90,7 +91,7 @@ export default function DrawerMenu(): ReactElement {
           <div className={classNames([
             "text-background border-t-1 border-background border-opacity-20 pt-2 text-center text-tiny text-nowrap",
             !open ? "text-opacity-0" : "text-opacity-30"
-          ])}>Estiator.io — v0.2.0_alpha</div>
+          ])}>Estiator.io — v0.3.0_alpha</div>
         </div>
       </div>
       <Button onPress={toggleDrawer} className="shadow-md cursor-pointer absolute top-[18px] right-0 translate-x-full rounded-l-none p-0 text-sm" isIconOnly size="sm" variant="solid" color="warning">

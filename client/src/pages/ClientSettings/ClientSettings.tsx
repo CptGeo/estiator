@@ -14,14 +14,16 @@ import type { UserData } from "@core/types";
 import CheckboxField from "@components/Fields/Checkbox";
 import useQueryDietaryPreferences from "@hooks/useQueryDietaryPreferences";
 
-export default function ClientDashboard(): ReactElement {
-  const { data: customer, isLoading, refetch } = useQueryMe(undefined, { enabled: false });
+export default function ClientSettings(): ReactElement {
+  const { data: customer, isLoading, refetch, isRefetching } = useQueryMe();
   const { data: dietaryPreferences } = useQueryDietaryPreferences();
   const { notify } = useNotification();
   const queryClient = useQueryClient();
+
   const methods = useForm({
     defaultValues: async () => {
       const { data } = await refetch();
+
       const phoneData = getPhoneData(data?.phone);
       return {
         name: data?.name,
@@ -56,14 +58,14 @@ export default function ClientDashboard(): ReactElement {
     methods.reset(values);
   }
 
-  if (isLoading) {
+  if (isLoading || isRefetching) {
     return <Spinner />
   }
 
   return (
     <div>
       <PageHeader
-        heading="Customer Dashboard"
+        heading="My Settings"
         subheading="Here you can edit your personal information."
       />
       <div className="max-w-[800px]">

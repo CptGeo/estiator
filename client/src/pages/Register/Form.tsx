@@ -137,7 +137,7 @@ export default function RegisterForm() {
             </div>
             <div className="flex flex-nowrap basis-full">
               <div className="basis-2/6 p-1">
-                <PhoneCodeField name="countryCode" label="Country code" defaultSelectedKeys={["+30"]} variant="bordered" />
+                <PhoneCodeField name="countryCode" label="Country code" defaultSelectedKeys={["+30"]} variant="bordered" isRequired />
               </div>
               <div className="basis-4/6 p-1">
                 <InputField
