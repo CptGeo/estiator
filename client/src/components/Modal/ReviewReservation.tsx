@@ -32,10 +32,10 @@ export default function ReviewReservationModal(props: Props) {
         comment: values.comment,
       };
       await postReq(`/reservations/me/${reservation.id}/rate`, { ...data }, { params: { inform: values.inform } });
-      notify({ message: "Customer info have been updated successfully!", type: "success" });
+      notify({ message: "Review submitted successfully!", type: "success" });
     } catch (error) {
       console.error(error);
-      notify({ message: "Customer info could not be updated.", type: "danger" });
+      notify({ message: "Review could not be submitted.", type: "danger" });
     } finally {
       setLoading(false);
       methods.reset();
