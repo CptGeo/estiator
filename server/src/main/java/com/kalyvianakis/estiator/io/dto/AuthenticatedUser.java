@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 
-public class AuthenticatedUser implements UserDetails {
+public class AuthenticatedUser extends User implements UserDetails {
 
     private final User user;
 

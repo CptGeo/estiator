@@ -43,6 +43,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers( "/users/me/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_MODERATOR", "ROLE_ADMIN")
+                        .requestMatchers( "/reservations/me/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_MODERATOR", "ROLE_ADMIN")
                         .requestMatchers( "/dietaryPreferences/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_MODERATOR", "ROLE_ADMIN")
                         .requestMatchers("/auth/signup/admin/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers(HttpMethod.POST, "/auth/signup/**").permitAll()
@@ -65,6 +66,8 @@ public class SecurityConfig {
                         .requestMatchers("/users/**").hasAuthority("ROLE_ADMIN")
 
                         .requestMatchers("/schedules/**").hasAuthority("ROLE_ADMIN")
+
+                        .requestMatchers("/settings/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR", "ROLE_CLIENT")
 
                         .requestMatchers(HttpMethod.DELETE).hasAuthority("ROLE_ADMIN")
                         .anyRequest().hasAuthority("ROLE_ADMIN"))

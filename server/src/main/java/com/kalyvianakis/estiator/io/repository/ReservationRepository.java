@@ -1,9 +1,6 @@
 package com.kalyvianakis.estiator.io.repository;
-
-import com.kalyvianakis.estiator.io.enums.ReservationStatus;
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
-import org.springframework.boot.context.properties.bind.DefaultValue;
+import com.kalyvianakis.estiator.io.dto.AuthenticatedUser;
+import com.kalyvianakis.estiator.io.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,11 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.kalyvianakis.estiator.io.model.Reservation;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
@@ -23,6 +19,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     Long countByDateBetween(LocalDate from, LocalDate to);
     Boolean existsByCancellationUUID(String cancellationUUID);
     Reservation findByCancellationUUID(String cancellationUUID);
+
+    @Query(value = "select * from reservations r where r.created_for_user_id = :id and r.is_archived = :isArchived", nativeQuery = true)
+    Collection<Reservation> findAllByCreatedForId(@Param(value= "id") Long id,  @Param(value= "isArchived") Boolean isArchived);
+
+    @Query(value = "select * from reservations r where r.created_for_user_id = :id", nativeQuery = true)
+    Collection<Reservation> findAllByCreatedForId(@Param(value= "id") Long id);
 
     @Query(
             value = "SELECT\n" +

@@ -1,9 +1,12 @@
 package com.kalyvianakis.estiator.io.service;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
+import com.kalyvianakis.estiator.io.dto.AuthenticatedUser;
 import com.kalyvianakis.estiator.io.enums.ReservationStatus;
+import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -152,5 +155,9 @@ public class ReservationService implements IReservationService {
     reservation.setStatus(ReservationStatus.Pending);
     reservation.setStatusValue(ReservationStatus.Pending.getLabel());
     reservationRepository.save(reservation);
+  }
+
+  public Collection<Reservation> getAllByUser(Long id) {
+    return reservationRepository.findAllByCreatedForId(id);
   }
 }

@@ -2,9 +2,11 @@ package com.kalyvianakis.estiator.io.controller;
 
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import com.kalyvianakis.estiator.io.dto.AuthenticatedUser;
 import com.kalyvianakis.estiator.io.dto.ReservationRequest;
 import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 import com.kalyvianakis.estiator.io.enums.UserStatus;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import com.kalyvianakis.estiator.io.component.patcher.ReservationPatcher;
@@ -221,5 +224,13 @@ public class ReservationController {
             reservationService.complete(reservation);
         }
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<Collection<Reservation>> getMine(@AuthenticationPrincipal AuthenticatedUser user) throws Exception {
+      if (user == null) {
+          throw new Exception("User not authenticated");
+      }
+      return ResponseEntity.ok().body(reservationService.getAllByUser(user.getId()));
     }
 }
