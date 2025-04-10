@@ -9,15 +9,15 @@ import { Controller, useFormContext } from "react-hook-form";
 const MAX_RATING = 6;
 
 const TEXT_VALUE = [
-  "Utter disaster",
-  "Very disappointing",
-  "Below average",
-  "It was fine",
-  "Very good",
-  "Outstanding!"
+  "\"Utter disaster\"",
+  "\"Very disappointing\"",
+  "\"Below average\"",
+  "\"It was fine\"",
+  "\"Very good\"",
+  "\"Outstanding!\""
 ]
 
-export default function ReviewStars({ name, label, isRequired = false }: { name: string, label: string, isRequired?: boolean }) {
+export default function ReviewStars({ name, label, isRequired = false }: { name: string, label?: string, isRequired?: boolean }) {
   const methods = useFormContext();
 
   const rules: RegisterOptions = {
@@ -54,6 +54,9 @@ export default function ReviewStars({ name, label, isRequired = false }: { name:
     }
 
     function getTextValue() {
+      if (!value && !hoveredCount) {
+        return "-";
+      }
       if (value) {
         return TEXT_VALUE[value - 1];
       }
@@ -61,20 +64,14 @@ export default function ReviewStars({ name, label, isRequired = false }: { name:
       return TEXT_VALUE[hoveredCount - 1];
     }
     return <div>
-      <label className="text-[14px]">{label}</label>
-      <div className="flex flex-nowrap gap-5 items-center">
+      {label && <label className="text-[14px]">{label}</label>}
+      <div className="flex flex-col gap-2 justify-center">
         <div className="flex flex-nowrap">
           {Array(MAX_RATING).fill(0).map((_, i) => {
             return <Button key={i + 1} value={i + 1} size="sm" color="warning" isIconOnly variant="light" style={{ backgroundColor: 'unset' }} onPress={handlePress} onMouseLeave={handleMouseLeave} onMouseEnter={handleHover}>{getIcon(i + 1)}</Button>
           })}
         </div>
-        {(value || hoveredCount > 0) && (
-          <>
-            <p className="text-foreground-600">—</p>
-            <p className="text-foreground-600 italic">{getTextValue()}</p>
-          </>
-        )
-        }
+          <p className="text-foreground-600 italic">{getTextValue()}</p>
       </div>
       {error && <small className="text-red-600">{error.message}</small>}
     </div>

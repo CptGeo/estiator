@@ -48,7 +48,7 @@ export default function ReviewReservationModal(props: Props) {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         placement="top"
-        size="2xl"
+        size="sm"
         backdrop="opaque"
         onClose={methods.reset}
       >
@@ -61,9 +61,9 @@ export default function ReviewReservationModal(props: Props) {
               </ModalHeader>
               <ModalBody>
               <div className="gap-4 md:flex flex-col">
-                <ReviewStars name="rating" label="Rating" isRequired />
+                <ReviewStars name="rating" isRequired />
 
-                <TextareaField label="Your comment" labelPlacement="outside" name="comment" placeholder="Please let us know how we can improve..." />
+                <TextareaField labelPlacement="outside" name="comment" placeholder="Please let us know how we can improve..." />
               </div>
               </ModalBody>
               <ModalFooter>
