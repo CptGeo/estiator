@@ -5,11 +5,11 @@ import { parseDate, parseTime } from "@internationalized/date";
 import Status from "@components/Status/Reservation/Status";
 import type { SettingData } from "@core/types";
 import { ReservationStatus, type ReservationData } from "@core/types";
-import ReservationsActions from "@components/Reservations/Actions";
 import { sortByDate, sortByHasReservationConflict, sortByTime } from "@core/utils";
 import { useNavigate } from "react-router-dom";
 import { AddCircleTwoTone } from "@mui/icons-material";
 import useQueryMyReservations from "@hooks/useQueryMyReservations";
+import ClientReservationsActions from "./Actions";
 
 type Column = {
   name: string;
@@ -197,7 +197,7 @@ export default function ClientReservationsTable(props: { defaultRowsPerPage: Set
 
       case "actions":
       return <div className="relative">
-          <ReservationsActions reservation={reservation} />
+          <ClientReservationsActions reservation={reservation} />
         </div>
     }
   }, [reservations]);
