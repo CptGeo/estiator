@@ -12,12 +12,16 @@ type Props = PropsWithChildren<{
  * Wrapper component that renders element only if user has permission to view the contents
  */
 export default function PermissionGuard(props: Props): ReactNode | null {
-    const { permissions, children, fallback } = props;
+    const { permissions, children, fallback = null } = props;
     const auth = useAuth();
     const user = auth?.user;
 
-    if (!user || !userIsAllowed(user, permissions)) {
-        return fallback ?? null;
+    if (permissions.length === 0 && !user) {
+        return children;
+    }
+
+    if ((permissions.length === 0 && user) || (!user || !userIsAllowed(user, permissions))) {
+        return fallback;
     }
 
     return children;
