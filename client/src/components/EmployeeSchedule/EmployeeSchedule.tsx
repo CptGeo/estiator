@@ -73,7 +73,7 @@ export default function EmployeeSchedule({ employee }: Props) {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(handleSubmit)}>
         <h3 className="opacity-65 uppercase text-sm py-3">Schedule</h3>
-        <div className="flex w-full lg:max-w-[1000px] justify-start items-start flex-wrap md:flex-nowrap gap-4">
+        <div className="flex w-full justify-start items-start flex-wrap md:flex-nowrap gap-4">
           <div>
             <div className="p-1">
               <RangeCalendarField name="schedules" />
@@ -122,10 +122,7 @@ export default function EmployeeSchedule({ employee }: Props) {
               </div>
             </div>
           </div>
-
-          <div className="basis-2/3">
-            <EmployeeCalendar user={employee} />
-          </div>
+          <EmployeeCalendar user={employee} />
         </div>
       </form>
     </FormProvider>
