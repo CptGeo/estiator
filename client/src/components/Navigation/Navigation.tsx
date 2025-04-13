@@ -6,6 +6,7 @@ import { useAuth } from "@context/Authentication";
 import UserMenu from "@components/UserMenu/UserMenu";
 import ModeratorOnly from "@components/AuthorizationWrappers/ModeratorOnly";
 import ClientOnly from "@components/AuthorizationWrappers/ClientOnly";
+import NotAuthenticatedOnly from "@components/AuthorizationWrappers/NotAuthenticatedOnly";
 
 export default function Navigation() {
   const navigate = useNavigate();
@@ -24,19 +25,29 @@ export default function Navigation() {
     )
   }
 
+  function LogoLink ({ url }: { url: string }): ReactElement {
+    return (
+      <Link to={url}>
+        <Image src={logo} className="max-w-[150px] px-4 max-h-[32px]" />
+      </Link>
+    )
+  }
+
   return (
     <Navbar maxWidth="2xl" position="sticky" isBordered className="bg-transparent">
       <NavbarBrand>
+        <NotAuthenticatedOnly>
+          <LogoLink url="/create-reservation" />
+        </NotAuthenticatedOnly>
+
         <ModeratorOnly>
-          <Link to="/">
-            <Image src={logo} className="max-w-[150px] px-4 max-h-[32px]" />
-          </Link>
+          <LogoLink url="/" />
         </ModeratorOnly>
+
         <ClientOnly>
-          <Link to="/client-settings">
-            <Image src={logo} className="max-w-[150px] px-4 max-h-[32px]" />
-          </Link>
+          <LogoLink url="/client-settings" />
         </ClientOnly>
+
       </NavbarBrand>
       <NavbarContent justify="end">
         {auth?.user && auth.token ? <UserMenu user={auth.user} /> : <AuthButtons />}
