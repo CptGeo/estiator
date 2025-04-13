@@ -29,7 +29,7 @@ const columns: Column[] = [
 
 export default function ClientReservationsTable(props: { defaultRowsPerPage: SettingData }) {
   const defaultRowsPerPage = props.defaultRowsPerPage;
-  const { data: reservations } = useQueryMyReservations(10000);
+  const { data: reservations } = useQueryMyReservations(5000);
 
   const navigate = useNavigate();
   const [rowsPerPage, setRowsPerPage] = useState(Number(defaultRowsPerPage.value));
