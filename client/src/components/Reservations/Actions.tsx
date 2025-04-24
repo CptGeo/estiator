@@ -11,12 +11,14 @@ import { useAuth } from "@context/Authentication";
 import BookReservationModal from "@components/Modal/BookReservation";
 import CompleteReservationModal from "@components/Modal/CompleteReservation";
 import { MoreHorizTwoTone } from "@mui/icons-material";
+import ArchiveReservationModal from "@components/Modal/ArchiveReservation";
 
 type Props = {
   reservation: ReservationData;
 }
 
 enum Action {
+  ARCHIVE = "archive",
   CANCEL = "cancel",
   CONFIRM = "confirm",
   BOOK = "book",
@@ -34,13 +36,17 @@ export default function ReservationsActions(props: Props) {
   const remove = useDisclosure();
   const book = useDisclosure();
   const complete = useDisclosure();
+  const archive = useDisclosure();
 
   const auth = useAuth();
   const user = auth?.user;
   const isAllowed = userIsAllowed(user, [UserRole.ADMIN]);
 
   function handleAction(key: Key) {
-    switch(key) {
+    switch (key) {
+      case Action.ARCHIVE:
+        archive.onOpen();
+        break;
       case Action.CANCEL:
         cancel.onOpen();
         break;
@@ -74,19 +80,24 @@ export default function ReservationsActions(props: Props) {
           aria-label="Action event example"
           variant="solid"
           onAction={handleAction}>
-          {(![ReservationStatus.CANCELLED, ReservationStatus.COMPLETED ].includes(reservation.status) && (
-          <DropdownSection title="Manage">
-            {(reservation.status === ReservationStatus.PENDING && (<DropdownItem key={Action.CONFIRM} color="success">Confirm reservation</DropdownItem>)) as ReactElement}
-            {(reservation.status === ReservationStatus.CONFIRMED && (<DropdownItem key={Action.BOOK} color="secondary">Book reservation</DropdownItem>)) as ReactElement}
-            {(reservation.status === ReservationStatus.BOOKED && (<DropdownItem key={Action.COMPLETE} color="primary">Complete reservation</DropdownItem>)) as ReactElement}
-            <DropdownItem key={Action.EDIT}>Edit reservation</DropdownItem>
-          </DropdownSection>)) as ReactElement}
-          {(![ReservationStatus.CANCELLED, ReservationStatus.COMPLETED ].includes(reservation.status) && (
-          <DropdownSection title="Danger zone">
-          <DropdownItem key={Action.CANCEL} className="text-danger" color="danger">
-              Cancel reservation
+          {(isAllowed && [ReservationStatus.CANCELLED, ReservationStatus.COMPLETED].includes(reservation.status) && (
+              <DropdownItem key={Action.ARCHIVE}>
+              Archive reservation
             </DropdownItem>
-          </DropdownSection>)) as ReactElement}
+          )) as ReactElement}
+          {(![ReservationStatus.CANCELLED, ReservationStatus.COMPLETED].includes(reservation.status) && (
+            <DropdownSection title="Manage">
+              {(reservation.status === ReservationStatus.PENDING && (<DropdownItem key={Action.CONFIRM} color="success">Confirm reservation</DropdownItem>)) as ReactElement}
+              {(reservation.status === ReservationStatus.CONFIRMED && (<DropdownItem key={Action.BOOK} color="secondary">Book reservation</DropdownItem>)) as ReactElement}
+              {(reservation.status === ReservationStatus.BOOKED && (<DropdownItem key={Action.COMPLETE} color="primary">Complete reservation</DropdownItem>)) as ReactElement}
+              <DropdownItem key={Action.EDIT}>Edit reservation</DropdownItem>
+            </DropdownSection>)) as ReactElement}
+          {(![ReservationStatus.CANCELLED, ReservationStatus.COMPLETED].includes(reservation.status) && (
+            <DropdownSection title="Danger zone">
+              <DropdownItem key={Action.CANCEL} className="text-danger" color="danger">
+                Cancel reservation
+              </DropdownItem>
+            </DropdownSection>)) as ReactElement}
           {isAllowed ? <DropdownItem key={Action.REMOVE} className="text-danger" color="danger">
             Remove
           </DropdownItem> : null}
@@ -98,6 +109,7 @@ export default function ReservationsActions(props: Props) {
       <CancelReservationModal reservation={reservation} {...cancel} />
       <RemoveReservationModal reservation={reservation} {...remove} />
       <EditReservationModal reservation={reservation} {...edit} />
+      <ArchiveReservationModal reservation={reservation} {...archive} />
     </>
   );
 }
