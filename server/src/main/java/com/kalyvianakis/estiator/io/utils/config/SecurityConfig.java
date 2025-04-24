@@ -65,7 +65,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/users/**").hasAuthority("ROLE_ADMIN")
 
-                        .requestMatchers("/schedules/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/schedules/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")
 
                         .requestMatchers("/settings/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR", "ROLE_CLIENT")
 
