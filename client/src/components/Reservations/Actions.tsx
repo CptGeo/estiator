@@ -80,7 +80,7 @@ export default function ReservationsActions(props: Props) {
           aria-label="Action event example"
           variant="solid"
           onAction={handleAction}>
-          {(isAllowed && [ReservationStatus.CANCELLED, ReservationStatus.COMPLETED].includes(reservation.status) && (
+          {(isAllowed && !reservation.archived && [ReservationStatus.CANCELLED, ReservationStatus.COMPLETED].includes(reservation.status) && (
               <DropdownItem key={Action.ARCHIVE}>
               Archive reservation
             </DropdownItem>
