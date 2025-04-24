@@ -10,7 +10,7 @@ import useQueryReservations from "@hooks/useQueryReservations";
 import CreateReservationModal from "@components/Modal/CreateReservation";
 import { getFullName, sortByDate, sortByHasReservationConflict, sortByTime, sortByUserAlpha } from "@core/utils";
 import { useNavigate } from "react-router-dom";
-import { AddCircleTwoTone, Archive, ErrorTwoTone, KeyboardArrowDownTwoTone, SearchTwoTone, WysiwygTwoTone } from "@mui/icons-material";
+import { AddCircleTwoTone, ErrorTwoTone, KeyboardArrowDownTwoTone, SearchTwoTone, Star, StarOutline, WysiwygTwoTone } from "@mui/icons-material";
 
 type Column = {
   name: string;
@@ -90,6 +90,10 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
 
   const createDisclosure = useDisclosure();
 
+  const getStars = (reservation: ReservationData) => {
+    return Array(6).fill(0).map((_, i) => i < (reservation.rating ?? 0) ? <Star color="warning" fontSize="small" key={i} /> : <StarOutline color="disabled" fontSize="small" key={i} />);
+  }
+
   function sortDefault(a: ReservationData, b: ReservationData) {
     const first = a[sortDescriptor.column as keyof ReservationData] as number;
     const second = b[sortDescriptor.column as keyof ReservationData] as number;
@@ -166,7 +170,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
           />
           <div className="flex gap-3">
             <div className="flex gap-4 mr-2">
-            <Checkbox size="sm" onValueChange={(value) => {
+              <Checkbox size="sm" onValueChange={(value) => {
                 setArchivedFilter(value);
               }}>Show archive</Checkbox>
             </div>
@@ -339,7 +343,13 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
 
       case "alert":
         return <>
-          {reservation.archived && <Tooltip content="Archived reservation"><Button variant="light" disableAnimation disableRipple isIconOnly><Archive fontSize="small" color="disabled" /></Button></Tooltip>}
+          {reservation.rating && (
+            <div className="flex gap-2 justify-center">
+              <div className="flex flex-nowrap">
+                {getStars(reservation)}
+              </div>
+            </div>
+          )}
           {hasConflicts && isPending && <Tooltip closeDelay={0} color="danger" content="Reservation overlaps with an active or pending reservation on the same date, time, and table.">
             <Button isIconOnly variant="flat" color="danger" className="p-1"><ErrorTwoTone className="text-xl" /></Button>
           </Tooltip>}
