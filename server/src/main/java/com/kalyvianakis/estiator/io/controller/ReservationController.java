@@ -219,6 +219,13 @@ public class ReservationController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/{id}/archive")
+    public ResponseEntity<?> archive(@PathVariable Long id, @RequestParam(required = false) Boolean inform) throws Exception {
+        Reservation reservation = reservationService.get(id);
+        reservationService.archive(reservation);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/{id}/complete")
     public ResponseEntity<?> complete(@PathVariable Long id, @RequestParam(required = false) Boolean inform) throws Exception {
         Reservation reservation = reservationService.get(id);

@@ -151,6 +151,14 @@ public class ReservationService implements IReservationService {
     reservationRepository.save(reservation);
   }
 
+  public void archive(Reservation reservation) throws Exception {
+    if (reservation.getStatus() != ReservationStatus.Completed && reservation.getStatus() != ReservationStatus.Cancelled) {
+      throw new Exception("Reservation must be in status \"Completed\" or \"Cancelled\" before it can be archived");
+    }
+    reservation.setArchived(true);
+    reservationRepository.save(reservation);
+  }
+
   public void pend(Reservation reservation) throws Exception {
     reservation.setStatus(ReservationStatus.Pending);
     reservation.setStatusValue(ReservationStatus.Pending.getLabel());
