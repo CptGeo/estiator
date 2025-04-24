@@ -78,10 +78,18 @@ export interface UserData extends HasId {
   dietaryPreferences: DietaryPreference[];
 };
 
-export interface DietaryPreference extends HasId {
+export interface DietaryPreference {
+  id: DietaryPreferenceOption,
   name: string,
   description: string
 };
+
+export enum DietaryPreferenceOption {
+  GLUTEN_FREE = "gluten_free",
+  HALAL = "halal",
+  VEGAN = "vegan",
+  VEGETARIAN = "vegetarian"
+}
 
 export enum ScheduleStatus {
   WORKING = "Working",

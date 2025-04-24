@@ -10,9 +10,17 @@ import useQueryMe from "@hooks/useQueryMe";
 import { getPhoneData, patchReq } from "@core/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNotification } from "@context/Notification";
-import type { UserData } from "@core/types";
+import { DietaryPreferenceOption, type UserData } from "@core/types";
 import CheckboxField from "@components/Fields/Checkbox";
 import useQueryDietaryPreferences from "@hooks/useQueryDietaryPreferences";
+import { Egg, Grass, KebabDining, NoFood } from "@mui/icons-material";
+
+const IconsMap = {
+  [DietaryPreferenceOption.GLUTEN_FREE]: <NoFood />,
+  [DietaryPreferenceOption.HALAL]: <KebabDining />,
+  [DietaryPreferenceOption.VEGAN]: <Grass />,
+  [DietaryPreferenceOption.VEGETARIAN]: <Egg />,
+}
 
 export default function ClientSettings(): ReactElement {
   const { data: customer, isLoading, refetch, isRefetching } = useQueryMe();
@@ -98,7 +106,10 @@ export default function ClientSettings(): ReactElement {
                 {dietaryPreferences?.map(preference => {
                   return <div key={preference.id} className="flex flex-col mb-2">
                     <CheckboxField label={preference.name} name="dietaryPreferences" value={preference.id.toString()} />
-                    <small className="pl-7 text-foreground-600">{preference.description}</small>
+                      <small className="pl-7 text-foreground-600 inline-flex flex-row items-start gap-2">
+                        {IconsMap[preference.id]}
+                        {preference.description}
+                      </small>
                   </div>
                 })}
                 </div>

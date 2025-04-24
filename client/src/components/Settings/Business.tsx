@@ -1,5 +1,5 @@
 import TextareaField from "@components/Fields/Textarea";
-import type { SettingsData } from "@core/types";
+import { UserRole, type SettingsData } from "@core/types";
 import { Button } from "@heroui/react";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
@@ -9,12 +9,17 @@ import { patchReq } from "@core/utils";
 import { useEffect } from "react";
 import InputField from "@components/Fields/Input";
 import { useNotification } from "@context/Notification";
+import { useAuth } from "@context/Authentication";
+import { userIsAllowed } from "@core/auth";
 
 export default function BusinessSettings(props: { settings: SettingsData }) {
   const { settings } = props;
 
   const queryClient = useQueryClient();
   const { notify } = useNotification();
+  const auth = useAuth();
+
+  const allowedToEdit = userIsAllowed(auth?.user, [UserRole.ADMIN]);
 
   const methods = useForm({
     defaultValues: settings,
@@ -48,10 +53,10 @@ export default function BusinessSettings(props: { settings: SettingsData }) {
       <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(handleSubmit)} className="my-3">
               <SettingsListItem headline="Business name" description="Provide the name of your business.">
-                  <InputField name="businessName" placeholder="Add you business name here..." label="Business name" isRequired maxLength={30} minLength={3} />
+                  <InputField isDisabled={!allowedToEdit} name="businessName" placeholder="Add you business name here..." label="Business name" isRequired maxLength={30} minLength={3} />
               </SettingsListItem>
               <SettingsListItem headline="Business description" description="Provide a brief description of your business. This text will appear in emails and various sections of the admin dashboard.">
-                  <TextareaField maxLength={40} name="businessDescription" placeholder="Add you business description here..." label="Business description" />
+                  <TextareaField isDisabled={!allowedToEdit} maxLength={40} name="businessDescription" placeholder="Add you business description here..." label="Business description" />
               </SettingsListItem>
               <div className="py-10 flex gap-3 justify-end">
                   <Button color="primary" type="submit" isLoading={isPending} isDisabled={!isDirty || !isValid}>Save settings</Button>

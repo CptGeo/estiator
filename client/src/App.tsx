@@ -49,6 +49,10 @@ const router = createBrowserRouter([
           {
             path: "customers-management",
             element: <CustomerManagementPage />
+          },
+          {
+            path: "settings",
+            element: <SettingsPage />
           }
         ],
       },
@@ -63,10 +67,6 @@ const router = createBrowserRouter([
             path: "employees-management/:id",
             element: <EmployeeDetails />
           },
-          {
-            path: "settings",
-            element: <SettingsPage />
-          }
         ]
       },
       {
