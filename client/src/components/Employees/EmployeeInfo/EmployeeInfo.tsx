@@ -161,7 +161,7 @@ export default function EmployeeInfo(props: {
               </h3>
               <div className="flex flex-col gap-2">
                 <SelectField name="userRole" label="Role">
-                  {Object.values(UserRole).map((item: UserRole) => {
+                  {Object.values(UserRole).filter(item => item !== UserRole.UNKNOWN).map((item: UserRole) => {
                     return (
                       <SelectItem key={item} value={item}>
                         {UserRoleName[item]}
