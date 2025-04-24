@@ -4,10 +4,12 @@ import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import com.kalyvianakis.estiator.io.dto.AuthenticatedUser;
 import com.kalyvianakis.estiator.io.dto.ReservationRequest;
+import com.kalyvianakis.estiator.io.dto.ReviewRequest;
 import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 import com.kalyvianakis.estiator.io.enums.UserStatus;
 import com.kalyvianakis.estiator.io.model.Response;
@@ -232,5 +234,39 @@ public class ReservationController {
           throw new Exception("User not authenticated");
       }
       return ResponseEntity.ok().body(reservationService.getAllByUser(user.getId()));
+    }
+
+    @PostMapping("/me/{id}/cancel")
+    public ResponseEntity<Collection<Reservation>> cancelMine(@PathVariable Long id, @AuthenticationPrincipal AuthenticatedUser user) throws Exception {
+        if (user == null) {
+            throw new Exception("User not authenticated");
+        }
+        Reservation reservation = reservationService.get(id);
+
+        if (!Objects.equals(reservation.getCreatedFor().getId(), user.getId())) {
+            throw new Exception("User does not have rights to cancel reservation");
+        }
+
+        reservationService.cancel(reservation);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/me/{id}/review")
+    public ResponseEntity<Response> review(@PathVariable Long id, @AuthenticationPrincipal AuthenticatedUser user, @RequestBody ReviewRequest review) throws Exception {
+        if (user == null) {
+            throw new Exception("User not authenticated");
+        }
+
+        Reservation reservation = reservationService.get(id);
+
+        if (!Objects.equals(reservation.getCreatedFor().getId(), user.getId())) {
+            throw new Exception("User does not have rights to edit reservation");
+        }
+
+        reservation.setReview(review.getReview());
+        reservation.setRating(review.getRating());
+        reservationService.save(reservation);
+
+        return ResponseEntity.ok().body(new Response("Review has been submitted successfully!", ""));
     }
 }

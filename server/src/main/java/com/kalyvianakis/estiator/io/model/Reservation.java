@@ -1,25 +1,18 @@
 package com.kalyvianakis.estiator.io.model;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
-import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 
-import com.kalyvianakis.estiator.io.repository.ReservationRepository;
 import com.kalyvianakis.estiator.io.utils.PropertyPrinter;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.SourceType;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @jakarta.persistence.Table(name = "reservations")
@@ -49,6 +42,11 @@ public class Reservation extends PropertyPrinter {
 
   @Transient
   private Integer conflicts;
+
+  @Max(6)
+  private Integer rating;
+
+  private String review;
 
   @ManyToOne
   @JoinColumn(name = "table_id", referencedColumnName = "id", nullable = true)
@@ -219,5 +217,21 @@ public class Reservation extends PropertyPrinter {
 
   public void setArchived(Boolean archived) {
     isArchived = archived;
+  }
+
+  public @Max(6) Integer getRating() {
+    return rating;
+  }
+
+  public void setRating(@Max(6) Integer rating) {
+    this.rating = rating;
+  }
+
+  public String getReview() {
+    return review;
+  }
+
+  public void setReview(String review) {
+    this.review = review;
   }
 }
