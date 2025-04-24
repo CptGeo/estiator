@@ -3,6 +3,7 @@ import { Textarea } from "@heroui/react";
 import type { RegisterOptions } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 import type { ControlledInputProps } from "@components/Fields/types";
+import { capitalizeEn } from "@core/utils";
 
 export default function TextareaField(props: ControlledInputProps): ReactElement {
     const { name, defaultValue, isRequired, rules, maxLength, minLength, label, ...otherProps } = props;
@@ -13,11 +14,11 @@ export default function TextareaField(props: ControlledInputProps): ReactElement
     const defaultRules: RegisterOptions = {
         ...restRules,
         ...(maxLength && !minLength && { maxLength: {
-            message: `${label} cannot exceed ${maxLength} characters.`,
+            message: `${label ?? capitalizeEn(name)} cannot exceed ${maxLength} characters.`,
             value: maxLength
         } }),
         ...(minLength && !maxLength && { minLength: {
-            message: `${label} cannot be less than ${maxLength} characters.`,
+            message: `${label ?? capitalizeEn(name)} cannot be less than ${maxLength} characters.`,
             value: minLength
         } }),
 

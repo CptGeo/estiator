@@ -233,3 +233,14 @@ export function getPhoneData(phone?: string): { countryCode: string, phoneNumber
     const [ countryCode, phoneNumber ] = phone?.split(" ") || [];
     return { countryCode, phoneNumber };
 }
+
+export function capitalizeEn(str: string): string {
+    const charCode = str.charCodeAt(0);
+
+    if (charCode >= 97 && charCode <= 122) {
+        const diff = 'a'.charCodeAt(0) - 'A'.charCodeAt(0);
+        return str.replace(str.charAt(0), String.fromCharCode(charCode - diff));
+    }
+
+    return str;
+}

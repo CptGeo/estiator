@@ -194,6 +194,8 @@ export interface ReservationData extends HasId {
   conflicts: number,
   table: TableData
   archived: boolean;
+  review?: string;
+  rating?: number;
 };
 
 /** Represents table data */

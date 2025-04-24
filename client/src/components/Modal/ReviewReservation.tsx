@@ -8,6 +8,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useNotification } from "@context/Notification";
 import TextareaField from "@components/Fields/Textarea";
 import ReviewStars from "@components/ReviewStars/ReviewStars";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   reservation: ReservationData;
@@ -17,6 +18,7 @@ export default function ReviewReservationModal(props: Props) {
   const { reservation, isOpen, onOpenChange, onClose } = props;
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
+  const queryClient = useQueryClient();
 
   const methods = useForm({
     mode: "onChange"
@@ -29,10 +31,12 @@ export default function ReviewReservationModal(props: Props) {
       setLoading(true);
       const data = {
         rating: values.rating,
-        comment: values.comment,
+        review: values.review,
       };
-      await postReq(`/reservations/me/${reservation.id}/rate`, { ...data }, { params: { inform: values.inform } });
-      notify({ message: "Review submitted successfully!", type: "success" });
+      await postReq(`/reservations/me/${reservation.id}/review`, { ...data }, { params: { inform: values.inform } });
+      queryClient.invalidateQueries( { queryKey: ["/reservations/me"] });
+      queryClient.refetchQueries( { queryKey: ["/reservations/me"] });
+      notify({ message: "Thank you very much for submitting a review!", type: "success" });
     } catch (error) {
       console.error(error);
       notify({ message: "Review could not be submitted.", type: "danger" });
@@ -62,8 +66,7 @@ export default function ReviewReservationModal(props: Props) {
               <ModalBody>
               <div className="gap-4 md:flex flex-col">
                 <ReviewStars name="rating" isRequired />
-
-                <TextareaField labelPlacement="outside" name="comment" placeholder="Please let us know how we can improve..." />
+                <TextareaField description="Max. 255 characters" maxLength={255} labelPlacement="outside" name="review" placeholder="Please let us know how we can improve..." />
               </div>
               </ModalBody>
               <ModalFooter>
