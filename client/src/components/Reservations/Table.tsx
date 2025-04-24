@@ -345,9 +345,11 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
         return <>
           {reservation.rating && (
             <div className="flex gap-2 justify-center">
-              <div className="flex flex-nowrap">
-                {getStars(reservation)}
-              </div>
+              <Tooltip size="lg" classNames={{ content: "max-w-[250px]" }} content={reservation.review ? reservation.review : "-"}>
+                <div className="flex flex-nowrap">
+                  {getStars(reservation)}
+                </div>
+              </Tooltip>
             </div>
           )}
           {hasConflicts && isPending && <Tooltip closeDelay={0} color="danger" content="Reservation overlaps with an active or pending reservation on the same date, time, and table.">
