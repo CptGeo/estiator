@@ -4,7 +4,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, redirect, Route, RouterProvider } from "react-router-dom";
 import DashboardPage from "@pages/Dashboard/Dashboard";
 import PrivateLayout from "@layouts/Private/Private";
 import LoginPage from "@pages/Login/Login";

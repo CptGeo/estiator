@@ -8,6 +8,7 @@ import TableAvailabilityWidget from "@components/Widget/TableAvailability";
 import EmployeesStatusWidget from "@components/Widget/EmployeesStatus";
 
 export default function DashboardPage(): ReactElement {
+
   return (
     <>
       <PageHeader

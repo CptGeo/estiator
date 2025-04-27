@@ -8,7 +8,7 @@ import { ReservationStatus, ReservationStatuses, type ReservationData } from "@c
 import ReservationsActions from "@components/Reservations/Actions";
 import useQueryReservations from "@hooks/useQueryReservations";
 import CreateReservationModal from "@components/Modal/CreateReservation";
-import { getFullName, sortByDate, sortByHasReservationConflict, sortByTime, sortByUserAlpha } from "@core/utils";
+import { getFullName, sortByDate, sortByHasReservationAlert, sortByTime, sortByUserAlpha } from "@core/utils";
 import { useNavigate } from "react-router-dom";
 import { AddCircleTwoTone, ErrorTwoTone, KeyboardArrowDownTwoTone, SearchTwoTone, Star, StarOutline, WysiwygTwoTone } from "@mui/icons-material";
 
@@ -37,11 +37,11 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
 
   const { data: reservations } = useQueryReservations(1000);
   const [filterValue, setFilterValue] = useState("");
+  const archivedTotal = useMemo(() => reservations?.filter(reservation => reservation.archived).length || 0, [reservations]);
   const [visibleColumns, setVisibleColumns] = useState<Iterable<Key> | "all" | undefined>("all");
   const [statusFilter, setStatusFilter] = useState<Iterable<Key> | "all">("all");
   const [archivedFilter, setArchivedFilter] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(Number(defaultRowsPerPage.value));
-
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "date",
     direction: "descending",
@@ -108,7 +108,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
 
       switch (sortDescriptor.column) {
         case "alert":
-          cmp = sortByHasReservationConflict(a, b);
+          cmp = sortByHasReservationAlert(a, b);
           break;
         case "name":
           cmp = sortByUserAlpha(a.createdFor, b.createdFor);
@@ -226,7 +226,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-tiny">
-            Showing {filteredItems.length} out of {reservations?.length} total reservations
+            Showing {filteredItems.length} out of {archivedFilter ? archivedTotal : (reservations ? (reservations?.length - archivedTotal) : 0)} total {archivedFilter && " archived "} reservations
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -248,6 +248,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
   }, [
     filterValue,
     statusFilter,
+    archivedFilter,
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,

@@ -1,12 +1,16 @@
 import axios, { HttpStatusCode } from "axios";
 
 export const client = axios.create({
-baseURL: "https://192.168.1.194:8443",
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
+  baseURL: "https://192.168.1.194:8443",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    validateStatus: status => {
+      return status < 500;
+    }
   }
-});
+);
 
 /** Remove token as soon as a 401 Unauthorized response is received from the server */
 client.interceptors.response.use(value => value, error => {

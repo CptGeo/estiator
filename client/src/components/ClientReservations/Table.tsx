@@ -5,7 +5,7 @@ import { parseDate, parseTime } from "@internationalized/date";
 import Status from "@components/Status/Reservation/Status";
 import type { SettingData } from "@core/types";
 import { ReservationStatus, type ReservationData } from "@core/types";
-import { sortByDate, sortByHasReservationConflict, sortByTime } from "@core/utils";
+import { sortByDate, sortByHasReservationAlert, sortByTime } from "@core/utils";
 import { useNavigate } from "react-router-dom";
 import { AddCircleTwoTone } from "@mui/icons-material";
 import useQueryMyReservations from "@hooks/useQueryMyReservations";
@@ -57,7 +57,7 @@ export default function ClientReservationsTable(props: { defaultRowsPerPage: Set
 
       switch(sortDescriptor.column) {
         case "alert":
-          cmp = sortByHasReservationConflict(a, b);
+          cmp = sortByHasReservationAlert(a, b);
           break;
         case "startTime":
           cmp = sortByTime(a, b);

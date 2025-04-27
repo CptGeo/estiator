@@ -3,7 +3,7 @@ import InputField from "@components/Fields/Input";
 import PasswordField from "@components/Fields/Password";
 import PhoneCodeField from "@components/Fields/PhoneCode";
 import { useAuth } from "@context/Authentication";
-import { postReq } from "@core/utils";
+import { postReq, statusError, statusSuccess } from "@core/utils";
 import { Button, SelectItem } from "@heroui/react";
 import { useMutation } from "@tanstack/react-query";
 import type { FieldValues, RegisterOptions } from "react-hook-form";
@@ -11,6 +11,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useNotification } from "@context/Notification";
 import SelectField from "@components/Fields/Select";
+import type { ErrorResponse } from "@core/types";
 import { UserRole, UserRoleName } from "@core/types";
 import { userIsAllowed } from "@core/auth";
 
@@ -20,15 +21,23 @@ export default function RegisterForm() {
   const navigate = useNavigate();
   const { notify } = useNotification();
   const isAdmin = userIsAllowed(auth?.user, [UserRole.ADMIN]);
-  const postUrl = `auth/signup${isAdmin ? "/admin": ""}`;
+  const postUrl = `auth/signup${isAdmin ? "/admin" : ""}`;
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (data: FieldValues) => postReq(postUrl, data),
-    onSuccess: () => {
-      notify({ message: "User has been created successfully!", type: "success" });
-      navigate("/login");
+    onSettled: (result) => {
+      if(statusSuccess(result?.status)) {
+        notify({ message: "User has been created successfully!", type: "success" });
+        return navigate("/login");
+      }
+      if (statusError(result?.status)) {
+        notify({ message: "User could not be created", description: (result?.data as ErrorResponse).message, type: "danger" });
+      }
     },
-    onError: (() => notify({ message: "User could not be created", type: "danger" }))
+    onError: (error) => {
+      console.log(error);
+      notify({ message: "User could not be created", description: 'Unknown error', type: "danger" });
+    }
   });
 
   const methods = useForm({
@@ -146,28 +155,29 @@ export default function RegisterForm() {
                   variant="bordered"
                   placeholder="Enter your phone number"
                   maxLength={64}
+                  isRequired
                 />
               </div>
             </div>
           </div>
         </div>
         {isAdmin &&
-        <div className="mb-4">
-          <p className="mb-1 text-xs italic">Permissions</p>
-          <div className="flex flex-row flex-wrap mb-2">
-            <div className="basis-full p-1">
-              <SelectField name="userRole" label="Role" variant="bordered" isRequired>
-                {Object.values(UserRole).map((item: UserRole) => {
-                  return (
-                    <SelectItem key={item} value={item}>
-                      {UserRoleName[item]}
-                    </SelectItem>
-                  );
-                })}
-              </SelectField>
+          <div className="mb-4">
+            <p className="mb-1 text-xs italic">Permissions</p>
+            <div className="flex flex-row flex-wrap mb-2">
+              <div className="basis-full p-1">
+                <SelectField name="userRole" label="Role" variant="bordered" isRequired>
+                  {Object.values(UserRole).map((item: UserRole) => {
+                    return (
+                      <SelectItem key={item} value={item}>
+                        {UserRoleName[item]}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectField>
+              </div>
             </div>
-          </div>
-        </div>}
+          </div>}
         <Button
           type="submit"
           color="primary"
