@@ -81,6 +81,10 @@ public class UserService implements IUserService, UserDetailsService {
         return new AuthenticatedUser(user);
     }
 
+    public Boolean existsByPhone(String phone) {
+        return userRepository.existsByPhone(phone);
+    }
+
     @Override
     public void delete(Long id) {
         userRepository.deleteById(id);

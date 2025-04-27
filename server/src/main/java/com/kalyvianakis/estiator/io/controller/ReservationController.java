@@ -12,14 +12,12 @@ import com.kalyvianakis.estiator.io.dto.ReservationRequest;
 import com.kalyvianakis.estiator.io.dto.ReviewRequest;
 import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 import com.kalyvianakis.estiator.io.enums.UserStatus;
-import com.kalyvianakis.estiator.io.model.Response;
-import com.kalyvianakis.estiator.io.model.User;
+import com.kalyvianakis.estiator.io.model.*;
 import com.kalyvianakis.estiator.io.service.EmailSenderService;
 import com.kalyvianakis.estiator.io.service.TableService;
 import com.kalyvianakis.estiator.io.service.UserService;
 import com.kalyvianakis.estiator.io.utils.JwtHelper;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
-import com.kalyvianakis.estiator.io.model.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -28,7 +26,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import com.kalyvianakis.estiator.io.component.patcher.ReservationPatcher;
-import com.kalyvianakis.estiator.io.model.Reservation;
 import com.kalyvianakis.estiator.io.service.ReservationService;
 
 @RestController
@@ -55,7 +52,7 @@ public class ReservationController {
   EmailSenderService senderService;
 
   @PostMapping
-  public ResponseEntity<Reservation> add(
+  public ResponseEntity<?> add(
           @RequestBody ReservationRequest request,
           @RequestHeader(required = false, name = "Authorization") String token,
           @RequestParam(required = false) Boolean inform
@@ -72,6 +69,9 @@ public class ReservationController {
           user.setSurname(request.getSurname());
           user.setEmail(request.getEmail());
           if (request.getPhone() != null) {
+              if (userService.existsByPhone(request.getPhone())) {
+                  return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("Cannot associate new email with already used phone number", "USER_CREATE_USED_PHONE"));
+              }
               user.setPhone(request.getPhone());
           }
           user.setUserRole("ROLE_CLIENT");
@@ -105,8 +105,7 @@ public class ReservationController {
 
       Integer conflictsCount = reservationService.countConflictsIncludeStatuses(reservation, statuses);
       if (conflictsCount > 0) {
-          // @todo: Improve this
-          throw new IllegalArgumentException("Reservation exists for given date, time and table.");
+          return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("Reservation exists for given date, time and table.", "RESERVATION_CREATE_CONFLICT"));
       }
 
       if (inform == null || inform) {
@@ -229,8 +228,10 @@ public class ReservationController {
     @PostMapping("/{id}/complete")
     public ResponseEntity<?> complete(@PathVariable Long id, @RequestParam(required = false) Boolean inform) throws Exception {
         Reservation reservation = reservationService.get(id);
+        reservationService.complete(reservation);
+
         if (inform == null || inform) {
-            reservationService.complete(reservation);
+            senderService.sendReservationCompleted(reservation);
         }
         return ResponseEntity.ok().build();
     }

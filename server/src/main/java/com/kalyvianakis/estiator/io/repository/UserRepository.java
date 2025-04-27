@@ -3,6 +3,8 @@ package com.kalyvianakis.estiator.io.repository;
 import com.kalyvianakis.estiator.io.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -15,4 +17,5 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     Optional<User> findByIdAndUserRoleIn(Long id, Collection<String> userRoles);
     Optional<User> findByEmail(String email);
     Boolean existsByEmail(String email);
+    Boolean existsByPhone(String phone);
 }
