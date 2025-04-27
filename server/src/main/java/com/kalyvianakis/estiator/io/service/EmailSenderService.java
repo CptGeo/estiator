@@ -2,10 +2,8 @@ package com.kalyvianakis.estiator.io.service;
 
 import com.kalyvianakis.estiator.io.dto.SignupRequest;
 import com.kalyvianakis.estiator.io.model.Reservation;
-import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.utils.config.SimpleMailMessageExt;
-import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -26,6 +24,9 @@ public class EmailSenderService {
 
     @Autowired
     public SimpleMailMessageExt simpleMailMessage;
+
+    @Autowired
+    public SettingService settingService;
 
     private void sendMessage(String to, String from, String subject, String text) {
         try {
@@ -130,7 +131,26 @@ public class EmailSenderService {
         this.sendMessage(
                 reservation.getCreatedFor().getEmail(),
                 "Estiator.io",
-                "Estiator.io - Your reservation info have been updated.",
+                String.format("%s - Your reservation info have been updated.", "Estiator.io"),
+                text
+        );
+    }
+
+    public void sendReservationCompleted(Reservation reservation) {
+        if (reservation.getCreatedFor().getPassword() == null) {
+            return;
+        }
+        
+        String text = String.format(
+                simpleMailMessage.templateCompleteReservation().getText(),
+                reservation.getCreatedFor().getName() + " " + reservation.getCreatedFor().getSurname(),
+                "Estiator.io"
+        );
+
+        this.sendMessage(
+                reservation.getCreatedFor().getEmail(),
+                "Estiator.io",
+                String.format("%s - Thank you for dining at our restaurant!", "Estiator.io"),
                 text
         );
     }
@@ -145,7 +165,7 @@ public class EmailSenderService {
         this.sendMessage(
                 signupRequest.getEmail(),
                 "Estiator.io",
-                "Estiator.io - Your user account has been created successfully",
+                String.format("%s - Your user account has been created successfully", "Estiator.io"),
                 text
         );
     }

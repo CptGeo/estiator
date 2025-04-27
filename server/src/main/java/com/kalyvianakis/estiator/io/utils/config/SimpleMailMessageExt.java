@@ -89,6 +89,20 @@ public class SimpleMailMessageExt extends SimpleMailMessage {
     }
 
     @Bean
+    public SimpleMailMessage templateCompleteReservation() {
+        SimpleMailMessage message = new SimpleMailMessage();
+        String reviewUrl = applicationProperties.getClientUrl("login");
+        message.setText("Hello %s,\n\nThank you very much for visiting our restaurant!\n\n" +
+                "Please, take the time to review our services and rate us on the reservation dashboard, on the link below:\n" +
+                reviewUrl +
+                "\n\n" +
+                "We hope to see you again soon!\n\n" +
+                "Team %s");
+
+        return message;
+    }
+
+    @Bean
     public SimpleMailMessage templateCreateUser() {
         SimpleMailMessage message = new SimpleMailMessage();
 

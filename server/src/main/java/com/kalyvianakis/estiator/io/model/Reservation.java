@@ -13,6 +13,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.SourceType;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @Entity
 @jakarta.persistence.Table(name = "reservations")
@@ -97,6 +99,9 @@ public class Reservation extends PropertyPrinter {
   void fillPersistentStatus() {
       if (statusValue >= 0) {
           this.statusValue = status.getLabel();
+      }
+      if (this.isArchived == null) {
+        this.setArchived(false);
       }
   }
 
