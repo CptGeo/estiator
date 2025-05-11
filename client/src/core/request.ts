@@ -1,4 +1,5 @@
 import axios, { HttpStatusCode } from "axios";
+import { decryptJwt } from "./auth";
 
 export const client = axios.create({
   baseURL: "https://192.168.1.194:8443",
@@ -22,6 +23,16 @@ client.interceptors.response.use(value => value, error => {
 // Add a request interceptor to include the token in the request headers
 client.interceptors.request.use(config => {
   const tokenString = localStorage.getItem("token") || "";
+
+  try {
+    const decryptedToken = decryptJwt(tokenString);
+    if (decryptedToken.exp < (Date.now() / 1000)) { // divide by 1000 for ms to s
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+  } catch {
+    // do nothing
+  }
 
   try {
     if (tokenString) {
