@@ -167,7 +167,7 @@ export default function RegisterForm() {
             <div className="flex flex-row flex-wrap mb-2">
               <div className="basis-full p-1">
                 <SelectField name="userRole" label="Role" variant="bordered" isRequired>
-                  {Object.values(UserRole).map((item: UserRole) => {
+                  {Object.values(UserRole).filter(role => ![UserRole.UNKNOWN, UserRole.GUEST].includes(role)).map((item: UserRole) => {
                     return (
                       <SelectItem key={item} value={item}>
                         {UserRoleName[item]}
