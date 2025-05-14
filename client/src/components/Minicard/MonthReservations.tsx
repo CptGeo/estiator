@@ -1,6 +1,6 @@
 import useQueryReservations from "@hooks/useQueryReservations"
 import Minicard from "./Minicard";
-import { endOfMonth, startOfMonth, today } from "@internationalized/date";
+import { endOfMonth, startOfMonth, today, getLocalTimeZone } from "@internationalized/date";
 import { useMemo } from "react";
 import { isInteger, isUndefined } from "@core/utils";
 import { Tooltip } from "@heroui/react";
@@ -42,8 +42,4 @@ export default function MonthReservations() {
         </div>}
         icon={<EventTwoTone fontSize="small" />}
     />;
-}
-
-function getLocalTimeZone(): string {
-    throw new Error("Function not implemented.");
 }
