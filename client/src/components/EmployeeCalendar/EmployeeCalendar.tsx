@@ -2,7 +2,7 @@ import IconButton from "@components/IconButton/IconButton";
 import { ScheduleStatus, ScheduleStatuses, type Schedule, type UserData } from "@core/types";
 import { deleteReq, toParsedTimeString } from "@core/utils";
 import useQueryUserScheduleByDate from "@hooks/useQueryUserScheduleByDate";
-import { today } from "@internationalized/date";
+import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
 import type {
   DateValue
 } from "@heroui/react";
@@ -19,9 +19,10 @@ import {
   TableRow,
 } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useNotification } from "@context/Notification";
 import { DeleteTwoTone, HistoryTwoTone } from "@mui/icons-material";
+import useQueryUserSchedules from "@hooks/useQueryUserSchedules";
 
 type Props = {
   user: UserData;
@@ -35,13 +36,26 @@ const columns = [
 ];
 
 export default function EmployeeCalendar({ user }: Props) {
-  const [current, setCurrent] = useState<DateValue>(today("Europe/Athens"));
+  const [current, setCurrent] = useState<DateValue>(today(getLocalTimeZone()));
   const { notify } = useNotification();
 
   const { data: schedule, isLoading } = useQueryUserScheduleByDate(
     user.id,
     current.toString()
   );
+  const { data: allTimeSchedule } = useQueryUserSchedules(user.id, {}, 8000);
+  const availableDates = useMemo(() => allTimeSchedule?.map(schedule => parseDate(schedule.date)), [allTimeSchedule]) ?? [];
+
+  const isDateUnavailable = useCallback((date: DateValue) => {
+    for(const d of availableDates) {
+      if (date.compare(d) === 0) {
+        return false;
+      }
+    }
+
+    return true;
+  }, [availableDates]);
+
   const queryClient = useQueryClient();
 
   const { mutateAsync: deleteSchedule } = useMutation({
@@ -57,7 +71,10 @@ export default function EmployeeCalendar({ user }: Props) {
   function renderReset() {
     return (
       <div className="w-full">
-        <Button className="w-full rounded-none" color="warning" variant="flat" onPress={() => setCurrent(today("Europe/Athens"))}>
+        <Button className="w-full rounded-none" color="warning" variant="flat" onPress={() => {
+          setCurrent(today(getLocalTimeZone()))
+          setCurrent(today(getLocalTimeZone()))
+        }}>
           <HistoryTwoTone className="text-lg" />
         </Button>
       </div>
@@ -67,7 +84,15 @@ export default function EmployeeCalendar({ user }: Props) {
   return (
     <div>
       <div className="flex gap-6">
-        <Calendar value={current} showMonthAndYearPickers bottomContent={renderReset()} onChange={(e: DateValue) => { setCurrent(e) }} />
+        <Calendar
+          minValue={availableDates[0]}
+          maxValue={availableDates[availableDates.length - 1]}
+          isDateUnavailable={isDateUnavailable}
+          value={current}
+          showMonthAndYearPickers
+          bottomContent={renderReset()}
+          onChange={(e: DateValue) => { setCurrent(e) }}
+        />
         <div className="flex">
           <Table
             topContentPlacement="outside"

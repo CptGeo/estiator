@@ -8,12 +8,9 @@ import { useParams } from "react-router-dom";
 
 export default function EmployeeDetails(): ReactElement {
   const { id } = useParams();
-  const { data: employee, isError } = useQueryUser(id, { registered: true });
+  const { data } = useQueryUser(id, { registered: true });
 
-  if (!employee) {
-    if (isError) {
-      return <NotFound resourceName="Employee" url={window.location.pathname} />
-    }
+  if (!data) {
     return (
       <>
         <Skeleton className="w-[150px] h-[30px] mb-1" />
@@ -21,11 +18,14 @@ export default function EmployeeDetails(): ReactElement {
       </>
     )
   }
+  if (!data.id) {
+    return <NotFound resourceName="Employee" url={window.location.pathname} />
+  }
 
   return (
     <>
-      <EmployeeInfo employee={employee} />
-      <EmployeeSchedule employee={employee} />
+      <EmployeeInfo employee={data} />
+      <EmployeeSchedule employee={data} />
     </>
   );
 }

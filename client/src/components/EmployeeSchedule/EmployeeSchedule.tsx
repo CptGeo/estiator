@@ -4,13 +4,14 @@ import SelectField from "@components/Fields/Select";
 import TimeField from "@components/Fields/Time";
 import type { Schedule, UserData } from "@core/types";
 import { ScheduleStatus } from "@core/types";
-import { formatDate, postReq } from "@core/utils";
+import { formatDate, postReq, statusSuccess } from "@core/utils";
 import type { CalendarDate } from "@internationalized/date";
-import { parseTime, today } from "@internationalized/date";
+import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
 import { Button, SelectItem } from "@heroui/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNotification } from "@context/Notification";
+import { useState } from "react";
 
 type Props = {
   employee: UserData;
@@ -35,43 +36,47 @@ type ScheduleRequest = {
 }
 
 export default function EmployeeSchedule({ employee }: Props) {
+  const [loading, setLoading] = useState(false);
   const methods = useForm<FormValues>({
     defaultValues: {
-      schedules: { start: today("Europe/Athens"), end: today("Europe/Athens") }
+      schedules: { start: today(getLocalTimeZone()), end: today(getLocalTimeZone()) }
     },
     mode: "all"
   });
 
   const { notify } = useNotification();
-
   const queryClient = useQueryClient();
-  const { isPending, mutateAsync } = useMutation({
-    mutationFn: (data: ScheduleRequest) => postReq(`users/${employee.id}/schedules`, data),
-    onSuccess: () => notify({ message: "Employee schedule has been updated successfully!", type: "success" }),
-    onError: () => notify({ message: "Employee schedule could not be updated.", type: "danger" }),
-  })
 
-  async function handleSubmit(values: FormValues) {
-    const formatted = {
-      endTime: parseTime(values.endTime).toString(),
-      startTime: parseTime(values.startTime).toString(),
-      status: values.scheduleStatus,
-      startDate: formatDate(values.schedules.start),
-      endDate: formatDate(values.schedules.end),
+  async function handleSubmit(values: FormValues): Promise<void> {
+    try {
+      setLoading(true);
+      const data: ScheduleRequest = {
+        endTime: parseTime(values.endTime).toString(),
+        startTime: parseTime(values.startTime).toString(),
+        status: values.scheduleStatus,
+        startDate: formatDate(values.schedules.start),
+        endDate: formatDate(values.schedules.end),
+      }
+      const result = await postReq<Schedule[]>(`users/${employee.id}/schedules`, data);
+
+      if (statusSuccess(result.status)) {
+        result.data.forEach(schedule => {
+          queryClient.invalidateQueries({ queryKey: [`users/${employee.id}/schedule/${schedule.date}`] });
+          queryClient.refetchQueries({ queryKey: [`users/${employee.id}/schedule${schedule.date}`] });
+        });
+        notify({ message: "Employee schedule has been updated successfully!", type: "success" });
+      }
+    } catch (error) {
+      console.error(error);
+      notify({ message: "Employee schedule could not be updated.", type: "danger" });
+    } finally {
+      setLoading(false);
     }
-
-    const result = await mutateAsync(formatted) as Schedule[];
-
-    result.forEach(schedule => {
-      queryClient.invalidateQueries({ queryKey: [`users/${employee.id}/schedule/${schedule.date}`] });
-      queryClient.refetchQueries({ queryKey: [`users/${employee.id}/schedule${schedule.date}`] });
-    });
-
   }
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(handleSubmit)}>
+      <form onSubmit={methods.handleSubmit(handleSubmit)} noValidate>
         <h3 className="opacity-65 uppercase text-sm py-3">Schedule</h3>
         <div className="flex w-full justify-start items-start flex-wrap md:flex-nowrap gap-4">
           <div>
@@ -115,7 +120,7 @@ export default function EmployeeSchedule({ employee }: Props) {
                   variant="solid"
                   className="max-w-[350px] w-full text-md py-6"
                   color="primary"
-                  isDisabled={isPending}
+                  isDisabled={loading}
                   type="submit">
                   Update schedule
                 </Button>
