@@ -16,7 +16,7 @@ import TablesGridSelect from "@components/Fields/TablesGridSelect";
 import { ChevronRight } from "@mui/icons-material";
 import useQueryTables from "@hooks/useQueryTables";
 import { formatDate, parseDurationToSeconds, postReq } from "@core/utils";
-import { parseTime, today } from "@internationalized/date";
+import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
 import { useMutation } from "@tanstack/react-query";
 import { useNotification } from "@context/Notification";
 import CheckboxField from "@components/Fields/Checkbox";
@@ -122,7 +122,7 @@ export default function CreateReservationPage(): ReactElement {
                   <CalendarPlainField
                     name="date"
                     showMonthAndYearPickers
-                    minValue={today("Europe/Athens")}
+                    minValue={today(getLocalTimeZone())}
                   />
                   <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
                   <SelectField name="duration" label="Duration" isRequired >

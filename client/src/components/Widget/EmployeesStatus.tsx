@@ -1,6 +1,6 @@
 import { ScheduleStatus, ScheduleStatuses, type Schedule } from "@core/types";
 import { dayToString, getFullName, toParsedTimeString } from "@core/utils";
-import { getDayOfWeek, today } from "@internationalized/date";
+import { getDayOfWeek, getLocalTimeZone, today } from "@internationalized/date";
 import {
   Button,
   ButtonGroup,
@@ -30,7 +30,7 @@ const columns = [
 
 export default function EmployeesStatusWidget() {
   const [current, setCurrent] = useState(0);
-  const currentDate = today("Europe/Athens").add({ days: current });
+  const currentDate = today(getLocalTimeZone()).add({ days: current });
   const previousDate = currentDate.subtract({ days: 1 });
   const nextDate = currentDate.add({ days: 1 });
 

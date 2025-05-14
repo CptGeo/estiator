@@ -9,7 +9,7 @@ import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import NumberField from "@components/Fields/Number";
 import CalendarPlainField from "@components/Fields/CalendarPlain";
-import { parseDate, parseTime, today } from "@internationalized/date";
+import { getLocalTimeZone, parseDate, parseTime, today } from "@internationalized/date";
 import CheckboxField from "@components/Fields/Checkbox";
 import EmailField from "@components/Fields/Email";
 import { ReservationStatusOption } from "@components/Fields/ReservationStatus";
@@ -87,8 +87,8 @@ export default function EditReservationModal(props: Props) {
                   <CalendarPlainField
                     name="date"
                     showMonthAndYearPickers
-                    defaultValue={today("Europe/Athens")}
-                    minValue={today("Europe/Athens")}
+                    defaultValue={today(getLocalTimeZone())}
+                    minValue={today(getLocalTimeZone())}
                   />
                   <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
                   <SelectField name="duration" label="Duration">
