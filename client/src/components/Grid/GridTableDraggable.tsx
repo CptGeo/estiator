@@ -18,9 +18,10 @@ type Props = {
   dragOverlay?: boolean;
   id: UniqueIdentifier;
   value: TableData;
+  onClick: () => void;
 }
 
-export function GridTableDraggable({ handle, dragOverlay, id, value }: Props) {
+export function GridTableDraggable({ handle, dragOverlay, id, value, onClick }: Props) {
   const { attributes, isDragging, listeners, setNodeRef, transform } = useDraggable({ id });
   const [data, setData] = useState<TableData>(value);
   const { label, capacity, x, y, color, occupied } = data;
@@ -95,6 +96,7 @@ export function GridTableDraggable({ handle, dragOverlay, id, value }: Props) {
             className={classNames("select-none text-default-50 z-auto group absolute", color ?? "bg-default-800", occupied === true ? "before:bg-opacity-40 before:z-20 before:bg-black before:w-full before:h-full before:rounded-md" : "")}
             ref={setNodeRef}
             style={buttonStyle}
+            onClick={onClick}
             aria-label={label}
             {...(handle ? {} : listeners)}>
             <p className="text-xs absolute top-1">Table</p>

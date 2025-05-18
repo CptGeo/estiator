@@ -12,6 +12,7 @@ import {
 
 import type { Normalized, TableData } from "@core/types";
 import { GridTableDraggable } from "@components/Grid/GridTableDraggable";
+import { useTables } from "@context/Tables";
 
 interface Props {
   activationConstraint?: PointerActivationConstraint;
@@ -31,7 +32,7 @@ export function GridDndContext({
   const mouseSensor = useSensor(MouseSensor, { activationConstraint });
   const touchSensor = useSensor(TouchSensor, { activationConstraint });
   const sensors = useSensors(mouseSensor, touchSensor);
-
+  const { selectTable } = useTables();
   return (
     <DndContext sensors={sensors} modifiers={modifiers}>
       {data && Object.entries(data).map(([key]) => {
@@ -41,7 +42,8 @@ export function GridDndContext({
               handle={handle}
               value={data[key]}
               id={key}
-              />
+              onClick={() => selectTable(data[key])}
+            />
           </React.Fragment>
         );
       })}
