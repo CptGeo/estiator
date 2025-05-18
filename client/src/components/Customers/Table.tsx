@@ -1,16 +1,13 @@
 import { useCallback, useMemo, useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Spinner, Pagination, Chip, Input, Button } from "@heroui/react";
-import { UserRole, UserRoleName, type UserData } from "@core/types";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Spinner, Pagination, Input } from "@heroui/react";
+import { type UserData } from "@core/types";
 import { getFullName, parseTimestamp } from "@core/utils";
 import useQueryCustomers from "@hooks/useQueryCustomers";
 import CustomersActions from "./Actions";
-import { useNavigate } from "react-router-dom";
-import { AddCircleTwoTone } from "@mui/icons-material";
 
 const columns = [
   { name: "NAME", uid: "name" },
   { name: "PHONE", uid: "phone" },
-  { name: "ROLE", uid: "role" },
   { name: "CREATED AT", uid: "createdAT" },
   { name: "ACTIONS", uid: "actions" }
 ];
@@ -20,7 +17,6 @@ export default function CustomersTable() {
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
   const pages = customers ? Math.ceil(customers.length / rowsPerPage) : 0;
-  const navigate = useNavigate();
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -33,7 +29,6 @@ export default function CustomersTable() {
     return (
       <div className="flex flex-row justify-between items-end">
         <p className="text-default-400 text-tiny">{count! > 0 && `Total customers: ${customers?.length}`}</p>
-        <Button onPress={() => navigate("/register")} color="primary">Register user  <AddCircleTwoTone fontSize="small" /></Button>
       </div>
     )
   }, [customers?.length]);
@@ -75,9 +70,6 @@ export default function CustomersTable() {
         </TableCell>
         <TableCell className="w-[15%]">
           <Input value={customer.phone} />
-        </TableCell>
-        <TableCell className="w-[10%]">
-          <Chip variant="flat" color={customer.userRole === UserRole.GUEST ? "default" : "secondary"} >{UserRoleName[customer.userRole]}</Chip>
         </TableCell>
         <TableCell className="w-[20%]" textValue="Created at">
           <DatePicker
