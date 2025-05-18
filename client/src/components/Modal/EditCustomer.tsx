@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { UserRole, UserRoleName, type UserData } from "@core/types";
+import { type UserData } from "@core/types";
 import type { useDisclosure } from "@heroui/react";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SelectItem } from "@heroui/react";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
 import { getFullName, patchReq } from "@core/utils";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
@@ -10,7 +10,6 @@ import CheckboxField from "@components/Fields/Checkbox";
 import EmailField from "@components/Fields/Email";
 import { useNotification } from "@context/Notification";
 import PhoneCodeField from "@components/Fields/PhoneCode";
-import SelectField from "@components/Fields/Select";
 
 type Props = {
   customer: UserData;
@@ -28,8 +27,7 @@ export default function EditCustomerModal(props: Props) {
       surname: customer.surname,
       email: customer.email,
       countryCode: [customer.phone?.split(" ")[0]],
-      phone: customer.phone?.split(" ")[1],
-      userRole: customer.userRole
+      phone: customer.phone?.split(" ")[1]
     }
   });
 
@@ -40,8 +38,7 @@ export default function EditCustomerModal(props: Props) {
         name: values.name,
         surname: values.surname,
         email: values.email,
-        phone: `${values.countryCode} ${values.phone}`,
-        userRole: values.userRole
+        phone: `${values.countryCode} ${values.phone}`
       };
       await patchReq(`/users/${customer.id}`, { ...data }, { params: { inform: values.inform } });
       notify({ message: "Customer info have been updated successfully!", type: "success" });
@@ -76,10 +73,6 @@ export default function EditCustomerModal(props: Props) {
                   <InputField isRequired label="Name" name="name"  />
                   <InputField isRequired label="Surname" name="surname" />
                   <EmailField isRequired label="Email" name="email" />
-                  <SelectField name="userRole" label="Role">
-                    <SelectItem key={UserRole.CLIENT} value={UserRole.CLIENT}>{UserRoleName[UserRole.CLIENT]}</SelectItem>
-                    <SelectItem key={UserRole.GUEST} value={UserRole.GUEST}>{UserRoleName[UserRole.GUEST]}</SelectItem>
-                  </SelectField>
                   <div className="flex flex-nowrap basis-full gap-2">
                     <div className="basis-2/6">
                       <PhoneCodeField name="countryCode" label="Country code" isRequired />
