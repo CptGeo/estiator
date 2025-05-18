@@ -1,17 +1,16 @@
 import type { PropsWithChildren } from "react";
 import { createContext, useContext } from "react"
 import { useNavigate } from "react-router-dom";
-import { ensureErr, postReq, statusError, statusSuccess } from "@core/utils";
+import { ensureErr, getRootPage, postReq, statusError, statusSuccess } from "@core/utils";
 import { AxiosError } from "axios";
-import { UserRole, type AuthValue, type Credentials, type ErrorResponse } from "@core/types";
+import type { AuthResponse } from "@core/types";
+import { type AuthValue, type Credentials, type ErrorResponse } from "@core/types";
 import useLocalStorage from "@hooks/useLocalStorage";
 import { decryptJwt } from "@core/auth";
 import { useNotification } from "./Notification";
 import { useMutation } from "@tanstack/react-query";
 
 const AuthContext = createContext<AuthValue | null>(null);
-
-type AuthResponse = { email: string, token: string };
 
 export function AuthProvider( props: PropsWithChildren ) {
   const [token, setToken, removeToken] = useLocalStorage<string>("token");
@@ -28,11 +27,17 @@ export function AuthProvider( props: PropsWithChildren ) {
       if (statusSuccess(response.status)) {
         setToken((response.data as AuthResponse).token);
         notify({ message: "You have logged in successfully!", type: "success" });
-
-        if (user?.userRole === UserRole.CLIENT) {
-          navigate("/client-reservations", { replace: true });
-        }
       }
+
+      let navigateUrl = '/';
+      try {
+        const claims = 'token' in response.data ? decryptJwt(response.data.token) : null;
+        const userRole = claims?.user ? claims.user.userRole : null;
+        navigateUrl = getRootPage(userRole);
+      } catch (e) {
+        console.error('Token could not be parsed: ', e);
+      }
+
       if (statusError(response.status)) {
         notify({
           message: "Authentication has failed.",
@@ -40,6 +45,8 @@ export function AuthProvider( props: PropsWithChildren ) {
           type: "danger"
         });
       }
+
+      navigate(navigateUrl);
     } catch (err) {
       let message = "";
       if (err instanceof AxiosError) {
