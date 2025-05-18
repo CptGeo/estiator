@@ -2,10 +2,7 @@ package com.kalyvianakis.estiator.io.controller;
 
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 import com.kalyvianakis.estiator.io.dto.AuthenticatedUser;
 import com.kalyvianakis.estiator.io.dto.ReservationRequest;
@@ -121,7 +118,12 @@ public class ReservationController {
   }
 
   @GetMapping
-  public ResponseEntity<?> get(@RequestParam(name = "count", required = false) Boolean count, @RequestParam(name = "dateFrom", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,  @RequestParam(name = "dateTo", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
+  public ResponseEntity<?> get(
+          @RequestParam(name = "count", required = false) Boolean count,
+          @RequestParam(name = "dateFrom", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
+          @RequestParam(name = "dateTo", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to
+  ) {
+
       if (from != null && to != null && count != null && count) {
           return ResponseEntity.ok().body(reservationService.getCountByDateBetween(from, to));
       }
@@ -136,6 +138,17 @@ public class ReservationController {
 
       return ResponseEntity.ok().body(reservationService.getWithConflicts());
   }
+
+    @GetMapping("/table/{id}")
+    public ResponseEntity<?> get(
+            @RequestParam(name = "dateFrom", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
+            @RequestParam(name = "dateTo", required = true) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to,
+            @PathVariable(name = "id", required = true) Long id
+    ) {
+        Collection<ReservationStatus> statuses = new ArrayList<>();
+        statuses.add(ReservationStatus.Confirmed);
+        return ResponseEntity.ok().body(reservationService.get(id, from, to, statuses));
+    }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<?> delete(@PathVariable Long id) throws ResourceNotFoundException {
@@ -212,6 +225,7 @@ public class ReservationController {
     @PostMapping("/{id}/book")
     public ResponseEntity<?> book(@PathVariable Long id, @RequestParam(required = false) Boolean inform) throws Exception {
         Reservation reservation = reservationService.get(id);
+
         if (inform == null || inform) {
             reservationService.book(reservation);
         }

@@ -155,6 +155,11 @@ public class UserController {
         return ResponseEntity.ok().body(userService.get());
     }
 
+    @GetMapping("/table/{id}")
+    public ResponseEntity<User> getByTable(@PathVariable Long id) {
+        return ResponseEntity.ok().body(userService.getActiveTableUser(id));
+    }
+
     @GetMapping("/email/{email}")
     public ResponseEntity<User> get(@PathVariable String email) throws ResourceNotFoundException {
         return ResponseEntity.ok().body(userService.getOneByEmail(email));
