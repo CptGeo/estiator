@@ -1,6 +1,6 @@
 import type { FieldValues, FormState } from "react-hook-form";
 import type { ReservationData } from "@core/types";
-import { Day, type HasId, type Normalized, type UserData } from "@core/types";
+import { Day, UserRole, type HasId, type Normalized, type UserData } from "@core/types";
 import type { CalendarDate } from "@internationalized/date";
 import { CalendarDateTime, parseDate, parseTime } from "@internationalized/date";
 import { client } from "./request";
@@ -303,4 +303,33 @@ export function statusError(status?: number | string): boolean {
 
     const numericStatus = typeof status === 'string' ? parseInt(status, 10) : status;
     return errorStatuses.includes(numericStatus);
+}
+
+export enum Routes {
+    HOME,
+    RESERVATIONS,
+    TABLES,
+    EMPLOYEES,
+    CUSTOMERS,
+    CLIENT_HOME,
+    CLIENT_RESERVATIONS,
+    CLIENT_SETTINGS
+}
+
+const routes: Record<Routes, string> = {
+    [Routes.HOME]: "/",
+    [Routes.RESERVATIONS]: "/reservations-management",
+    [Routes.TABLES]: "/tables-management",
+    [Routes.EMPLOYEES]: "/employees-management",
+    [Routes.CUSTOMERS]: "/customers-management",
+    [Routes.CLIENT_HOME]: "/client-reservations",
+    [Routes.CLIENT_RESERVATIONS]: "/client-reservations",
+    [Routes.CLIENT_SETTINGS]: "/client-settings",
+}
+
+export function getRootPage(userRole?: UserRole | null | undefined) {
+    if (!userRole) return routes[Routes.HOME];
+
+    const isClient = userRole === UserRole.CLIENT;
+    return isClient ? routes[Routes.CLIENT_HOME] : routes[Routes.HOME];
 }
