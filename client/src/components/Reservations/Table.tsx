@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { PropsWithChildren, useCallback, useMemo, useState } from "react";
 import type { SortDescriptor } from "@heroui/react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Pagination, Button, useDisclosure, Tooltip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Spinner, ButtonGroup, Checkbox } from "@heroui/react";
 import { parseDate, parseTime } from "@internationalized/date";
@@ -10,7 +10,7 @@ import useQueryReservations from "@hooks/useQueryReservations";
 import CreateReservationModal from "@components/Modal/CreateReservation";
 import { getFullName, sortByDate, sortByHasReservationAlert, sortByTime, sortByUserAlpha } from "@core/utils";
 import { useNavigate } from "react-router-dom";
-import { AddCircleTwoTone, ErrorTwoTone, KeyboardArrowDownTwoTone, SearchTwoTone, Star, StarOutline, WysiwygTwoTone } from "@mui/icons-material";
+import { AddCircleTwoTone, ErrorTwoTone, KeyboardArrowDownTwoTone, SearchTwoTone, Star, StarOutline, Twitter, WysiwygTwoTone } from "@mui/icons-material";
 
 type Column = {
   name: string;
@@ -283,6 +283,26 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
     const hasConflicts = reservation.conflicts > 0;
     const isPending = reservation.status === ReservationStatus.PENDING;
 
+    function ReviewContent({ reservation: rsvt}: PropsWithChildren<{reservation: ReservationData}>) {
+      const parsedText = encodeURIComponent(`Our guests say it best! Check out this recent review:\n\n${rsvt.review ? rsvt.review : "-"}\n${rsvt.createdFor.name} ${rsvt.createdFor.surname.charAt(0) }.\n\nRating: ${'⭐️'.repeat(rsvt.rating ?? 0)}`);
+
+      const handleTwitter = () => {
+        window.open(`https://twitter.com/intent/tweet?text=${parsedText}`);
+      }
+
+      return (
+        <div className="flex flex-wrap gap-3">
+          <div>{rsvt.review}</div>
+          <div className="flex flex-nowrap items-center gap-2">
+            <small>Share on:</small>
+            <div className="flex gap-1">
+              <Button onPress={handleTwitter} size="sm" variant="light" isIconOnly><Twitter htmlColor="#1da1f2" /></Button>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     switch (columnKey) {
       case "name":
         return <User
@@ -346,7 +366,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
         return <>
           {reservation.rating && (
             <div className="flex gap-2 justify-center">
-              <Tooltip size="lg" classNames={{ content: "max-w-[250px]" }} content={reservation.review ? reservation.review : "-"}>
+              <Tooltip size="lg" classNames={{ content: "max-w-[250px]" }} content={<ReviewContent reservation={reservation}/>}>
                 <div className="flex flex-nowrap">
                   {getStars(reservation)}
                 </div>
