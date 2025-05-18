@@ -29,6 +29,11 @@ export type AuthValue = {
   logoutAction: () => Promise<void>;
 };
 
+export type AuthResponse = {
+  email: string,
+  token: string
+}
+
 /** Represents the username and password credentials for logging in a user */
 export type Credentials = {
   email: string;
