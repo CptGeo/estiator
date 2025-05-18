@@ -30,7 +30,7 @@ export default function AddTableModal(props: ReturnType<typeof useDisclosure> & 
     defaultValues: {
       capacity: 2,
       color: "bg-primary",
-      label: "New table"
+      label: "Table"
      },
   });
 
