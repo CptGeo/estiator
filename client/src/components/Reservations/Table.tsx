@@ -1,16 +1,20 @@
-import { PropsWithChildren, useCallback, useMemo, useState } from "react";
+import type { PropsWithChildren } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { SortDescriptor } from "@heroui/react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, User, DatePicker, Input, Pagination, Button, useDisclosure, Tooltip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Spinner, ButtonGroup, Checkbox } from "@heroui/react";
 import { parseDate, parseTime } from "@internationalized/date";
 import Status from "@components/Status/Reservation/Status";
 import type { Key, SettingData } from "@core/types";
-import { ReservationStatus, ReservationStatuses, type ReservationData } from "@core/types";
+import { AppSetting, ReservationStatus, ReservationStatuses, type ReservationData } from "@core/types";
 import ReservationsActions from "@components/Reservations/Actions";
 import useQueryReservations from "@hooks/useQueryReservations";
 import CreateReservationModal from "@components/Modal/CreateReservation";
 import { getFullName, sortByDate, sortByHasReservationAlert, sortByTime, sortByUserAlpha } from "@core/utils";
 import { useNavigate } from "react-router-dom";
-import { AddCircleTwoTone, ErrorTwoTone, KeyboardArrowDownTwoTone, SearchTwoTone, Star, StarOutline, Twitter, WysiwygTwoTone } from "@mui/icons-material";
+import { AddCircleTwoTone, ErrorTwoTone, KeyboardArrowDownTwoTone, SearchTwoTone, Star, StarOutline, Twitter, WysiwygTwoTone, X } from "@mui/icons-material";
+import useQuerySetting from "@hooks/useQuerySetting";
+
+const MAX_STARS = 6;
 
 type Column = {
   name: string;
@@ -35,6 +39,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
 
   const navigate = useNavigate();
 
+  const { data: businessName } = useQuerySetting(AppSetting.BusinessName);
   const { data: reservations } = useQueryReservations(1000);
   const [filterValue, setFilterValue] = useState("");
   const archivedTotal = useMemo(() => reservations?.filter(reservation => reservation.archived).length || 0, [reservations]);
@@ -91,7 +96,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
   const createDisclosure = useDisclosure();
 
   const getStars = (reservation: ReservationData) => {
-    return Array(6).fill(0).map((_, i) => i < (reservation.rating ?? 0) ? <Star color="warning" fontSize="small" key={i} /> : <StarOutline color="disabled" fontSize="small" key={i} />);
+    return Array(MAX_STARS).fill(0).map((_, i) => i < (reservation.rating ?? 0) ? <Star color="warning" fontSize="small" key={i} /> : <StarOutline color="disabled" fontSize="small" key={i} />);
   }
 
   function sortDefault(a: ReservationData, b: ReservationData) {
@@ -283,8 +288,8 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
     const hasConflicts = reservation.conflicts > 0;
     const isPending = reservation.status === ReservationStatus.PENDING;
 
-    function ReviewContent({ reservation: rsvt}: PropsWithChildren<{reservation: ReservationData}>) {
-      const parsedText = encodeURIComponent(`Our guests say it best! Check out this recent review:\n\n${rsvt.review ? rsvt.review : "-"}\n${rsvt.createdFor.name} ${rsvt.createdFor.surname.charAt(0) }.\n\nRating: ${'⭐️'.repeat(rsvt.rating ?? 0)}`);
+    function ReviewContent({ reservation: rsvt }: PropsWithChildren<{reservation: ReservationData}>) {
+      const parsedText = encodeURIComponent(`Our guests say it best! Check out this recent review of our restaurant ${businessName?.value}:\n\n${rsvt.review ? rsvt.review : "-"}\n${rsvt.createdFor.name} ${rsvt.createdFor.surname.charAt(0) }.\n\nRating: ${'★'.repeat(rsvt.rating ?? 0)}${'✰'.repeat(MAX_STARS - (rsvt.rating ?? 0))} \n\n${location.origin}`);
 
       const handleTwitter = () => {
         window.open(`https://twitter.com/intent/tweet?text=${parsedText}`);
@@ -296,7 +301,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
           <div className="flex flex-nowrap items-center gap-2">
             <small>Share on:</small>
             <div className="flex gap-1">
-              <Button onPress={handleTwitter} size="sm" variant="light" isIconOnly><Twitter htmlColor="#1da1f2" /></Button>
+              <Button onPress={handleTwitter} size="sm" variant="light" isIconOnly><X htmlColor="#000" /></Button>
             </div>
           </div>
         </div>
