@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 import { createContext, useContext } from "react"
 import { useNavigate } from "react-router-dom";
-import { ensureErr, getRootPage, postReq, statusError, statusSuccess } from "@core/utils";
+import { allRoutes, ensureErr, getRootPage, postReq, Routes, statusError, statusSuccess } from "@core/utils";
 import { AxiosError } from "axios";
 import type { AuthResponse } from "@core/types";
 import { type AuthValue, type Credentials, type ErrorResponse } from "@core/types";
@@ -29,15 +29,6 @@ export function AuthProvider( props: PropsWithChildren ) {
         notify({ message: "You have logged in successfully!", type: "success" });
       }
 
-      let navigateUrl = '/';
-      try {
-        const claims = 'token' in response.data ? decryptJwt(response.data.token) : null;
-        const userRole = claims?.user ? claims.user.userRole : null;
-        navigateUrl = getRootPage(userRole);
-      } catch (e) {
-        console.error('Token could not be parsed: ', e);
-      }
-
       if (statusError(response.status)) {
         notify({
           message: "Authentication has failed.",
@@ -46,7 +37,16 @@ export function AuthProvider( props: PropsWithChildren ) {
         });
       }
 
-      navigate(navigateUrl);
+      if (statusSuccess(response.status)) {
+        try {
+          const claims = 'token' in response.data ? decryptJwt(response.data.token) : null;
+          const userRole = claims?.user ? claims.user.userRole : null;
+          navigate(getRootPage(userRole));
+        } catch (e) {
+          console.error('Token could not be parsed: ', e);
+        }
+      }
+
     } catch (err) {
       let message = "";
       if (err instanceof AxiosError) {
@@ -60,7 +60,7 @@ export function AuthProvider( props: PropsWithChildren ) {
         description: "Something has gone wrong. Please try again later.",
         type: "danger"
       });
-      navigate("/login", { state: message });
+      navigate(allRoutes[Routes.LOGIN], { state: message });
     }
   };
 
@@ -70,7 +70,7 @@ export function AuthProvider( props: PropsWithChildren ) {
       notify({ message: "You have logged out successfully." });
 
       // go to login page
-      navigate("/login", { replace: true });
+      navigate(allRoutes[Routes.LOGIN], { replace: true });
     } catch (error) {
       notify({ message: "Logout has failed", description: "Please check your network", type: "danger" });
       console.error(error);

@@ -7,6 +7,7 @@ import UserMenu from "@components/UserMenu/UserMenu";
 import ModeratorOnly from "@components/AuthorizationWrappers/ModeratorOnly";
 import ClientOnly from "@components/AuthorizationWrappers/ClientOnly";
 import NotAuthenticatedOnly from "@components/AuthorizationWrappers/NotAuthenticatedOnly";
+import { allRoutes, Routes } from "@core/utils";
 
 export default function Navigation() {
   const navigate = useNavigate();
@@ -16,10 +17,10 @@ export default function Navigation() {
     return (
       <>
         <NavbarItem className="lg:flex">
-          <Button onPress={() => navigate("/login")} variant="light" color="primary">Login</Button>
+          <Button onPress={() => navigate(allRoutes[Routes.LOGIN])} variant="light" color="primary">Login</Button>
         </NavbarItem>
         <NavbarItem>
-          <Button onPress={() => navigate("/create-reservation")} variant="solid" color="primary">Reserve a table</Button>
+          <Button onPress={() => navigate(allRoutes[Routes.CREATE_RESERVATION])} variant="solid" color="primary">Reserve a table</Button>
         </NavbarItem>
       </>
     )

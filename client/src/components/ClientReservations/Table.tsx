@@ -5,7 +5,7 @@ import { parseDate, parseTime } from "@internationalized/date";
 import Status from "@components/Status/Reservation/Status";
 import type { SettingData } from "@core/types";
 import { ReservationStatus, type ReservationData } from "@core/types";
-import { sortByDate, sortByHasReservationAlert, sortByTime } from "@core/utils";
+import { allRoutes, Routes, sortByDate, sortByHasReservationAlert, sortByTime } from "@core/utils";
 import { useNavigate } from "react-router-dom";
 import { AddCircleTwoTone } from "@mui/icons-material";
 import useQueryMyReservations from "@hooks/useQueryMyReservations";
@@ -91,7 +91,7 @@ export default function ClientReservationsTable(props: { defaultRowsPerPage: Set
     return (
       <div className="flex flex-col gap-4">
         <div className="flex justify-end gap-3">
-          <Button color="primary" onPress={() => navigate("/create-reservation")}>Create reservation <AddCircleTwoTone fontSize="small" /></Button>
+          <Button color="primary" onPress={() => navigate(allRoutes[Routes.CREATE_RESERVATION])}>Create reservation <AddCircleTwoTone fontSize="small" /></Button>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-tiny">

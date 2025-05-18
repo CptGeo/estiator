@@ -3,7 +3,7 @@ import InputField from "@components/Fields/Input";
 import PasswordField from "@components/Fields/Password";
 import PhoneCodeField from "@components/Fields/PhoneCode";
 import { useAuth } from "@context/Authentication";
-import { postReq, statusError, statusSuccess } from "@core/utils";
+import { allRoutes, postReq, Routes, statusError, statusSuccess } from "@core/utils";
 import { Button, SelectItem } from "@heroui/react";
 import { useMutation } from "@tanstack/react-query";
 import type { FieldValues, RegisterOptions } from "react-hook-form";
@@ -28,7 +28,7 @@ export default function RegisterForm() {
     onSettled: (result) => {
       if(statusSuccess(result?.status)) {
         notify({ message: "User has been created successfully!", type: "success" });
-        return navigate("/login");
+        return navigate(allRoutes[Routes.LOGIN]);
       }
       if (statusError(result?.status)) {
         notify({ message: "User could not be created", description: (result?.data as ErrorResponse).message, type: "danger" });

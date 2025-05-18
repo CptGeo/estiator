@@ -9,7 +9,7 @@ import { AppSetting, ReservationStatus, ReservationStatuses, type ReservationDat
 import ReservationsActions from "@components/Reservations/Actions";
 import useQueryReservations from "@hooks/useQueryReservations";
 import CreateReservationModal from "@components/Modal/CreateReservation";
-import { getFullName, sortByDate, sortByHasReservationAlert, sortByTime, sortByUserAlpha } from "@core/utils";
+import { allRoutes, getFullName, Routes, sortByDate, sortByHasReservationAlert, sortByTime, sortByUserAlpha } from "@core/utils";
 import { useNavigate } from "react-router-dom";
 import { AddCircleTwoTone, ErrorTwoTone, KeyboardArrowDownTwoTone, SearchTwoTone, Star, StarOutline, Twitter, WysiwygTwoTone, X } from "@mui/icons-material";
 import useQuerySetting from "@hooks/useQuerySetting";
@@ -222,7 +222,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
               </DropdownMenu>
             </Dropdown>
             <ButtonGroup>
-              <Button color="primary" onPress={() => navigate("/create-reservation")}>Create reservation <AddCircleTwoTone fontSize="small" /></Button>
+              <Button color="primary" onPress={() => navigate(allRoutes[Routes.CREATE_RESERVATION])}>Create reservation <AddCircleTwoTone fontSize="small" /></Button>
               <Button color="primary" variant="flat" onPress={createDisclosure.onOpen}>
                 Quick reservation <WysiwygTwoTone fontSize="small" />
               </Button>

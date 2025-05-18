@@ -311,25 +311,38 @@ export enum Routes {
     TABLES,
     EMPLOYEES,
     CUSTOMERS,
+    LOGIN,
+    REGISTER,
+    CREATE_RESERVATION,
     CLIENT_HOME,
     CLIENT_RESERVATIONS,
     CLIENT_SETTINGS
 }
 
-const routes: Record<Routes, string> = {
+export const allRoutes: Record<Routes, string> = {
     [Routes.HOME]: "/",
     [Routes.RESERVATIONS]: "/reservations-management",
     [Routes.TABLES]: "/tables-management",
     [Routes.EMPLOYEES]: "/employees-management",
     [Routes.CUSTOMERS]: "/customers-management",
+    [Routes.LOGIN]: "/login",
+    [Routes.REGISTER]: "/register",
+    [Routes.CREATE_RESERVATION]: "/create-reservation",
     [Routes.CLIENT_HOME]: "/client-reservations",
     [Routes.CLIENT_RESERVATIONS]: "/client-reservations",
     [Routes.CLIENT_SETTINGS]: "/client-settings",
 }
 
 export function getRootPage(userRole?: UserRole | null | undefined) {
-    if (!userRole) return routes[Routes.HOME];
+    if (!userRole) return allRoutes[Routes.HOME];
 
-    const isClient = userRole === UserRole.CLIENT;
-    return isClient ? routes[Routes.CLIENT_HOME] : routes[Routes.HOME];
+    switch(userRole) {
+        case UserRole.CLIENT:
+            return allRoutes[Routes.CLIENT_HOME];
+        case UserRole.ADMIN:
+        case UserRole.MODERATOR:
+            return allRoutes[Routes.HOME];
+        default:
+            return allRoutes[Routes.LOGIN];
+    }
 }
