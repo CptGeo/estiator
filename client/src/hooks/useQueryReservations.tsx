@@ -1,4 +1,4 @@
-import type { ReservationData } from "@core/types";
+import type { Key, ReservationData, ReservationStatus } from "@core/types";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { getReq } from "@core/utils";
@@ -10,6 +10,8 @@ type Params = {
   count?: boolean;
   dateFrom?: string;
   dateTo?: string;
+  table?: { id: Key };
+  status?: ReservationStatus[]
 }
 
 export default function useQueryReservations<T = ReservationData[]>(interval?: number, params?: Params): UseQueryResult<T | undefined> {
