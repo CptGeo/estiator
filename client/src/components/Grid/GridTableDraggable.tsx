@@ -12,6 +12,7 @@ import EditTableModal from "@components/Modal/EditTable";
 import { Chip, useDisclosure } from "@heroui/react";
 import { patchReq } from "@core/utils";
 import { EditTwoTone } from "@mui/icons-material";
+import { useTables } from "@context/Tables";
 
 type Props = {
   handle?: boolean;
@@ -27,6 +28,8 @@ export function GridTableDraggable({ handle, dragOverlay, id, value, onClick }: 
   const { label, capacity, x, y, color, occupied } = data;
   const modal = useDisclosure();
   useDndMonitor({ onDragEnd: handleDragEnd });
+  const { selected } = useTables();
+  const isSelected = selected?.id == id;
 
   useEffect(() => {
     if (value && !isDragging) {
@@ -93,7 +96,12 @@ export function GridTableDraggable({ handle, dragOverlay, id, value, onClick }: 
           } as React.CSSProperties }
       >
         <button
-            className={classNames("select-none text-default-50 z-auto group absolute", color ?? "bg-default-800", occupied === true ? "before:bg-opacity-40 before:z-20 before:bg-black before:w-full before:h-full before:rounded-md" : "")}
+            className={classNames(
+              "select-none text-default-50 z-auto group absolute border-3",
+              color ?? "bg-default-800",
+              occupied === true ? "before:bg-opacity-40 before:z-20 before:bg-black before:w-full before:h-full before:rounded-md" : "",
+              isSelected ? "border-success-500 shadow-lg" : ""
+            )}
             ref={setNodeRef}
             style={buttonStyle}
             onClick={onClick}

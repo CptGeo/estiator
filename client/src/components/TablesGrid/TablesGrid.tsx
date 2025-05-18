@@ -5,7 +5,7 @@ import { GridDndContext } from "@components/Grid/GridDndContext";
 import useQueryTables from "@hooks/useQueryTables";
 import { getFullName, isUndefined, normalize } from "@core/utils";
 import { Button, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner, useDisclosure } from "@heroui/react";
-import { DietaryPreferenceOption, type ReservationData, type TableData, type UserData } from "@core/types";
+import { DietaryPreferenceOption, type ReservationData, type TableData } from "@core/types";
 import type { PointerActivationConstraint } from "@dnd-kit/core";
 import AddTableModal from "@components/Modal/AddTable";
 import { AddCircleTwoTone, Egg, Grass, KebabDining, NoFood } from "@mui/icons-material";
@@ -24,7 +24,6 @@ const IconsMap = {
   [DietaryPreferenceOption.VEGAN]: <Grass />,
   [DietaryPreferenceOption.VEGETARIAN]: <Egg />,
 }
-
 
 export default function TablesGrid(props: Props): ReactElement {
   const gridSize = props.size;
@@ -160,7 +159,9 @@ function TablesSidebar({ selected }: { selected: TableData }) {
   return (
     <div className="w-full flex flex-col justify-between">
       <div className="text-left w-full">
-        <h3 className="text-xl py-1">{`Table: ${selected.label}`}</h3>
+        <div className="flex flex-nowrap items-center justify-between py-3">
+          <h3 className="text-xl">Table: {selected.label}</h3>
+        </div>
         <Divider className="mb-5" />
         {occupied ? (
           <div>
