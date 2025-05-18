@@ -1,6 +1,7 @@
 package com.kalyvianakis.estiator.io.service;
 
 import com.kalyvianakis.estiator.io.dto.AuthenticatedUser;
+import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.Schedule;
 import com.kalyvianakis.estiator.io.model.User;
@@ -61,6 +62,10 @@ public class UserService implements IUserService, UserDetailsService {
 
     public User getWithRoles(Long id, Collection<String> roles) throws ResourceNotFoundException {
         return userRepository.findByIdAndUserRoleIn(id, roles).orElseThrow(() -> new ResourceNotFoundException("Registered user not found with ID: " + id));
+    }
+
+    public User getActiveTableUser(Long tableId) {
+        return userRepository.findByTableReservationAndStatus(tableId, ReservationStatus.Booked);
     }
 
     public List<User> getByRoles(Collection<String> roles){

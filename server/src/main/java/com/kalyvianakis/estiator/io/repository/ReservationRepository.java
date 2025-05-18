@@ -1,6 +1,5 @@
 package com.kalyvianakis.estiator.io.repository;
-import com.kalyvianakis.estiator.io.dto.AuthenticatedUser;
-import com.kalyvianakis.estiator.io.model.User;
+import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,11 +19,21 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     Boolean existsByCancellationUUID(String cancellationUUID);
     Reservation findByCancellationUUID(String cancellationUUID);
 
+    @Query(value = "select COUNT(*) from reservations r where r.status IN :statuses AND r.table_id = :tableId", nativeQuery = true)
+    Long countByTableAndStatuses(@Param(value= "tableId") Long id, @Param(value= "statuses") Collection<ReservationStatus> statuses);
+
     @Query(value = "select * from reservations r where r.created_for_user_id = :id and r.is_archived = :isArchived", nativeQuery = true)
     Collection<Reservation> findAllByCreatedForId(@Param(value= "id") Long id,  @Param(value= "isArchived") Boolean isArchived);
 
     @Query(value = "select * from reservations r where r.created_for_user_id = :id", nativeQuery = true)
     Collection<Reservation> findAllByCreatedForId(@Param(value= "id") Long id);
+
+    @Query(value = "select * from reservations r where r.table_id = :tableId and r.date >= :dateFrom AND r.date <= :dateTo AND r.status IN :statuses order by r.time asc", nativeQuery = true)
+    Collection<Reservation> findByTableIdAndDateBetweenAndStatuses(
+            @Param(value="tableId") Long tableId,
+            @Param(value = "dateFrom") LocalDate dateFrom,
+            @Param(value = "dateTo") LocalDate dateTo,
+            @Param(value = "statuses") Collection<ReservationStatus> statuses);
 
     @Query(
             value = "SELECT\n" +
