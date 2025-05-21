@@ -42,12 +42,12 @@ export default function EditCustomerModal(props: Props) {
       };
       await patchReq(`/users/${customer.id}`, { ...data }, { params: { inform: values.inform } });
       notify({ message: "Customer info have been updated successfully!", type: "success" });
+      onClose();
     } catch (error) {
       console.error(error);
       notify({ message: "Customer info could not be updated.", type: "danger" });
     } finally {
       setLoading(false);
-      onClose();
     }
   }
 
