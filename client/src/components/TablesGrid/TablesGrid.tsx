@@ -3,7 +3,7 @@ import type { CSSProperties, Key, ReactElement } from "react";
 import { createSnapModifier, restrictToFirstScrollableAncestor } from "@dnd-kit/modifiers";
 import { GridDndContext } from "@components/Grid/GridDndContext";
 import useQueryTables from "@hooks/useQueryTables";
-import { getFullName, isUndefined, normalize } from "@core/utils";
+import { allRoutes, getFullName, isUndefined, normalize, Routes } from "@core/utils";
 import { Button, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Spinner, useDisclosure } from "@heroui/react";
 import { DietaryPreferenceOption, type ReservationData, type TableData } from "@core/types";
 import type { PointerActivationConstraint } from "@dnd-kit/core";
@@ -13,6 +13,7 @@ import { useTables } from "@context/Tables";
 import { getLocalTimeZone, today } from "@internationalized/date";
 import useQueryReservationsByTable from "@hooks/useQueryReservationsByTable";
 import useQueryUserByTable from "@hooks/useQueryUserByTable";
+import { Link } from "react-router-dom";
 
 type Props = {
   size: number;
@@ -205,7 +206,16 @@ function TablesSidebar({ selected }: { selected: TableData }) {
           <div className="max-h-[300px] overflow-auto">
             <ul className="flex flex-wrap gap-1 overflow-auto ">
               {upcomingReservations?.map(rsvt => {
-                return <li className="px-2 pl-[35px] py-1 w-full even:bg-neutral-200 odd:bg-success-100 inline-flex gap-3 whitespace-nowrap relative" key={rsvt.id}><span className="w-[15px] h-[15px] left-2 top-1/2 absolute -translate-y-1/2 rounded-full bg-success border-1 border-success-300"></span><span>{rsvt.time}</span><span>Persons: {rsvt.persons}</span></li>
+                return (
+                <Link
+                  replace={false}
+                  className="inline-flex gap-3 transition-all border-green-500 border-1 bg-green-300 hover:bg-green-400 px-2 py-1 rounded-sm w-full justify-center"
+                  key={rsvt.id}
+                  to={`/${allRoutes[Routes.RESERVATIONS]}?reservation=${rsvt.id}`}
+                >
+                  <span>{rsvt.time}</span><span>Persons: {rsvt.persons}</span>
+                </Link>
+                )
               })}
             </ul>
           </div>
