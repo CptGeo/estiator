@@ -143,7 +143,7 @@ export default function TablesGrid(props: Props): ReactElement {
           </div> : <div className="p-4 w-full flex justify-center"><Spinner /></div>}
         <AddTableModal {...addTableDisclosure} defaultCoordinates={{ x: contextMenu.x, y: contextMenu.y }} />
       </div>
-      <div className="flex self-stretch w-[300px] justify-center shrink-0 p-3 bg-content2 border-neutral-200 border-1 rounded-md">
+      <div className="flex self-stretch w-[300px] justify-center min-w-[250px] basis-1/4 p-3 bg-content2 border-neutral-200 border-1 rounded-md">
         {selected ? <TablesSidebar selected={selected} /> : <EmptySidebar />}
       </div>
     </div>
