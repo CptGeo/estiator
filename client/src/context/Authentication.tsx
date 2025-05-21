@@ -1,8 +1,7 @@
 import type { PropsWithChildren } from "react";
 import { createContext, useContext } from "react"
 import { useNavigate } from "react-router-dom";
-import { allRoutes, ensureErr, getRootPage, postReq, Routes, statusError, statusSuccess } from "@core/utils";
-import { AxiosError } from "axios";
+import { allRoutes, getRootPage, postReq, Routes, statusError, statusSuccess } from "@core/utils";
 import type { AuthResponse } from "@core/types";
 import { type AuthValue, type Credentials, type ErrorResponse } from "@core/types";
 import useLocalStorage from "@hooks/useLocalStorage";
@@ -47,20 +46,14 @@ export function AuthProvider( props: PropsWithChildren ) {
         }
       }
 
-    } catch (err) {
-      let message = "";
-      if (err instanceof AxiosError) {
-        message = err.response ? err.response.data.message : err.message;
-      } else {
-        const error = ensureErr(err);
-        message = error.message;
-      }
+    } catch {
       notify({
         message: "Authentication has failed.",
         description: "Something has gone wrong. Please try again later.",
         type: "danger"
       });
-      navigate(allRoutes[Routes.LOGIN], { state: message });
+
+      navigate(allRoutes[Routes.LOGIN]);
     }
   };
 
