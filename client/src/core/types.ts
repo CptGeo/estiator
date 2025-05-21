@@ -212,6 +212,7 @@ export interface TableData extends HasId {
   color: string,
   occupied?: boolean,
   user?: Partial<UserData>
+  reservations?: ReservationData[];
 };
 
 /**
