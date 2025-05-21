@@ -27,7 +27,7 @@ const columns: Column[] = [
   { name: "Actions", uid: "actions" }
 ];
 
-export default function ClientReservationsTable(props: { defaultRowsPerPage: SettingData }) {
+export default function ClientReservationsTable() {
   const { data: reservations } = useQueryMyReservations(2000);
   const location = useLocation();
   const search = location.search;
