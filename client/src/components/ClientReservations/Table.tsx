@@ -6,7 +6,7 @@ import Status from "@components/Status/Reservation/Status";
 import type { SettingData } from "@core/types";
 import { ReservationStatus, type ReservationData } from "@core/types";
 import { allRoutes, Routes, sortByDate, sortByHasReservationAlert, sortByTime } from "@core/utils";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AddCircleTwoTone } from "@mui/icons-material";
 import useQueryMyReservations from "@hooks/useQueryMyReservations";
 import ClientReservationsActions from "./Actions";
@@ -28,11 +28,15 @@ const columns: Column[] = [
 ];
 
 export default function ClientReservationsTable(props: { defaultRowsPerPage: SettingData }) {
-  const defaultRowsPerPage = props.defaultRowsPerPage;
   const { data: reservations } = useQueryMyReservations(2000);
+  const location = useLocation();
+  const search = location.search;
+  const searchParams = new URLSearchParams(search);
+  const selected = new Set<string>();
+  selected.add(searchParams.get('reservation') ?? "");
 
   const navigate = useNavigate();
-  const [rowsPerPage, setRowsPerPage] = useState(Number(defaultRowsPerPage.value));
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "date",
@@ -212,6 +216,9 @@ export default function ClientReservationsTable(props: { defaultRowsPerPage: Set
         topContent={topContent}
         topContentPlacement="outside"
         onSortChange={setSortDescriptor}
+        defaultSelectedKeys={selected}
+        color="primary"
+        selectionMode="single"
       >
         <TableHeader columns={columns}>
           {(column) => (
