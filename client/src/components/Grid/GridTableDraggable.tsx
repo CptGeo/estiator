@@ -1,6 +1,6 @@
 import type { DragEndEvent, UniqueIdentifier } from "@dnd-kit/core";
 import { useDndMonitor, useDraggable } from "@dnd-kit/core";
-import type { TableData } from "@core/types";
+import { ReservationStatus, type TableData } from "@core/types";
 import classNames from "classnames";
 import styles from '@components/DragNDrop/TableDraggable/TableDraggable.module.css';
 import { Link } from "react-router-dom";
@@ -33,7 +33,7 @@ export function GridTableDraggable({ handle, dragOverlay, id, value, onClick }: 
   const isSelected = selected?.id == id;
 
   const hasReservations = useMemo(() => (value?.reservations?.filter((rsvt) => {
-    return parseDate(rsvt.date).compare(today(getLocalTimeZone())) === 0;
+    return parseDate(rsvt.date).compare(today(getLocalTimeZone())) === 0 && [ReservationStatus.BOOKED, ReservationStatus.CONFIRMED].includes(rsvt.status);
   }) || []).length > 0, [value.reservations]);
 
   useEffect(() => {
