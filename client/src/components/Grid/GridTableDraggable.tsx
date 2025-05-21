@@ -6,13 +6,14 @@ import styles from '@components/DragNDrop/TableDraggable/TableDraggable.module.c
 import { Link } from "react-router-dom";
 import { gridSize, gridItemMultiplierHeight, gridItemMultiplierWidth, gridItemGap } from "@settings";
 import type { Key } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Coordinates } from "@dnd-kit/core/dist/types";
 import EditTableModal from "@components/Modal/EditTable";
 import { Chip, useDisclosure } from "@heroui/react";
 import { patchReq } from "@core/utils";
 import { EditTwoTone } from "@mui/icons-material";
 import { useTables } from "@context/Tables";
+import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
 
 type Props = {
   handle?: boolean;
@@ -30,6 +31,10 @@ export function GridTableDraggable({ handle, dragOverlay, id, value, onClick }: 
   useDndMonitor({ onDragEnd: handleDragEnd });
   const { selected } = useTables();
   const isSelected = selected?.id == id;
+
+  const hasReservations = useMemo(() => (value?.reservations?.filter((rsvt) => {
+    return parseDate(rsvt.date).compare(today(getLocalTimeZone())) === 0;
+  }) || []).length > 0, [value.reservations]);
 
   useEffect(() => {
     if (value && !isDragging) {
@@ -100,7 +105,8 @@ export function GridTableDraggable({ handle, dragOverlay, id, value, onClick }: 
               "select-none text-default-50 z-auto group absolute border-3",
               color ?? "bg-default-800",
               occupied === true ? "before:bg-opacity-40 before:z-20 before:bg-black before:w-full before:h-full before:rounded-md" : "",
-              isSelected ? "border-success-500 shadow-lg" : ""
+              isSelected ? "border-success-500 shadow-lg" : "",
+              hasReservations ? "bg-stripe-45" : ""
             )}
             ref={setNodeRef}
             style={buttonStyle}
