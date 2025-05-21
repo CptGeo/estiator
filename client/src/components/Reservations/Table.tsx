@@ -10,8 +10,8 @@ import ReservationsActions from "@components/Reservations/Actions";
 import useQueryReservations from "@hooks/useQueryReservations";
 import CreateReservationModal from "@components/Modal/CreateReservation";
 import { allRoutes, getFullName, Routes, sortByDate, sortByHasReservationAlert, sortByTime, sortByUserAlpha } from "@core/utils";
-import { useNavigate } from "react-router-dom";
-import { AddCircleTwoTone, ErrorTwoTone, KeyboardArrowDownTwoTone, SearchTwoTone, Star, StarOutline, Twitter, WysiwygTwoTone, X } from "@mui/icons-material";
+import { useLocation, useNavigate } from "react-router-dom";
+import { AddCircleTwoTone, ErrorTwoTone, KeyboardArrowDownTwoTone, SearchTwoTone, Star, StarOutline, WysiwygTwoTone, X } from "@mui/icons-material";
 import useQuerySetting from "@hooks/useQuerySetting";
 
 const MAX_STARS = 6;
@@ -35,9 +35,14 @@ const columns: Column[] = [
 ];
 
 export default function ReservationsTable(props: { defaultRowsPerPage: SettingData }) {
-  const defaultRowsPerPage = props.defaultRowsPerPage;
+  const { defaultRowsPerPage } = props;
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const search = location.search;
+  const searchParams = new URLSearchParams(search);
+  const selected = new Set<string>();
+  selected.add(searchParams.get('reservation') ?? "");
 
   const { data: businessName } = useQuerySetting(AppSetting.BusinessName);
   const { data: reservations } = useQueryReservations(1000);
@@ -313,7 +318,8 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
         return <User
           avatarProps={{ radius: "full", size: "sm" }}
           classNames={{
-            description: "text-default-500"
+            description: "text-default-500",
+            name: "text-default-700"
           }}
           description={reservation.createdFor?.email || reservation.createdFor?.phone}
           name={getFullName(reservation.createdFor)}
@@ -391,7 +397,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
         </div>
     }
   }, [reservations]);
-
+  console.log(selected);
   return (
     <>
       <Table
@@ -402,6 +408,9 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
         topContent={topContent}
         topContentPlacement="outside"
         onSortChange={setSortDescriptor}
+        defaultSelectedKeys={selected}
+        selectionMode="single"
+        color="success"
       >
         <TableHeader columns={headerColumns}>
           {(column) => (
