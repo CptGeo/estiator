@@ -38,8 +38,8 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
   const { defaultRowsPerPage } = props;
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const search = location.search;
+  const loc = useLocation();
+  const search = loc.search;
   const searchParams = new URLSearchParams(search);
   const selected = new Set<string>();
   selected.add(searchParams.get('reservation') ?? "");
@@ -301,8 +301,8 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
       }
 
       return (
-        <div className="flex flex-wrap gap-3">
-          <div>{rsvt.review}</div>
+        <div className="flex flex-col">
+          {rsvt.review && <div className="mb-3">{rsvt.review}</div>}
           <div className="flex flex-nowrap items-center gap-2">
             <small>Share on:</small>
             <div className="flex gap-1">
@@ -397,7 +397,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
         </div>
     }
   }, [reservations]);
-  console.log(selected);
+
   return (
     <>
       <Table
@@ -410,7 +410,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
         onSortChange={setSortDescriptor}
         defaultSelectedKeys={selected}
         selectionMode="single"
-        color="success"
+        color="primary"
       >
         <TableHeader columns={headerColumns}>
           {(column) => (
