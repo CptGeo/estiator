@@ -123,7 +123,7 @@ export default function TablesGrid(props: Props): ReactElement {
   }
 
   return (
-    <div className="flex gap-2 items-stretch">
+    <div className="flex flex-wrap gap-2 items-stretch">
       <div className="flex flex-col gap-4 flex-grow flex-shrink overflow-auto" onClick={closeContextMenu}>
         {topContent()}
         {!isUndefined(tables) ?
@@ -144,7 +144,7 @@ export default function TablesGrid(props: Props): ReactElement {
           </div> : <div className="p-4 w-full flex justify-center"><Spinner /></div>}
         <AddTableModal {...addTableDisclosure} defaultCoordinates={{ x: contextMenu.x, y: contextMenu.y }} />
       </div>
-      <div className="flex self-stretch w-[300px] justify-center min-w-[250px] basis-1/4 p-3 bg-content2 border-neutral-200 border-1 rounded-md">
+      <div className="flex w-full self-stretch justify-center min-w-[250px] p-3 bg-content2 border-neutral-200 border-1 rounded-md">
         {selected ? <TablesSidebar selected={selected} /> : <EmptySidebar />}
       </div>
     </div>
@@ -201,17 +201,17 @@ function TablesSidebar({ selected }: { selected: TableData }) {
         )}
       </div>
       <div className="min-h-[200px]">
-        <h3 className="text-xl py-3">{"Upcoming reservations"}</h3>
+        <h3 className="text-l py-3">Upcoming reservations {(upcomingReservations || [])?.length > 0 ? `(${upcomingReservations?.length})` : ''}</h3>
         {(upcomingReservations ?? [])?.length > 0 ? (
           <div className="max-h-[300px] overflow-auto">
-            <ul className="flex flex-wrap gap-1 overflow-auto ">
+            <ul className="flex flex-wrap gap-2 overflow-auto ">
               {upcomingReservations?.map(rsvt => {
                 return (
                 <Link
                   replace={false}
-                  className="inline-flex gap-3 transition-all border-green-500 border-1 bg-green-300 hover:bg-green-400 px-2 py-1 rounded-sm w-full justify-center"
+                  className="inline-flex gap-3 transition-all border-green-500 border-1 bg-green-300 hover:bg-green-400 px-2 py-1 rounded-sm justify-center"
                   key={rsvt.id}
-                  to={`/${allRoutes[Routes.RESERVATIONS]}?reservation=${rsvt.id}`}
+                  to={`${allRoutes[Routes.RESERVATIONS]}?reservation=${rsvt.id}`}
                 >
                   <span>{rsvt.time}</span><span>Persons: {rsvt.persons}</span>
                 </Link>
