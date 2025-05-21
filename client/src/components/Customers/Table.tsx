@@ -17,6 +17,10 @@ export default function CustomersTable() {
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
   const pages = customers ? Math.ceil(customers.length / rowsPerPage) : 0;
+  const search = location.search;
+  const searchParams = new URLSearchParams(search);
+  const selected = new Set<string>();
+  selected.add(searchParams.get('reservation') ?? "");
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
