@@ -1,5 +1,5 @@
 import { ScheduleStatus, ScheduleStatuses, type Schedule } from "@core/types";
-import { dayToString, getFullName, toParsedTimeString } from "@core/utils";
+import { allRoutes, dayToString, getFullName, Routes, toParsedTimeString } from "@core/utils";
 import { getDayOfWeek, getLocalTimeZone, today } from "@internationalized/date";
 import {
   Button,
@@ -119,7 +119,7 @@ export default function EmployeesStatusWidget() {
       classNames={{ emptyWrapper: "h-16" }}
       aria-label="Example table with custom cells"
       topContent={<TopContent />}
-      bottomContent={<small><Link className="text-primary px-1" to={"/employees-management"}>View employees management</Link></small>}
+      bottomContent={<small><Link className="text-primary px-1" to={allRoutes[Routes.EMPLOYEES]}>View employees management</Link></small>}
     >
       <TableHeader columns={columns}>
         {(column) => (

@@ -1,6 +1,6 @@
 import { useAuth } from "@context/Authentication";
 import { useNotification } from "@context/Notification";
-import { getRootPage, postReq } from "@core/utils";
+import { allRoutes, getRootPage, postReq, Routes } from "@core/utils";
 import { Button } from "@heroui/react";
 import { useMutation } from "@tanstack/react-query";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
@@ -20,7 +20,7 @@ export default function CancellationPage() {
     });
 
     if (uuid === null) {
-        return <Navigate to="/" />
+        return <Navigate to={allRoutes[Routes.LOGIN]} />
     }
 
     async function handleCancel() {

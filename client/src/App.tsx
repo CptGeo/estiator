@@ -4,7 +4,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { createBrowserRouter, redirect, Route, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import DashboardPage from "@pages/Dashboard/Dashboard";
 import PrivateLayout from "@layouts/Private/Private";
 import LoginPage from "@pages/Login/Login";
@@ -26,16 +26,18 @@ import CancellationPage from "@pages/Cancellation/Cancellation";
 import CreateReservationPage from "@pages/CreateReservation/CreateReservation";
 import ClientSettings from "@pages/ClientSettings/ClientSettings";
 import ClientReservations from "@pages/ClientReservations/ClientReservations";
+import { allRoutes, Routes } from "@core/utils";
 
 const router = createBrowserRouter([
   {
     element: <AuthLayout />,
     children: [
       {
+        path: 'admin',
         element: <PrivateLayout permissions={[UserRole.ADMIN, UserRole.MODERATOR]} />,
         children: [
           {
-            path: "/",
+            path: "",
             element: <DashboardPage />,
           },
           {
@@ -53,11 +55,12 @@ const router = createBrowserRouter([
           {
             path: "settings",
             element: <SettingsPage />
-          }
+          },
         ],
       },
       {
         element: <PrivateLayout permissions={[UserRole.ADMIN]} />,
+        path: "admin",
         children: [
           {
             path: "employees-management",
@@ -71,14 +74,19 @@ const router = createBrowserRouter([
       },
       {
         element: <PrivateLayout permissions={[UserRole.CLIENT]} />,
+        path: "client",
         children: [
           {
-            path: "client-settings",
+            path: "settings",
             element: <ClientSettings />
           },
           {
-            path: "client-reservations",
+            path: "reservations",
             element: <ClientReservations />
+          },
+          {
+            path: "create-reservation",
+            element: <CreateReservationPage />
           },
         ]
       },
@@ -95,6 +103,10 @@ const router = createBrowserRouter([
         element: <CommonLayout />,
         children: [
           {
+            path: "/",
+            element: <Navigate to={allRoutes[Routes.HOME]} />,
+          },
+          {
             path: "/register",
             element: <RegisterPage />,
           },
@@ -107,9 +119,9 @@ const router = createBrowserRouter([
             element: <CancellationPage />
           },
           {
-            path: "/create-reservation",
+            path: "create-reservation",
             element: <CreateReservationPage />
-          }
+          },
         ]
       }
     ]

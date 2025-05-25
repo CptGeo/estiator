@@ -1,7 +1,7 @@
 import IconButton from "@components/IconButton/IconButton";
 import type { ReservationData } from "@core/types";
 import { ReservationStatus } from "@core/types";
-import { getFullName, postReq, sortByTime, toParsedTimeString } from "@core/utils";
+import { allRoutes, getFullName, postReq, Routes, sortByTime, toParsedTimeString } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
 import { getLocalTimeZone, isToday, parseDate, parseTime } from "@internationalized/date";
 import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
@@ -107,7 +107,7 @@ export default function ReservationWidget() {
         <p className="mt-0 text-xs text-slate-400">View the upcoming and active reservations in real time.</p>
       </div>}
       isStriped
-      {...filtered && { bottomContent: <small><Link className="text-primary px-1" to={"reservations-management"}>View all reservations</Link></small> }}
+      {...filtered && { bottomContent: <small><Link className="text-primary px-1" to={allRoutes[Routes.RESERVATIONS]}>View all reservations</Link></small> }}
     >
       <TableHeader>
         <TableColumn>Name</TableColumn>

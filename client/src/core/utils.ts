@@ -307,30 +307,38 @@ export function statusError(status?: number | string): boolean {
 
 export enum Routes {
     HOME,
+    ADMIN_HOME,
     RESERVATIONS,
     TABLES,
     EMPLOYEES,
     CUSTOMERS,
     LOGIN,
     REGISTER,
+    SETTINGS,
     CREATE_RESERVATION,
+    ADMIN_CREATE_RESERVATION,
+    CLIENT_CREATE_RESERVATION,
     CLIENT_HOME,
     CLIENT_RESERVATIONS,
     CLIENT_SETTINGS
 }
 
 export const allRoutes: Record<Routes, string> = {
-    [Routes.HOME]: "/",
-    [Routes.RESERVATIONS]: "/reservations-management",
-    [Routes.TABLES]: "/tables-management",
-    [Routes.EMPLOYEES]: "/employees-management",
-    [Routes.CUSTOMERS]: "/customers-management",
+    [Routes.HOME]: "/login",
+    [Routes.ADMIN_HOME]: "/admin",
+    [Routes.RESERVATIONS]: "/admin/reservations-management",
+    [Routes.TABLES]: "/admin/tables-management",
+    [Routes.EMPLOYEES]: "/admin/employees-management",
+    [Routes.CUSTOMERS]: "/admin/customers-management",
+    [Routes.SETTINGS]: "/admin/settings",
     [Routes.LOGIN]: "/login",
     [Routes.REGISTER]: "/register",
+    [Routes.CLIENT_CREATE_RESERVATION]: "/client/create-reservation",
+    [Routes.ADMIN_CREATE_RESERVATION]: "/admin/create-reservation",
     [Routes.CREATE_RESERVATION]: "/create-reservation",
-    [Routes.CLIENT_HOME]: "/client-reservations",
-    [Routes.CLIENT_RESERVATIONS]: "/client-reservations",
-    [Routes.CLIENT_SETTINGS]: "/client-settings",
+    [Routes.CLIENT_HOME]: "/client/reservations",
+    [Routes.CLIENT_RESERVATIONS]: "/client/reservations",
+    [Routes.CLIENT_SETTINGS]: "/client/settings",
 }
 
 export function getRootPage(userRole?: UserRole | null | undefined) {
@@ -341,8 +349,8 @@ export function getRootPage(userRole?: UserRole | null | undefined) {
             return allRoutes[Routes.CLIENT_HOME];
         case UserRole.ADMIN:
         case UserRole.MODERATOR:
-            return allRoutes[Routes.HOME];
+            return allRoutes[Routes.ADMIN_HOME];
         default:
-            return allRoutes[Routes.LOGIN];
+            return allRoutes[Routes.HOME];
     }
 }
