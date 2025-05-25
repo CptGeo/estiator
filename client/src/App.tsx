@@ -41,20 +41,24 @@ const router = createBrowserRouter([
             element: <DashboardPage />,
           },
           {
-            path: "reservations-management",
+            path: "reservations",
             element: <ReservationsManagementPage />
           },
           {
-            path: "tables-management",
+            path: "tables",
             element: <TablesManagementPage />
           },
           {
-            path: "customers-management",
+            path: "customers",
             element: <CustomerManagementPage />
           },
           {
             path: "settings",
             element: <SettingsPage />
+          },
+          {
+            path: "reservations/create",
+            element: <CreateReservationPage />
           },
         ],
       },
@@ -63,11 +67,11 @@ const router = createBrowserRouter([
         path: "admin",
         children: [
           {
-            path: "employees-management",
+            path: "employees",
             element: <EmployeesManagementPage />
           },
           {
-            path: "employees-management/:id",
+            path: "employees/:id",
             element: <EmployeeDetails />
           },
         ]
@@ -85,7 +89,7 @@ const router = createBrowserRouter([
             element: <ClientReservations />
           },
           {
-            path: "create-reservation",
+            path: "reservations/create",
             element: <CreateReservationPage />
           },
         ]
@@ -96,7 +100,11 @@ const router = createBrowserRouter([
           {
             path: "/login",
             element: <LoginPage />,
-          }
+          },
+          {
+            path: "/reservations/create",
+            element: <CreateReservationPage />
+          },
         ]
       },
       {
@@ -117,10 +125,6 @@ const router = createBrowserRouter([
           {
             path: "/cancelReservation",
             element: <CancellationPage />
-          },
-          {
-            path: "create-reservation",
-            element: <CreateReservationPage />
           },
         ]
       }

@@ -95,7 +95,7 @@ export default function ClientReservationsTable() {
     return (
       <div className="flex flex-col gap-4">
         <div className="flex justify-end gap-3">
-          <Button color="primary" onPress={() => navigate(allRoutes[Routes.CREATE_RESERVATION])}>Create reservation <AddCircleTwoTone fontSize="small" /></Button>
+          <Button color="primary" onPress={() => navigate(allRoutes[Routes.CLIENT_CREATE_RESERVATION])}>Create reservation <AddCircleTwoTone fontSize="small" /></Button>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-tiny">

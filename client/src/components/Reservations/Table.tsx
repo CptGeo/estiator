@@ -227,7 +227,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
               </DropdownMenu>
             </Dropdown>
             <ButtonGroup>
-              <Button color="primary" onPress={() => navigate(allRoutes[Routes.CREATE_RESERVATION])}>Create reservation <AddCircleTwoTone fontSize="small" /></Button>
+              <Button color="primary" onPress={() => navigate(allRoutes[Routes.ADMIN_CREATE_RESERVATION])}>Create reservation <AddCircleTwoTone fontSize="small" /></Button>
               <Button color="primary" variant="flat" onPress={createDisclosure.onOpen}>
                 Quick reservation <WysiwygTwoTone fontSize="small" />
               </Button>

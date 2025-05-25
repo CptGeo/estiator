@@ -15,7 +15,9 @@ export default function UnauthorizedOnlyLayout(): ReactElement {
     <div className="main flex flex-col min-h-screen">
       <Navigation />
       <div className="flex-grow px-5 container mx-auto pb-5">
-        <Outlet />
+        <div className="max-w-[900px] mx-auto mt-10">
+          <Outlet />
+        </div>
       </div>
       <div/>
     </div>

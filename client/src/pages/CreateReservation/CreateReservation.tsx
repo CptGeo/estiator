@@ -132,7 +132,7 @@ export default function CreateReservationPage(): ReactElement {
   }
 
   return (
-    <div className="max-w-[900px] mx-auto mt-10">
+    <>
       <PageHeader
         heading="Create a new reservation"
         subheading="Here you can create a new reservation. Add your information and then select a table to proceed."
@@ -164,18 +164,19 @@ export default function CreateReservationPage(): ReactElement {
                 </div>
                 <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-4">
                   <NumberField isRequired label="Persons" name="persons" min={1} max={20} />
-                  <InputField isRequired label="Name" name="name" />
-                  <InputField label="Surname" name="surname" />
-                  <EmailField isRequired label="Email" name="email" />
-                  <div className="flex flex-nowrap basis-full gap-4">
+                  <InputField isRequired label="Name" name="name" isDisabled={isClient} />
+                  <InputField label="Surname" name="surname" isDisabled={isClient} />
+                  <EmailField isRequired label="Email" name="email" isDisabled={isClient} />
+                  <div className="flex flex-nowrap basis-full gap-4" >
                     <div className="basis-3/6 sm:basis-2/6">
-                      <PhoneCodeField name="countryCode" label="Country code" />
+                      <PhoneCodeField name="countryCode" label="Country code" isDisabled={isClient} />
                     </div>
                     <div className="basis-3/6 sm:basis-4/6">
                       <InputField
                         name="phone"
                         label="Phone number"
                         maxLength={64}
+                        isDisabled={isClient}
                       />
                     </div>
                   </div>
@@ -236,6 +237,6 @@ export default function CreateReservationPage(): ReactElement {
           </Tabs>
         </form>
       </FormProvider>
-    </div>
+    </>
   );
 }
