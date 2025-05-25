@@ -4,10 +4,7 @@ import logo from "/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@context/Authentication";
 import UserMenu from "@components/UserMenu/UserMenu";
-import ModeratorOnly from "@components/AuthorizationWrappers/ModeratorOnly";
-import ClientOnly from "@components/AuthorizationWrappers/ClientOnly";
-import NotAuthenticatedOnly from "@components/AuthorizationWrappers/NotAuthenticatedOnly";
-import { allRoutes, Routes } from "@core/utils";
+import { allRoutes, getRootPage, Routes } from "@core/utils";
 
 export default function Navigation() {
   const navigate = useNavigate();
@@ -37,18 +34,7 @@ export default function Navigation() {
   return (
     <Navbar maxWidth="2xl" position="sticky" isBordered className="bg-transparent">
       <NavbarBrand>
-        <NotAuthenticatedOnly>
-          <LogoLink url="/create-reservation" />
-        </NotAuthenticatedOnly>
-
-        <ModeratorOnly>
-          <LogoLink url="/" />
-        </ModeratorOnly>
-
-        <ClientOnly>
-          <LogoLink url="/client-settings" />
-        </ClientOnly>
-
+          <LogoLink url={getRootPage(auth?.user?.userRole)} />
       </NavbarBrand>
       <NavbarContent justify="end">
         {auth?.user && auth.token ? <UserMenu user={auth.user} /> : <AuthButtons />}
