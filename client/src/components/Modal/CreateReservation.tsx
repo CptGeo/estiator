@@ -18,6 +18,7 @@ import type { ErrorResponse, Key, UserData } from "@core/types";
 import useQueryCustomers from "@hooks/useQueryCustomers";
 import AutocompleteField from "@components/Fields/Autocomplete";
 import PhoneCodeField from "@components/Fields/PhoneCode";
+import useQueryTables from "@hooks/useQueryTables";
 
 type Props = ReturnType<typeof useDisclosure>;
 
@@ -68,6 +69,16 @@ export default function CreateReservationModal(props: Props) {
   });
 
   const existing = methods.watch("existingUser");
+  const time = methods.watch("time");
+  const date = methods.watch("date");
+  const duration = methods.watch("duration");
+  const isValid = !!time && !!date && !!duration;
+
+  const { data: tables, isLoading } = useQueryTables(
+    3000,
+    { enabled: isValid },
+    { date, time, duration: parseDurationToSeconds(duration) },
+  );
 
   async function onSubmit(values: FieldValues): Promise<void> {
     const data = {
@@ -152,7 +163,7 @@ export default function CreateReservationModal(props: Props) {
                   </div>
                   <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                     <NumberField isRequired label="Persons" name="persons" />
-                    <TablesSelectField label="Select table" name="table" />
+                    <TablesSelectField label="Select table" name="table" tables={tables} isLoading={isLoading} />
                     <CheckboxField className="mt-3" onValueChange={() => {
                       methods.setValue("name", "");
                       methods.setValue("email", "");
