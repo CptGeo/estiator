@@ -14,6 +14,7 @@ import { patchReq } from "@core/utils";
 import { EditTwoTone } from "@mui/icons-material";
 import { useTables } from "@context/Tables";
 import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   handle?: boolean;
@@ -36,6 +37,8 @@ export function GridTableDraggable({ handle, dragOverlay, id, value, onClick }: 
     return parseDate(rsvt.date).compare(today(getLocalTimeZone())) === 0 && [ReservationStatus.BOOKED, ReservationStatus.CONFIRMED].includes(rsvt.status);
   }) || []).length > 0, [value.reservations]);
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     if (value && !isDragging) {
       setData(value);
@@ -55,6 +58,7 @@ export function GridTableDraggable({ handle, dragOverlay, id, value, onClick }: 
   async function updatePosition(id: Key, coords: Coordinates) : Promise<void> {
     try {
       await patchReq(`/tables/${id}`, { ...coords });
+      queryClient.refetchQueries({ queryKey: ["tables"] });
     } catch (error) {
       console.error(error);
     }
