@@ -45,7 +45,7 @@ export default function TablesGrid(props: Props): ReactElement {
     tolerance: 5,
   };
 
-  const { data: tables } = useQueryTables(500);
+  const { data: tables } = useQueryTables();
 
   const getNormalizedTable = useCallback((data: TableData[] | null | undefined) => normalize<TableData>(data), [tables]);
 
@@ -153,7 +153,7 @@ export default function TablesGrid(props: Props): ReactElement {
 
 function TablesSidebar({ selected }: { selected: TableData }) {
   const currentDay = today(getLocalTimeZone());
-  const { data: upcomingReservations } = useQueryReservationsByTable<ReservationData[]>(selected?.id, 3000, { dateFrom: currentDay.toString(), dateTo: currentDay.toString() });
+  const { data: upcomingReservations } = useQueryReservationsByTable<ReservationData[]>(selected?.id, 10000, { dateFrom: currentDay.toString(), dateTo: currentDay.toString() });
   const { data: user } = useQueryUserByTable(selected.id, { enabled: !!selected.id });
   const occupied = selected.occupied;
 
