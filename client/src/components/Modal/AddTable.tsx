@@ -19,11 +19,13 @@ import GridTable from "@components/Grid/GridTable";
 import type { Coordinates } from "@dnd-kit/core/dist/types";
 import { postReq, statusSuccess } from "@core/utils";
 import { useNotification } from "@context/Notification";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function AddTableModal(props: ReturnType<typeof useDisclosure> & { defaultCoordinates: Coordinates }) {
   const { isOpen, onOpenChange, onClose: close, defaultCoordinates } = props;
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
+  const queryClient = useQueryClient();
 
   const methods = useForm<TableData>({
     mode: "onChange",
@@ -60,6 +62,7 @@ export default function AddTableModal(props: ReturnType<typeof useDisclosure> & 
     } finally {
       setLoading(false);
       methods.reset();
+      queryClient.refetchQueries({ queryKey: ["tables"] });
       close();
     }
   }

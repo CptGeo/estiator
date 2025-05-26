@@ -11,6 +11,7 @@ import GridTable from "@components/Grid/GridTable";
 import { deleteReq, patchReq } from "@core/utils";
 import AdminOnly from "@components/AuthorizationWrappers/AdminOnly";
 import { useNotification } from "@context/Notification";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   table: TableData;
@@ -21,6 +22,7 @@ export default function EditTableModal(props: Props) {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const { notify } = useNotification();
+  const queryClient = useQueryClient();
 
   const methods = useForm({
     mode: "onChange",
@@ -30,6 +32,10 @@ export default function EditTableModal(props: Props) {
   const capacity = methods.watch("capacity") || 0;
   const label = methods.watch("label") || "";
   const color = methods.watch("color") || "bg-default-50";
+
+  function refetchTableQuery() {
+    queryClient.refetchQueries({ queryKey: ["tables"] })
+  }
 
   async function handleDelete() {
     try {
@@ -42,6 +48,7 @@ export default function EditTableModal(props: Props) {
     } finally {
       setDeleteLoading(false);
       methods.reset();
+      refetchTableQuery();
       close();
     }
   }
@@ -62,6 +69,7 @@ export default function EditTableModal(props: Props) {
     } finally {
       setSubmitLoading(false);
       methods.reset();
+      refetchTableQuery();
       close();
     }
   }
