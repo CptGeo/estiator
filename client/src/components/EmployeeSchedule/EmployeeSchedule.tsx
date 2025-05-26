@@ -62,7 +62,7 @@ export default function EmployeeSchedule({ employee }: Props) {
       if (statusSuccess(result.status)) {
         result.data.forEach(schedule => {
           queryClient.invalidateQueries({ queryKey: [`users/${employee.id}/schedule/${schedule.date}`] });
-          queryClient.refetchQueries({ queryKey: [`users/${employee.id}/schedule${schedule.date}`] });
+          queryClient.refetchQueries({ queryKey: [`users/${employee.id}/schedule/${schedule.date}`] });
         });
         notify({ message: "Employee schedule has been updated successfully!", type: "success" });
       }

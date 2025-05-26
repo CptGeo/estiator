@@ -60,8 +60,8 @@ export default function EmployeeInfo(props: {
       id: employee.id
     } as UserData);
 
-    queryClient.invalidateQueries({ queryKey: [`users/${employee.id}`] });
-    queryClient.invalidateQueries({ queryKey: [`users/${employee.id}/schedule`] });
+    queryClient.refetchQueries({ queryKey: [`users/${employee.id}`] });
+    queryClient.refetchQueries({ queryKey: [`users/${employee.id}/schedule`] });
     queryClient.refetchQueries({ queryKey: ["users"] });
   }
 
