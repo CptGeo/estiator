@@ -13,20 +13,20 @@ import Status from "@components/Status/Reservation/Status";
 import { DoneTwoTone } from "@mui/icons-material";
 
 export default function ReservationWidget() {
-  const { data: reservations } = useQueryReservations(3000);
+  const { data: reservations } = useQueryReservations(5000);
   const queryClient = useQueryClient();
   const { notify } = useNotification();
 
   const { mutate: book } = useMutation({
     mutationFn: (data: ReservationData) => postReq(`reservations/${data.id}/book`),
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["reservations"] }),
+    onSettled: () => queryClient.refetchQueries({ queryKey: ["reservations"] }),
     onSuccess: () => notify({ message: "Reservation has been booked!", type: "success" }),
     onError: () => notify({ message: "Reservation could not be booked.", type: "danger" })
   });
 
   const { mutate: complete } = useMutation({
     mutationFn: (data: ReservationData) => postReq(`reservations/${data.id}/complete`),
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["reservations"] }),
+    onSettled: () => queryClient.refetchQueries({ queryKey: ["reservations"] }),
     onSuccess: () => notify({ message: "Reservation has been completed!", type: "success" }),
     onError: () => notify({ message: "Reservation could not be completed.", type: "danger" })
   });
