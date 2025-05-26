@@ -118,7 +118,7 @@ export default function CreateReservationModal(props: Props) {
     }
 
     methods.setValue("name", client.name);
-    methods.setValue("surname", client.name);
+    methods.setValue("surname", client.surname);
     methods.setValue("phone", getPhoneData(client.phone).phoneNumber);
     methods.setValue("countryCode", getPhoneData(client.phone).countryCode);
     methods.trigger();
