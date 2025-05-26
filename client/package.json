@@ -1,7 +1,7 @@
 {
    "name": "estiator.io",
    "private": true,
-   "version": "0.2.0-alpha",
+   "version": "0.3.0-alpha",
    "type": "module",
    "scripts": {
       "postinstall": "node scripts/getflags.js",
@@ -34,7 +34,7 @@
    },
    "devDependencies": {
       "@eslint/js": "^9.13.0",
-      "@hookform/devtools": "^4.3.1",
+      "@hookform/devtools": "^4.4.0",
       "@tanstack/eslint-plugin-query": "^5.60.1",
       "@types/node": "^22.9.0",
       "@types/react": "^18.3.11",
