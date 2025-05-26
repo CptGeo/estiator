@@ -91,9 +91,8 @@ export default function CreateReservationModal(props: Props) {
 
     return clients.map(client => {
       return {
-        title: client.email,
+        title: `${getFullName(client)} (${client.email})`,
         key: client.email,
-        description: getFullName(client)
       };
     })
   }
