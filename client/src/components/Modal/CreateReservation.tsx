@@ -11,10 +11,13 @@ import TimeField from "@components/Fields/Time";
 import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
 import TablesSelectField from "../Fields/TablesSelect";
 import { useMutation } from "@tanstack/react-query";
-import { parseDurationToSeconds, postReq, statusError, statusSuccess } from "@core/utils";
+import { getFullName, getPhoneData, parseDurationToSeconds, postReq, statusError, statusSuccess } from "@core/utils";
 import { useNotification } from "@context/Notification";
 import SelectField from "@components/Fields/Select";
-import type { ErrorResponse } from "@core/types";
+import type { ErrorResponse, Key, UserData } from "@core/types";
+import useQueryCustomers from "@hooks/useQueryCustomers";
+import AutocompleteField from "@components/Fields/Autocomplete";
+import PhoneCodeField from "@components/Fields/PhoneCode";
 
 type Props = ReturnType<typeof useDisclosure>;
 
@@ -30,11 +33,14 @@ type FormValues = {
   time: string;
   status: number;
   statusValue: number;
+  existingUser: boolean;
+  countryCode: string;
 }
 
 export default function CreateReservationModal(props: Props) {
   const { isOpen, onOpenChange, onClose } = props;
   const { notify } = useNotification();
+  const { data: clients } = useQueryCustomers();
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (data: unknown) => postReq("reservations", data),
     onError: () => notify({ message: "Reservations could not be created.", type: "danger" }),
@@ -54,12 +60,14 @@ export default function CreateReservationModal(props: Props) {
   })
 
   const methods = useForm<FormValues>({
-    mode: "all",
+    mode: "onSubmit",
     defaultValues: {
       date: today(getLocalTimeZone()).add({ days: 1 }),
       persons: 1
     }
   });
+
+  const existing = methods.watch("existingUser");
 
   async function onSubmit(values: FieldValues): Promise<void> {
     const data = {
@@ -78,19 +86,47 @@ export default function CreateReservationModal(props: Props) {
     await mutateAsync(data);
   }
 
+  function parseClients(clients: UserData[] | undefined)  {
+    if (!clients) return [];
+
+    return clients.map(client => {
+      return {
+        title: client.email,
+        key: client.email,
+        description: getFullName(client)
+      };
+    })
+  }
+
+  function setCustomerData(key: Key | null) {
+    if (!existing) return;
+    const client = clients?.find(cl =>  cl.email ? cl.email.toString() === key?.toString() : false);
+
+    if (!client) {
+      methods.setError("email", { message: "Selected user is invalid" });
+      return;
+    }
+
+    methods.setValue("name", client.name);
+    methods.setValue("surname", client.name);
+    methods.setValue("phone", getPhoneData(client.phone).phoneNumber);
+    methods.setValue("countryCode", getPhoneData(client.phone).countryCode);
+    methods.trigger();
+  }
+
   return (
     <Modal
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       placement="top"
-      size="2xl"
+      size="4xl"
       backdrop="opaque"
       onClose={methods.reset}
     >
       <ModalContent>
         {(onClose) => (
           <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)}>
+            <form onSubmit={methods.handleSubmit(onSubmit)} noValidate>
               <ModalHeader className="gap-1">
                 New reservation<br />
               </ModalHeader>
@@ -103,7 +139,7 @@ export default function CreateReservationModal(props: Props) {
                       defaultValue={today(getLocalTimeZone())}
                       minValue={today(getLocalTimeZone())}
                     />
-                    <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
+                    <TimeField className="mt-3" label="Select a time" name="time" placeholder="Time" isRequired />
                     <SelectField name="duration" label="Duration" isRequired>
                       <SelectItem key="00:30">00:30</SelectItem>
                       <SelectItem key="01:00">01:00</SelectItem>
@@ -118,10 +154,37 @@ export default function CreateReservationModal(props: Props) {
                   <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                     <NumberField isRequired label="Persons" name="persons" />
                     <TablesSelectField label="Select table" name="table" />
-                    <InputField isRequired label="Name" name="name" />
-                    <InputField isRequired label="Surname" name="surname" />
-                    <EmailField isRequired label="Email" name="email" />
-                    <InputField label="Phone" name="phone" />
+                    <CheckboxField className="mt-3" onValueChange={() => {
+                      methods.setValue("name", "");
+                      methods.setValue("email", "");
+                      methods.setValue("surname", "");
+                      methods.setValue("phone", "");
+                    }} name="existingUser" label="Select existing customer" />
+                    {!existing && <EmailField isRequired label="Email" name="email" />}
+                    {existing && <AutocompleteField
+                      defaultItems={parseClients(clients)}
+                      label="Email"
+                      name="email"
+                      isRequired
+                      onSelectionChange={(key) => {
+                        setCustomerData(key);
+                      }}
+                    />}
+                    <InputField isRequired label="Name" name="name" isDisabled={existing} />
+                    <InputField isRequired label="Surname" name="surname" isDisabled={existing} />
+                    <div className="flex flex-nowrap basis-full gap-2">
+                      <div className="basis-2/6">
+                        <PhoneCodeField name="countryCode" label="Country code" isRequired isDisabled={existing} />
+                      </div>
+                      <div className="basis-4/6">
+                        <InputField
+                          name="phone"
+                          label="Phone number"
+                          maxLength={64}
+                          isDisabled={existing}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
 
