@@ -1,17 +1,15 @@
 import { type ReactElement } from "react";
 import phones from "../../../phones.json";
 import { Avatar, Select, SelectItem } from "@heroui/react";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import type { ControlledSelectProps } from "./types";
 import { getAssetUrl } from "@core/utils";
 
 export default function PhoneCodeField(props: Omit<ControlledSelectProps, "children">): ReactElement {
   const { name, defaultSelectedKeys, isRequired = false, ...rest } = props;
-  const methods = useFormContext();
 
   return (
     <Controller
-      control={methods.control}
       rules={{ required: isRequired }}
       defaultValue={defaultSelectedKeys}
       name={name}
@@ -22,6 +20,7 @@ export default function PhoneCodeField(props: Omit<ControlledSelectProps, "child
           onChange={onChange}
           onBlur={onBlur}
           value={value}
+          selectedKeys={Array.isArray(value) ? value : [value]}
           isVirtualized
           ref={ref}
           defaultSelectedKeys={Array.isArray(value) ? value : [value]}
@@ -29,7 +28,7 @@ export default function PhoneCodeField(props: Omit<ControlledSelectProps, "child
             base: "max-w-xs",
             trigger: "min-h-12 py-2",
           }}
-          isMultiline={true}
+          isMultiline
           items={Object.entries(phones)}
           placeholder="Select country code"
           renderValue={(items) => {
