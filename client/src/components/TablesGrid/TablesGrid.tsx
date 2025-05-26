@@ -114,7 +114,7 @@ export default function TablesGrid(props: Props): ReactElement {
 
   const EmptySidebar = () => {
     return (
-      <div className="flex items-center">
+      <div className="flex items-center min-h-[100px]">
         <p className="text-foreground-400 text-center">
           No table selected
         </p>
