@@ -233,5 +233,5 @@ export type TokenClaims = {
 
 export type ErrorResponse = {
   message: string;
-  detail: string;
+  details: string;
 }

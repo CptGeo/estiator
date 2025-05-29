@@ -225,9 +225,10 @@ public class ReservationController {
     @PostMapping("/{id}/book")
     public ResponseEntity<?> book(@PathVariable Long id, @RequestParam(required = false) Boolean inform) throws Exception {
         Reservation reservation = reservationService.get(id);
-
-        if (inform == null || inform) {
+        try {
             reservationService.book(reservation);
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse("RESERVATION_CANNOT_BE_BOOKED", e.getMessage()));
         }
         return ResponseEntity.ok().build();
     }

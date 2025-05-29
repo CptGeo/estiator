@@ -36,14 +36,31 @@ type FormValues = {
   statusValue: number;
   existingUser: boolean;
   countryCode: string;
+  inform: boolean;
 }
 
 export default function CreateReservationModal(props: Props) {
   const { isOpen, onOpenChange, onClose } = props;
   const { notify } = useNotification();
   const { data: clients } = useQueryCustomers();
+
+  const methods = useForm<FormValues>({
+    mode: "onSubmit",
+    defaultValues: {
+      date: today(getLocalTimeZone()).add({ days: 1 }),
+      persons: 1
+    }
+  });
+
+  const existing = methods.watch("existingUser");
+  const time = methods.watch("time");
+  const date = methods.watch("date");
+  const duration = methods.watch("duration");
+  const inform = methods.watch("inform");
+  const isValid = !!time && !!date && !!duration;
+
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (data: unknown) => postReq("reservations", data),
+    mutationFn: (data: unknown) => postReq("reservations", data, { params: { inform: inform } }),
     onError: () => notify({ message: "Reservations could not be created.", type: "danger" }),
     onSettled: (response) => {
       if (statusSuccess(response?.status)) {
@@ -59,20 +76,6 @@ export default function CreateReservationModal(props: Props) {
       }
     }
   })
-
-  const methods = useForm<FormValues>({
-    mode: "onSubmit",
-    defaultValues: {
-      date: today(getLocalTimeZone()).add({ days: 1 }),
-      persons: 1
-    }
-  });
-
-  const existing = methods.watch("existingUser");
-  const time = methods.watch("time");
-  const date = methods.watch("date");
-  const duration = methods.watch("duration");
-  const isValid = !!time && !!date && !!duration;
 
   const { data: tables, isLoading } = useQueryTables(
     3000,
@@ -94,6 +97,7 @@ export default function CreateReservationModal(props: Props) {
       status: 0,
       statusValue: 0,
     };
+
     await mutateAsync(data);
   }
 

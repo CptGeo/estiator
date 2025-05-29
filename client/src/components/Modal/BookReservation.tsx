@@ -1,8 +1,8 @@
 import type { useDisclosure } from "@heroui/react";
 import ConfirmationModal from "@components/Modal/Confirmation";
-import type { ReservationData } from "@core/types";
-import type { Key } from "react";
-import { getFullName, postReq } from "@core/utils";
+import type { ErrorResponse, ReservationData } from "@core/types";
+import { type Key } from "react";
+import { getFullName, postReq, statusError, statusSuccess } from "@core/utils";
 import { useMutation } from "@tanstack/react-query";
 import { useNotification } from "@context/Notification";
 
@@ -16,9 +16,19 @@ export default function BookReservationModal(props: Props) {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (id: Key) => postReq(`/reservations/${id}/book`),
-    onSettled: () => disclosureProps.onClose(),
-    onSuccess: () => notify({ message: "Reservation has been booked!", type: "success" }),
-    onError: () => notify({ message: "Reservation could not be booked.", type: "danger" })
+    onSettled: (data, error) => {
+      console.log(error);
+      if (statusSuccess(data?.status)) {
+        notify({ message: "Reservations has been created successfully!", type: "success" })
+      }
+      if (statusError(data?.status)) {
+        notify({
+          description: (data?.data as ErrorResponse).details,
+          message: (data?.data as ErrorResponse).message,
+          type: "danger" })
+      }
+      disclosureProps.onClose();
+    }
   })
 
   async function handleAction(id: Key) {
@@ -32,7 +42,7 @@ export default function BookReservationModal(props: Props) {
       confirmText="Book reservation"
       confirmButtonProps={{ isLoading: isPending }}
       body={<p>The reservation of customer <strong>{getFullName(reservation.createdFor)}</strong> will be booked.<br />Are you sure you want to continue?</p>}
-      callback={handleAction.bind(null, reservation.id)}
+      callback={() => handleAction(reservation.id)}
     />
   );
 }
