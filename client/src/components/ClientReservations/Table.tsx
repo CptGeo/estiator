@@ -3,7 +3,6 @@ import type { SortDescriptor } from "@heroui/react";
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, DatePicker, Input, Pagination, Button, Spinner } from "@heroui/react";
 import { parseDate, parseTime } from "@internationalized/date";
 import Status from "@components/Status/Reservation/Status";
-import type { SettingData } from "@core/types";
 import { ReservationStatus, type ReservationData } from "@core/types";
 import { allRoutes, Routes, sortByDate, sortByHasReservationAlert, sortByTime } from "@core/utils";
 import { useLocation, useNavigate } from "react-router-dom";
