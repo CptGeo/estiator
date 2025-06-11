@@ -1,13 +1,13 @@
 import useQueryReservations from "@hooks/useQueryReservations"
 import Minicard from "./Minicard";
-import { endOfMonth, startOfMonth, today } from "@internationalized/date";
+import { endOfMonth, startOfMonth, today, getLocalTimeZone } from "@internationalized/date";
 import { useMemo } from "react";
 import { isInteger, isUndefined } from "@core/utils";
 import { Tooltip } from "@heroui/react";
 import { EventTwoTone } from "@mui/icons-material";
 
 export default function MonthReservations() {
-    const t = today("Europe/Athens");
+    const t = today(getLocalTimeZone());
     const currMonthEnd = endOfMonth(t);
     const currMonthStart = startOfMonth(t);
     const prevMonthEnd = endOfMonth(t.subtract({ months: 1 }))

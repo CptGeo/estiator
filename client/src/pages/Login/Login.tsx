@@ -7,6 +7,7 @@ import PasswordField from "@components/Fields/Password";
 import EmailField from "@components/Fields/Email";
 import { useAuth } from "@context/Authentication";
 import PageHeader from "@components/PageHeader/PageHeader";
+import { allRoutes, Routes } from "@core/utils";
 
 /**
  * @todo Convert to modal instead of page
@@ -49,7 +50,7 @@ export default function LoginPage(): ReactElement {
             />
           <div className="flex pb-2 px-1 gap-2">
             Don&apos;t have an account?
-            <Link className="text-blue-600" to="/register">
+            <Link className="text-blue-600" to={allRoutes[Routes.REGISTER]}>
               Register here.
             </Link>
           </div>

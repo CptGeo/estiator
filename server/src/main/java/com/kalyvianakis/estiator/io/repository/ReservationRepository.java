@@ -1,9 +1,5 @@
 package com.kalyvianakis.estiator.io.repository;
-
 import com.kalyvianakis.estiator.io.enums.ReservationStatus;
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,11 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import com.kalyvianakis.estiator.io.model.Reservation;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
@@ -23,6 +18,22 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     Long countByDateBetween(LocalDate from, LocalDate to);
     Boolean existsByCancellationUUID(String cancellationUUID);
     Reservation findByCancellationUUID(String cancellationUUID);
+
+    @Query(value = "select COUNT(*) from reservations r where r.status IN :statuses AND r.table_id = :tableId", nativeQuery = true)
+    Long countByTableAndStatuses(@Param(value= "tableId") Long id, @Param(value= "statuses") Collection<ReservationStatus> statuses);
+
+    @Query(value = "select * from reservations r where r.created_for_user_id = :id and r.is_archived = :isArchived", nativeQuery = true)
+    Collection<Reservation> findAllByCreatedForId(@Param(value= "id") Long id,  @Param(value= "isArchived") Boolean isArchived);
+
+    @Query(value = "select * from reservations r where r.created_for_user_id = :id", nativeQuery = true)
+    Collection<Reservation> findAllByCreatedForId(@Param(value= "id") Long id);
+
+    @Query(value = "select * from reservations r where r.table_id = :tableId and r.date >= :dateFrom AND r.date <= :dateTo AND r.status IN :statuses order by r.time asc", nativeQuery = true)
+    Collection<Reservation> findByTableIdAndDateBetweenAndStatuses(
+            @Param(value="tableId") Long tableId,
+            @Param(value = "dateFrom") LocalDate dateFrom,
+            @Param(value = "dateTo") LocalDate dateTo,
+            @Param(value = "statuses") Collection<ReservationStatus> statuses);
 
     @Query(
             value = "SELECT\n" +
@@ -33,6 +44,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
                     "    (ISNULL (:id) OR (:id != r2.id))\n" +
                     "    AND :date = r2.date\n" +
                     "    AND :tableId = r2.table_id\n" +
+                    "    AND r2.is_archived = false\n" +
                     "    AND (\n" +
                     "        -- Case 1: New reservation fully overlaps an existing one\n" +
                     "        (\n" +
@@ -66,6 +78,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
                     "    AND :date = r2.date" +
                     "    AND r2.status IN (:includeStatuses)\n" +
                     "    AND :tableId = r2.table_id\n" +
+                    "    AND r2.is_archived = false\n" +
                     "    AND (\n" +
                     "        -- Case 1: New reservation fully overlaps an existing one\n" +
                     "        (\n" +

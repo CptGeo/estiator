@@ -4,7 +4,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import DashboardPage from "@pages/Dashboard/Dashboard";
 import PrivateLayout from "@layouts/Private/Private";
 import LoginPage from "@pages/Login/Login";
@@ -24,47 +24,74 @@ import CustomerManagementPage from "@pages/CustomerManagement/CustomerManagement
 import SettingsPage from "@pages/Settings/Settings";
 import CancellationPage from "@pages/Cancellation/Cancellation";
 import CreateReservationPage from "@pages/CreateReservation/CreateReservation";
+import ClientSettings from "@pages/ClientSettings/ClientSettings";
+import ClientReservations from "@pages/ClientReservations/ClientReservations";
+import { allRoutes, Routes } from "@core/utils";
 
 const router = createBrowserRouter([
   {
     element: <AuthLayout />,
     children: [
       {
+        path: 'admin',
         element: <PrivateLayout permissions={[UserRole.ADMIN, UserRole.MODERATOR]} />,
         children: [
           {
-            path: "/",
+            path: "",
             element: <DashboardPage />,
           },
           {
-            path: "reservations-management",
+            path: "reservations",
             element: <ReservationsManagementPage />
           },
           {
-            path: "tables-management",
+            path: "tables",
             element: <TablesManagementPage />
           },
           {
-            path: "customers-management",
+            path: "customers",
             element: <CustomerManagementPage />
-          }
-        ],
-      },
-      {
-        element: <PrivateLayout permissions={[UserRole.ADMIN]} />,
-        children: [
-          {
-            path: "employees-management",
-            element: <EmployeesManagementPage />
-          },
-          {
-            path: "employees-management/:id",
-            element: <EmployeeDetails />
           },
           {
             path: "settings",
             element: <SettingsPage />
-          }
+          },
+          {
+            path: "reservations/create",
+            element: <CreateReservationPage />
+          },
+        ],
+      },
+      {
+        element: <PrivateLayout permissions={[UserRole.ADMIN]} />,
+        path: "admin",
+        children: [
+          {
+            path: "employees",
+            element: <EmployeesManagementPage />
+          },
+          {
+            path: "employees/:id",
+            element: <EmployeeDetails />
+          },
+        ]
+      },
+      {
+        element: <PrivateLayout permissions={[UserRole.CLIENT]} />,
+        path: "client",
+        children: [
+          {
+            path: "settings",
+            element: <ClientSettings />
+          },
+          {
+            path: "reservations",
+            element: <ClientReservations />
+          },
+          {
+            path: "reservations/create",
+            element: <CreateReservationPage />
+          },
         ]
       },
       {
@@ -73,12 +100,20 @@ const router = createBrowserRouter([
           {
             path: "/login",
             element: <LoginPage />,
-          }
+          },
+          {
+            path: "/reservations/create",
+            element: <CreateReservationPage />
+          },
         ]
       },
       {
         element: <CommonLayout />,
         children: [
+          {
+            path: "/",
+            element: <Navigate to={allRoutes[Routes.HOME]} />,
+          },
           {
             path: "/register",
             element: <RegisterPage />,
@@ -91,10 +126,6 @@ const router = createBrowserRouter([
             path: "/cancelReservation",
             element: <CancellationPage />
           },
-          {
-            path: "/create-reservation",
-            element: <CreateReservationPage />
-          }
         ]
       }
     ]

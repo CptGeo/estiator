@@ -1,11 +1,14 @@
 import IconButton from "@components/IconButton/IconButton";
 import { ScheduleStatus, ScheduleStatuses, type Schedule, type UserData } from "@core/types";
-import { dayToString, deleteReq, toParsedTimeString } from "@core/utils";
+import { deleteReq, toParsedTimeString } from "@core/utils";
 import useQueryUserScheduleByDate from "@hooks/useQueryUserScheduleByDate";
-import { getDayOfWeek, today } from "@internationalized/date";
+import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
+import type {
+  DateValue
+} from "@heroui/react";
 import {
   Button,
-  ButtonGroup,
+  Calendar,
   Chip,
   Spinner,
   Table,
@@ -16,9 +19,10 @@ import {
   TableRow,
 } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useNotification } from "@context/Notification";
-import { DeleteTwoTone } from "@mui/icons-material";
+import { DeleteTwoTone, HistoryTwoTone } from "@mui/icons-material";
+import useQueryUserSchedules from "@hooks/useQueryUserSchedules";
 
 type Props = {
   user: UserData;
@@ -32,14 +36,26 @@ const columns = [
 ];
 
 export default function EmployeeCalendar({ user }: Props) {
-  const [current, setCurrent] = useState(0);
-  const date = today("Europe/Athens").add({ days: current });
+  const [current, setCurrent] = useState<DateValue>(today(getLocalTimeZone()));
   const { notify } = useNotification();
 
   const { data: schedule, isLoading } = useQueryUserScheduleByDate(
     user.id,
-    date.toString()
+    current.toString()
   );
+  const { data: allTimeSchedule } = useQueryUserSchedules(user.id, {}, 8000);
+  const availableDates = useMemo(() => allTimeSchedule?.map(schedule => parseDate(schedule.date)), [allTimeSchedule]) ?? [];
+
+  const isDateUnavailable = useCallback((date: DateValue) => {
+    for(const d of availableDates) {
+      if (date.compare(d) === 0) {
+        return false;
+      }
+    }
+
+    return true;
+  }, [availableDates]);
+
   const queryClient = useQueryClient();
 
   const { mutateAsync: deleteSchedule } = useMutation({
@@ -47,87 +63,95 @@ export default function EmployeeCalendar({ user }: Props) {
     onMutate: (variables) => {
       return { schedule: variables }
     },
-    onSettled: (_, __, ___, context) => queryClient.refetchQueries( { queryKey: [`users/${user.id}/schedule/${context?.schedule.date}`] }),
+    onSettled: (_, __, ___, context) => queryClient.refetchQueries({ queryKey: [`users/${user.id}/schedule/${context?.schedule.date}`] }),
     onSuccess: () => notify({ message: "Employee schedule has been deleted successfully!", type: "success" }),
     onError: () => notify({ message: "Employee schedule could not be deleted.", type: "danger" })
   })
 
-  return (
-    <div className="flex flex-col">
-      <div className="flex-grow w-full pb-3">
-        <ButtonGroup fullWidth>
-          <Button color="default" onPress={() => setCurrent(current - 1)}>
-            Previous
-          </Button>
-          <div className="flex flex-col w-full box-border text-center bg-foreground-100">
-            <h3 className="m-0 min-w-[150px]">
-              {dayToString(getDayOfWeek(date, "en-UK"))}
-            </h3>
-            <p className="text-xs m-0">{date.toString()}</p>
-          </div>
-          <Button color="default" onPress={() => setCurrent(current + 1)}>
-            Next
-          </Button>
-        </ButtonGroup>
+  function renderReset() {
+    return (
+      <div className="w-full">
+        <Button className="w-full rounded-none" color="warning" variant="flat" onPress={() => {
+          setCurrent(today(getLocalTimeZone()))
+          setCurrent(today(getLocalTimeZone()))
+        }}>
+          <HistoryTwoTone className="text-lg" />
+        </Button>
       </div>
-      <div className="flex">
-        <Table
-          topContentPlacement="outside"
-          aria-label="Example table with custom cells"
-          bottomContentPlacement="outside"
-          className="min-h-40"
-        >
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn
-                key={column.uid}
-                align={column.uid === "actions" ? "center" : "start"}
-              >
-                {column.name}
-              </TableColumn>
-            )}
-          </TableHeader>
-          <TableBody
-            emptyContent={<p>No scheduled work at current date</p>}
-            isLoading={isLoading}
-            items={[schedule] as Iterable<Schedule>}
-            loadingContent={<Spinner label="Loading..." />}
+    )
+  }
+
+  return (
+    <div>
+      <div className="flex gap-6">
+        <Calendar
+          minValue={availableDates[0]}
+          maxValue={availableDates[availableDates.length - 1]}
+          isDateUnavailable={isDateUnavailable}
+          value={current}
+          showMonthAndYearPickers
+          bottomContent={renderReset()}
+          onChange={(e: DateValue) => { setCurrent(e) }}
+        />
+        <div className="flex">
+          <Table
+            topContentPlacement="outside"
+            aria-label="Example table with custom cells"
+            bottomContentPlacement="outside"
+            className="min-h-40"
           >
-            {(schedule: Schedule) => {
-            return <TableRow>
-                <TableCell className="w-[40%]" textValue="Start Time">
-                  <Chip color="success" className="text-white">
-                    {toParsedTimeString(schedule.startTime)}
-                  </Chip>
-                </TableCell>
-                <TableCell className="w-[40%]" textValue="End Time">
-                  <Chip color="success" className="text-white">
-                    {toParsedTimeString(schedule.endTime)}
-                  </Chip>
-                </TableCell>
-                <TableCell className="w-[40%]" textValue="Status">
-                  <Chip variant="dot" color={schedule.status == ScheduleStatus.WORKING ? "success" : schedule.status == ScheduleStatus.SICK ? "warning" : "primary"}>
-                    {ScheduleStatuses[schedule.status]}
+            <TableHeader columns={columns}>
+              {(column) => (
+                <TableColumn
+                  key={column.uid}
+                  align={column.uid === "actions" ? "center" : "start"}
+                >
+                  {column.name}
+                </TableColumn>
+              )}
+            </TableHeader>
+            <TableBody
+              emptyContent={<p>No scheduled work at current date</p>}
+              isLoading={isLoading}
+              items={[schedule] as Iterable<Schedule>}
+              loadingContent={<Spinner label="Loading..." />}
+            >
+              {(schedule: Schedule) => {
+                return <TableRow>
+                  <TableCell className="w-[40%]" textValue="Start Time">
+                    <Chip color="success" className="text-white">
+                      {toParsedTimeString(schedule.startTime)}
                     </Chip>
-                </TableCell>
-                <TableCell className="w-[40%]" textValue="Actions">
-                  <IconButton
-                    withConfirmation
-                    tooltip="Delete schedule"
-                    confirmationTooltip="Are you sure you want to proceed?"
-                    isIconOnly
-                    size="sm"
-                    color="danger"
-                    variant="solid"
-                    onPress={() => deleteSchedule(schedule)}
-                  >
-                    <DeleteTwoTone className="text-lg text-content1" />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            }}
-          </TableBody>
-        </Table>
+                  </TableCell>
+                  <TableCell className="w-[40%]" textValue="End Time">
+                    <Chip color="success" className="text-white">
+                      {toParsedTimeString(schedule.endTime)}
+                    </Chip>
+                  </TableCell>
+                  <TableCell className="w-[40%]" textValue="Status">
+                    <Chip variant="dot" color={schedule.status == ScheduleStatus.WORKING ? "success" : schedule.status == ScheduleStatus.SICK ? "warning" : "primary"}>
+                      {ScheduleStatuses[schedule.status]}
+                    </Chip>
+                  </TableCell>
+                  <TableCell className="w-[40%]" textValue="Actions">
+                    <IconButton
+                      withConfirmation
+                      tooltip="Delete schedule"
+                      confirmationTooltip="Are you sure you want to proceed?"
+                      isIconOnly
+                      size="sm"
+                      color="danger"
+                      variant="solid"
+                      onPress={() => deleteSchedule(schedule)}
+                    >
+                      <DeleteTwoTone className="text-lg text-content1" />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              }}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </div>
   );

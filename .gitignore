@@ -8,4 +8,4 @@ database.env
 server/.env
 
 # Ignore SSL Private Key
-server/src/main/resources/keystore/*
+server/src/main/resources/*

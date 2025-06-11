@@ -10,7 +10,7 @@ export default function MainContent() {
     <div className={`main min-h-screen flex flex-col ${open ? "pl-[250px]" : "pl-[50px]"}`}>
       <Navigation />
       <DrawerMenu />
-      <div className="container max-w-[1540px] mx-auto px-5 mt-7 flex-grow">
+      <div className="container max-w-[1540px] mx-auto px-5 mt-7 flex-grow pb-5">
         <Outlet />
       </div>
     </div>

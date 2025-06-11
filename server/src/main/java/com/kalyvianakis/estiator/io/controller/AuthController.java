@@ -4,6 +4,8 @@ import com.kalyvianakis.estiator.io.dto.LoginRequest;
 import com.kalyvianakis.estiator.io.dto.LoginResponse;
 import com.kalyvianakis.estiator.io.dto.SignupAdminRequest;
 import com.kalyvianakis.estiator.io.dto.SignupRequest;
+import com.kalyvianakis.estiator.io.model.ErrorResponse;
+import com.kalyvianakis.estiator.io.model.Response;
 import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.service.AuthService;
 import com.kalyvianakis.estiator.io.service.EmailSenderService;
@@ -39,25 +41,33 @@ public class AuthController {
     private EmailSenderService senderService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> signup(@Valid @RequestBody SignupRequest signupRequest, @RequestParam(required = false) Boolean inform) throws Exception {
+    public ResponseEntity<Response> signup(@Valid @RequestBody SignupRequest signupRequest, @RequestParam(required = false) Boolean inform) throws Exception {
+        if (userService.existsByPhone(signupRequest.getPhone())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(String.format("User with the number %s already exists", signupRequest.getPhone()), "USER_CREATE_ERROR_EXISTS"));
+        }
+
         authService.signup(signupRequest);
 
         if (inform == null || inform) {
             senderService.sendUserCreated(signupRequest);
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Response("User had been created successfully", "USER_CREATE_SUCCESS"));
     }
 
     @PostMapping("/signup/admin")
-    public ResponseEntity<Void> signupAdmin(@Valid @RequestBody SignupAdminRequest signupRequest, @RequestParam(required = false) Boolean inform) throws Exception {
+    public ResponseEntity<Response> signupAdmin(@Valid @RequestBody SignupAdminRequest signupRequest, @RequestParam(required = false) Boolean inform) throws Exception {
+        if (userService.existsByPhone(signupRequest.getPhone())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorResponse(String.format("User with the number %s already exists", signupRequest.getPhone()), "USER_CREATE_ERROR_EXISTS"));
+        }
+
         authService.signupAdmin(signupRequest);
 
         if (inform == null || inform) {
             senderService.sendUserCreated(signupRequest);
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Response("User had been created successfully", "USER_CREATE_SUCCESS"));
     }
 
     @PostMapping("/login")

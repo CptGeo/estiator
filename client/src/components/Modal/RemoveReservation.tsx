@@ -39,7 +39,7 @@ export default function RemoveReservationModal(props: Props) {
         <p>
           The reservation of customer <strong>{getFullName(reservation.createdFor)}</strong> will be <strong>removed.</strong>
           <br />
-          Are you sure you want to continue?
+          <strong>BEWARE:</strong> This action cannot be reverted.<br/><br/>Are you sure you want to continue?
         </p>
       }
       callback={handleAction}

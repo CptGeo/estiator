@@ -1,10 +1,10 @@
 import type { FieldValues, FormState } from "react-hook-form";
 import type { ReservationData } from "@core/types";
-import { Day, type HasId, type Normalized, type UserData } from "@core/types";
+import { Day, UserRole, type HasId, type Normalized, type UserData } from "@core/types";
 import type { CalendarDate } from "@internationalized/date";
 import { CalendarDateTime, parseDate, parseTime } from "@internationalized/date";
 import { client } from "./request";
-import type { AxiosRequestConfig } from "axios";
+import { HttpStatusCode, type AxiosRequestConfig, type AxiosResponse } from "axios";
 
 /**
  * Checks if field has any errors
@@ -153,10 +153,12 @@ export function sortByUserAlpha(a: UserData, b: UserData, method: "asc" | "desc"
     return method === "asc" ? result : -result;
 }
 
-export function sortByHasReservationConflict(a: ReservationData, b: ReservationData, method: "asc" | "desc" = "asc") {
+export function sortByHasReservationAlert(a: ReservationData, b: ReservationData, method: "asc" | "desc" = "asc") {
     let result = 0;
-    if (a.conflicts && !b.conflicts) { result = -1 }
-    if (!a.conflicts && b.conflicts) { result = 1 }
+    const aAlert = a.conflicts || a.rating;
+    const bAlert = b.conflicts || b.rating;
+    if (aAlert && !bAlert) { result = -1 }
+    if (!aAlert && bAlert) { result = 1 }
     return method === "asc" ? result : -result;
 }
 
@@ -177,8 +179,8 @@ export async function patchReq<T>(url: string, data?: unknown, config?: AxiosReq
 /**
  * Performs HTTP PUT request
  */
-export async function postReq<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> {
-    return (await client.post<T>(url, data, config)).data;
+export async function postReq<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    return await client.post<T>(url, data, config);
 };
 
 /**
@@ -229,3 +231,126 @@ export function dayToString(day: number): string {
     return Day[day];
 }
 
+export function getPhoneData(phone?: string): { countryCode: string, phoneNumber: string } {
+    const [countryCode, phoneNumber] = phone?.split(" ") || [];
+    return { countryCode, phoneNumber };
+}
+
+export function capitalizeEn(str: string): string {
+    const charCode = str.charCodeAt(0);
+
+    if (charCode >= 97 && charCode <= 122) {
+        const diff = 'a'.charCodeAt(0) - 'A'.charCodeAt(0);
+        return str.replace(str.charAt(0), String.fromCharCode(charCode - diff));
+    }
+
+    return str;
+}
+
+export function statusSuccess(status?: number | string): boolean {
+    if (!status) { return false; }
+    const successStatuses = [
+        HttpStatusCode.Ok,
+        HttpStatusCode.Created,
+        HttpStatusCode.Accepted,
+        HttpStatusCode.NonAuthoritativeInformation,
+        HttpStatusCode.NoContent,
+        HttpStatusCode.ResetContent,
+        HttpStatusCode.PartialContent,
+        HttpStatusCode.MultiStatus,
+        HttpStatusCode.AlreadyReported,
+        HttpStatusCode.ImUsed
+    ];
+
+    const numericStatus = typeof status === 'string' ? parseInt(status, 10) : status;
+
+    return successStatuses.includes(numericStatus);
+}
+
+export function statusError(status?: number | string): boolean {
+    if (!status) { return false; }
+    const errorStatuses = [
+        HttpStatusCode.BadRequest,
+        HttpStatusCode.Unauthorized,
+        HttpStatusCode.PaymentRequired,
+        HttpStatusCode.Forbidden,
+        HttpStatusCode.NotFound,
+        HttpStatusCode.MethodNotAllowed,
+        HttpStatusCode.NotAcceptable,
+        HttpStatusCode.ProxyAuthenticationRequired,
+        HttpStatusCode.RequestTimeout,
+        HttpStatusCode.Conflict,
+        HttpStatusCode.Gone,
+        HttpStatusCode.LengthRequired,
+        HttpStatusCode.PreconditionFailed,
+        HttpStatusCode.PayloadTooLarge,
+        HttpStatusCode.UriTooLong,
+        HttpStatusCode.UnsupportedMediaType,
+        HttpStatusCode.RangeNotSatisfiable,
+        HttpStatusCode.ExpectationFailed,
+        HttpStatusCode.ImATeapot,
+        HttpStatusCode.MisdirectedRequest,
+        HttpStatusCode.UnprocessableEntity,
+        HttpStatusCode.Locked,
+        HttpStatusCode.FailedDependency,
+        HttpStatusCode.TooEarly,
+        HttpStatusCode.UpgradeRequired,
+        HttpStatusCode.PreconditionRequired,
+        HttpStatusCode.TooManyRequests,
+        HttpStatusCode.RequestHeaderFieldsTooLarge,
+        HttpStatusCode.UnavailableForLegalReasons
+    ];
+
+    const numericStatus = typeof status === 'string' ? parseInt(status, 10) : status;
+    return errorStatuses.includes(numericStatus);
+}
+
+export enum Routes {
+    HOME,
+    ADMIN_HOME,
+    RESERVATIONS,
+    TABLES,
+    EMPLOYEES,
+    CUSTOMERS,
+    LOGIN,
+    REGISTER,
+    SETTINGS,
+    CREATE_RESERVATION,
+    ADMIN_CREATE_RESERVATION,
+    CLIENT_CREATE_RESERVATION,
+    CLIENT_HOME,
+    CLIENT_RESERVATIONS,
+    CLIENT_SETTINGS
+}
+
+export const allRoutes: Record<Routes, string> = {
+    [Routes.HOME]: "/login",
+    [Routes.ADMIN_HOME]: "/admin",
+    [Routes.RESERVATIONS]: "/admin/reservations",
+    [Routes.TABLES]: "/admin/tables",
+    [Routes.EMPLOYEES]: "/admin/employees",
+    [Routes.CUSTOMERS]: "/admin/customers",
+    [Routes.SETTINGS]: "/admin/settings",
+    [Routes.LOGIN]: "/login",
+    [Routes.REGISTER]: "/register",
+    [Routes.CLIENT_CREATE_RESERVATION]: "/client/reservations/create",
+    [Routes.ADMIN_CREATE_RESERVATION]: "/admin/reservations/create",
+    [Routes.CREATE_RESERVATION]: "/reservations/create",
+    [Routes.CLIENT_HOME]: "/client/reservations",
+    [Routes.CLIENT_RESERVATIONS]: "/client/reservations",
+    [Routes.CLIENT_SETTINGS]: "/client/settings",
+}
+
+export function getRootPage(userRole?: UserRole | null | undefined) {
+    if (!userRole) return allRoutes[Routes.HOME];
+
+    switch(userRole) {
+        case UserRole.CLIENT:
+            return allRoutes[Routes.CLIENT_HOME];
+        case UserRole.ADMIN:
+        case UserRole.MODERATOR:
+            return allRoutes[Routes.ADMIN_HOME];
+        default:
+            return allRoutes[Routes.HOME];
+    }
+}

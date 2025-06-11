@@ -1,6 +1,7 @@
 import { DonutChart } from "@components/DonutChart/DonutChart"
 import type { TremorColor } from "@core/tremorTypes"
 import type { Color } from "@core/types"
+import { allRoutes, Routes } from "@core/utils"
 import { Card, CardBody, CardFooter, CardHeader, Chip } from "@heroui/react"
 import useQueryTables from "@hooks/useQueryTables"
 import { Link } from "react-router-dom"
@@ -55,7 +56,7 @@ export default function TableAvailabilityWidget() {
       </div>
     </CardBody>
     <CardFooter>
-      <small><Link className="text-primary px-1" to={"/tables-management"}>View tables management</Link></small>
+      <small><Link className="text-primary px-1" to={allRoutes[Routes.TABLES]}>View tables management</Link></small>
     </CardFooter>
   </Card>
 

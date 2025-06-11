@@ -21,25 +21,25 @@ export default function ConfirmationModal(props: Props) {
   }
 
   return (
-      <Modal backdrop="opaque" placement="top" size="2xl" isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} onClose={onClose}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
-              <ModalBody>
-                {body}
-              </ModalBody>
-              <ModalFooter>
-                <Button color="default" variant="light" {...cancelButtonProps} onPress={onClose}>
-                  {cancelText}
-                </Button>
-                <Button color="primary" variant="solid" {...confirmButtonProps} onPress={handleSubmit}>
-                  {confirmText}
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+    <Modal backdrop="opaque" placement="top" size="2xl" isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true} onClose={onClose}>
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
+            <ModalBody>
+              {body}
+            </ModalBody>
+            <ModalFooter>
+              <Button color="default" variant="light" {...cancelButtonProps} onPress={onClose}>
+                {cancelText}
+              </Button>
+              <Button color="primary" variant="solid" {...confirmButtonProps} onPress={handleSubmit}>
+                {confirmText}
+              </Button>
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
   );
 }

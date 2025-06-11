@@ -8,8 +8,21 @@ type Props = {
 } & CheckboxProps;
 
 export default function CheckboxField(props: Props) {
-  const { name, label, ...otherProps } = props;
-  const { register } = useFormContext();
+  const { name, label, value, defaultSelected, ...otherProps } = props;
+  const { register, getValues, formState: { defaultValues } } = useFormContext();
+  const options = register(name);
 
-  return <Checkbox {...otherProps} {...register(name)}>{label}</Checkbox>
+  function isChecked(v: boolean | Array<string | (readonly string[] & string) | undefined>) {
+    if (Array.isArray(v)) {
+      return v.includes(value);
+    }
+    return Boolean(v);
+  }
+
+  return <Checkbox
+    {...otherProps}
+    {...options}
+    value={value}
+    defaultSelected={isChecked(defaultValues?.[name]) || defaultSelected}
+    checked={isChecked(getValues()?.[name])}>{label}</Checkbox>
 }

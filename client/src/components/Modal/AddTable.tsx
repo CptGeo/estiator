@@ -17,20 +17,22 @@ import NumberField from "@components/Fields/Number";
 import ColorPickerField, { ColorPickerOption } from "@components/Fields/ColorPicker";
 import GridTable from "@components/Grid/GridTable";
 import type { Coordinates } from "@dnd-kit/core/dist/types";
-import { postReq } from "@core/utils";
+import { postReq, statusSuccess } from "@core/utils";
 import { useNotification } from "@context/Notification";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function AddTableModal(props: ReturnType<typeof useDisclosure> & { defaultCoordinates: Coordinates }) {
   const { isOpen, onOpenChange, onClose: close, defaultCoordinates } = props;
   const [loading, setLoading] = useState(false);
   const { notify } = useNotification();
+  const queryClient = useQueryClient();
 
   const methods = useForm<TableData>({
     mode: "onChange",
     defaultValues: {
       capacity: 2,
       color: "bg-primary",
-      label: "New table"
+      label: "Table"
      },
   });
 
@@ -50,15 +52,17 @@ export default function AddTableModal(props: ReturnType<typeof useDisclosure> & 
           y: 100
         })
       };
-      await postReq("/tables", { ...data });
-
-      notify({ message: `Table ${label} has been created succesfully!`, type: "success" });
+      const result = await postReq("/tables", { ...data });
+      if (statusSuccess(result.status)) {
+        notify({ message: `Table ${label} has been created succesfully!`, type: "success" });
+      }
     } catch (error) {
       console.error(error);
       notify({ message: `Table could not be created.`, type: "danger" });
     } finally {
       setLoading(false);
       methods.reset();
+      queryClient.refetchQueries({ queryKey: ["tables"] });
       close();
     }
   }

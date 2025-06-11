@@ -2,6 +2,7 @@ package com.kalyvianakis.estiator.io.utils;
 
 import com.kalyvianakis.estiator.io.model.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -39,6 +40,12 @@ public class GlobalRestControllerExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<ErrorResponse> handleDuplicateResourceException(DuplicateResourceException e, HttpServletRequest httpServletRequest) {
         ErrorResponse response = new ErrorResponse(e.getMessage(), "DUPLICATE_RESOURCE");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateKeyException(DuplicateKeyException e, HttpServletRequest httpServletRequest) {
+        ErrorResponse response = new ErrorResponse(e.getMessage(), "DUPLICATE_KEY");
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 

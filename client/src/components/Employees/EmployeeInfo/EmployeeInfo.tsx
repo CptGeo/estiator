@@ -4,7 +4,7 @@ import SelectField from "@components/Fields/Select";
 import ConfirmationModal from "@components/Modal/Confirmation";
 import Status from "@components/Status/Employee/Status";
 import { UserRole, UserRoleName, UserStatus, UserStatuses, type UserData } from "@core/types";
-import { deleteReq, formatDateTime, getInitials, parseTimestamp, patchReq } from "@core/utils";
+import { allRoutes, deleteReq, formatDateTime, getInitials, parseTimestamp, patchReq, Routes } from "@core/utils";
 import { SelectItem, Button, Image, useDisclosure, Avatar } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { type ReactElement } from "react";
@@ -60,8 +60,8 @@ export default function EmployeeInfo(props: {
       id: employee.id
     } as UserData);
 
-    queryClient.invalidateQueries({ queryKey: [`users/${employee.id}`] });
-    queryClient.invalidateQueries({ queryKey: [`users/${employee.id}/schedule`] });
+    queryClient.refetchQueries({ queryKey: [`users/${employee.id}`] });
+    queryClient.refetchQueries({ queryKey: [`users/${employee.id}/schedule`] });
     queryClient.refetchQueries({ queryKey: ["users"] });
   }
 
@@ -71,7 +71,7 @@ export default function EmployeeInfo(props: {
 
     // navigate after half second
     setTimeout(() => {
-      navigate("/employees-management");
+      navigate(allRoutes[Routes.EMPLOYEES]);
     }, 500)
   }
 
@@ -85,7 +85,7 @@ export default function EmployeeInfo(props: {
         <div className="flex flex-col gap-7 mb-3">
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-center gap-2">
-              <Link to="/employees-management">
+              <Link to={allRoutes[Routes.EMPLOYEES]}>
                 <ArrowBackTwoTone className="text-3xl hover:bg-slate-300 rounded-full" />
               </Link>
               <Avatar
@@ -161,7 +161,7 @@ export default function EmployeeInfo(props: {
               </h3>
               <div className="flex flex-col gap-2">
                 <SelectField name="userRole" label="Role">
-                  {Object.values(UserRole).map((item: UserRole) => {
+                  {Object.values(UserRole).filter(item => item !== UserRole.UNKNOWN).map((item: UserRole) => {
                     return (
                       <SelectItem key={item} value={item}>
                         {UserRoleName[item]}

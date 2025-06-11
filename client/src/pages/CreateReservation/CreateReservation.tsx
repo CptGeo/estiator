@@ -15,18 +15,46 @@ import config from "@settings";
 import TablesGridSelect from "@components/Fields/TablesGridSelect";
 import { ChevronRight } from "@mui/icons-material";
 import useQueryTables from "@hooks/useQueryTables";
-import { formatDate, parseDurationToSeconds, postReq } from "@core/utils";
-import { parseTime, today } from "@internationalized/date";
+import { formatDate, getPhoneData, getRootPage, parseDurationToSeconds, postReq } from "@core/utils";
+import type { CalendarDate } from "@internationalized/date";
+import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
 import { useMutation } from "@tanstack/react-query";
 import { useNotification } from "@context/Notification";
 import CheckboxField from "@components/Fields/Checkbox";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@context/Authentication";
+import { UserRole } from "@core/types";
 
 const GRID_SIZE = config.gridSize;
 
+type FormData = {
+  date: CalendarDate,
+  persons: number,
+  email: string,
+  name: string,
+  phone: string,
+  surname: string,
+  duration: string,
+  table: string,
+  time: string,
+  inform: boolean,
+  countryCode: string
+}
+
 export default function CreateReservationPage(): ReactElement {
-  const methods = useForm({
-    mode: "onChange"
+  const auth = useAuth();
+  const isClient = auth?.user?.userRole === UserRole.CLIENT;
+  const methods = useForm<FormData>({
+    mode: "onChange",
+    ...isClient && {
+      defaultValues: {
+        email: auth.user?.email,
+        name: auth.user?.name,
+        surname: auth.user?.surname,
+        phone: getPhoneData(auth.user?.phone).phoneNumber,
+        countryCode: getPhoneData(auth.user?.phone).countryCode,
+      }
+    }
   });
 
   const { notify } = useNotification();
@@ -38,12 +66,14 @@ export default function CreateReservationPage(): ReactElement {
     onError: () => notify({ message: "Reservations could not be created.", type: "danger" }),
     onSettled: () => {
       methods.reset();
-      navigate("/");
+      navigate(getRootPage(auth?.user?.userRole));
     }
   })
 
   const formRef = useRef<HTMLFormElement>(null);
   const { watch, formState } = methods;
+
+  const { isValid } = formState;
 
   const date = watch("date");
   const time = watch("time");
@@ -51,14 +81,9 @@ export default function CreateReservationPage(): ReactElement {
 
   function checkValid(fields: string[]) {
     return fields.some(item => {
-      return formState.errors[item] || (!formState.errors[item] && !formState.dirtyFields[item]);
+      return formState.errors[item as keyof FormData] || (!formState.errors[item as keyof FormData] && !formState.dirtyFields[item as keyof FormData]);
     });
   }
-
-  const infoInvalid = useCallback(() => {
-    const fields = ["name", "email", "date", "time", "duration", "persons"];
-    return checkValid(fields);
-  }, [formState.errors, formState.dirtyFields]);
 
   const tableInvalid = useCallback(() => {
     return checkValid(["table"]);
@@ -66,7 +91,7 @@ export default function CreateReservationPage(): ReactElement {
 
   const { data } = useQueryTables(
     3000,
-    { enabled: !infoInvalid() },
+    { enabled: isValid },
     { date, time, duration: parseDurationToSeconds(duration) },
   );
 
@@ -107,7 +132,7 @@ export default function CreateReservationPage(): ReactElement {
   }
 
   return (
-    <div className="max-w-[900px] mx-auto mt-10">
+    <>
       <PageHeader
         heading="Create a new reservation"
         subheading="Here you can create a new reservation. Add your information and then select a table to proceed."
@@ -122,7 +147,8 @@ export default function CreateReservationPage(): ReactElement {
                   <CalendarPlainField
                     name="date"
                     showMonthAndYearPickers
-                    minValue={today("Europe/Athens")}
+                    required
+                    minValue={today(getLocalTimeZone())}
                   />
                   <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
                   <SelectField name="duration" label="Duration" isRequired >
@@ -137,19 +163,20 @@ export default function CreateReservationPage(): ReactElement {
                   </SelectField>
                 </div>
                 <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-4">
-                  <NumberField isRequired label="Persons" name="persons" />
-                  <InputField isRequired label="Name" name="name" />
-                  <InputField label="Surname" name="surname" />
-                  <EmailField isRequired label="Email" name="email" />
-                  <div className="flex flex-nowrap basis-full gap-4">
+                  <NumberField isRequired label="Persons" name="persons" min={1} max={20} />
+                  <InputField isRequired label="Name" name="name" isDisabled={isClient} />
+                  <InputField label="Surname" name="surname" isDisabled={isClient} />
+                  <EmailField isRequired label="Email" name="email" isDisabled={isClient} />
+                  <div className="flex flex-nowrap basis-full gap-4" >
                     <div className="basis-3/6 sm:basis-2/6">
-                      <PhoneCodeField name="countryCode" label="Country code" />
+                      <PhoneCodeField name="countryCode" label="Country code" isDisabled={isClient} />
                     </div>
                     <div className="basis-3/6 sm:basis-4/6">
                       <InputField
                         name="phone"
                         label="Phone number"
                         maxLength={64}
+                        isDisabled={isClient}
                       />
                     </div>
                   </div>
@@ -158,7 +185,7 @@ export default function CreateReservationPage(): ReactElement {
               <div className="flex justify-end mt-5">
                 <Button
                   size="lg"
-                  isDisabled={infoInvalid()}
+                  isDisabled={!isValid}
                   color="warning"
                   onPress={() => { (step2Button.current as HTMLButtonElement).click() }}
                 >
@@ -166,7 +193,7 @@ export default function CreateReservationPage(): ReactElement {
                 </Button>
               </div>
             </Tab>
-            <Tab tabRef={step2Button} key="tableSelection" title="2. Table Selection" isDisabled={infoInvalid()}>
+            <Tab tabRef={step2Button} key="tableSelection" title="2. Table Selection" isDisabled={!isValid}>
               <TablesGridSelect name="table" tables={data} size={GRID_SIZE} />
               <div className="flex justify-end mt-5">
                 <Button
@@ -180,7 +207,7 @@ export default function CreateReservationPage(): ReactElement {
               </div>
             </Tab>
 
-            <Tab tabRef={step3Button} key="summary" title="3. Summary" isDisabled={tableInvalid() || infoInvalid()}>
+            <Tab tabRef={step3Button} key="summary" title="3. Summary" isDisabled={tableInvalid() || !isValid}>
               <div className="flex flex-col justify-between mt-5 gap-5">
                 <Card>
                   <CardBody>
@@ -196,11 +223,11 @@ export default function CreateReservationPage(): ReactElement {
                     </div>
                   </CardBody>
                 </Card>
-                <CheckboxField label="Receive reservation information on email" defaultSelected name="inform" />
+                <CheckboxField label={`${isClient ? "Receive reservation details on email" : "Send reservation details to client via email"}`} defaultSelected name="inform" />
                 <Button
                   className="bg-gradient-to-tr from-success-400 to-primary-400 text-white shadow-lg text-lg ml-auto"
                   size="lg"
-                  isDisabled={tableInvalid() || infoInvalid()}
+                  isDisabled={tableInvalid() || !isValid}
                   isLoading={isPending}
                   type="submit">
                   Create Reservation <ChevronRight />
@@ -210,6 +237,6 @@ export default function CreateReservationPage(): ReactElement {
           </Tabs>
         </form>
       </FormProvider>
-    </div>
+    </>
   );
 }

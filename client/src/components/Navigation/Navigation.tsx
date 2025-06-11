@@ -4,6 +4,7 @@ import logo from "/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@context/Authentication";
 import UserMenu from "@components/UserMenu/UserMenu";
+import { allRoutes, getRootPage, Routes } from "@core/utils";
 
 export default function Navigation() {
   const navigate = useNavigate();
@@ -13,21 +14,27 @@ export default function Navigation() {
     return (
       <>
         <NavbarItem className="lg:flex">
-          <Button onPress={() => navigate("/login")} variant="light" color="primary">Login</Button>
+          <Button onPress={() => navigate(allRoutes[Routes.LOGIN])} variant="light" color="primary">Login</Button>
         </NavbarItem>
         <NavbarItem>
-          <Button onPress={() => navigate("/register")} variant="solid" color="primary">Register</Button>
+          <Button onPress={() => navigate(allRoutes[Routes.CREATE_RESERVATION])} variant="solid" color="primary">Reserve a table</Button>
         </NavbarItem>
       </>
+    )
+  }
+
+  function LogoLink ({ url }: { url: string }): ReactElement {
+    return (
+      <Link to={url}>
+        <Image src={logo} className="max-w-[150px] px-4 max-h-[32px]" />
+      </Link>
     )
   }
 
   return (
     <Navbar maxWidth="2xl" position="sticky" isBordered className="bg-transparent">
       <NavbarBrand>
-        <Link to="/">
-          <Image src={logo} className="max-w-[150px] px-4 max-h-[32px]" />
-        </Link>
+          <LogoLink url={getRootPage(auth?.user?.userRole)} />
       </NavbarBrand>
       <NavbarContent justify="end">
         {auth?.user && auth.token ? <UserMenu user={auth.user} /> : <AuthButtons />}

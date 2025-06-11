@@ -1,5 +1,7 @@
 package com.kalyvianakis.estiator.io.service;
 
+import com.kalyvianakis.estiator.io.dto.AuthenticatedUser;
+import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.model.Schedule;
 import com.kalyvianakis.estiator.io.model.User;
@@ -62,6 +64,10 @@ public class UserService implements IUserService, UserDetailsService {
         return userRepository.findByIdAndUserRoleIn(id, roles).orElseThrow(() -> new ResourceNotFoundException("Registered user not found with ID: " + id));
     }
 
+    public User getActiveTableUser(Long tableId) {
+        return userRepository.findByTableReservationAndStatus(tableId, ReservationStatus.Booked);
+    }
+
     public List<User> getByRoles(Collection<String> roles){
         return userRepository.findByUserRoleIn(roles);
     }
@@ -77,12 +83,11 @@ public class UserService implements IUserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User does not exist, email: %s", username)));
+        return new AuthenticatedUser(user);
+    }
 
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getEmail())
-                .password(user.getPassword())
-                .authorities(user.getUserRole())
-                .build();
+    public Boolean existsByPhone(String phone) {
+        return userRepository.existsByPhone(phone);
     }
 
     @Override

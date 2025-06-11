@@ -9,7 +9,7 @@ import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import NumberField from "@components/Fields/Number";
 import CalendarPlainField from "@components/Fields/CalendarPlain";
-import { parseDate, parseTime, today } from "@internationalized/date";
+import { getLocalTimeZone, parseDate, parseTime, today } from "@internationalized/date";
 import CheckboxField from "@components/Fields/Checkbox";
 import EmailField from "@components/Fields/Email";
 import { ReservationStatusOption } from "@components/Fields/ReservationStatus";
@@ -17,6 +17,7 @@ import ReservationStatusField from "@components/Fields/ReservationStatus";
 import { useNotification } from "@context/Notification";
 import InputField from "@components/Fields/Input";
 import SelectField from "@components/Fields/Select";
+import useQueryTables from "@hooks/useQueryTables";
 
 type Props = {
   reservation: ReservationData;
@@ -43,6 +44,17 @@ export default function EditReservationModal(props: Props) {
     }
   });
 
+  const time = methods.watch("time");
+  const date = methods.watch("date");
+  const duration = methods.watch("duration");
+  const isValid = !!time && !!date && !!duration;
+
+  const { data: tables, isLoading } = useQueryTables(
+    3000,
+    { enabled: isValid },
+    { date, time, duration: parseDurationToSeconds(duration) },
+  );
+
   async function onSubmit(values: FieldValues): Promise<void> {
     try {
       setLoading(true);
@@ -67,58 +79,58 @@ export default function EditReservationModal(props: Props) {
 
   return (
     <Modal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        placement="top"
-        size="2xl"
-        backdrop="opaque"
-        onClose={methods.reset}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <FormProvider {...methods}>
-              <form onSubmit={methods.handleSubmit(onSubmit)}>
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      placement="top"
+      size="2xl"
+      backdrop="opaque"
+      onClose={methods.reset}
+    >
+      <ModalContent>
+        {(onClose) => (
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
               <ModalHeader className="gap-1">
                 Editing reservation of <em>{getFullName(reservation.createdFor)}</em><br />
               </ModalHeader>
               <ModalBody>
-              <div className="gap-4 md:flex">
-                <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2 flex flex-col gap-2">
-                  <CalendarPlainField
-                    name="date"
-                    showMonthAndYearPickers
-                    defaultValue={today("Europe/Athens")}
-                    minValue={today("Europe/Athens")}
-                  />
-                  <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
-                  <SelectField name="duration" label="Duration">
-                    <SelectItem key="00:30">00:30</SelectItem>
-                    <SelectItem key="01:00">01:00</SelectItem>
-                    <SelectItem key="01:30">01:30</SelectItem>
-                    <SelectItem key="02:00">02:00</SelectItem>
-                    <SelectItem key="02:30">02:30</SelectItem>
-                    <SelectItem key="03:00">03:00</SelectItem>
-                    <SelectItem key="03:30">03:30</SelectItem>
-                    <SelectItem key="04:00">04:00</SelectItem>
-                  </SelectField>
+                <div className="gap-4 md:flex">
+                  <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2 flex flex-col gap-2">
+                    <CalendarPlainField
+                      name="date"
+                      showMonthAndYearPickers
+                      defaultValue={today(getLocalTimeZone())}
+                      minValue={today(getLocalTimeZone())}
+                    />
+                    <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
+                    <SelectField name="duration" label="Duration">
+                      <SelectItem key="00:30">00:30</SelectItem>
+                      <SelectItem key="01:00">01:00</SelectItem>
+                      <SelectItem key="01:30">01:30</SelectItem>
+                      <SelectItem key="02:00">02:00</SelectItem>
+                      <SelectItem key="02:30">02:30</SelectItem>
+                      <SelectItem key="03:00">03:00</SelectItem>
+                      <SelectItem key="03:30">03:30</SelectItem>
+                      <SelectItem key="04:00">04:00</SelectItem>
+                    </SelectField>
+                  </div>
+                  <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
+                    <NumberField isRequired label="Persons" name="persons" />
+                    <TablesSelectField label="Select table" name="table" tables={tables} isLoading={isLoading} editKey={reservation.table.id} />
+                    <InputField isReadOnly isDisabled label="Name" name="name" />
+                    <InputField isReadOnly isDisabled label="Surname" name="surname" />
+                    <EmailField isReadOnly isDisabled label="Email" name="email" />
+                    <InputField isReadOnly isDisabled label="Phone" name="phone" />
+                  </div>
                 </div>
-                <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
-                  <NumberField isRequired label="Persons" name="persons" />
-                  <TablesSelectField label="Select table" name="table" />
-                  <InputField isReadOnly isDisabled label="Name" name="name" />
-                  <InputField isReadOnly isDisabled label="Surname" name="surname" />
-                  <EmailField isReadOnly isDisabled label="Email" name="email" />
-                  <InputField isReadOnly isDisabled label="Phone" name="phone" />
-                </div>
-              </div>
-              <ReservationStatusField name="status" label="Status">
-                <ReservationStatusOption status={ReservationStatus.CANCELLED} />
-                <ReservationStatusOption status={ReservationStatus.PENDING} />
-                <ReservationStatusOption status={ReservationStatus.COMPLETED} />
-                <ReservationStatusOption status={ReservationStatus.CONFIRMED} />
-                <ReservationStatusOption status={ReservationStatus.BOOKED} />
-              </ReservationStatusField>
-              <CheckboxField label="Inform client about the changes (requires user email)" name="inform" />
+                <ReservationStatusField name="status" label="Status">
+                  <ReservationStatusOption status={ReservationStatus.CANCELLED} />
+                  <ReservationStatusOption status={ReservationStatus.PENDING} />
+                  <ReservationStatusOption status={ReservationStatus.COMPLETED} />
+                  <ReservationStatusOption status={ReservationStatus.CONFIRMED} />
+                  <ReservationStatusOption status={ReservationStatus.BOOKED} />
+                </ReservationStatusField>
+                <CheckboxField label="Inform client about the changes (requires user email)" name="inform" />
               </ModalBody>
               <ModalFooter>
                 <Button color="default" variant="light" onPress={onClose}>
@@ -128,10 +140,10 @@ export default function EditReservationModal(props: Props) {
                   Update reservation
                 </Button>
               </ModalFooter>
-              </form>
-            </FormProvider>
-          )}
-        </ModalContent>
-      </Modal>
-    )
+            </form>
+          </FormProvider>
+        )}
+      </ModalContent>
+    </Modal>
+  )
 }

@@ -46,6 +46,18 @@ body {
   }
 }
 
+@layer utilities {
+  .bg-stripe-45 {
+    background-image: repeating-linear-gradient(
+      45deg,
+      #1a202caa 0px,
+      #1a202caa 10px,
+      transparent 10px,
+      transparent 20px
+    );
+  }
+}
+
 .grid-outer-bg {
   background: white;
   background-image: radial-gradient(rgba(25, 25, 25, .3) 1px, transparent 0);

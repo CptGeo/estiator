@@ -29,6 +29,11 @@ export type AuthValue = {
   logoutAction: () => Promise<void>;
 };
 
+export type AuthResponse = {
+  email: string,
+  token: string
+}
+
 /** Represents the username and password credentials for logging in a user */
 export type Credentials = {
   email: string;
@@ -75,7 +80,21 @@ export interface UserData extends HasId {
   userRole: UserRole;
   createdDate: string;
   tables?: TableData[];
+  dietaryPreferences: DietaryPreference[];
 };
+
+export interface DietaryPreference {
+  id: DietaryPreferenceOption,
+  name: string,
+  description: string
+};
+
+export enum DietaryPreferenceOption {
+  GLUTEN_FREE = "gluten_free",
+  HALAL = "halal",
+  VEGAN = "vegan",
+  VEGETARIAN = "vegetarian"
+}
 
 export enum ScheduleStatus {
   WORKING = "Working",
@@ -179,6 +198,9 @@ export interface ReservationData extends HasId {
   persons: number,
   conflicts: number,
   table: TableData
+  archived: boolean;
+  review?: string;
+  rating?: number;
 };
 
 /** Represents table data */
@@ -190,6 +212,7 @@ export interface TableData extends HasId {
   color: string,
   occupied?: boolean,
   user?: Partial<UserData>
+  reservations?: ReservationData[];
 };
 
 /**
@@ -210,5 +233,5 @@ export type TokenClaims = {
 
 export type ErrorResponse = {
   message: string;
-  detail: string;
+  details: string;
 }

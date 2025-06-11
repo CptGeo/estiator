@@ -1,6 +1,7 @@
 package com.kalyvianakis.estiator.io.controller;
 
 import com.kalyvianakis.estiator.io.component.patcher.UserPatcher;
+import com.kalyvianakis.estiator.io.dto.AuthenticatedUser;
 import com.kalyvianakis.estiator.io.dto.SafeUserData;
 import com.kalyvianakis.estiator.io.enums.ScheduleStatus;
 import com.kalyvianakis.estiator.io.service.EmailSenderService;
@@ -15,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
@@ -51,6 +54,29 @@ public class UserController {
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<User> getMyProfile(@AuthenticationPrincipal AuthenticatedUser user) throws Exception {
+        if (user == null) {
+            throw new Exception("User is not authenticated");
+        }
+
+        return ResponseEntity.ok().body(userService.get(user.getId()));
+    }
+
+    @PatchMapping("/me")
+    public ResponseEntity<AuthenticatedUser> patchMe(@AuthenticationPrincipal AuthenticatedUser authUser, @RequestBody(required = true) User user) throws Exception {
+        if (authUser == null || (authUser.getId() != user.getId())) {
+            throw new Exception("User is not authenticated");
+        }
+
+        User current = userService.get(user.getId());
+
+        userPatcher.patch(current, user);
+        userService.save(current);
+
+        return ResponseEntity.ok().body(new SafeUserData(current));
     }
 
     @GetMapping("/{id}")
@@ -127,6 +153,11 @@ public class UserController {
             return ResponseEntity.ok().body(userService.getByRoles(roles));
         }
         return ResponseEntity.ok().body(userService.get());
+    }
+
+    @GetMapping("/table/{id}")
+    public ResponseEntity<User> getByTable(@PathVariable Long id) {
+        return ResponseEntity.ok().body(userService.getActiveTableUser(id));
     }
 
     @GetMapping("/email/{email}")

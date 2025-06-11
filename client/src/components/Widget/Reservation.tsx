@@ -1,9 +1,9 @@
 import IconButton from "@components/IconButton/IconButton";
 import type { ReservationData } from "@core/types";
 import { ReservationStatus } from "@core/types";
-import { getFullName, postReq, sortByTime, toParsedTimeString } from "@core/utils";
+import { allRoutes, getFullName, postReq, Routes, sortByTime, toParsedTimeString } from "@core/utils";
 import useQueryReservations from "@hooks/useQueryReservations";
-import { isToday, parseDate, parseTime } from "@internationalized/date";
+import { getLocalTimeZone, isToday, parseDate, parseTime } from "@internationalized/date";
 import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
@@ -13,20 +13,20 @@ import Status from "@components/Status/Reservation/Status";
 import { DoneTwoTone } from "@mui/icons-material";
 
 export default function ReservationWidget() {
-  const { data: reservations } = useQueryReservations(3000);
+  const { data: reservations } = useQueryReservations(5000);
   const queryClient = useQueryClient();
   const { notify } = useNotification();
 
   const { mutate: book } = useMutation({
     mutationFn: (data: ReservationData) => postReq(`reservations/${data.id}/book`),
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["reservations"] }),
+    onSettled: () => queryClient.refetchQueries({ queryKey: ["reservations"] }),
     onSuccess: () => notify({ message: "Reservation has been booked!", type: "success" }),
     onError: () => notify({ message: "Reservation could not be booked.", type: "danger" })
   });
 
   const { mutate: complete } = useMutation({
     mutationFn: (data: ReservationData) => postReq(`reservations/${data.id}/complete`),
-    onSettled: () => queryClient.invalidateQueries({ queryKey: ["reservations"] }),
+    onSettled: () => queryClient.refetchQueries({ queryKey: ["reservations"] }),
     onSuccess: () => notify({ message: "Reservation has been completed!", type: "success" }),
     onError: () => notify({ message: "Reservation could not be completed.", type: "danger" })
   });
@@ -42,7 +42,7 @@ export default function ReservationWidget() {
     const parsed = parseDate(reservation.date);
 
     /** TODO: Change GMT with local time */
-    return isToday(parsed, "Europe/Athens") && [ReservationStatus.CONFIRMED, ReservationStatus.BOOKED].includes(reservation.status);
+    return isToday(parsed, getLocalTimeZone()) && [ReservationStatus.CONFIRMED, ReservationStatus.BOOKED].includes(reservation.status);
   }
 
   function renderRow(reservation: ReservationData) {
@@ -107,7 +107,7 @@ export default function ReservationWidget() {
         <p className="mt-0 text-xs text-slate-400">View the upcoming and active reservations in real time.</p>
       </div>}
       isStriped
-      {...filtered && { bottomContent: <small><Link className="text-primary px-1" to={"reservations-management"}>View all reservations</Link></small> }}
+      {...filtered && { bottomContent: <small><Link className="text-primary px-1" to={allRoutes[Routes.RESERVATIONS]}>View all reservations</Link></small> }}
     >
       <TableHeader>
         <TableColumn>Name</TableColumn>

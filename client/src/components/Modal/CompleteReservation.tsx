@@ -28,8 +28,8 @@ export default function CompleteReservationModal(props: Props) {
   return (
     <ConfirmationModal
       {...disclosureProps}
-      title="Book reservation"
-      confirmText="Book reservation"
+      title="Complete reservation"
+      confirmText="Complete reservation"
       confirmButtonProps={{ isLoading: isPending }}
       body={<p>The reservation of customer <strong>{getFullName(reservation.createdFor)}</strong> will be completed.<br />Are you sure you want to continue?</p>}
       callback={handleAction.bind(null, reservation.id)}

@@ -1,9 +1,13 @@
 package com.kalyvianakis.estiator.io.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import com.kalyvianakis.estiator.io.dto.AuthenticatedUser;
 import com.kalyvianakis.estiator.io.enums.ReservationStatus;
+import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,9 +63,17 @@ public class ReservationService implements IReservationService {
     return reservationRepository.countConflictsIncludeStatuses(reservation.getId(), reservation.getDate(), reservation.getTime(), reservation.getDuration(), tableId, statuses);
   }
 
+  public Long countByTableAndStatuses(Long tableId, Collection<ReservationStatus> statuses) {
+    return reservationRepository.countByTableAndStatuses(tableId, statuses);
+  }
+
   @Override
   public Reservation get(Long id) throws ResourceNotFoundException {
     return reservationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Reservation not found for ID: " + id));
+  }
+
+  public Collection<Reservation> get(Long tableId, LocalDate from, LocalDate to, Collection<ReservationStatus> statuses) {
+    return reservationRepository.findByTableIdAndDateBetweenAndStatuses(tableId, from, to, statuses);
   }
 
   public Reservation get(String cancellationUUID) {
@@ -128,6 +140,15 @@ public class ReservationService implements IReservationService {
       throw new Exception("Reservation with ID:" + reservation.getId() + " cannot be set to \"Confirmed\" due to conflicts");
     }
 
+    // check if table associated with this reservation is not already booked
+    Collection<ReservationStatus> statuses = new ArrayList<>();
+    statuses.add(ReservationStatus.Booked);
+    Long count = countByTableAndStatuses(reservation.getTable().getId(), statuses);
+
+    if (count > 0) {
+      throw new Exception("Reservation with ID: " + reservation.getId()  + " cannot be set to \"Booked\". Another reservation is in progress on the same table.");
+    }
+
     if (reservation.getTable() == null) {
       // @todo: Improve this
       throw new Exception("Reservation must have an assigned table before it can be set to \"Booked\"");
@@ -148,9 +169,21 @@ public class ReservationService implements IReservationService {
     reservationRepository.save(reservation);
   }
 
+  public void archive(Reservation reservation) throws Exception {
+    if (reservation.getStatus() != ReservationStatus.Completed && reservation.getStatus() != ReservationStatus.Cancelled) {
+      throw new Exception("Reservation must be in status \"Completed\" or \"Cancelled\" before it can be archived");
+    }
+    reservation.setArchived(true);
+    reservationRepository.save(reservation);
+  }
+
   public void pend(Reservation reservation) throws Exception {
     reservation.setStatus(ReservationStatus.Pending);
     reservation.setStatusValue(ReservationStatus.Pending.getLabel());
     reservationRepository.save(reservation);
+  }
+
+  public Collection<Reservation> getAllByUser(Long id) {
+    return reservationRepository.findAllByCreatedForId(id);
   }
 }

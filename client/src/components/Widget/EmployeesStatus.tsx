@@ -1,6 +1,6 @@
 import { ScheduleStatus, ScheduleStatuses, type Schedule } from "@core/types";
-import { dayToString, getFullName, toParsedTimeString } from "@core/utils";
-import { getDayOfWeek, today } from "@internationalized/date";
+import { allRoutes, dayToString, getFullName, Routes, toParsedTimeString } from "@core/utils";
+import { getDayOfWeek, getLocalTimeZone, today } from "@internationalized/date";
 import {
   Button,
   ButtonGroup,
@@ -30,7 +30,7 @@ const columns = [
 
 export default function EmployeesStatusWidget() {
   const [current, setCurrent] = useState(0);
-  const currentDate = today("Europe/Athens").add({ days: current });
+  const currentDate = today(getLocalTimeZone()).add({ days: current });
   const previousDate = currentDate.subtract({ days: 1 });
   const nextDate = currentDate.add({ days: 1 });
 
@@ -119,7 +119,7 @@ export default function EmployeesStatusWidget() {
       classNames={{ emptyWrapper: "h-16" }}
       aria-label="Example table with custom cells"
       topContent={<TopContent />}
-      bottomContent={<small><Link className="text-primary px-1" to={"/employees-management"}>View employees management</Link></small>}
+      bottomContent={<small><Link className="text-primary px-1" to={allRoutes[Routes.EMPLOYEES]}>View employees management</Link></small>}
     >
       <TableHeader columns={columns}>
         {(column) => (
