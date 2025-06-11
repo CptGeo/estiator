@@ -1,8 +1,11 @@
 import axios, { HttpStatusCode } from "axios";
 import { decryptJwt } from "./auth";
 
+const PORT = 8443;
+const PROTOCOL = "https";
+
 export const client = axios.create({
-  baseURL: "https://192.168.1.194:8443",
+  baseURL: `${PROTOCOL}://localhost:${PORT}`,
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
