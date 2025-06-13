@@ -1,19 +1,28 @@
-# Begin with setting up the base image for the container
-FROM alpine/java:21-jdk
+# Compiling
+FROM gradle:8.14.2-jdk21-corretto-al2023 AS BUILD
+ENV APP_HOME=/usr/app/
+WORKDIR $APP_HOME
+COPY . .
+RUN gradle clean bootJar
+RUN echo "Running gradle clean and bootJar"
 
-# Add labels for documentation purposes
+# Running container
+FROM eclipse-temurin:21-jdk-alpine
+
+ENV VERSION=0.3.0-alpha
+
+ENV JAR_NAME=estiator_io-${VERSION}.jar
+ENV APP_HOME=/usr/app
+
+WORKDIR $APP_HOME/
+COPY --from=BUILD $APP_HOME/build ${APP_HOME}/build
+RUN echo "Copying files from ${APP_HOME} to $APP_HOME/build"
+
 LABEL maintainer="george.kalyvianakis@gmail.com"
 
-# Expose port to outer world
 EXPOSE 8443
 
-# Specify the .jar file path
-ARG JAR_FILE=build/libs/estiator_io-0.2.0-alpha.jar
+ENTRYPOINT sh -c 'java -Djava.security.egd=file:/dev/./urandom -jar "/usr/app/build/libs/${JAR_NAME}"'
 
-# Include .jar file in the container
-ADD ${JAR_FILE} app.jar
-
-
-# Provide entrypoint, including system property for Java's entropy source; 
-# Java applications use random numbers for cryptographic operations, and /dev/random in Linux can block if there's not enough entropy.
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+# To include keystore file for TLS encryption
+# docker run -v ./server/src/main/resources/keystore.p12:/usr/app/build/resources/main/keystore.p12 -p 8443:8443 estiator-io-server-bnr-t1 --detach 
