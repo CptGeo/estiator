@@ -37,12 +37,18 @@
   - [Tech](#about-tech)  
 </details>
 <details>
-  <summary>Running in Docker</summary>
+  <summary>Running codebase in Docker</summary>
 
   - [Intro](#running-in-docker-intro)
   - [Prerequisites](#running-in-docker-prerequisites)  
   - [Build the Server](#running-in-docker-build-the-server)  
   - [Run the Container](#running-in-docker-run-the-container)  
+</details>
+<details>
+  <summary>Running Application through Docker</summary>
+  
+  - [Details](#running-application-through-docker-details)
+
 </details>
 <details>
   <summary>Development Setup (Without Docker)</summary>
@@ -82,21 +88,25 @@
 The project uses [**ReactJS 18**](https://react.dev/) with [**HeroUI 2**](https://www.heroui.com/) components library for the client. The server side is implemented using [**Java 22**](https://www.java.com/en/) with [**Spring Boot 3.3** ](https://spring.io/projects/spring-boot). For the persistence, [**MySQL 8**](https://www.mysql.com/) is chosen.
 
 
-# Running in Docker
+# Running codebase in Docker
 
 ### Running in Docker: Intro
 The application is fully containerized and therefore you can run it in production mode using `Docker`. 
 
 ### Running in Docker: Prerequisites
 - **Docker** (download [here](https://www.docker.com/products/docker-desktop/))
-- **JDK 21** (download [here](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html))
-- **Gradle v ≥ 8.1** (optional) (download [here](https://gradle.org/install/))
 
-We only require `Docker` to be able to build and run the container, but we will also require `JDK 21` because the building of the application server will be a separate step, outside of the `Docker` scope.
+We only require `Docker` to be able to build and run the container.
+
+### Running in Docker: Environment
+
+In order to run the application you will need two environment files.
+
+The first one is the `database.env` in the root of the project and the other one is `.env` inside `server` directory. For more information about the structure and contents of those files, check `example.env` and `example.database.env` files. 
 
 ### Running in Docker: Build the Server
 
-Once everything is installed, you will need to start a command line on any directory and execute the commands below.
+Once everything is installed, you will need to start a command line on any directory and execute the commands below, in sequence:
 
 ```shell
 # 1. Clone the repository
@@ -104,19 +114,9 @@ git clone https://github.com/CptGeo/estiator
 ```
 
 ```shell
-# 2. Navigate to the project directory
-cd estiator.io/server
+# 2. Start the containers
+docker compose up
 ```
-
-```shell
-# 3. Execute build script using gradlew file
-./gradlew clean bootJar
-```
-
-> [!TIP]
-> You can also install `Gradle` and run `gradle clean bootJar` instead, which will give you effectively the same results. Here, `./gradlew` is being used so that you don't need to care about `Gradle` version, as it is specified in the project's `gradle-wrapper.properties` file.
-
-The `.jar` file is now built and it should be located in `/build/libs/` directory with a name similar to `estiator.io-[VERSION]`. This file will be necessary for the next step.
 
 ### Running in Docker: Run the Container
 
@@ -134,6 +134,31 @@ This command will perform the following actions:
 
  You should now be able to visit [http://localhost:8080](http://localhost:8080) to use the app.
 
+
+# Running Application through Docker
+
+### Running Application through docker: Details
+You do not necessarily need the whole codebase in order to run this application. You can run it using just three files:
+
+1. `docker-compose.yml` (get from codebase)
+2. `.env` (see example `example.env`)
+3. `database.env` (see example `example.database.env`)
+
+Just place the above files in a structure of the following manner: 
+
+```plaintext
+├── docker-compose.yml
+├── database.env
+└── server
+    └── .env
+```
+
+```shell
+# Build Docker container using docker-compose
+docker compose up
+```
+
+Congrats! You app is running!
 
 # Development Setup (Without Docker)
 
