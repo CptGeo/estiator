@@ -1,6 +1,7 @@
 services:
   app-server:
     container_name: app-server
+    image: cptgeo/server-estiator_io:0.3.0-alpha
     build: ./server
     restart: always
     ports:
@@ -21,6 +22,7 @@ services:
       - spring-mysql
 
   app-database:
+    image: cptgeo/database-estiator_io:0.3.0-alpha
     build: ./database
     restart: always
     volumes: 
@@ -32,6 +34,7 @@ services:
       - spring-mysql
 
   app-client:
+    image: cptgeo/client-estiator_io:0.3.0-alpha
     container_name: app-client
     build: ./client
     restart: always
