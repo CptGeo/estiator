@@ -155,7 +155,7 @@ Just place the above files in a structure of the following manner:
 
 ```shell
 # Build Docker container using docker-compose
-docker compose up
+docker compose up --build
 ```
 
 Congrats! You app is running!
