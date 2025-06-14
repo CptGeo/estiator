@@ -114,8 +114,8 @@ git clone https://github.com/CptGeo/estiator
 ```
 
 ```shell
-# 2. Start the containers
-docker compose up
+# 2. Build and run the containers
+docker compose up --build
 ```
 
 ### Running in Docker: Run the Container
