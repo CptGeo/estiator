@@ -16,7 +16,7 @@ public class ApplicationProperties {
     private String clientHost;
 
     public String getClientUrl() {
-        return clientProtocol + "://" + clientHost + (!clientPort.isEmpty() && !clientPort.equals("80") ? ":" + clientPort : "") + "/";
+        return clientProtocol + "://" + (clientHost.isEmpty() ? HostHelper.getHostAddress() : clientHost) + (!clientPort.isEmpty() && !clientPort.equals("80") ? ":" + clientPort : "") + "/";
     }
     public String getClientUrl(String append) {
         return getClientUrl() + append;
