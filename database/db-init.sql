@@ -150,3 +150,10 @@ INSERT INTO estiator.settings (id,value) VALUES
 	 ('businessDescription','The best F&B management platform'),
 	 ('businessName','Estiator.io'),
    ('defaultRowsPerPage', '20');
+
+# Insert statement for `dietary-preferences` table
+INSERT INTO estiator.`dietary-preferences` (id,description,name) VALUES
+	 ('gluten_free','Avoids gluten, typically found in wheat, barley, and rye.','Gluten-Free'),
+	 ('halal','Follows Islamic dietary laws including halal meat preparation.','Halal'),
+	 ('vegan','Excludes all animal products, including meat, dairy, eggs, and honey.','Vegan'),
+	 ('vegetarian','Excludes meat but allows dairy and/or eggs.','Vegetarian');
