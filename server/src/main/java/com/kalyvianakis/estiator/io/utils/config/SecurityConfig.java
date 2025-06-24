@@ -48,6 +48,8 @@ public class SecurityConfig {
                         .requestMatchers("/auth/signup/admin/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers(HttpMethod.POST, "/auth/signup/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/resetPassword/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/setNewPassword/**").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/reservations").permitAll()
                         .requestMatchers(HttpMethod.GET, "/reservations/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_MODERATOR")

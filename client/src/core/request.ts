@@ -3,7 +3,7 @@ import { decryptJwt } from "./auth";
 
 const PORT = 8443;
 const PROTOCOL = "https";
-const HOST = location.host;
+const HOST = location.hostname;
 
 export const client = axios.create({
   baseURL: `${PROTOCOL}://${HOST}:${PORT}`,

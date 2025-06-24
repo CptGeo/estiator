@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -17,6 +18,13 @@ public class GlobalRestControllerExceptionHandler {
         Arrays.stream(e.getStackTrace()).forEach(System.err::println);
         ErrorResponse response = new ErrorResponse(e.getMessage(), "UNKNOWN_EXCEPTION");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(Exception e, HttpServletRequest httpServletRequest) {
+        Arrays.stream(e.getStackTrace()).forEach(System.err::println);
+        ErrorResponse response = new ErrorResponse(e.getMessage(), "ACCESS_DENIED");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(ResourceNotFoundException.class)

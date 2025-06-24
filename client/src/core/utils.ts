@@ -313,6 +313,8 @@ export enum Routes {
     EMPLOYEES,
     CUSTOMERS,
     LOGIN,
+    PASSWORD_RESET,
+    RESET_PASSWORD,
     REGISTER,
     SETTINGS,
     CREATE_RESERVATION,
@@ -320,7 +322,7 @@ export enum Routes {
     CLIENT_CREATE_RESERVATION,
     CLIENT_HOME,
     CLIENT_RESERVATIONS,
-    CLIENT_SETTINGS
+    CLIENT_SETTINGS,
 }
 
 export const allRoutes: Record<Routes, string> = {
@@ -339,6 +341,8 @@ export const allRoutes: Record<Routes, string> = {
     [Routes.CLIENT_HOME]: "/client/reservations",
     [Routes.CLIENT_RESERVATIONS]: "/client/reservations",
     [Routes.CLIENT_SETTINGS]: "/client/settings",
+    [Routes.PASSWORD_RESET]: "/passwordReset",
+    [Routes.RESET_PASSWORD]: "/resetPassword",
 }
 
 export function getRootPage(userRole?: UserRole | null | undefined) {

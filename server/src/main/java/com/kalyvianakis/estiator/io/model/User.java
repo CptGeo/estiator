@@ -32,6 +32,9 @@ public class User extends PropertyPrinter {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String passwordResetToken;
+
     @Column(unique = true)
     private String phone;
 
@@ -187,5 +190,13 @@ public class User extends PropertyPrinter {
 
     public void setDietaryPreferences(Set<DietaryPreference> dietaryPreferences) {
         this.dietaryPreferences = dietaryPreferences;
+    }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
     }
 }
