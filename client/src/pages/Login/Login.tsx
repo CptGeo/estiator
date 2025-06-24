@@ -40,7 +40,7 @@ export default function LoginPage(): ReactElement {
             label="Email"
             placeholder="Enter your email"
             variant="bordered"
-            />
+          />
           <PasswordField
             name="password"
             label="Password"
@@ -48,11 +48,18 @@ export default function LoginPage(): ReactElement {
             isRequired
             variant="bordered"
             />
-          <div className="flex pb-2 px-1 gap-2">
-            Don&apos;t have an account?
-            <Link className="text-blue-600" to={allRoutes[Routes.REGISTER]}>
-              Register here.
-            </Link>
+          <div className="flex flex-row justify-between pb-2 px-1 text-xs">
+            <div className="flex gap-2">
+              Don&apos;t have an account?
+              <Link className="text-blue-600" to={allRoutes[Routes.REGISTER]}>
+                Register here.
+              </Link>
+            </div>
+            <div>
+              <Link className="text-blue-600" to={allRoutes[Routes.PASSWORD_RESET]}>
+                Forgot password?
+              </Link>
+            </div>
           </div>
           <Button type="submit" color="primary" isLoading={auth?.loading}>Sign in</Button>
           {location.state && !auth?.loading && <p className="text-xs text-danger">{location.state}</p>}
