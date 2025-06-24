@@ -4,7 +4,7 @@ import SelectField from "@components/Fields/Select";
 import ConfirmationModal from "@components/Modal/Confirmation";
 import Status from "@components/Status/Employee/Status";
 import { UserRole, UserRoleName, UserStatus, UserStatuses, type UserData } from "@core/types";
-import { allRoutes, deleteReq, formatDateTime, getInitials, parseTimestamp, patchReq, Routes } from "@core/utils";
+import { allRoutes, deleteReq, formatDateTime, getInitials, getPhoneData, parseTimestamp, patchReq, Routes } from "@core/utils";
 import { SelectItem, Button, Image, useDisclosure, Avatar } from "@heroui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { type ReactElement } from "react";
@@ -13,6 +13,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useNotification } from "@context/Notification";
 import { ArrowBackTwoTone, DeleteOutlineTwoTone } from "@mui/icons-material";
+import PhoneCodeField from "@components/Fields/PhoneCode";
 
 export default function EmployeeInfo(props: {
   employee: UserData;
@@ -37,11 +38,14 @@ export default function EmployeeInfo(props: {
     }
   });
 
+  const { phoneNumber, countryCode } = getPhoneData(employee.phone);
+
   const defaultValues = {
     name: employee?.name,
     surname: employee?.surname,
     email: employee?.email,
-    phone: employee?.phone,
+    phone: phoneNumber,
+    countryCode: countryCode,
     userRole: employee?.userRole,
     position: employee?.position,
     status: employee?.status
@@ -56,8 +60,13 @@ export default function EmployeeInfo(props: {
 
   async function handleSubmit(values: FieldValues) {
     await usersMutateAsync({
-      ...values,
-      id: employee.id
+      name: values.name,
+      surname: values.surname,
+      phone: `${values.countryCode} ${values.phone}`,
+      id: employee.id,
+      userRole: values.userRole,
+      position: values.position,
+      status: values?.status
     } as UserData);
 
     queryClient.refetchQueries({ queryKey: [`users/${employee.id}`] });
@@ -89,10 +98,10 @@ export default function EmployeeInfo(props: {
                 <ArrowBackTwoTone className="text-3xl hover:bg-slate-300 rounded-full" />
               </Link>
               <Avatar
-                  isBordered
-                  src={employee.profileImage}
-                  className="w-16 h-16 text-large mr-1"
-                  name={getInitials(employee)}
+                isBordered
+                src={employee.profileImage}
+                className="w-16 h-16 text-large mr-1"
+                name={getInitials(employee)}
               />
               <div>
                 <h1 className="text-2xl">
@@ -118,23 +127,22 @@ export default function EmployeeInfo(props: {
           </div>
           <hr />
           <div className="flex flex-row flex-wrap lg:flex-nowrap gap-10">
-            <div className="w-full lg:w-1/4 p-1">
+            <div className="w-full lg:w-1/5 p-1">
               <h3 className="opacity-65 uppercase text-sm py-3">
                 Profile Image
               </h3>
-              <div className="text-center w-fit [&_div]:bg-center">
+              <div className="text-center [&_div]:bg-center w-full">
                 <Image
                   src={employee.profileImage}
                   fallbackSrc={getFallbackSrc(employee)}
-                  width={300}
-                  height={300}
+                  width={250}
+                  height={250}
                   loading="eager"
                   className="w-full mb-3 object-cover"
                 />
-                {/* <Button className="text-blue-600 text-sm" variant="light"><InsertPhotoTwoTone /> Change profile image</Button> */}
               </div>
             </div>
-            <div className="w-full lg:w-1/4 p-1">
+            <div className="w-full lg:w-2/5 p-1">
               <h3 className="opacity-65 uppercase text-sm py-3">
                 Employee Details
               </h3>
@@ -151,8 +159,19 @@ export default function EmployeeInfo(props: {
                   isRequired
                   maxLength={25}
                 />
-                <EmailField name="email" label="Email Address" isRequired />
-                <InputField name="phone" label="Phone Number" />
+                <EmailField name="email" label="Email Address" isRequired isDisabled />
+                <div className="flex flex-nowrap basis-full gap-2">
+                  <div className="basis-2/6">
+                    <PhoneCodeField name="countryCode" label="Country code" isRequired />
+                  </div>
+                  <div className="basis-4/6">
+                    <InputField
+                      name="phone"
+                      label="Phone number"
+                      maxLength={64}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <div className="w-full lg:w-1/4 p-1">
@@ -192,7 +211,7 @@ export default function EmployeeInfo(props: {
         <div className="w-full flex gap-3">
           <Button
             variant="solid"
-            className="max-w-[350px] w-full text-md py-6"
+            className="text-md py-6 px-10"
             color="primary"
             type="submit"
             isLoading={savePending}
