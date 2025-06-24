@@ -1,10 +1,9 @@
 package com.kalyvianakis.estiator.io.controller;
 
-import com.kalyvianakis.estiator.io.dto.LoginRequest;
-import com.kalyvianakis.estiator.io.dto.LoginResponse;
-import com.kalyvianakis.estiator.io.dto.SignupAdminRequest;
-import com.kalyvianakis.estiator.io.dto.SignupRequest;
+import com.kalyvianakis.estiator.io.dto.*;
+import com.kalyvianakis.estiator.io.enums.ReservationStatus;
 import com.kalyvianakis.estiator.io.model.ErrorResponse;
+import com.kalyvianakis.estiator.io.model.Reservation;
 import com.kalyvianakis.estiator.io.model.Response;
 import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.service.AuthService;
@@ -16,6 +15,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
@@ -76,5 +76,17 @@ public class AuthController {
         User user = userService.getOneByEmail(request.email());
         String token = jwtHelper.generateToken(user);
         return ResponseEntity.ok(new LoginResponse(request.email(), token));
+    }
+
+    @PostMapping("/resetPassword")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
+        authService.resetPassword(request.getEmail());
+        return ResponseEntity.ok("OK");
+    }
+
+    @PostMapping("/setNewPassword")
+    public ResponseEntity<?> setNewPassword(@RequestBody SetNewPasswordRequest request) throws AccessDeniedException {
+        authService.setPasswordByToken(request.getResetPasswordToken(), request.getPassword());
+        return ResponseEntity.ok(new Response("Password has been reset successfully", "PASSWORD_RESET_SUCCESS"));
     }
 }

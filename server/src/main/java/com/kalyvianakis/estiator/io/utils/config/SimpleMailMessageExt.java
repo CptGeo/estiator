@@ -110,4 +110,18 @@ public class SimpleMailMessageExt extends SimpleMailMessage {
 
         return message;
     }
+
+    @Bean
+    public SimpleMailMessage templateResetPassword() {
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        String resetUrl = applicationProperties.getClientUrl("resetPassword?uuid=%s");
+
+        message.setText("Hello %s,\n\nYou have requested to change your password. Click the link below to reset your password. If it wasn't you, please ignore this email.\n\n" +
+                "\n" +
+                resetUrl
+        );
+
+        return message;
+    }
 }
