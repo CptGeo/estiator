@@ -2,6 +2,7 @@ package com.kalyvianakis.estiator.io.service;
 
 import com.kalyvianakis.estiator.io.dto.SignupRequest;
 import com.kalyvianakis.estiator.io.model.Reservation;
+import com.kalyvianakis.estiator.io.model.User;
 import com.kalyvianakis.estiator.io.utils.ResourceNotFoundException;
 import com.kalyvianakis.estiator.io.utils.config.SimpleMailMessageExt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,4 +171,27 @@ public class EmailSenderService {
         );
     }
 
+    public void sendResetPassword(User user) {
+        String text = String.format(
+                simpleMailMessage.templateResetPassword().getText(),
+                user.getName(),
+                user.getPasswordResetToken()
+        );
+
+        this.sendMessage(
+                user.getEmail(),
+                "Estiator.io",
+                "Estiator.io - You have requested to change your password.",
+                text
+        );
+    }
+
+    public void sendSimple(String email, String title, String text) {
+        this.sendMessage(
+                email,
+                "Estiator.io",
+                title,
+                text
+        );
+    }
 }

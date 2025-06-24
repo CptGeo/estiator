@@ -19,6 +19,8 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     Optional<User> findByEmail(String email);
     Boolean existsByEmail(String email);
     Boolean existsByPhone(String phone);
+    User findOneByEmail(String email);
+    User findOneByPasswordResetToken(String passwordResetToken);
 
     @Query(value = "select u.* from users u left join reservations r on u.id = r.created_for_user_id where r.status = :status and r.table_id = :tableId", nativeQuery = true)
     User findByTableReservationAndStatus(@Param(value= "tableId") Long tableId, @Param(value= "status") ReservationStatus status);

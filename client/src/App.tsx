@@ -27,6 +27,8 @@ import CreateReservationPage from "@pages/CreateReservation/CreateReservation";
 import ClientSettings from "@pages/ClientSettings/ClientSettings";
 import ClientReservations from "@pages/ClientReservations/ClientReservations";
 import { allRoutes, Routes } from "@core/utils";
+import PasswordResetPage from "@pages/PasswordReset/PasswordReset";
+import ResetPasswordPage from "@pages/ResetPassword/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -100,6 +102,14 @@ const router = createBrowserRouter([
           {
             path: "/login",
             element: <LoginPage />,
+          },
+          {
+            path: allRoutes[Routes.PASSWORD_RESET],
+            element: <PasswordResetPage />,
+          },
+          {
+            path: allRoutes[Routes.RESET_PASSWORD],
+            element: <ResetPasswordPage />,
           },
           {
             path: "/reservations/create",
