@@ -1,15 +1,13 @@
 import { useEffect, useState, type ReactElement } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import type { FieldValues, RegisterOptions } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
-import EmailField from "@components/Fields/Email";
-import { useAuth } from "@context/Authentication";
 import PageHeader from "@components/PageHeader/PageHeader";
 import { Button } from "@heroui/react";
-import { allRoutes, postReq, Routes, sleep, statusError, statusSuccess } from "@core/utils";
+import { allRoutes, postReq, Routes, statusError, statusSuccess } from "@core/utils";
 import { useNotification } from "@context/Notification";
 import PasswordField from "@components/Fields/Password";
-import { ErrorResponse } from "@core/types";
+import type { ErrorResponse } from "@core/types";
 
 /**
  * @todo Convert to modal instead of page

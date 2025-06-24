@@ -1,9 +1,8 @@
 import { useState, type ReactElement } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import EmailField from "@components/Fields/Email";
-import { useAuth } from "@context/Authentication";
 import PageHeader from "@components/PageHeader/PageHeader";
 import { Button } from "@heroui/react";
 import { allRoutes, postReq, Routes, sleep } from "@core/utils";
