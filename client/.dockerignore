@@ -1,0 +1,46 @@
+# TO BE REVIEWED - MANY LINES TO BE REMOVED
+
+# Build output
+/build/
+*/build/
+.gradle/
+out/
+target/
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+
+# Git and version control
+.git/
+.gitignore
+
+# Dependency caches
+**/node_modules/
+npm-debug.log
+.yarn/
+.pnpm/
+
+# JARs, WARs, and other archives
+*.jar
+*.war
+*.zip
+
+# Env and secrets
+.env
+*.pem
+*.p12
+*.key
+*.crt
