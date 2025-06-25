@@ -86,7 +86,7 @@ public class AuthController {
 
     @PostMapping("/setNewPassword")
     public ResponseEntity<?> setNewPassword(@RequestBody SetNewPasswordRequest request) throws AccessDeniedException {
-        authService.setPasswordByToken(request.getResetPasswordToken(), request.getPassword());
+        authService.setPasswordByToken(request.getResetPasswordToken(), request.getEmail(), request.getPassword());
         return ResponseEntity.ok(new Response("Password has been reset successfully", "PASSWORD_RESET_SUCCESS"));
     }
 }
