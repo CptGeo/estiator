@@ -75,12 +75,12 @@ public class AuthService {
         }
     }
 
-    public void setPasswordByToken(String passwordResetToken, String password) {
+    public void setPasswordByToken(String passwordResetToken, String email, String password) {
         if (passwordResetToken == null) throw new AccessDeniedException("You have no permission to change password for user");
 
         User user = userRepository.findOneByPasswordResetToken(passwordResetToken);
 
-        if (user == null || user.getPasswordResetToken() == null) throw new AccessDeniedException("You have no permission to change password for user");
+        if (user == null || user.getPasswordResetToken() == null || !user.getEmail().equals(email)) throw new AccessDeniedException("You have no permission to change password for user");
 
         String hashedPassword = passwordEncoder.encode(password);
 

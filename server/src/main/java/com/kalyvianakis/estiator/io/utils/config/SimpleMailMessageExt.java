@@ -115,7 +115,7 @@ public class SimpleMailMessageExt extends SimpleMailMessage {
     public SimpleMailMessage templateResetPassword() {
         SimpleMailMessage message = new SimpleMailMessage();
 
-        String resetUrl = applicationProperties.getClientUrl("resetPassword?uuid=%s");
+        String resetUrl = applicationProperties.getClientUrl("resetPassword?uuid=%s&email=%s");
 
         message.setText("Hello %s,\n\nYou have requested to change your password. Click the link below to reset your password. If it wasn't you, please ignore this email.\n\n" +
                 "\n" +

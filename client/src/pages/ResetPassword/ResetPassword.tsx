@@ -18,9 +18,10 @@ export default function ResetPasswordPage(): ReactElement {
   const { notify } = useNotification();
   const [ URLSearchParams ] = useSearchParams();
   const uuid = URLSearchParams.get("uuid");
+  const email = URLSearchParams.get("email");
 
   useEffect(() => {
-    if (!uuid) {
+    if (!uuid || !email) {
       navigate(allRoutes[Routes.LOGIN]);
     }
   }, [uuid]);
@@ -34,7 +35,7 @@ export default function ResetPasswordPage(): ReactElement {
 
     setLoading(true);
 
-    const result = await postReq("/auth/setNewPassword", { resetPasswordToken: uuid, password });
+    const result = await postReq("/auth/setNewPassword", { resetPasswordToken: uuid, password, email });
 
     if(statusError(result.status)) {
       notify({ message: "Set new password", description: (result?.data as ErrorResponse).message, type: "danger" })

@@ -175,7 +175,8 @@ public class EmailSenderService {
         String text = String.format(
                 simpleMailMessage.templateResetPassword().getText(),
                 user.getName(),
-                user.getPasswordResetToken()
+                user.getPasswordResetToken(),
+                user.getEmail()
         );
 
         this.sendMessage(
