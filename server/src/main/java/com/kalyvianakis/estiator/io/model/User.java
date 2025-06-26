@@ -46,6 +46,8 @@ public class User extends PropertyPrinter {
     private UserStatus status;
 
     private String userRole;
+    
+    private boolean immune;
 
     @Basic
     @Column(name = "status")
@@ -198,5 +200,13 @@ public class User extends PropertyPrinter {
 
     public void setPasswordResetToken(String passwordResetToken) {
         this.passwordResetToken = passwordResetToken;
+    }
+
+    public boolean isImmune() {
+        return immune;
+    }
+
+    public void setImmune(boolean immune) {
+        this.immune = immune;
     }
 }

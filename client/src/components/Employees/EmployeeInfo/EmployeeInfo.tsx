@@ -120,6 +120,7 @@ export default function EmployeeInfo(props: {
                 variant="flat"
                 isLoading={deletePending}
                 onPress={modal.onOpen}
+                isDisabled={employee.immune}
               >
                 <DeleteOutlineTwoTone className="text-lg" /> Delete Employee
               </Button>

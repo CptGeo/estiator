@@ -72,7 +72,7 @@ export const UserStatuses: Record<UserStatus, string> = {
 export interface UserData extends HasId {
   name: string;
   surname: string;
-  email?: string;
+  email: string;
   phone?: string;
   position: string;
   profileImage: string;
@@ -81,6 +81,7 @@ export interface UserData extends HasId {
   createdDate: string;
   tables?: TableData[];
   dietaryPreferences: DietaryPreference[];
+  immune: boolean;
 };
 
 export interface DietaryPreference {
