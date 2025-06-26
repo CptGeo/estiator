@@ -6,6 +6,7 @@ import TotalCapacity from "@components/Minicard/TotalCapacity";
 import TotalTables from "@components/Minicard/TotalTables";
 import TableAvailabilityWidget from "@components/Widget/TableAvailability";
 import EmployeesStatusWidget from "@components/Widget/EmployeesStatus";
+import AdminOnly from "@components/AuthorizationWrappers/AdminOnly";
 
 export default function DashboardPage(): ReactElement {
 
@@ -24,9 +25,11 @@ export default function DashboardPage(): ReactElement {
           <div className="col-span-full">
             <ReservationWidget />
           </div>
-          <div className="col-span-6">
-            <EmployeesStatusWidget />
-          </div>
+          <AdminOnly>
+            <div className="col-span-6">
+              <EmployeesStatusWidget />
+            </div>
+          </AdminOnly>
         </div>
         <div className="gap-4 col-span-full sm:col-span-8 md:col-span-9 lg:col-span-7 xl:col-span-3">
           <TableAvailabilityWidget />

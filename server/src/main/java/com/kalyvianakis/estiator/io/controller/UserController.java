@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.MethodNotAllowedException;
 
 import java.sql.Time;
 import java.time.LocalDate;
@@ -169,6 +170,11 @@ public class UserController {
     public ResponseEntity<?> delete(@PathVariable Long id) throws ResourceNotFoundException, IllegalArgumentException {
         if(userService.notExists(id)) {
             throw new ResourceNotFoundException("User not found for ID: " + id);
+        }
+
+        User user = userService.get(id);
+        if (user.isImmune()) {
+            throw new IllegalArgumentException("User cannot be deleted for ID: " + id);
         }
 
         userService.delete(id);

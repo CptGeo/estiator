@@ -173,6 +173,9 @@ export default function RegisterForm() {
                     <SelectItem key={UserRole.MODERATOR} value={UserRole.MODERATOR}>
                       {UserRoleName[UserRole.MODERATOR]}
                     </SelectItem>
+                    <SelectItem key={UserRole.CLIENT} value={UserRole.CLIENT}>
+                      {UserRoleName[UserRole.CLIENT]}
+                    </SelectItem>
                 </SelectField>
               </div>
             </div>

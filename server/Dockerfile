@@ -9,7 +9,7 @@ RUN echo "Running gradle clean and bootJar"
 # Running container
 FROM eclipse-temurin:21-jdk-alpine
 
-ENV VERSION=0.4.0-alpha
+ENV VERSION=0.4.1-alpha
 
 ENV JAR_NAME=estiator_io-${VERSION}.jar
 ENV APP_HOME=/usr/app
