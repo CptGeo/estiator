@@ -2,7 +2,6 @@ import { type ReactElement } from "react";
 import PageHeader from "@components/PageHeader/PageHeader";
 import EmailField from "@components/Fields/Email";
 import InputField from "@components/Fields/Input";
-import PhoneCodeField from "@components/Fields/PhoneCode";
 import { Button, Spinner } from "@heroui/react";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
@@ -14,6 +13,8 @@ import { DietaryPreferenceOption, type UserData } from "@core/types";
 import CheckboxField from "@components/Fields/Checkbox";
 import useQueryDietaryPreferences from "@hooks/useQueryDietaryPreferences";
 import { Egg, Grass, KebabDining, NoFood } from "@mui/icons-material";
+import PhoneNumberField from "@components/Fields/PhoneNumber";
+import CountryCodeField from "@components/Fields/CountryCode";
 
 const IconsMap = {
   [DietaryPreferenceOption.GLUTEN_FREE]: <NoFood />,
@@ -29,6 +30,7 @@ export default function ClientSettings(): ReactElement {
   const queryClient = useQueryClient();
 
   const methods = useForm({
+    mode: 'onChange',
     defaultValues: async () => {
       const { data } = await refetch();
 
@@ -63,6 +65,7 @@ export default function ClientSettings(): ReactElement {
       dietaryPreferences: values?.dietaryPreferences.map((item: string) => { return { id: item } }),
       id: customer?.id
     } as UserData);
+
     methods.reset(values);
   }
 
@@ -89,13 +92,13 @@ export default function ClientSettings(): ReactElement {
                 <EmailField isRequired label="Email" name="email" isDisabled />
                 <div className="flex flex-nowrap basis-full gap-2">
                   <div className="basis-2/6">
-                    <PhoneCodeField name="countryCode" label="Country code" isRequired />
+                    <CountryCodeField name="countryCode" label="Country code" isRequired />
                   </div>
                   <div className="basis-4/6">
-                    <InputField
+                    <PhoneNumberField
                       name="phone"
                       label="Phone number"
-                      maxLength={64}
+                      isRequired
                     />
                   </div>
                 </div>

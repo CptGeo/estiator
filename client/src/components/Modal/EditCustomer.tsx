@@ -2,14 +2,15 @@ import { useState } from "react";
 import { type UserData } from "@core/types";
 import type { useDisclosure } from "@heroui/react";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
-import { getFullName, patchReq } from "@core/utils";
+import { getFullName, getPhoneData, patchReq } from "@core/utils";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import InputField from "@components/Fields/Input";
 import CheckboxField from "@components/Fields/Checkbox";
 import EmailField from "@components/Fields/Email";
 import { useNotification } from "@context/Notification";
-import PhoneCodeField from "@components/Fields/PhoneCode";
+import CountryCodeField from "@components/Fields/CountryCode";
+import PhoneNumberField from "@components/Fields/PhoneNumber";
 
 type Props = {
   customer: UserData;
@@ -26,8 +27,8 @@ export default function EditCustomerModal(props: Props) {
       name: customer.name,
       surname: customer.surname,
       email: customer.email,
-      countryCode: [customer.phone?.split(" ")[0]],
-      phone: customer.phone?.split(" ")[1]
+      countryCode: getPhoneData(customer.phone).countryCode,
+      phone: getPhoneData(customer.phone).phoneNumber,
     }
   });
 
@@ -75,13 +76,13 @@ export default function EditCustomerModal(props: Props) {
                   <EmailField isRequired label="Email" name="email" />
                   <div className="flex flex-nowrap basis-full gap-2">
                     <div className="basis-2/6">
-                      <PhoneCodeField name="countryCode" label="Country code" isRequired />
+                      <CountryCodeField name="countryCode" label="Country code" isRequired />
                     </div>
                     <div className="basis-4/6">
-                      <InputField
+                      <PhoneNumberField
                         name="phone"
                         label="Phone number"
-                        maxLength={64}
+                        isRequired
                       />
                     </div>
                   </div>

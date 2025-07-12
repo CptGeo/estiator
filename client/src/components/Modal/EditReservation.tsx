@@ -18,6 +18,7 @@ import { useNotification } from "@context/Notification";
 import InputField from "@components/Fields/Input";
 import SelectField from "@components/Fields/Select";
 import useQueryTables from "@hooks/useQueryTables";
+import PhoneNumberField from "@components/Fields/PhoneNumber";
 
 type Props = {
   reservation: ReservationData;
@@ -120,7 +121,7 @@ export default function EditReservationModal(props: Props) {
                     <InputField isReadOnly isDisabled label="Name" name="name" />
                     <InputField isReadOnly isDisabled label="Surname" name="surname" />
                     <EmailField isReadOnly isDisabled label="Email" name="email" />
-                    <InputField isReadOnly isDisabled label="Phone" name="phone" />
+                    <PhoneNumberField isReadOnly isDisabled label="Phone" name="phone" />
                   </div>
                 </div>
                 <ReservationStatusField name="status" label="Status">

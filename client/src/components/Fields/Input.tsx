@@ -30,7 +30,7 @@ export default function InputField(props: ControlledInputProps): ReactElement {
             ...validate,
             ...(minLength && maxLength && {
                 range: (value: string) => value.length >= minLength && value.length <= maxLength ? true : `${label} length must be between ${minLength} and ${maxLength} characters.` })
-        }
+        },
     }
 
     return (

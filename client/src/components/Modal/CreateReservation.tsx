@@ -17,8 +17,9 @@ import SelectField from "@components/Fields/Select";
 import type { ErrorResponse, Key, UserData } from "@core/types";
 import useQueryCustomers from "@hooks/useQueryCustomers";
 import AutocompleteField from "@components/Fields/Autocomplete";
-import PhoneCodeField from "@components/Fields/PhoneCode";
 import useQueryTables from "@hooks/useQueryTables";
+import CountryCodeField from "@components/Fields/CountryCode";
+import PhoneNumberField from "@components/Fields/PhoneNumber";
 
 type Props = ReturnType<typeof useDisclosure>;
 
@@ -188,13 +189,12 @@ export default function CreateReservationModal(props: Props) {
                     <InputField isRequired label="Surname" name="surname" isDisabled={existing} />
                     <div className="flex flex-nowrap basis-full gap-2">
                       <div className="basis-2/6">
-                        <PhoneCodeField name="countryCode" label="Country code" isRequired isDisabled={existing} />
+                        <CountryCodeField name="countryCode" label="Country code" isRequired isDisabled={existing} />
                       </div>
                       <div className="basis-4/6">
-                        <InputField
+                        <PhoneNumberField
                           name="phone"
                           label="Phone number"
-                          maxLength={64}
                           isDisabled={existing}
                         />
                       </div>
