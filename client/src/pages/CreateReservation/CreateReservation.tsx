@@ -1,5 +1,5 @@
 import type { KeyboardEvent } from "react";
-import { useCallback, useEffect, useRef, type ReactElement } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactElement } from "react";
 import PageHeader from "@components/PageHeader/PageHeader";
 import CalendarPlainField from "@components/Fields/CalendarPlain";
 import EmailField from "@components/Fields/Email";
@@ -18,7 +18,6 @@ import useQueryTables from "@hooks/useQueryTables";
 import { formatDate, getPhoneData, getRootPage, parseDurationToSeconds, postReq, statusError, statusSuccess } from "@core/utils";
 import type { CalendarDate } from "@internationalized/date";
 import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
-import { useMutation } from "@tanstack/react-query";
 import { useNotification } from "@context/Notification";
 import CheckboxField from "@components/Fields/Checkbox";
 import { useNavigate } from "react-router-dom";
@@ -58,22 +57,10 @@ export default function CreateReservationPage(): ReactElement {
     }
   });
 
+  const [loading, setLoading] = useState(false);
+
   const { notify } = useNotification();
   const navigate = useNavigate();
-
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: (data: FieldValues) => postReq("reservations", data, { params: { inform: data?.inform } }),
-    onSettled: (data) => {
-      if (statusError(data?.status)) {
-        notify({ message: "Reservation could not be created.", description: (data?.data as ErrorResponse).message, type: "danger" })
-      }
-      else if (statusSuccess(data?.status)) {
-        notify({ message: "Reservation has been created successfully!", type: "success" })
-        methods.reset();
-        navigate(getRootPage(auth?.user?.userRole));
-      }
-    }
-  })
 
   const formRef = useRef<HTMLFormElement>(null);
   const { watch, formState } = methods;
@@ -114,6 +101,8 @@ export default function CreateReservationPage(): ReactElement {
   }, [watch("table")]);
 
   async function onSubmit(values: FieldValues): Promise<void> {
+    setLoading(true);
+
     const data = {
       date: values.date.toString(),
       persons: values.persons,
@@ -129,7 +118,19 @@ export default function CreateReservationPage(): ReactElement {
       statusValue: 0,
     };
 
-    await mutateAsync(data);
+    const result = await postReq("reservations", data, { params: { inform: data?.inform } });
+
+    if (statusError(result?.status)) {
+      notify({ message: "Reservation could not be created.", description: (result?.data as ErrorResponse).message, type: "danger" })
+    }
+
+    else if (statusSuccess(result?.status)) {
+      notify({ message: "Reservation has been created successfully!", type: "success" })
+      methods.reset();
+      navigate(getRootPage(auth?.user?.userRole));
+    }
+
+    setLoading(false);
   }
 
   function checkKeyDown(e: KeyboardEvent<HTMLFormElement>) {
@@ -233,7 +234,7 @@ export default function CreateReservationPage(): ReactElement {
                   className="bg-gradient-to-tr from-success-400 to-primary-400 text-white shadow-lg text-lg ml-auto"
                   size="lg"
                   isDisabled={tableInvalid() || !isValid}
-                  isLoading={isPending}
+                  isLoading={loading}
                   type="submit">
                   Create Reservation <ChevronRight />
                 </Button>
