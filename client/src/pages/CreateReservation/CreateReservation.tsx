@@ -15,7 +15,7 @@ import config from "@settings";
 import TablesGridSelect from "@components/Fields/TablesGridSelect";
 import { ChevronRight } from "@mui/icons-material";
 import useQueryTables from "@hooks/useQueryTables";
-import { formatDate, getPhoneData, getRootPage, parseDurationToSeconds, postReq } from "@core/utils";
+import { formatDate, getPhoneData, getRootPage, parseDurationToSeconds, postReq, statusError, statusSuccess } from "@core/utils";
 import type { CalendarDate } from "@internationalized/date";
 import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
 import { useMutation } from "@tanstack/react-query";
@@ -23,6 +23,7 @@ import { useNotification } from "@context/Notification";
 import CheckboxField from "@components/Fields/Checkbox";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@context/Authentication";
+import type { ErrorResponse } from "@core/types";
 import { UserRole } from "@core/types";
 
 const GRID_SIZE = config.gridSize;
@@ -62,11 +63,15 @@ export default function CreateReservationPage(): ReactElement {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (data: FieldValues) => postReq("reservations", data, { params: { inform: data?.inform } }),
-    onSuccess: () => notify({ message: "Reservations has been created successfully!", type: "success" }),
-    onError: () => notify({ message: "Reservations could not be created.", type: "danger" }),
-    onSettled: () => {
-      methods.reset();
-      navigate(getRootPage(auth?.user?.userRole));
+    onSettled: (data) => {
+      if (statusError(data?.status)) {
+        notify({ message: "Reservation could not be created.", description: (data?.data as ErrorResponse).message, type: "danger" })
+      }
+      else if (statusSuccess(data?.status)) {
+        notify({ message: "Reservation has been created successfully!", type: "success" })
+        methods.reset();
+        navigate(getRootPage(auth?.user?.userRole));
+      }
     }
   })
 
@@ -141,7 +146,7 @@ export default function CreateReservationPage(): ReactElement {
       <FormProvider {...methods}>
         <form ref={formRef} onSubmit={methods.handleSubmit(onSubmit)} noValidate onKeyDown={(e) => checkKeyDown(e)} className="flex w-full flex-col">
           <Tabs aria-label="Reservation Steps" variant="solid" color="primary">
-            <Tab tabRef={step1Button} key="reservationInfo" title="1. Reservation Info">
+            <Tab tabRef={step1Button} key="reservationInfo" title="1. Reservation Info" >
               <div className="gap-10 md:flex">
                 <div className="w-full md:w-auto md:flex-shrink md:mb-0 mb-2 flex flex-col gap-4">
                   <CalendarPlainField
