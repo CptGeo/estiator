@@ -116,7 +116,7 @@ export default function EditReservationModal(props: Props) {
                   </div>
                   <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                     <NumberField isRequired label="Persons" name="persons" />
-                    <TablesSelectField label="Select table" name="table" tables={tables} isLoading={isLoading} editKey={reservation.table.id} />
+                    <TablesSelectField label="Select table" name="table" tables={tables} isLoading={isLoading} editKey={reservation.table?.id} />
                     <InputField isReadOnly isDisabled label="Name" name="name" />
                     <InputField isReadOnly isDisabled label="Surname" name="surname" />
                     <EmailField isReadOnly isDisabled label="Email" name="email" />
