@@ -1,7 +1,6 @@
 import EmailField from "@components/Fields/Email";
 import InputField from "@components/Fields/Input";
 import PasswordField from "@components/Fields/Password";
-import PhoneCodeField from "@components/Fields/PhoneCode";
 import { useAuth } from "@context/Authentication";
 import { allRoutes, postReq, Routes, statusError, statusSuccess } from "@core/utils";
 import { Button, SelectItem } from "@heroui/react";
@@ -14,6 +13,8 @@ import SelectField from "@components/Fields/Select";
 import type { ErrorResponse } from "@core/types";
 import { UserRole, UserRoleName } from "@core/types";
 import { userIsAllowed } from "@core/auth";
+import PhoneNumberField from "@components/Fields/PhoneNumber";
+import CountryCodeField from "@components/Fields/CountryCode";
 
 export default function RegisterForm() {
   const location = useLocation();
@@ -146,15 +147,14 @@ export default function RegisterForm() {
             </div>
             <div className="flex flex-nowrap basis-full">
               <div className="basis-2/6 p-1">
-                <PhoneCodeField name="countryCode" label="Country code" defaultSelectedKeys={["+30"]} variant="bordered" isRequired />
+                <CountryCodeField name="countryCode" label="Country code" defaultSelectedKey="+30" variant="bordered" isRequired />
               </div>
               <div className="basis-4/6 p-1">
-                <InputField
+                <PhoneNumberField
                   name="phone"
                   label="Phone number"
                   variant="bordered"
                   placeholder="Enter your phone number"
-                  maxLength={64}
                   isRequired
                 />
               </div>

@@ -13,7 +13,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useNotification } from "@context/Notification";
 import { ArrowBackTwoTone, DeleteOutlineTwoTone } from "@mui/icons-material";
-import PhoneCodeField from "@components/Fields/PhoneCode";
+import CountryCodeField from "@components/Fields/CountryCode";
+import PhoneNumberField from "@components/Fields/PhoneNumber";
 
 export default function EmployeeInfo(props: {
   employee: UserData;
@@ -163,13 +164,12 @@ export default function EmployeeInfo(props: {
                 <EmailField name="email" label="Email Address" isRequired isDisabled />
                 <div className="flex flex-nowrap basis-full gap-2">
                   <div className="basis-2/6">
-                    <PhoneCodeField name="countryCode" label="Country code" isRequired />
+                    <CountryCodeField name="countryCode" label="Country code" isRequired />
                   </div>
                   <div className="basis-4/6">
-                    <InputField
+                    <PhoneNumberField
                       name="phone"
                       label="Phone number"
-                      maxLength={64}
                     />
                   </div>
                 </div>

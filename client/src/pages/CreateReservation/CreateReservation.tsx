@@ -10,7 +10,6 @@ import TimeField from "@components/Fields/Time";
 import { SelectItem, Button, Tabs, Tab, Card, CardBody } from "@heroui/react";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
-import PhoneCodeField from "@components/Fields/PhoneCode";
 import config from "@settings";
 import TablesGridSelect from "@components/Fields/TablesGridSelect";
 import { ChevronRight } from "@mui/icons-material";
@@ -24,6 +23,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@context/Authentication";
 import type { ErrorResponse } from "@core/types";
 import { UserRole } from "@core/types";
+import CountryCodeField from "@components/Fields/CountryCode";
+import PhoneNumberField from "@components/Fields/PhoneNumber";
 
 const GRID_SIZE = config.gridSize;
 
@@ -70,6 +71,8 @@ export default function CreateReservationPage(): ReactElement {
   const date = watch("date");
   const time = watch("time");
   const duration = watch("duration");
+  const phone = watch("phone");
+  const countryCode = watch("countryCode");
 
   function checkValid(fields: string[]) {
     return fields.some(item => {
@@ -175,13 +178,13 @@ export default function CreateReservationPage(): ReactElement {
                   <EmailField isRequired label="Email" name="email" isDisabled={isClient} />
                   <div className="flex flex-nowrap basis-full gap-4" >
                     <div className="basis-3/6 sm:basis-2/6">
-                      <PhoneCodeField name="countryCode" label="Country code" isDisabled={isClient} />
+                      <CountryCodeField label="Country code" name="countryCode" isRequired />
                     </div>
                     <div className="basis-3/6 sm:basis-4/6">
-                      <InputField
+                      <PhoneNumberField
                         name="phone"
                         label="Phone number"
-                        maxLength={64}
+                        isRequired
                         isDisabled={isClient}
                       />
                     </div>
@@ -225,7 +228,7 @@ export default function CreateReservationPage(): ReactElement {
                     <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-sm text-foreground-500">Duration:</span><span className="col-span-9">{methods.watch("duration")}</span></div>
                     <div className="grid grid-cols-12 py-3 border-dotted border-b-2"><span className="col-span-3 text-sm text-foreground-500">Table:</span><span className="col-span-9">{findTable(methods.watch("table"))?.label ?? "-"}</span></div>
                     <div className="grid grid-cols-12 py-3"><span className="col-span-3 text-sm text-foreground-500">Phone:</span>
-                      <span className="col-span-9">{methods.watch("countryCode") && methods.watch("phone") ? `${methods.watch("countryCode")} ${methods.watch("phone")}` : "-"}</span>
+                      <span className="col-span-9">{countryCode && phone ? `${countryCode} ${phone}` : "-"}</span>
                     </div>
                   </CardBody>
                 </Card>
