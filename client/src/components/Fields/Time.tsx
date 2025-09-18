@@ -1,4 +1,4 @@
-import { Time } from "@internationalized/date";
+import { parseTime, Time } from "@internationalized/date";
 import { AccessTime } from "@mui/icons-material";
 import type { SelectProps } from "@heroui/react";
 import { SelectItem } from "@heroui/react";
@@ -9,9 +9,13 @@ import type { OperationalTime } from "@core/types";
 type Props = {
   name: string;
   label?: string;
+  availableAfter?: string;
+  note?: string;
 } & Omit<SelectProps, "children">;
 
 export default function TimeField(props: Props): ReactElement {
+
+  const { availableAfter } = props;
 
   /**
    * Times mock date
@@ -54,20 +58,34 @@ export default function TimeField(props: Props): ReactElement {
   ];
 
   const parsedTime = useMemo(() => {
-    return times.map(time => {
+
+    const result = times.map(time => {
       const t = new Time(time.hour, time.minute);
       const label = t.toString().slice(0, -3);
       return { key: label, label };
-    })
-  }, [times]);
+    });
+
+    if (!availableAfter) return result;
+
+    const parsedAvailableAfter = parseTime(availableAfter);
+
+    return result.filter(({ key }) => {
+      const parsedTimeKey = parseTime(key);
+      return parsedAvailableAfter.compare(parsedTimeKey) <= 0;
+    });
+
+  }, [times, availableAfter]);
 
   return (
-    <SelectField
-      {...props}
-      startContent={<AccessTime fontSize="small"/>}>
-        {parsedTime.map( (time) => {
-          return <SelectItem key={time.key}>{time.label}</SelectItem>
-        })}
-      </SelectField>
+    <div className="w-full">
+      <SelectField
+        {...props}
+        startContent={<AccessTime fontSize="small"/>}>
+          {parsedTime.map( (time) => {
+            return <SelectItem key={time.key}>{time.label}</SelectItem>
+          })}
+        </SelectField>
+        {props.note && <p className="text-xs text-primary-400 italic mt-1 px-2">{props.note}</p>}
+    </div>
     );
 }

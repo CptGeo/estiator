@@ -15,8 +15,8 @@ import TablesGridSelect from "@components/Fields/TablesGridSelect";
 import { ChevronRight } from "@mui/icons-material";
 import useQueryTables from "@hooks/useQueryTables";
 import { formatDate, getPhoneData, getRootPage, parseDurationToSeconds, postReq, statusError, statusSuccess } from "@core/utils";
-import type { CalendarDate } from "@internationalized/date";
-import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
+import type { CalendarDate, ZonedDateTime } from "@internationalized/date";
+import { getLocalTimeZone, now, parseTime, today } from "@internationalized/date";
 import { useNotification } from "@context/Notification";
 import CheckboxField from "@components/Fields/Checkbox";
 import { useNavigate } from "react-router-dom";
@@ -25,6 +25,7 @@ import type { ErrorResponse } from "@core/types";
 import { UserRole } from "@core/types";
 import CountryCodeField from "@components/Fields/CountryCode";
 import PhoneNumberField from "@components/Fields/PhoneNumber";
+import { userIsAllowed } from "@core/auth";
 
 const GRID_SIZE = config.gridSize;
 
@@ -41,6 +42,9 @@ type FormData = {
   inform: boolean,
   countryCode: string
 }
+
+const MINIMUM_NOTICE_HOURS = 3;
+const BUSINESS_TIMEZONE = "Europe/Athens";
 
 export default function CreateReservationPage(): ReactElement {
   const auth = useAuth();
@@ -140,6 +144,32 @@ export default function CreateReservationPage(): ReactElement {
     if (e.key === "Enter") e.preventDefault();
   }
 
+  // @todo: Rework
+  const businessTime = now(BUSINESS_TIMEZONE);
+
+  let businessTimeWithNotice = businessTime.add({ hours: MINIMUM_NOTICE_HOURS });
+    // If the day changed after adding, clamp to end of current day
+  if (businessTimeWithNotice.day !== businessTime.day) {
+    businessTimeWithNotice = businessTime.set({ hour: 23, minute: 59, second: 59 });
+  }
+
+  const toLocaleTimeString = (dateTime: ZonedDateTime) => {
+    return dateTime.toDate().toLocaleTimeString("en-GB", {
+      timeZone: BUSINESS_TIMEZONE,
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
+  // guest and clients able to reserve with a notice period (e.g. 3 hours before)
+  const shouldAddNotice = !userIsAllowed(auth?.user, [UserRole.ADMIN, UserRole.MODERATOR]);
+
+  // minimum period with or without notice
+  const minimumPeriod = shouldAddNotice ? toLocaleTimeString(businessTimeWithNotice) : toLocaleTimeString(businessTime);
+
+  // if current day, add minimum period; otherwise do not
+  const availableAfter = (date && today(BUSINESS_TIMEZONE).compare(date) >= 0) ?  minimumPeriod : undefined;
+
   return (
     <>
       <PageHeader
@@ -159,7 +189,7 @@ export default function CreateReservationPage(): ReactElement {
                     required
                     minValue={today(getLocalTimeZone())}
                   />
-                  <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
+                  <TimeField label="Select a time" name="time" placeholder="Time" isRequired availableAfter={availableAfter} />
                   <SelectField name="duration" label="Duration" isRequired >
                     <SelectItem key="00:30">00:30</SelectItem>
                     <SelectItem key="01:00">01:00</SelectItem>
@@ -178,7 +208,7 @@ export default function CreateReservationPage(): ReactElement {
                   <EmailField isRequired label="Email" name="email" isDisabled={isClient} />
                   <div className="flex flex-nowrap basis-full gap-4" >
                     <div className="basis-3/6 sm:basis-2/6">
-                      <CountryCodeField label="Country code" name="countryCode" isRequired />
+                      <CountryCodeField label="Country code" name="countryCode" isRequired isDisabled={isClient} />
                     </div>
                     <div className="basis-3/6 sm:basis-4/6">
                       <PhoneNumberField

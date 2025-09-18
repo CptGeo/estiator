@@ -16,8 +16,7 @@ export default function BookReservationModal(props: Props) {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (id: Key) => postReq(`/reservations/${id}/book`),
-    onSettled: (data, error) => {
-      console.log(error);
+    onSettled: (data) => {
       if (statusSuccess(data?.status)) {
         notify({ message: "Reservations has been created successfully!", type: "success" })
       }

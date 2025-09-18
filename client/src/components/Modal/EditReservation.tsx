@@ -4,12 +4,12 @@ import TablesSelectField from "../Fields/TablesSelect";
 import { ReservationStatus, type ReservationData } from "@core/types";
 import type { useDisclosure } from "@heroui/react";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, SelectItem } from "@heroui/react";
-import { getFullName, parseDurationToSeconds, patchReq, toDurationString, toParsedTimeString } from "@core/utils";
+import { getFullName, getPhoneData, parseDurationToSeconds, patchReq, toDurationString, toParsedTimeString } from "@core/utils";
 import type { FieldValues } from "react-hook-form";
 import { FormProvider, useForm } from "react-hook-form";
 import NumberField from "@components/Fields/Number";
 import CalendarPlainField from "@components/Fields/CalendarPlain";
-import { getLocalTimeZone, parseDate, parseTime, today } from "@internationalized/date";
+import { getLocalTimeZone, now, parseDate, parseTime, today } from "@internationalized/date";
 import CheckboxField from "@components/Fields/Checkbox";
 import EmailField from "@components/Fields/Email";
 import { ReservationStatusOption } from "@components/Fields/ReservationStatus";
@@ -19,10 +19,13 @@ import InputField from "@components/Fields/Input";
 import SelectField from "@components/Fields/Select";
 import useQueryTables from "@hooks/useQueryTables";
 import PhoneNumberField from "@components/Fields/PhoneNumber";
+import CountryCodeField from "@components/Fields/CountryCode";
 
 type Props = {
   reservation: ReservationData;
 } & ReturnType<typeof useDisclosure>;
+
+const BUSINESS_TIMEZONE = "Europe/Athens";
 
 export default function EditReservationModal(props: Props) {
   const { reservation, isOpen, onOpenChange, onClose } = props;
@@ -40,7 +43,8 @@ export default function EditReservationModal(props: Props) {
       name: reservation.createdFor.name,
       duration: toDurationString(reservation.duration),
       surname: reservation.createdFor.surname,
-      phone: reservation.createdFor.phone,
+      countryCode: getPhoneData(reservation.createdFor.phone).countryCode,
+      phone: getPhoneData(reservation.createdFor.phone).phoneNumber,
       email: reservation.createdFor.email,
     }
   });
@@ -78,6 +82,16 @@ export default function EditReservationModal(props: Props) {
     }
   }
 
+  // @todo: Rework
+  const minimumPeriod = now(BUSINESS_TIMEZONE).toDate().toLocaleTimeString("en-GB", {
+    timeZone: BUSINESS_TIMEZONE,
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  // if current day, add minimum period; otherwise do not
+  const availableAfter = (date && today(BUSINESS_TIMEZONE).compare(date) >= 0) ?  minimumPeriod : undefined;
+
   return (
     <Modal
       isOpen={isOpen}
@@ -103,7 +117,7 @@ export default function EditReservationModal(props: Props) {
                       defaultValue={today(getLocalTimeZone())}
                       minValue={today(getLocalTimeZone())}
                     />
-                    <TimeField label="Select a time" name="time" placeholder="Time" isRequired />
+                    <TimeField label="Select a time" name="time" placeholder="Time" isRequired availableAfter={availableAfter} />
                     <SelectField name="duration" label="Duration">
                       <SelectItem key="00:30">00:30</SelectItem>
                       <SelectItem key="01:00">01:00</SelectItem>
@@ -121,7 +135,19 @@ export default function EditReservationModal(props: Props) {
                     <InputField isReadOnly isDisabled label="Name" name="name" />
                     <InputField isReadOnly isDisabled label="Surname" name="surname" />
                     <EmailField isReadOnly isDisabled label="Email" name="email" />
-                    <PhoneNumberField isReadOnly isDisabled label="Phone" name="phone" />
+                    <div className="flex flex-nowrap basis-full gap-2">
+                      <div className="basis-2/6">
+                        <CountryCodeField name="countryCode" label="Country code" isRequired isDisabled />
+                      </div>
+                      <div className="basis-4/6">
+                        <PhoneNumberField
+                          name="phone"
+                          label="Phone number"
+                          isRequired
+                          isDisabled
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <ReservationStatusField name="status" label="Status">
