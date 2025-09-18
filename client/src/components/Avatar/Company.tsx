@@ -12,7 +12,7 @@ export default function CompanyAvatar(props: { company: CompanyData, menuOpen: b
         radius: "none",
         className: "shrink-0 mt-1",
         size: "md",
-        name: `${name.charAt(0)}${name.charAt(1)}`.toUpperCase()
+        name: `${name?.charAt(0)}${name?.charAt(1)}`.toUpperCase()
       }}
       {...props.menuOpen && { description }}
       description={description}

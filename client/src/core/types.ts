@@ -155,8 +155,8 @@ export const Roles = {
 
 /** Represents company related information */
 export type CompanyData = {
-  name: string;
-  description: string;
+  name?: string;
+  description?: string;
 };
 
 export enum AppSetting {

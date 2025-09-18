@@ -25,7 +25,7 @@ export default function CustomersTable() {
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
-    return customers?.slice(start, end);
+    return (customers ?? [])?.slice(start, end);
   }, [page, customers]);
 
   const topContent = useMemo(() => {
