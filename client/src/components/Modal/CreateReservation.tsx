@@ -68,6 +68,7 @@ export default function CreateReservationModal(props: Props) {
     onSettled: (response) => {
       if (statusSuccess(response?.status)) {
         notify({ message: "Reservations has been created successfully!", type: "success" })
+        methods.reset(methods.formState.defaultValues);
         onClose();
       }
       if (statusError(response?.status)) {
@@ -77,7 +78,6 @@ export default function CreateReservationModal(props: Props) {
           type: "danger"
         })
       }
-      methods.reset();
     }
   })
 
