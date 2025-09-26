@@ -2,7 +2,7 @@ import { Checkbox, type useDisclosure } from "@heroui/react";
 import ConfirmationModal from "@components/Modal/Confirmation";
 import type { ReservationData } from "@core/types";
 import { useState } from "react";
-import { getFullName, postReq } from "@core/utils";
+import { getFullName, postReq, statusError, statusSuccess, toParsedTimeString } from "@core/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNotification } from "@context/Notification";
 
@@ -18,13 +18,17 @@ export default function ConfirmReservationModal(props: Props) {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: () => postReq(`/reservations/${reservation.id}/confirm`, {}, { params: { inform } }),
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [`/reservations/${reservation.id}`] });
-      queryClient.refetchQueries({ queryKey: [`/reservations/${reservation.id}`] });
+    onSettled: (data) => {
+      if (statusSuccess(data?.status)) {
+        notify({ message: "Reservations has been confirmed successfully!", type: "success" })
+        queryClient.invalidateQueries({ queryKey: [`/reservations/${reservation.id}`] });
+        queryClient.refetchQueries({ queryKey: [`/reservations/${reservation.id}`] });
+      }
+      else if (!data?.status || statusError(data?.status)) {
+        notify({ message: "Reservation could not be confirmed.", type: "danger" })
+      }
       disclosureProps.onClose()
     },
-    onSuccess: () => notify({ message: "Reservation has been confirmed!", type: "success" }),
-    onError: () => notify({ message: "Reservation could not be confirmed.", type: "danger" })
   })
 
   return (
@@ -35,7 +39,7 @@ export default function ConfirmReservationModal(props: Props) {
       confirmButtonProps={{ isLoading: isPending }}
       body={
         <div className="flex flex-col gap-3">
-          <p>The reservation of customer <strong>{getFullName(reservation.createdFor)}</strong> will be confirmed for the date <strong>{reservation.date}</strong> and time <strong>{reservation.time}</strong>.
+          <p>The reservation of customer <strong>{getFullName(reservation.createdFor)}</strong> will be confirmed for the date <strong>{reservation.date}</strong> and time <strong>{toParsedTimeString(reservation.time)}</strong>.
             Are you sure you want to continue?<br />
           </p>
           <Checkbox onChange={() => setInform(!inform)}>Inform client about the changes</Checkbox>

@@ -44,7 +44,7 @@ export default function EmployeeCalendar({ user }: Props) {
     current.toString()
   );
   const { data: allTimeSchedule } = useQueryUserSchedules(user.id, {}, 8000);
-  const availableDates = useMemo(() => allTimeSchedule?.map(schedule => parseDate(schedule.date)), [allTimeSchedule]) ?? [];
+  const availableDates = useMemo(() => (allTimeSchedule ?? [])?.map(schedule => parseDate(schedule.date)), [allTimeSchedule]) ?? [];
 
   const isDateUnavailable = useCallback((date: DateValue) => {
     for(const d of availableDates) {

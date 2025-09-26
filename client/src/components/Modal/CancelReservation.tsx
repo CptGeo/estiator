@@ -2,7 +2,7 @@ import { Checkbox, type useDisclosure } from "@heroui/react";
 import ConfirmationModal from "@components/Modal/Confirmation";
 import type { ReservationData } from "@core/types";
 import { useState, type Key } from "react";
-import { getFullName, postReq } from "@core/utils";
+import { getFullName, postReq, statusError, statusSuccess } from "@core/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNotification } from "@context/Notification";
 
@@ -18,13 +18,17 @@ export default function CancelReservationModal(props: Props) {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (id: Key) => postReq(`/reservations/${id}/cancel`, {}, { params: { inform } }),
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [`/reservations/${reservation.id}`] });
-      queryClient.refetchQueries({ queryKey: [`/reservations/${reservation.id}`] });
-      disclosureProps.onClose()
+    onSettled: (data) => {
+      if (statusSuccess(data?.status)) {
+        notify({ message: "Reservation has been cancelled.", type: "success" })
+        queryClient.invalidateQueries({ queryKey: [`/reservations/${reservation.id}`] });
+        queryClient.refetchQueries({ queryKey: [`/reservations/${reservation.id}`] });
+        disclosureProps.onClose()
+      }
+      else if (!data?.status || statusError(data?.status)) {
+        notify({ message: "Reservation could not be cancelled.", type: "danger" })
+      }
     },
-    onSuccess: () => notify({ message: "Reservation has been cancelled.", type: "success" }),
-    onError: () =>  notify({ message: "Reservation could not be cancelled.", type: "danger" })
   })
 
   async function handleAction(id: Key) {

@@ -31,7 +31,7 @@ export default function TablesGridSelect(props: Props): ReactElement {
     render={({ field: { onChange, value } }) => (
         <div className="flex flex-col gap-4">
         {!isUndefined(tables) ?
-          <div className="relative grid-outer-bg rounded-large w-full overflow-auto max-h-[300px] md:max-h-[450px]">
+          <div className="relative grid-outer-bg rounded-large w-full overflow-auto max-h-[300px] md:max-h-[550px]">
             <div
               style={{ "--grid-size": `${size}px` } as CSSProperties}
               className="relative h-[1500px] w-[1500px] overflow-hidden grid-bg z-0 justify-between bg-content2 shadow-inner">

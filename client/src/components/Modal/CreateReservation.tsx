@@ -8,7 +8,7 @@ import CalendarPlainField from "@components/Fields/CalendarPlain";
 import CheckboxField from "@components/Fields/Checkbox";
 import EmailField from "@components/Fields/Email";
 import TimeField from "@components/Fields/Time";
-import { getLocalTimeZone, parseTime, today } from "@internationalized/date";
+import { getLocalTimeZone, now, parseTime, today } from "@internationalized/date";
 import TablesSelectField from "../Fields/TablesSelect";
 import { useMutation } from "@tanstack/react-query";
 import { getFullName, getPhoneData, parseDurationToSeconds, postReq, statusError, statusSuccess } from "@core/utils";
@@ -28,7 +28,7 @@ type FormValues = {
   persons: number;
   email: string;
   name: string;
-  phone: string;
+  phone: string | null;
   surname: string;
   duration: string;
   table?: { id: number }
@@ -40,16 +40,18 @@ type FormValues = {
   inform: boolean;
 }
 
+const BUSINESS_TIMEZONE = "Europe/Athens";
+
 export default function CreateReservationModal(props: Props) {
   const { isOpen, onOpenChange, onClose } = props;
   const { notify } = useNotification();
   const { data: clients } = useQueryCustomers();
 
   const methods = useForm<FormValues>({
-    mode: "onSubmit",
+    mode: "onChange",
     defaultValues: {
       date: today(getLocalTimeZone()).add({ days: 1 }),
-      persons: 1
+      persons: 1,
     }
   });
 
@@ -66,14 +68,15 @@ export default function CreateReservationModal(props: Props) {
     onSettled: (response) => {
       if (statusSuccess(response?.status)) {
         notify({ message: "Reservations has been created successfully!", type: "success" })
-        methods.reset();
+        methods.reset(methods.formState.defaultValues);
         onClose();
       }
       if (statusError(response?.status)) {
         notify({
           message: "Reservations could not be created.",
           description: (response?.data as ErrorResponse).message,
-          type: "danger" })
+          type: "danger"
+        })
       }
     }
   })
@@ -85,12 +88,13 @@ export default function CreateReservationModal(props: Props) {
   );
 
   async function onSubmit(values: FieldValues): Promise<void> {
+
     const data = {
       date: values.date.toString(),
       persons: values.persons,
       email: values.email,
       name: values.name,
-      phone: values.phone,
+      phone: `${values.countryCode} ${values.phone}`,
       surname: values.surname,
       duration: parseDurationToSeconds(values.duration),
       ...(values.table && { table: { id: Number(values.table) } }),
@@ -102,7 +106,7 @@ export default function CreateReservationModal(props: Props) {
     await mutateAsync(data);
   }
 
-  function parseClients(clients: UserData[] | undefined)  {
+  function parseClients(clients: UserData[] | undefined) {
     if (!clients) return [];
 
     return clients.map(client => {
@@ -115,7 +119,7 @@ export default function CreateReservationModal(props: Props) {
 
   function setCustomerData(key: Key | null) {
     if (!existing) return;
-    const client = clients?.find(cl =>  cl.email ? cl.email.toString() === key?.toString() : false);
+    const client = clients?.find(cl => cl.email ? cl.email.toString() === key?.toString() : false);
 
     if (!client) {
       methods.setError("email", { message: "Selected user is invalid" });
@@ -126,8 +130,17 @@ export default function CreateReservationModal(props: Props) {
     methods.setValue("surname", client.surname);
     methods.setValue("phone", getPhoneData(client.phone).phoneNumber);
     methods.setValue("countryCode", getPhoneData(client.phone).countryCode);
-    methods.trigger();
   }
+
+  // @todo: Rework
+  const minimumPeriod = now(BUSINESS_TIMEZONE).toDate().toLocaleTimeString("en-GB", {
+    timeZone: BUSINESS_TIMEZONE,
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  // if current day, add minimum period; otherwise do not
+  const availableAfter = (date && today(BUSINESS_TIMEZONE).compare(date) >= 0) ?  minimumPeriod : undefined;
 
   return (
     <Modal
@@ -154,7 +167,7 @@ export default function CreateReservationModal(props: Props) {
                       defaultValue={today(getLocalTimeZone())}
                       minValue={today(getLocalTimeZone())}
                     />
-                    <TimeField className="mt-3" label="Select a time" name="time" placeholder="Time" isRequired />
+                    <TimeField label="Select a time" name="time" placeholder="Time" isRequired availableAfter={availableAfter} />
                     <SelectField name="duration" label="Duration" isRequired>
                       <SelectItem key="00:30">00:30</SelectItem>
                       <SelectItem key="01:00">01:00</SelectItem>
@@ -169,12 +182,7 @@ export default function CreateReservationModal(props: Props) {
                   <div className="w-full md:w-3/4 md:flex-grow flex flex-col gap-2">
                     <NumberField isRequired label="Persons" name="persons" />
                     <TablesSelectField label="Select table" name="table" tables={tables} isLoading={isLoading} />
-                    <CheckboxField className="mt-3" onValueChange={() => {
-                      methods.setValue("name", "");
-                      methods.setValue("email", "");
-                      methods.setValue("surname", "");
-                      methods.setValue("phone", "");
-                    }} name="existingUser" label="Select existing customer" />
+                    <CheckboxField className="mt-3" name="existingUser" label="Select existing customer" />
                     {!existing && <EmailField isRequired label="Email" name="email" />}
                     {existing && <AutocompleteField
                       defaultItems={parseClients(clients)}
@@ -195,13 +203,13 @@ export default function CreateReservationModal(props: Props) {
                         <PhoneNumberField
                           name="phone"
                           label="Phone number"
+                          isRequired
                           isDisabled={existing}
                         />
                       </div>
                     </div>
                   </div>
                 </div>
-
                 <CheckboxField label="Inform client about the created reservation (requires user email)" defaultSelected name="inform" />
               </ModalBody>
               <ModalFooter>

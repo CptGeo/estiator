@@ -59,7 +59,7 @@ export default function EmployeesList() {
       <Button onPress={() => navigate(allRoutes[Routes.REGISTER])} color="primary">Register user  <AddCircleTwoTone fontSize="small" /></Button>
     </div>
     <div className="flex flex-wrap">
-      {employees?.map(employee => <EmployeeCard key={employee.id} employee={employee} />)}
+      {(employees ?? [])?.map(employee => <EmployeeCard key={employee.id} employee={employee} />)}
     </div>
   </div>
 }

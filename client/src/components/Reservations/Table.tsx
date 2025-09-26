@@ -47,7 +47,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
   const { data: businessName } = useQuerySetting(AppSetting.BusinessName);
   const { data: reservations } = useQueryReservations(1000);
   const [filterValue, setFilterValue] = useState("");
-  const archivedTotal = useMemo(() => reservations?.filter(reservation => reservation.archived).length || 0, [reservations]);
+  const archivedTotal = useMemo(() => (reservations ?? [])?.filter(reservation => reservation.archived).length || 0, [reservations]);
   const [visibleColumns, setVisibleColumns] = useState<Iterable<Key> | "all" | undefined>("all");
   const [statusFilter, setStatusFilter] = useState<Iterable<Key> | "all">("all");
   const [archivedFilter, setArchivedFilter] = useState(false);
@@ -64,7 +64,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
   const headerColumns = useMemo(() => {
     if (visibleColumns === "all") return columns;
 
-    return columns.filter((column) => Array.from(visibleColumns || []).includes(column.uid));
+    return columns?.filter((column) => Array.from(visibleColumns || []).includes(column.uid));
   }, [visibleColumns]);
 
   const filteredItems = useMemo(() => {
@@ -73,7 +73,7 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
     let filteredReservations = [...reservations];
 
     if (hasSearchFilter) {
-      filteredReservations = filteredReservations.filter((reservation) => {
+      filteredReservations = filteredReservations?.filter((reservation) => {
         // build a name, surname and email to search in
         const createdForNameSurnameEmail = getFullName(reservation.createdFor) + " " + reservation.createdFor.email;
         const createdByNameSurnameEmail = getFullName(reservation.createdBy) + " " + reservation.createdBy.email;
@@ -86,12 +86,12 @@ export default function ReservationsTable(props: { defaultRowsPerPage: SettingDa
     }
 
     if (statusFilter != "all" && Array.from(statusFilter).length !== Object.keys(ReservationStatuses).length) {
-      filteredReservations = filteredReservations.filter((reservation) =>
+      filteredReservations = filteredReservations?.filter((reservation) =>
         Array.from(statusFilter).includes(reservation.status)
       );
     }
 
-    filteredReservations = filteredReservations.filter(reservation => reservation.archived === archivedFilter);
+    filteredReservations = filteredReservations?.filter(reservation => reservation.archived === archivedFilter);
 
     return filteredReservations;
   }, [reservations, filterValue, statusFilter, archivedFilter]);

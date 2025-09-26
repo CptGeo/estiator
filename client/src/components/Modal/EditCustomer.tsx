@@ -66,7 +66,7 @@ export default function EditCustomerModal(props: Props) {
             <FormProvider {...methods}>
               <form onSubmit={methods.handleSubmit(onSubmit)}>
               <ModalHeader className="gap-1">
-                Editing customer of <em>{getFullName(customer)}</em><br />
+                Editing customer <em>{getFullName(customer)}</em><br />
               </ModalHeader>
               <ModalBody>
               <div className="gap-4 md:flex">

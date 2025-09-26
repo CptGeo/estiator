@@ -201,7 +201,7 @@ function TablesSidebar({ selected }: { selected: TableData }) {
         )}
       </div>
       <div className="min-h-[200px]">
-        <h3 className="text-l py-3">Upcoming reservations {(upcomingReservations || [])?.length > 0 ? `(${upcomingReservations?.length})` : ''}</h3>
+        {(upcomingReservations ?? [])?.length > 0 && <h3 className="text-l py-3">Upcoming reservations {(upcomingReservations || [])?.length > 0 ? `(${upcomingReservations?.length})` : ''}</h3>}
         {(upcomingReservations ?? [])?.length > 0 ? (
           <div className="max-h-[300px] overflow-auto">
             <ul className="flex flex-wrap gap-2 overflow-auto ">
