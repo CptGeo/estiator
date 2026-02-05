@@ -1,284 +1,271 @@
-> [!CAUTION]  
-> This repository is a work in progress and is not yet stable. Do not use it in any production system.
-&nbsp;
+<div align="center">
+  <a href="https://estiator.io" target="_blank">
+    <img src=".assets/logo.png" width="250" alt="Estiator Logo" />
+  </a>
 
+  <h1>Estiator.io</h1>
 
-<div style="display:flex; gap: 5px; margin-bottom:55px;" align="center">
-  <img src="https://img.shields.io/badge/v5.6-%233178c6?style=for-the-badge&label=typescript">
-  <img src="https://img.shields.io/badge/v5.4-%23ffd747?style=for-the-badge&label=vite">
-  <img src="https://img.shields.io/badge/v18.3-%23007fa2?style=for-the-badge&label=react">
-  <img src="https://img.shields.io/badge/v2.6-%23d03bf3?style=for-the-badge&label=heroui"/>
-  <img src="https://img.shields.io/badge/v3.4-%23a1f4fb?style=for-the-badge&label=tailwindcss">
+  <h3>The Open Source Management Platform for F&B Businesses</h3>
+
+  <p>
+    A full-stack web application offering a complete management solution for Restaurants 
+    and Food & Beverage businesses. Developed as part of a Master's Thesis.
+  </p>
 </div>
-<div style="display:flex; gap: 5px; margin-bottom:55px;" align="center">
-  <img src="https://img.shields.io/badge/v21-c0392b?style=for-the-badge&label=java">
-  <img src="https://img.shields.io/badge/v3.3-6db33f?style=for-the-badge&label=spring-boot">
-  <img src="https://img.shields.io/badge/v8-3e6e93?style=for-the-badge&label=mysql">
-</div>
-&nbsp;
 
-<p align="center">
-   <a href="https://estiator.io" target="_blank">
-      <img src=".assets/logo.png" width="250" />
-   </a>
-</p>
-<h6 align="center">
-  The <strong>open source</strong> platform for managing <strong>Restaurants</strong> and other <strong>Food & Beverage</strong> businesses. 
-</h6>
+> [!CAUTION]
+> **Work In Progress**: This repository is currently under active development and is not yet stable. **Do not use in production systems.**
 
-&nbsp;
+<div align="center">
 
-# Table of Contents
-
-<details>
-  <summary>About</summary>
-
-  - [General](#about-general)  
-  - [Tech](#about-tech)  
-</details>
-<details>
-  <summary>Running codebase in Docker</summary>
-
-  - [Intro](#running-in-docker-intro)
-  - [Prerequisites](#running-in-docker-prerequisites)  
-  - [Build the Server](#running-in-docker-build-the-server)  
-  - [Run the Container](#running-in-docker-run-the-container)  
-</details>
-<details>
-  <summary>Running Application through Docker</summary>
+  <img src="https://img.shields.io/badge/react-v18.3-%23007fa2?style=for-the-badge&logo=react&logoColor=white">
+  <img src="https://img.shields.io/badge/typescript-v5.6-%233178c6?style=for-the-badge&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/vite-v5.4-%23ffd747?style=for-the-badge&logo=vite&logoColor=black">
+  <img src="https://img.shields.io/badge/heroui-v2.6-%23d03bf3?style=for-the-badge">
+  <img src="https://img.shields.io/badge/tailwindcss-v3.4-%23a1f4fb?style=for-the-badge&logo=tailwindcss&logoColor=black">
   
-  - [Details](#running-application-through-docker-details)
+  <br/>
 
-</details>
+  <img src="https://img.shields.io/badge/java-v21-c0392b?style=for-the-badge&logo=openjdk&logoColor=white">
+  <img src="https://img.shields.io/badge/spring_boot-v3.3-6db33f?style=for-the-badge&logo=springboot&logoColor=white">
+  <img src="https://img.shields.io/badge/mysql-v8-3e6e93?style=for-the-badge&logo=mysql&logoColor=white">
+
+</div>
+
+<br />
+
+## 📖 Table of Contents
+
+- [Tech Stack](#-tech-stack)
+- [Getting Started (Docker)](#-getting-started-docker)
+- [Development Setup (Manual)](#-development-setup-manual)
+- [Testing & Credentials](#-testing--credentials)
+- [Gallery](#-gallery)
+
+---
+
+## 🛠 Tech Stack
+
+This project uses a modern full-stack architecture, separating the client and server responsibilities.
+
+| Component | Technology | Version | Description |
+| :--- | :--- | :--- | :--- |
+| **Client** | [React](https://react.dev/) | 18.3 | Frontend UI library |
+| | [HeroUI](https://www.heroui.com/) | 2.6 | Component library (NextUI fork) |
+| | [Tailwind CSS](https://tailwindcss.com/) | 3.4 | Utility-first CSS framework |
+| | [TypeScript](https://www.typescriptlang.org/) | 5.6 | Statically typed JavaScript |
+| **Server** | [Java](https://www.java.com/) | 21 | Core language |
+| | [Spring Boot](https://spring.io/projects/spring-boot) | 3.3 | Backend framework |
+| **Data** | [MySQL](https://www.mysql.com/) | 8.0 | Relational database |
+
+<br />
+
+## 🐳 Getting Started (Docker)
+
+The application is fully containerized. You can run the entire stack (Client, Server, Database) with a single command.
+
+### Prerequisites
+* **Docker Desktop** (Download [here](https://www.docker.com/products/docker-desktop/))
+
+> [!IMPORTANT]
+> **Environment Setup**: Before running Docker, ensure you have the necessary configuration files.
+> 1. `database.env` in the root directory.
+> 2. `.env` in the `server` directory.
+>
+> Refer to `example.database.env` and `example.env` for the required structure.
+
+### Option A: Build from Source
+Use this method if you want to contribute or modify the code.
+
+1.  **Clone the repository**
+    ```bash
+    git clone [https://github.com/CptGeo/estiator](https://github.com/CptGeo/estiator)
+    cd estiator
+    ```
+
+2.  **Build and Run**
+    ```bash
+    docker compose up --build
+    ```
+
+### Option B: Minimal Run (Standalone)
+You do not need the full codebase to run the application. You only need 3 specific files.
+
+1.  **Create the Directory Structure**
+    Place the files as shown below:
+    ```text
+    ├── docker-compose.yml   <-- (Get from repository root)
+    ├── database.env         <-- (Copy from example.database.env)
+    └── server
+        └── .env             <-- (Copy from example.env)
+    ```
+
+2.  **Run Containers**
+    Navigate to the root folder containing `docker-compose.yml` and run:
+    ```bash
+    docker compose up --build
+    ```
+
+### What happens next?
+Docker will spin up three containers:
+* `app-database`: MySQL 8 (pre-populated with `db-init.sql`).
+* `app-server`: Spring Boot backend.
+* `app-client`: React frontend.
+
+
+
+Once finished, access the app at: **[http://localhost:8080](http://localhost:8080)**
+
+<br />
+
+## 💻 Development Setup (Manual)
+
+Follow these steps if you wish to run the application locally without Docker.
+
+### Prerequisites
+Ensure your system meets the following requirements:
+* **NodeJS** (v20+)
+* **JDK 21**
+* **MySQL 8**
+* **Git**
+
+### 1. Database Setup
+Before starting the application, the database must be ready.
+
+1.  **Create Database:**
+    Connect to your local MySQL instance and run:
+    ```sql
+    CREATE DATABASE `estiator` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+    ```
+2.  **Populate Data:**
+    * Locate the file `db.sql` in the project root.
+    * Import this file into your new `estiator` database using a tool like Workbench or DBeaver.
+
+### 2. Server Setup
+1.  **Configure Properties:**
+    Navigate to `server/src/main/resources/application.properties` and update your database credentials:
+    ```properties
+    # Database Configuration
+    spring.datasource.url=jdbc:mysql://localhost:3306/estiator
+    spring.datasource.username=root
+    spring.datasource.password=YOUR_PASSWORD
+
+    # Security (Base64 encoded string)
+    app.jwt-secret=YOUR_SECRET_KEY
+    ```
+
+2.  **Run Server:**
+    From the `server` directory, run:
+    ```bash
+    ./gradlew bootRun
+    ```
+
+### 3. Client Setup
+1.  **Install Dependencies:**
+    From the `client` directory, run:
+    ```bash
+    npm install
+    ```
+
+2.  **Start Frontend:**
+    ```bash
+    npm run dev
+    ```
+
+<br />
+
+## 💻 Development Setup (Manual)
+
+Follow these steps if you wish to run the application locally without Docker.
+
+### Prerequisites
+Ensure your system meets the following requirements:
+* **NodeJS** (v20+)
+* **JDK 21**
+* **MySQL 8**
+* **Git**
+
+### 1. Database Setup
+1.  **Import Schema & Data:**
+    * Locate the `db.sql` file in the project root.
+    * Import this file into your local MySQL server (using command line or a tool like Workbench/DBeaver).
+    * *Note: This script will automatically create the `estiator` database and populate it with dummy data.*
+
+### 2. Server Setup
+1.  **Configure Properties:**
+    Navigate to `server/src/main/resources/application.properties` and update your database credentials:
+    ```properties
+    # Database Configuration
+    spring.datasource.url=jdbc:mysql://localhost:3306/estiator
+    spring.datasource.username=root
+    spring.datasource.password=YOUR_PASSWORD
+
+    # Security (Base64 encoded string)
+    app.jwt-secret=YOUR_SECRET_KEY
+    ```
+
+2.  **Run Server:**
+    From the `server` directory, run:
+    ```bash
+    ./gradlew bootRun
+    ```
+
+### 3. Client Setup
+1.  **Install Dependencies:**
+    From the `client` directory, run:
+    ```bash
+    npm install
+    ```
+
+2.  **Start Frontend:**
+    ```bash
+    npm run dev
+    ```
+
+<br />
+
+## 🔐 Testing & Credentials
+
+The database is pre-populated with the following user accounts for demonstration purposes.
+
+| Email | Password | Role | Access Level |
+| :--- | :--- | :--- | :--- |
+| `admin@estiator.io` | `12341234` | **Admin** | Full System Access |
+| `moderator@estiator.io` | `12341234` | **Moderator** | Restricted / Read-only in specific areas |
+
+<br />
+
+## 📸 Gallery
+
 <details>
-  <summary>Development Setup (Without Docker)</summary>
+  <summary><strong>Click to expand application screenshots</strong></summary>
+  <br />
 
-  - [Intro](#development-setup-intro)  
-  - [Prerequisites](#development-setup-prerequisites)  
-  - [Client](#development-setup-client)  
-  - [Server](#development-setup-server)  
+  <h4>Login Page</h4>
+  <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo login page" src=".assets/demo_login_page.png" />
+  <br /><br />
+
+  <h4>Register Page</h4>
+  <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo register page" src=".assets/demo_register_page.png" />
+  <br /><br />
+
+  <h4>Dashboard</h4>
+  <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo dashboard" src=".assets/demo_dashboard.png" />
+  <br /><br />
+
+  <h4>Reservations Management</h4>
+  <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Reservations Management" src=".assets/demo_reservations_management.png" />
+  <br /><br />
+
+  <h4>Tables Management</h4>
+  <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Tables Management" src=".assets/demo_tables_management.png" />
+  <br /><br />
+
+  <h4>Employees Management</h4>
+  <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Employees Management" src=".assets/demo_employees_management.png" />
+  <br /><br />
+
+  <h4>Customers Management</h4>
+  <img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Customers Management" src=".assets/demo_customers_management.png" />
+
 </details>
-<details>
-  <summary>Testing</summary>
-
-  - [Manual](#testing-manual)
-</details>
-<details>
-  <summary>Screenshots</summary>
-
-  - [Intro](#screenshots-intro)
-    - [Login page](#login-page)
-    - [Register page](#register-page)
-    - [Dashboard page](#dashboard-page)
-    - [Reservations Management page](#reservations-management-page)
-    - [Tables Management page](#tables-management-page)
-    - [Employees Management page](#employees-management-page)
-    - [Customers Management page](#customers-management-page)
-</details>
-
-
-# About
-
-### About: General 
-[Estiator.io](https://estiator.io) is a full-stack web application that will be submitted as part of a master thesis. The intention of the creation of this piece of software is to offer a complete management solution for businesses related to the F&B (Food & Beverage) industry. 
-
-[See screenshots](#screenshots)
-
-### About: Tech
-The project uses [**ReactJS 18**](https://react.dev/) with [**HeroUI 2**](https://www.heroui.com/) components library for the client. The server side is implemented using [**Java 22**](https://www.java.com/en/) with [**Spring Boot 3.3** ](https://spring.io/projects/spring-boot). For the persistence, [**MySQL 8**](https://www.mysql.com/) is chosen.
-
-
-# Running codebase in Docker
-
-### Running in Docker: Intro
-The application is fully containerized and therefore you can run it in production mode using `Docker`. 
-
-### Running in Docker: Prerequisites
-- **Docker** (download [here](https://www.docker.com/products/docker-desktop/))
-
-We only require `Docker` to be able to build and run the container.
-
-### Running in Docker: Environment
-
-In order to run the application you will need two environment files.
-
-The first one is the `database.env` in the root of the project and the other one is `.env` inside `server` directory. For more information about the structure and contents of those files, check `example.env` and `example.database.env` files. 
-
-### Running in Docker: Build the Server
-
-Once everything is installed, you will need to start a command line on any directory and execute the commands below, in sequence:
-
-```shell
-# 1. Clone the repository
-git clone https://github.com/CptGeo/estiator
-```
-
-```shell
-# 2. Build and run the containers
-docker compose up --build
-```
-
-### Running in Docker: Run the Container
-
-Let's suppose you are currently in root directory of the project. Run the following commands: 
-
-```shell
-# Build Docker container using docker-compose
-docker-compose up --build
-```
-
-This command will perform the following actions: 
-- Setup `app-database` container and prepopulate the database with `db-init.sql` data.
-- Setup `app-server` and expose to loopback (localhost) and local network.
-- Setup `app-client` by fetching its dependencies and then building.
-
- You should now be able to visit [http://localhost:8080](http://localhost:8080) to use the app.
-
-
-# Running Application through Docker
-
-### Running Application through docker: Details
-You do not necessarily need the whole codebase in order to run this application. You can run it using just three files:
-
-1. `docker-compose.yml` (get from codebase)
-2. `.env` (see example `example.env`)
-3. `database.env` (see example `example.database.env`)
-
-Just place the above files in a structure of the following manner: 
-
-```plaintext
-├── docker-compose.yml
-├── database.env
-└── server
-    └── .env
-```
-
-```shell
-# Build Docker container using docker-compose
-docker compose up --build
-```
-
-Congrats! You app is running!
-
-# Development Setup (Without Docker)
-
-### Development Setup: Intro
-You can follow steps below to install the dependencies on your system and run the application.
-
-### Development Setup: Prerequisites 
-In order to start this application, you will need the following: 
-
-- **NodeJS** runtime v &ge; 20 (download [here](https://nodejs.org/en))
-- **Git** (download [here](https://git-scm.com/downloads))
-- **JDK 21** (download [here](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html))
-- **MySQL 8** (download [here](https://dev.mysql.com/downloads/installer/))
-
-
-### Development Setup: Client
-
-Make sure you have **NodeJS** and **Git** installed on your machine. Start a command line on any directory and execute the commands below.
-
-```shell
-# 1. Clone the repository
-git clone https://github.com/CptGeo/estiator
-```
-
-```shell
-# 2. Navigate to the project directory
-cd estiator.io/client
-```
-
-```shell
-# 3. Install client dependencies
-npm i
-```
-```shell
-# 4. Run the application
-npm run dev
-```
-
-### Development Setup: Server
-
-Make sure you have **Java 22** and **MySQL 8** are installed correctly on your machine.
-
-#### Create Database
-
-Connect to your database (or use a Database Management System tool) and execute the following query:
-
-```sql
-CREATE DATABASE `estiator` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-```
-
-#### Populate Database
-
-Go to the project root directory. The file `db.sql` contains the main structure and also some dummy data to begin with. Import `db.sql` to the created database.
-
-#### Setup Spring Boot
-**Spring Boot** requires some information before you can start the server. Go to `server` directory of the project and then open `src\main\resources\application.properties` file. You will need to provide information for the database **username** and **password**: 
-
-```properties
-# Provide database information (replace given values with your own)
-spring.datasource.url=jdbc:mysql://localhost:3306/estiator 
-spring.datasource.username=root
-spring.datasource.password=root
-```
-
-```properties
-# Provide a base64 encoded string to be used as the secret key for the JWT signature.
-app.jwt-secret=
-```
-
-### Run server
-
-After installing the necessary dependencies and setting up the server with all necessary information, you can now run the app by following the below steps (being in the project root): 
-
-```shell
-# 1. Navigate to the server directory
-cd estiator.io/server
-```
-
-```shell
-# 2. Run using gradlew
-./gradlew bootRun
-```
-
-
-# Testing
-
-### Testing: Manual
-
-Below there are credentials for the default created users of the application. You can use either of them to test the client functionality. 
-
-Note that `Admin` role has access to every possible API and function, while `Moderator` is a limited role and does not have access to certain functions:
-
-| email                 | password | role      |
-|-----------------------|----------|-----------|
-| admin@estiator.io     | 12341234 | Admin     |
-| moderator@estiator.io | 12341234 | Moderator |
-
-
-# Screenshots
-
-### Screenshots: Intro
-To provide a glimpse of the app's functionality, here are some images from the admin `Dashboard`.
-
-#### Login page
-<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo login page" src=".assets/demo_login_page.png" />
-
-#### Register page
-<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo register page" src=".assets/demo_register_page.png" />
-
-#### Dashboard page
-<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo dashboard" src=".assets/demo_dashboard.png" />
-
-#### Reservations Management page
-<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Reservations Management" src=".assets/demo_reservations_management.png" />
-
-#### Tables Management page
-<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Tables Management" src=".assets/demo_tables_management.png" />
-
-#### Employees Management page
-<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Employees Management" src=".assets/demo_employees_management.png" />
-
-#### Customers Management page
-<img style="border:2px solid #f5a524; border-radius:5px; box-shadow: 1px 2px 10px rgba(25,25,25,.3)" alt="Demo Customers Management" src=".assets/demo_customers_management.png" />
