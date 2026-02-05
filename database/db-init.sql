@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS `estiator`; /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
 # Insert statement for master administrator
 INSERT INTO users
 (id, created_date, email, name, password, phone, `position`, profile_image, status, surname, user_role, password_reset_token, immune)
