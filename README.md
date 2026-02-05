@@ -3,8 +3,6 @@
     <img src=".assets/logo.png" width="250" alt="Estiator Logo" />
   </a>
 
-  <h1>Estiator.io</h1>
-
   <h3>The Open Source Management Platform for F&B Businesses</h3>
 
   <p>
