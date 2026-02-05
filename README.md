@@ -14,7 +14,8 @@
 </div>
 
 > [!CAUTION]
-> **Work In Progress**: This repository is currently under active development and is not yet stable. **Do not use in production systems.**
+> **Not Production Ready**: This is an academic prototype containing known architectural and security limitations. It is strictly for educational and demonstration purposes only. **Do not use this application in a production environment.**
+
 
 <div align="center">
 
