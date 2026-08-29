@@ -66,160 +66,117 @@ The application is fully containerized. You can run the entire stack (Client, Se
 ### Prerequisites
 * **Docker Desktop** (Download [here](https://www.docker.com/products/docker-desktop/))
 
-> [!IMPORTANT]
-> **Environment Setup**: Before running Docker, ensure you have the necessary configuration files.
-> 1. `database.env` in the root directory.
-> 2. `.env` in the `server` directory.
->
-> Refer to `example.database.env` and `example.env` for the required structure.
+### Environment Setup
+
+Before running Docker, create the two required configuration files:
+
+| File | Template | Description |
+| :--- | :--- | :--- |
+| `database.env` | `example.database.env` | MySQL credentials used by the database container |
+| `server/.env` | `example.server.env` | JWT secret, SSL keystore password, SMTP settings, etc. |
+
+Copy each template to its target location and fill in your values.
 
 ### Option A: Build from Source
 Use this method if you want to contribute or modify the code.
 
 1.  **Clone the repository**
     ```bash
-    git clone [https://github.com/CptGeo/estiator](https://github.com/CptGeo/estiator)
+    git clone https://github.com/CptGeo/estiator
     cd estiator
     ```
 
-2.  **Build and Run**
+2.  **Set up configuration files** (see [Environment Setup](#environment-setup) above)
+
+3.  **Build and run**
     ```bash
     docker compose up --build
     ```
 
-### Option B: Minimal Run (Standalone)
-You do not need the full codebase to run the application. You only need 3 specific files.
+### Option B: Standalone (No Source Required)
+You only need three files to run the application — no need to clone the full repository.
 
-1.  **Create the Directory Structure**
-    Place the files as shown below:
+1.  **Create the following directory structure:**
     ```text
-    ├── docker-compose.yml   <-- (Get from repository root)
-    ├── database.env         <-- (Copy from example.database.env)
-    └── server
-        └── .env             <-- (Copy from example.env)
+    ├── docker-compose.yml   ← download from the repository root
+    ├── database.env         ← copy from example.database.env and fill in values
+    └── server/
+        └── .env             ← copy from example.server.env and fill in values
     ```
 
-2.  **Run Containers**
-    Navigate to the root folder containing `docker-compose.yml` and run:
+2.  **Pull and run** (Docker pulls the pre-built images automatically):
     ```bash
-    docker compose up --build
+    docker compose up
     ```
 
-### What happens next?
-Docker will spin up three containers:
-* `app-database`: MySQL 8 (pre-populated with `db-init.sql`).
-* `app-server`: Spring Boot backend.
-* `app-client`: React frontend.
+### What Runs
 
+Docker starts three containers:
 
+| Container | Description |
+| :--- | :--- |
+| `app-database` | MySQL 8 — pre-populated with schema and seed data |
+| `app-server` | Spring Boot REST API on HTTPS port 8443 |
+| `app-client` | React frontend served on port 80 |
 
-Once finished, access the app at: **[http://localhost:8080](http://localhost:8080)**
+Once all containers are healthy, open the app at: **[http://localhost](http://localhost)**
 
 <br />
 
 ## 💻 Development Setup (Manual)
 
-Follow these steps if you wish to run the application locally without Docker.
+Follow these steps to run the application locally without Docker.
 
 ### Prerequisites
-Ensure your system meets the following requirements:
-* **NodeJS** (v20+)
-* **JDK 21**
-* **MySQL 8**
-* **Git**
+
+| Tool | Required Version |
+| :--- | :--- |
+| Node.js | 20+ |
+| JDK | 21 |
+| MySQL | 8 |
+| Git | any |
 
 ### 1. Database Setup
-Before starting the application, the database must be ready.
 
-1.  **Create Database:**
-    Connect to your local MySQL instance and run:
-    ```sql
-    CREATE DATABASE `estiator` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-    ```
-2.  **Populate Data:**
-    * Locate the file `db.sql` in the project root.
-    * Import this file into your new `estiator` database using a tool like Workbench or DBeaver.
+Import the init script into your local MySQL server. This creates the `estiator` database and populates it with seed data automatically:
+
+```bash
+mysql -u root -p < database/db-init.sql
+```
+
+Alternatively, import `database/db-init.sql` using a GUI tool such as MySQL Workbench or DBeaver.
 
 ### 2. Server Setup
-1.  **Configure Properties:**
-    Navigate to `server/src/main/resources/application.properties` and update your database credentials:
+
+1.  **Configure properties:**
+    Open `server/src/main/resources/application.properties` and update your database credentials and JWT secret:
     ```properties
     # Database Configuration
     spring.datasource.url=jdbc:mysql://localhost:3306/estiator
     spring.datasource.username=root
     spring.datasource.password=YOUR_PASSWORD
 
-    # Security (Base64 encoded string)
+    # Security (Base64-encoded string, min. 256 bits)
     app.jwt-secret=YOUR_SECRET_KEY
     ```
 
-2.  **Run Server:**
+2.  **Start the server:**
     From the `server` directory, run:
     ```bash
     ./gradlew bootRun
     ```
+    The API will be available at **https://localhost:8443**.
 
 ### 3. Client Setup
-1.  **Install Dependencies:**
-    From the `client` directory, run:
-    ```bash
-    npm install
-    ```
 
-2.  **Start Frontend:**
-    ```bash
-    npm run dev
-    ```
+From the `client` directory, run:
 
-<br />
+```bash
+npm install
+npm run dev
+```
 
-## 💻 Development Setup (Manual)
-
-Follow these steps if you wish to run the application locally without Docker.
-
-### Prerequisites
-Ensure your system meets the following requirements:
-* **NodeJS** (v20+)
-* **JDK 21**
-* **MySQL 8**
-* **Git**
-
-### 1. Database Setup
-1.  **Import Schema & Data:**
-    * Locate the `db.sql` file in the project root.
-    * Import this file into your local MySQL server (using command line or a tool like Workbench/DBeaver).
-    * *Note: This script will automatically create the `estiator` database and populate it with dummy data.*
-
-### 2. Server Setup
-1.  **Configure Properties:**
-    Navigate to `server/src/main/resources/application.properties` and update your database credentials:
-    ```properties
-    # Database Configuration
-    spring.datasource.url=jdbc:mysql://localhost:3306/estiator
-    spring.datasource.username=root
-    spring.datasource.password=YOUR_PASSWORD
-
-    # Security (Base64 encoded string)
-    app.jwt-secret=YOUR_SECRET_KEY
-    ```
-
-2.  **Run Server:**
-    From the `server` directory, run:
-    ```bash
-    ./gradlew bootRun
-    ```
-
-### 3. Client Setup
-1.  **Install Dependencies:**
-    From the `client` directory, run:
-    ```bash
-    npm install
-    ```
-
-2.  **Start Frontend:**
-    ```bash
-    npm run dev
-    ```
+The frontend will start at **http://localhost** (port 80).
 
 <br />
 
@@ -229,8 +186,8 @@ The database is pre-populated with the following user accounts for demonstration
 
 | Email | Password | Role | Access Level |
 | :--- | :--- | :--- | :--- |
-| `admin@estiator.io` | `12341234` | **Admin** | Full System Access |
-| `moderator@estiator.io` | `12341234` | **Moderator** | Restricted / Read-only in specific areas |
+| `admin@estiator.io` | `12341234` | **Admin** | Full system access, including employee management and all delete operations |
+| `moderator@estiator.io` | `12341234` | **Moderator** | Admin dashboard access (reservations, tables, customers, settings) — no employee management or delete operations |
 
 <br />
 
